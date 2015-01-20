@@ -1,6 +1,60 @@
-execute pathogen#infect()
+call plug#begin()
 
-execute "Helptags"
+Plug 'cakebaker/scss-syntax.vim', { 'for': 'scss' }
+Plug 'mattn/emmet-vim', { 'for': 'html' }
+Plug 'othree/html5.vim', { 'for': 'html' }
+
+" General editing goodies
+Plug 'Valloric/YouCompleteMe', { 'do': './install.sh'  }
+Plug 'godlygeek/tabular'
+Plug 'jiangmiao/auto-pairs'
+Plug 'kana/vim-textobj-user'
+Plug 'msanders/snipmate.vim'
+Plug 'takac/vim-hardtime'
+Plug 'tommcdo/vim-exchange'
+Plug 'tomtom/tcomment_vim'
+Plug 'tpope/vim-surround'
+
+" Navigation
+Plug 'kien/ctrlp.vim'
+Plug 'scrooloose/nerdtree'
+
+" Javascript
+Plug 'marijnh/tern_for_vim', { 'for': 'javascript' }
+Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
+
+" Clojure
+Plug 'amdt/vim-niji', { 'for': 'clojure' }
+Plug 'guns/vim-clojure-static', { 'for': 'clojure' }
+Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
+Plug 'tpope/vim-leiningen', { 'for': 'clojure' }
+Plug 'vim-scripts/paredit.vim', { 'for': 'clojure' }
+
+" Ruby
+Plug 'nelstrom/vim-textobj-rubyblock', { 'for': 'ruby' }
+Plug 'thoughtbot/vim-rspec', { 'for': 'ruby' }
+Plug 'tpope/vim-endwise', { 'for': 'ruby' }
+Plug 'vim-ruby/vim-ruby', { 'for': 'ruby' }
+
+" Misc
+Plug 'gabrielelana/vim-markdown', { 'for': 'markdown' }
+Plug 'rking/ag.vim'
+Plug 'tpope/vim-dispatch'
+Plug 'tpope/vim-unimpaired'
+
+" Git
+Plug 'esneider/YUNOcommit.vim'
+Plug 'tpope/vim-fugitive'
+
+" Style
+Plug 'altercation/vim-colors-solarized'
+Plug 'bling/vim-airline'
+Plug 'bronson/vim-trailing-whitespace'
+Plug 'scrooloose/syntastic'
+
+" Plug 'nathanaelkane/vim-indent-guides'
+
+call plug#end()
 
 " set color scheme
 set background=light
@@ -67,26 +121,26 @@ let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 " ============================================================
 " = Neocomplcache settings
 " ============================================================
-let g:neocomplcache_enable_at_startup = 1
-let g:neocomplcache_max_list = 100
-let g:neocomplcache_enable_fuzzy_completion = 1
-
-" <CR>: close popup and save indent.
-inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-function! s:my_cr_function()
-  " For no inserting <CR> key.
-  return pumvisible() ? neocomplcache#close_popup() : "\<CR>"
-endfunction
-" <TAB>: completion.
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-" <C-h>, <BS>: close popup and delete backword char.
-inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
-inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
-inoremap <expr><C-y>  neocomplcache#close_popup()
-inoremap <expr><C-e>  neocomplcache#cancel_popup()
-
-" AutoComplPop like behavior.
-let g:neocomplcache_enable_auto_select = 1
+" let g:neocomplcache_enable_at_startup = 1
+" let g:neocomplcache_max_list = 100
+" let g:neocomplcache_enable_fuzzy_completion = 1
+"
+" " <CR>: close popup and save indent.
+" inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+" function! s:my_cr_function()
+"   " For no inserting <CR> key.
+"   return pumvisible() ? neocomplcache#close_popup() : "\<CR>"
+" endfunction
+" " <TAB>: completion.
+" inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+" " <C-h>, <BS>: close popup and delete backword char.
+" inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
+" inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
+" inoremap <expr><C-y>  neocomplcache#close_popup()
+" inoremap <expr><C-e>  neocomplcache#cancel_popup()
+"
+" " AutoComplPop like behavior.
+" let g:neocomplcache_enable_auto_select = 1
 
 " ============================================================
 " = MAPPINGS
@@ -264,7 +318,6 @@ let g:tex_flavor='latex'
 autocmd Filetype clojure let b:AutoPairs={'(':')', '[':']', '{':'}', '"':'"'}
 autocmd Filetype clojure setlocal textwidth=70
 autocmd Filetype clojure highlight clear ExtraWhiteSpace
-autocmd Filetype clojure let g:neocomplcache_force_overwrite_completefunc=1
 
 " This should enable Emacs like indentation
 let g:clojure_fuzzy_indent=1
@@ -294,7 +347,6 @@ autocmd Filetype html,css EmmetInstall
 augroup markdown
   au!
   au BufNewFile,BufRead *.md,*.markdown setlocal filetype=markdown tw=66
-  au BufNewFile,BufRead *.md,*.markdown let g:neocomplcache_disable_auto_complete=1
 augroup END
 
 let NERDTreeIgnore = ['\.pyc$']
