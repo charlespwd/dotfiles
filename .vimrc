@@ -1,59 +1,58 @@
+" load plugins
 call plug#begin()
+  Plug 'cakebaker/scss-syntax.vim', { 'for': 'scss' }
+  Plug 'mattn/emmet-vim', { 'for': 'html' }
+  Plug 'othree/html5.vim', { 'for': 'html' }
 
-Plug 'cakebaker/scss-syntax.vim', { 'for': 'scss' }
-Plug 'mattn/emmet-vim', { 'for': 'html' }
-Plug 'othree/html5.vim', { 'for': 'html' }
+  " General editing goodies
+  Plug 'Valloric/YouCompleteMe', { 'do': './install.sh'  }
+  Plug 'godlygeek/tabular'
+  Plug 'jiangmiao/auto-pairs'
+  Plug 'kana/vim-textobj-user'
+  Plug 'msanders/snipmate.vim'
+  Plug 'takac/vim-hardtime'
+  Plug 'tommcdo/vim-exchange'
+  Plug 'tomtom/tcomment_vim'
+  Plug 'tpope/vim-surround'
 
-" General editing goodies
-Plug 'Valloric/YouCompleteMe', { 'do': './install.sh'  }
-Plug 'godlygeek/tabular'
-Plug 'jiangmiao/auto-pairs'
-Plug 'kana/vim-textobj-user'
-Plug 'msanders/snipmate.vim'
-Plug 'takac/vim-hardtime'
-Plug 'tommcdo/vim-exchange'
-Plug 'tomtom/tcomment_vim'
-Plug 'tpope/vim-surround'
+  " Navigation
+  Plug 'kien/ctrlp.vim'
+  Plug 'scrooloose/nerdtree'
 
-" Navigation
-Plug 'kien/ctrlp.vim'
-Plug 'scrooloose/nerdtree'
+  " Javascript
+  Plug 'marijnh/tern_for_vim', { 'for': 'javascript' }
+  Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
 
-" Javascript
-Plug 'marijnh/tern_for_vim', { 'for': 'javascript' }
-Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
+  " Clojure
+  Plug 'amdt/vim-niji', { 'for': 'clojure' }
+  Plug 'guns/vim-clojure-static', { 'for': 'clojure' }
+  Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
+  Plug 'tpope/vim-leiningen', { 'for': 'clojure' }
+  Plug 'vim-scripts/paredit.vim', { 'for': 'clojure' }
 
-" Clojure
-Plug 'amdt/vim-niji', { 'for': 'clojure' }
-Plug 'guns/vim-clojure-static', { 'for': 'clojure' }
-Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
-Plug 'tpope/vim-leiningen', { 'for': 'clojure' }
-Plug 'vim-scripts/paredit.vim', { 'for': 'clojure' }
+  " Ruby
+  Plug 'nelstrom/vim-textobj-rubyblock', { 'for': 'ruby' }
+  Plug 'thoughtbot/vim-rspec', { 'for': 'ruby' }
+  Plug 'tpope/vim-endwise', { 'for': 'ruby' }
+  Plug 'vim-ruby/vim-ruby', { 'for': 'ruby' }
 
-" Ruby
-Plug 'nelstrom/vim-textobj-rubyblock', { 'for': 'ruby' }
-Plug 'thoughtbot/vim-rspec', { 'for': 'ruby' }
-Plug 'tpope/vim-endwise', { 'for': 'ruby' }
-Plug 'vim-ruby/vim-ruby', { 'for': 'ruby' }
+  " Misc
+  Plug 'gabrielelana/vim-markdown', { 'for': 'markdown' }
+  Plug 'rking/ag.vim'
+  Plug 'tpope/vim-dispatch'
+  Plug 'tpope/vim-unimpaired'
 
-" Misc
-Plug 'gabrielelana/vim-markdown', { 'for': 'markdown' }
-Plug 'rking/ag.vim'
-Plug 'tpope/vim-dispatch'
-Plug 'tpope/vim-unimpaired'
+  " Git
+  Plug 'esneider/YUNOcommit.vim'
+  Plug 'tpope/vim-fugitive'
 
-" Git
-Plug 'esneider/YUNOcommit.vim'
-Plug 'tpope/vim-fugitive'
-
-" Style
-Plug 'altercation/vim-colors-solarized'
-Plug 'bling/vim-airline'
-Plug 'bronson/vim-trailing-whitespace'
-Plug 'scrooloose/syntastic'
+  " Style
+  Plug 'altercation/vim-colors-solarized'
+  Plug 'bling/vim-airline'
+  Plug 'bronson/vim-trailing-whitespace'
+  Plug 'scrooloose/syntastic'
 
 " Plug 'nathanaelkane/vim-indent-guides'
-
 call plug#end()
 
 " set color scheme
@@ -85,29 +84,19 @@ set undolevels=1000
 set wildmenu " enable bash style autocompletion
 set wildmode=list:longest,full
 
-" highlight the status bar when in insert mode
-if version >= 700
-  au InsertEnter * hi StatusLine ctermfg=235 ctermbg=2
-  au InsertLeave * hi StatusLine ctermbg=240 ctermfg=12
-endif
+let g:user_emmet_install_global = 0
 
 " HARDMODE
+let g:hardtime_allow_different_key = 1
 let g:hardtime_default_on = 1
 let g:hardtime_showmsg = 1
 let g:list_of_normal_keys = ["h", "j", "k", "l", "-", "+", "<UP>", "<DOWN>", "<LEFT>", "<RIGHT>", "}", "{"]
-
-" rspec options
-let g:rspec_command = "!rspec --format documentation --color {spec}"
 
 " open url in browser
 let g:netrw_browsex_viewer = "open"
 
 " enable airline powerline fonts
 let g:airline_powerline_fonts = 1
-
-" style checkers
-let g:syntastic_javascript_checkers = ['jscs', 'jshint']
-let g:syntastic_matlab_mlint_exec = '/Applications/MATLAB_R2014a.app/bin/maci64/mlint'
 
 " ctrlp config
 let g:ctrlp_map = '<leader>f'
@@ -119,36 +108,12 @@ let g:ctrlp_match_window_reversed = 0
 let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 
 " ============================================================
-" = Neocomplcache settings
-" ============================================================
-" let g:neocomplcache_enable_at_startup = 1
-" let g:neocomplcache_max_list = 100
-" let g:neocomplcache_enable_fuzzy_completion = 1
-"
-" " <CR>: close popup and save indent.
-" inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-" function! s:my_cr_function()
-"   " For no inserting <CR> key.
-"   return pumvisible() ? neocomplcache#close_popup() : "\<CR>"
-" endfunction
-" " <TAB>: completion.
-" inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-" " <C-h>, <BS>: close popup and delete backword char.
-" inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
-" inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
-" inoremap <expr><C-y>  neocomplcache#close_popup()
-" inoremap <expr><C-e>  neocomplcache#cancel_popup()
-"
-" " AutoComplPop like behavior.
-" let g:neocomplcache_enable_auto_select = 1
-
-" ============================================================
 " = MAPPINGS
 " ============================================================
-" set leader key to comma
-let mapleader = ","
+" set leader key to space
+let mapleader = " "
 
-" toggle spell check with <F5>
+" toggle spell check
 map <F7> :setlocal spell! spelllang=en_us<cr>
 imap <F7> <ESC>:setlocal spell! spelllang=en_us<cr>
 
@@ -174,32 +139,15 @@ nmap \l <C-w>l
 " Switch to previous (opened) buffer
 map \\ :CtrlPBuffer<cr><cr>
 
-" clojure repl
-autocmd Filetype clojure imap <buffer> <c-\> <esc>cpp
-autocmd Filetype clojure map <buffer> <c-\> cpp
-autocmd Filetype clojure map <buffer> \r :Require!<cr>
-
-" Unfold an inline : `keyword () { (blob;)* }`
-autocmd Filetype javascript map <buffer> <leader>J ^f{a<cr><esc>:s/;/;\r/g<cr>v%=:nohl<cr>
-
-" js: turn a name: function() definition into a function name()
-autocmd Filetype javascript map <buffer> <leader>:f ^cxw2wcxwbbx$%/,$<cr>:s///g<cr>
-
-" unwrap something, e.g. |console.log(foo(bar)) => foo(bar)
-map <leader>uw "_dt("_ds)
-
+highlight clear ExtraWhiteSpace
 map [g :Gstatus<cr>
 map ]g :Gstatus<cr>q
 map [h :highlight ExtraWhitespace ctermbg=darkred guibg=#382424<cr>
 map ]h :highlight clear ExtraWhiteSpace<cr>
-map [w :NERDTreeToggle<cr>
+map [w :NERDTreeToggle<cr>:set relativenumber<cr>
 map ]w :NERDTree<cr>:set relativenumber<cr>
 
 " MACROS
-autocmd Filetype javascript map <buffer> <leader>rj :TernRename<cr>
-autocmd Filetype ruby map <buffer> <leader>L :call RunAllSpecs()<CR>
-autocmd Filetype ruby map <buffer> <leader>S :call RunNearestSpec()<CR>
-autocmd Filetype ruby map <buffer> <leader>T :call RunCurrentSpecFile()<CR>
 map <leader>.a :e ~/.oh-my-zsh/custom/aliases.zsh<cr>Gzz
 map <leader>.p :e ~/Dropbox/process/
 map <leader>.t :e ~/.tmux.conf<cr>
@@ -270,16 +218,16 @@ call matchadd('ColorColumn', '\%81v', 100)
 
 " automatically create dirs for files if they don't exist:
 function! s:MkNonExDir(file, buf)
-    if empty(getbufvar(a:buf, '&buftype')) && a:file!~#'\v^\w+\:\/'
-        let dir=fnamemodify(a:file, ':h')
-        if !isdirectory(dir)
-            call mkdir(dir, 'p')
-        endif
+  if empty(getbufvar(a:buf, '&buftype')) && a:file!~#'\v^\w+\:\/'
+    let dir=fnamemodify(a:file, ':h')
+    if !isdirectory(dir)
+      call mkdir(dir, 'p')
     endif
+  endif
 endfunction
 augroup BWCCreateDir
-    autocmd!
-    autocmd BufWritePre * :call s:MkNonExDir(expand('<afile>'), +expand('<abuf>'))
+  autocmd!
+  autocmd BufWritePre * :call s:MkNonExDir(expand('<afile>'), +expand('<abuf>'))
 augroup END
 
 " Project wide find and replace. See Vimcasts for info.
@@ -313,41 +261,64 @@ endfunction
 
 " ft specific foo
 " =========================================================
-let g:tex_flavor='latex'
 
-autocmd Filetype clojure let b:AutoPairs={'(':')', '[':']', '{':'}', '"':'"'}
-autocmd Filetype clojure setlocal textwidth=70
-autocmd Filetype clojure highlight clear ExtraWhiteSpace
+" Latex options
+au Filetype tex call SetTexOptions()
+function! SetTexOptions()
+  setlocal grepprg=grep\ -nH\ $*
+  setlocal shellslash
+  setlocal filetype=tex textwidth=70
+  let b:tex_flavor='latex'
+  let b:AutoPairs={'$':'$', '(':')', '[':']', '{':'}', '"':'"'}
+  let b:surround_{char2nr('m')} = "\\texttt{\r}"
+  let b:surround_{char2nr('i')} = "\\textit{\r}"
+  let b:surround_{char2nr('e')} = "\\textbf{\r}"
+endfunction
 
-" This should enable Emacs like indentation
-let g:clojure_fuzzy_indent=1
-let g:clojure_align_multiline_strings = 1
+" Clojure options
+au Filetype clojure call SetClojureOptions()
+function! SetClojureOptions()
+  setlocal textwidth=70
+  let b:AutoPairs={'"':'"'}
+  " This should enable Emacs like indentation
+  let b:clojure_fuzzy_indent=1
+  let b:clojure_align_multiline_strings = 1
+  " Add some words which should be indented like defn etc: Compojure/compojure-api, midje and schema stuff mostly.
+  let b:clojure_fuzzy_indent_patterns=['^GET', '^POST', '^PUT', '^DELETE', '^ANY', '^HEAD', '^PATCH', '^OPTIONS', '^def']
+  " repl mappings
+  imap <buffer> <c-\> <esc>cpp
+  map <buffer> <c-\> cpp
+  map <buffer> \r :Require!<cr>
+endfunction
 
-" Add some words which should be indented like defn etc: Compojure/compojure-api, midje and schema stuff mostly.
-let g:clojure_fuzzy_indent_patterns=['^GET', '^POST', '^PUT', '^DELETE', '^ANY', '^HEAD', '^PATCH', '^OPTIONS', '^def']
+" Javascript options
+au Filetype javascript call SetJavascriptOptions()
+function! SetJavascriptOptions()
+  let b:syntastic_javascript_checkers = ['jscs', 'jshint']
+  map <buffer> <leader>rj :TernRename<cr>
+  " Unfold an inline : `keyword () { (blob;)* }`
+  map <buffer> <leader>J ^f{a<cr><esc>:s/;/;\r/g<cr>v%=:nohl<cr>
+  " js: turn a name: function() definition into a function name()
+  map <buffer> <leader>:f ^cxw2wcxwbbx$%/,$<cr>:s///g<cr>
+  " unwrap something, e.g. |console.log(foo(bar)) => foo(bar)
+  map <leader>uw "_dt("_ds)
+endfunction
 
-autocmd Filetype htmldjango EmmetInstall
+" Ruby options
+au Filetype ruby call SetRubyOptions()
+function! SetRubyOptions()
+  let b:rspec_command = "!rspec --format documentation --color {spec}"
+  setlocal ts=2 sts=2 sw=2 expandtab
+  map <buffer> <leader>L :call RunAllSpecs()<CR>
+  map <buffer> <leader>S :call RunNearestSpec()<CR>
+  map <buffer> <leader>T :call RunCurrentSpecFile()<CR>
+endfunction
+
 autocmd Filetype java setlocal ts=4 sts=4 sw=4 expandtab
-autocmd Filetype mac setlocal ff=dos
 autocmd Filetype python setlocal ts=4 sts=4 sw=4 expandtab
-autocmd Filetype ruby setlocal ts=2 sts=2 sw=2 expandtab
-autocmd Filetype tex setlocal grepprg=grep\ -nH\ $*
-autocmd Filetype tex setlocal shellslash
-autocmd Filetype tex setlocal filetype=tex textwidth=70
-autocmd Filetype tex let b:AutoPairs={'$':'$', '(':')', '[':']', '{':'}', '"':'"'}
+autocmd Filetype html,css,htmldjango EmmetInstall
 
-" m = mono(tt), i = italics, e = emph(bf)
-autocmd Filetype tex let b:surround_109 = "\\texttt{\r}"
-autocmd Filetype tex let b:surround_105 = "\\textit{\r}"
-autocmd Filetype tex let b:surround_101 = "\\textbf{\r}"
-
-let g:user_emmet_install_global = 0
-autocmd Filetype html,css EmmetInstall
-
-augroup markdown
-  au!
-  au BufNewFile,BufRead *.md,*.markdown setlocal filetype=markdown tw=66
-augroup END
+au BufNewFile,BufRead *.md,*.markdown setlocal filetype=markdown tw=66
 
 let NERDTreeIgnore = ['\.pyc$']
 let NERDTreeCaseSensitiveSort = 1
