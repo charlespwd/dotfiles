@@ -1,0 +1,28 @@
+{
+  "eqeqeq": true,
+  "immed": true,
+  "latedef": true,
+  "newcap": true,
+  "noarg": true,
+  "sub": true,
+  "undef": true,
+  "unused": true,
+  "boss": true,
+  "eqnull": true,
+  "browser": true,
+  "node": true,
+  "expr": true,
+  "predef": [
+    "App",
+    "Em",
+    "jQuery",
+    "$",
+    "describe",
+    "it",
+    "before",
+    "beforeEach",
+    "after",
+    "afterEach",
+    "angular"
+  ]
+}

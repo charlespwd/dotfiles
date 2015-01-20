@@ -1,0 +1,1 @@
+TODAY=`date +"%A, %B %d, %Y"`; echo $TODAY

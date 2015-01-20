@@ -1,0 +1,2 @@
+files=(/Volumes/EXTENSION/500gb-bu/Windows/*)
+open "`echo "${files[RANDOM % ${#files}][0]}"`"

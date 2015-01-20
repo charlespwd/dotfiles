@@ -1,0 +1,17 @@
+[user]
+	email = charles.pclermont@gmail.com
+	name = Charles-P. Clermont
+[alias]
+	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+	fuck = reset --hard HEAD
+[diff]
+	tool = vimdiff
+[core]
+	editor = /usr/bin/vim
+[merge]
+	tool = vimdiff
+[filter "media"]
+	clean = git-media-clean %f
+	smudge = git-media-smudge %f
+[push]
+	default = simple

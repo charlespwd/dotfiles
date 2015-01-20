@@ -1,0 +1,23 @@
+#!/usr/bin/env ruby
+
+require 'set'
+require 'fileutils'
+
+rgx = /\s\(\d+\)\..{,3}$/
+dups = Set.new
+Dir["./*.*"].each do |filename|
+  if filename.match(rgx)
+    dups.add(filename.sub(rgx, ""))
+  end
+end
+
+dups.each do |d|
+  files = Dir["#{d}*"].map do |fn|
+    {:fn => fn, :lm => File.new(fn).mtime}
+  end
+  files.sort_by! { |a| a[:lm] }
+  files.map! {|f| f[:fn]}
+  goodfile = files.pop
+  FileUtils.rm files
+  File.rename(goodfile, goodfile.sub(/\s\(\d+\)/, ''))
+end

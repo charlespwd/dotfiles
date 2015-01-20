@@ -1,0 +1,14 @@
+#!/bin/bash
+
+ARG=""
+
+if [ "${1:0:2}" == '-h' ]; then
+    HEAD="${1:1}"
+    HEAD=${HEAD//h/^}
+    ARG=" HEAD$HEAD..HEAD "
+fi
+
+REM=`git diff -U $ARG | grep '^-' | sed 's/^-//' | wc -w`
+ADD=`git diff -U $ARG | grep '^+' | sed 's/^+//' | wc -w`
+DIF=`expr $ADD - $REM`
+echo "Word count: $DIF"
