@@ -10,6 +10,7 @@ call plug#begin()
   Plug 'jiangmiao/auto-pairs'
   Plug 'kana/vim-textobj-user'
   Plug 'msanders/snipmate.vim'
+  Plug 'vim-scripts/matchit.zip'
   Plug 'takac/vim-hardtime'
   Plug 'tommcdo/vim-exchange'
   Plug 'tomtom/tcomment_vim'
@@ -268,23 +269,25 @@ function! SetTexOptions()
   setlocal grepprg=grep\ -nH\ $*
   setlocal shellslash
   setlocal filetype=tex textwidth=70
-  let b:tex_flavor='latex'
-  let b:AutoPairs={'$':'$', '(':')', '[':']', '{':'}', '"':'"'}
-  let b:surround_{char2nr('m')} = "\\texttt{\r}"
-  let b:surround_{char2nr('i')} = "\\textit{\r}"
-  let b:surround_{char2nr('e')} = "\\textbf{\r}"
+  let g:tex_flavor='latex'
+  let g:AutoPairs={'$':'$', '(':')', '[':']', '{':'}', '"':'"'}
+  let g:surround_{char2nr('m')} = "\\texttt{\r}"
+  let g:surround_{char2nr('i')} = "\\textit{\r}"
+  let g:surround_{char2nr('e')} = "\\textbf{\r}"
 endfunction
 
 " Clojure options
 au Filetype clojure call SetClojureOptions()
 function! SetClojureOptions()
   setlocal textwidth=70
-  let b:AutoPairs={'"':'"'}
+  let g:AutoPairs={'"':'"'}
+  let g:AutoPairsFlyMode = 1
+  let g:paredit_shortmaps=1
   " This should enable Emacs like indentation
-  let b:clojure_fuzzy_indent=1
-  let b:clojure_align_multiline_strings = 1
+  let g:clojure_fuzzy_indent=1
+  let g:clojure_align_multiline_strings = 1
   " Add some words which should be indented like defn etc: Compojure/compojure-api, midje and schema stuff mostly.
-  let b:clojure_fuzzy_indent_patterns=['^GET', '^POST', '^PUT', '^DELETE', '^ANY', '^HEAD', '^PATCH', '^OPTIONS', '^def']
+  let g:clojure_fuzzy_indent_patterns=['^GET', '^POST', '^PUT', '^DELETE', '^ANY', '^HEAD', '^PATCH', '^OPTIONS', '^def']
   " repl mappings
   imap <buffer> <c-\> <esc>cpp
   map <buffer> <c-\> cpp
@@ -294,7 +297,7 @@ endfunction
 " Javascript options
 au Filetype javascript call SetJavascriptOptions()
 function! SetJavascriptOptions()
-  let b:syntastic_javascript_checkers = ['jscs', 'jshint']
+  let g:syntastic_javascript_checkers = ['jscs', 'jshint']
   map <buffer> <leader>rj :TernRename<cr>
   " Unfold an inline : `keyword () { (blob;)* }`
   map <buffer> <leader>J ^f{a<cr><esc>:s/;/;\r/g<cr>v%=:nohl<cr>
@@ -307,7 +310,7 @@ endfunction
 " Ruby options
 au Filetype ruby call SetRubyOptions()
 function! SetRubyOptions()
-  let b:rspec_command = "!rspec --format documentation --color {spec}"
+  let g:rspec_command = "!rspec --format documentation --color {spec}"
   setlocal ts=2 sts=2 sw=2 expandtab
   map <buffer> <leader>L :call RunAllSpecs()<CR>
   map <buffer> <leader>S :call RunNearestSpec()<CR>
