@@ -1,17 +1,20 @@
 " load plugins
 call plug#begin()
   Plug 'cakebaker/scss-syntax.vim', { 'for': 'scss' }
-  Plug 'mattn/emmet-vim', { 'for': 'html' }
+  Plug 'mattn/emmet-vim', { 'for': ['html','htmldjango','css'] }
   Plug 'othree/html5.vim', { 'for': 'html' }
 
   " General editing goodies
-  Plug 'Valloric/YouCompleteMe', { 'do': './install.sh'  }
+  if !has('gui_running')
+    Plug 'Valloric/YouCompleteMe', { 'do': './install.sh'  }
+  endif
+  Plug 'junegunn/vim-easy-align'
   Plug 'godlygeek/tabular'
   Plug 'jiangmiao/auto-pairs'
   Plug 'kana/vim-textobj-user'
   Plug 'msanders/snipmate.vim'
   Plug 'vim-scripts/matchit.zip'
-  Plug 'takac/vim-hardtime'
+  Plug 'wikitopian/hardmode'
   Plug 'tommcdo/vim-exchange'
   Plug 'tomtom/tcomment_vim'
   Plug 'tpope/vim-surround'
@@ -21,7 +24,7 @@ call plug#begin()
   Plug 'scrooloose/nerdtree'
 
   " Javascript
-  Plug 'marijnh/tern_for_vim', { 'for': 'javascript' }
+  Plug 'marijnh/tern_for_vim', { 'for': 'javascript', 'do': 'npm install' }
   Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
 
   " Clojure
@@ -29,6 +32,7 @@ call plug#begin()
   Plug 'guns/vim-clojure-static', { 'for': 'clojure' }
   Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
   Plug 'tpope/vim-leiningen', { 'for': 'clojure' }
+  Plug 'guns/vim-clojure-highlight', { 'for': 'clojure' }
   Plug 'vim-scripts/paredit.vim', { 'for': 'clojure' }
 
   " Ruby
@@ -50,7 +54,8 @@ call plug#begin()
   " Style
   Plug 'altercation/vim-colors-solarized'
   Plug 'bling/vim-airline'
-  Plug 'bronson/vim-trailing-whitespace'
+  Plug 'edkolev/tmuxline.vim'
+  Plug 'ntpeters/vim-better-whitespace'
   Plug 'scrooloose/syntastic'
 
 " Plug 'nathanaelkane/vim-indent-guides'
@@ -63,6 +68,7 @@ colorscheme solarized
 " options
 syntax on
 filetype plugin indent on
+set backspace=indent,eol,start
 set cursorline " highlight current line
 set expandtab
 set history=1000
@@ -86,12 +92,7 @@ set wildmenu " enable bash style autocompletion
 set wildmode=list:longest,full
 
 let g:user_emmet_install_global = 0
-
-" HARDMODE
-let g:hardtime_allow_different_key = 1
-let g:hardtime_default_on = 1
-let g:hardtime_showmsg = 1
-let g:list_of_normal_keys = ["h", "j", "k", "l", "-", "+", "<UP>", "<DOWN>", "<LEFT>", "<RIGHT>", "}", "{"]
+let g:better_whitespace_filetypes_blacklist=[]
 
 " open url in browser
 let g:netrw_browsex_viewer = "open"
@@ -112,7 +113,13 @@ let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 " = MAPPINGS
 " ============================================================
 " set leader key to space
-let mapleader = " "
+let mapleader = ","
+
+" Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
+vmap <Enter> <Plug>(EasyAlign)
+
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
 
 " toggle spell check
 map <F7> :setlocal spell! spelllang=en_us<cr>
@@ -140,7 +147,6 @@ nmap \l <C-w>l
 " Switch to previous (opened) buffer
 map \\ :CtrlPBuffer<cr><cr>
 
-highlight clear ExtraWhiteSpace
 map [g :Gstatus<cr>
 map ]g :Gstatus<cr>q
 map [h :highlight ExtraWhitespace ctermbg=darkred guibg=#382424<cr>
@@ -150,18 +156,18 @@ map ]w :NERDTree<cr>:set relativenumber<cr>
 
 " MACROS
 map <leader>.a :e ~/.oh-my-zsh/custom/aliases.zsh<cr>Gzz
-map <leader>.p :e ~/Dropbox/process/
-map <leader>.t :e ~/.tmux.conf<cr>
 map <leader>.b :e ~/thoughts/
 map <leader>.j :e ~/thoughts/thoughts.md<cr>G
-map <leader>.v :e ~/.vimrc<cr>
+map <leader>.p :e ~/Dropbox/process/
+map <leader>.t :e ~/.tmux.conf<cr>
+map <leader>.v :e ~/dotfiles/.vimrc<cr>
 map <leader>.z :e ~/.zshrc<cr>
 map <leader>G :G
 map <leader>T :Tabularize<space>/
 map <leader>aa :Ag!<space>
 map <leader>ad <C-W>l:w<cr><C-W>k-
 map <leader>ag :Ag! "<C-r>=expand('<cword>')<CR>"
-map <leader>am :e ~/.vimrc<cr>/\^" MACROS<cr>zz:nohl<cr>jO
+map <leader>am :e ~/.vimrc<cr>gg/" MACROS<cr>zz:nohl<cr>jO
 map <leader>aw :Ag! "\b<C-r>=expand('<cword>')<CR>\b"
 map <leader>b :CtrlPBuffer<cr>
 map <leader>d !!today<cr>I#<space><esc>o
@@ -181,7 +187,9 @@ map <leader>gp :let @a=fugitive#head()<cr>:Gpush origin <c-r>a
 map <leader>gri :Git rebase -i<space>
 map <leader>gs :Gstatus<cr>gg<c-n>
 map <leader>gwip :Git commit -a -m 'Wip'<cr>
+map <leader>h <esc>:call ToggleHardMode()<cr>
 map <leader>m :CtrlPMixed<cr>
+map <leader>p :set paste!<cr>
 map <leader>q :bd<cr>
 map <leader>rf :%s/\v(<<c-r><c-w>>)/
 map <leader>rm :call delete(expand('%')) <bar> bdelete!<cr>
@@ -191,7 +199,6 @@ map <leader>sg 1z=
 map <leader>snip :let @0=&ft<cr>:e ~/.vim/bundle/snipmate.vim/snippets/<c-r>0.snippets<cr>
 map <leader>snr :echo ReloadAllSnippets()<cr>
 map <leader>so "kyy:<c-r>k<backspace><cr>
-map <leader>sp :set paste!<cr>
 map <leader>sr :call SearchAndReplace()<cr>
 map <leader>st 0v}b$:sort<cr>
 map <leader>sv :source ~/.vimrc<cr>
@@ -212,6 +219,8 @@ nmap Q <Nop>
 " ============================================================
 " == Functions
 " ============================================================
+
+highlight Comment cterm=italic
 
 " hint to keep lines short
 highlight ColorColumn ctermbg=lightGray
@@ -279,10 +288,10 @@ endfunction
 " Clojure options
 au Filetype clojure call SetClojureOptions()
 function! SetClojureOptions()
+  ClojureHighlightReferences
   setlocal textwidth=70
   let g:AutoPairs={'"':'"'}
   let g:AutoPairsFlyMode = 1
-  let g:paredit_shortmaps=1
   " This should enable Emacs like indentation
   let g:clojure_fuzzy_indent=1
   let g:clojure_align_multiline_strings = 1
@@ -293,6 +302,7 @@ function! SetClojureOptions()
   map <buffer> <c-\> cpp
   map <buffer> \r :Require!<cr>
 endfunction
+let g:paredit_shortmaps=0
 
 " Javascript options
 au Filetype javascript call SetJavascriptOptions()
@@ -317,11 +327,30 @@ function! SetRubyOptions()
   map <buffer> <leader>T :call RunCurrentSpecFile()<CR>
 endfunction
 
+" Markdown options
+au BufNewFile,BufRead *.md,*.markdown setlocal filetype=markdown tw=66
+au Filetype markdown call SetMarkdownOptions()
+function! SetMarkdownOptions()
+  iabbrev <buffer> -- —
+  iabbrev <buffer> . .<cr>
+endfunction
+
+" Html options
+au Filetype html,css,htmldjango call SetHtmlOptions()
+function! SetHtmlOptions()
+  EmmetInstall
+  let g:surround_{char2nr('8')}="{% block \r %}\n{% endblock %}"
+  let b:AutoPairs={'$':'$', '(':')', '[':']', '{':'}', '"':'"', '%':'%', '<':'>'}
+endfunction
+
+autocmd FileType clojure,markdown,md,html,js autocmd BufWritePre <buffer> StripWhitespace 
 autocmd Filetype java setlocal ts=4 sts=4 sw=4 expandtab
 autocmd Filetype python setlocal ts=4 sts=4 sw=4 expandtab
-autocmd Filetype html,css,htmldjango EmmetInstall
+autocmd BufReadPre,FileReadPre * set relativenumber
 
-au BufNewFile,BufRead *.md,*.markdown setlocal filetype=markdown tw=66
+" Hardmode by default
+autocmd VimEnter,BufNewFile,BufReadPost * silent! call HardMode()
+map <leader>h <esc>:call ToggleHardMode()<cr>
 
 let NERDTreeIgnore = ['\.pyc$']
 let NERDTreeCaseSensitiveSort = 1
