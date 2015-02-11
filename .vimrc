@@ -2,7 +2,9 @@
 call plug#begin()
   Plug 'cakebaker/scss-syntax.vim', { 'for': 'scss' }
   Plug 'mattn/emmet-vim', { 'for': ['html','htmldjango','css'] }
+  Plug 'django.vim', { 'for': 'htmldjango' }
   Plug 'othree/html5.vim', { 'for': 'html' }
+  Plug 'kana/vim-textobj-django-template'
 
   " General editing goodies
   if !has('gui_running')
@@ -12,12 +14,16 @@ call plug#begin()
   Plug 'godlygeek/tabular'
   Plug 'jiangmiao/auto-pairs'
   Plug 'kana/vim-textobj-user'
-  Plug 'msanders/snipmate.vim'
   Plug 'vim-scripts/matchit.zip'
-  Plug 'wikitopian/hardmode'
   Plug 'tommcdo/vim-exchange'
   Plug 'tomtom/tcomment_vim'
   Plug 'tpope/vim-surround'
+
+  " snipmate
+  Plug 'MarcWeber/vim-addon-mw-utils'
+  Plug 'tomtom/tlib_vim'
+  Plug 'garbas/vim-snipmate'
+  Plug 'honza/vim-snippets'
 
   " Navigation
   Plug 'kien/ctrlp.vim'
@@ -34,6 +40,7 @@ call plug#begin()
   Plug 'tpope/vim-leiningen', { 'for': 'clojure' }
   Plug 'guns/vim-clojure-highlight', { 'for': 'clojure' }
   Plug 'vim-scripts/paredit.vim', { 'for': 'clojure' }
+  " Plug 'venantius/vim-cljfmt', { 'for': 'clojure' }
 
   " Ruby
   Plug 'nelstrom/vim-textobj-rubyblock', { 'for': 'ruby' }
@@ -68,7 +75,7 @@ colorscheme solarized
 " options
 syntax on
 filetype plugin indent on
-set backspace=indent,eol,start
+set backspace=2 " make backspace work like most other apps"
 set cursorline " highlight current line
 set expandtab
 set history=1000
@@ -85,6 +92,7 @@ set ruler " show row and column in footer
 set shiftwidth=2
 set softtabstop=2
 set splitright " when you split vertically, open new window to the right
+set synmaxcol=120
 set tabstop=2
 set ttimeoutlen=100 "decrease timeout for faster insert with O
 set undolevels=1000
@@ -109,11 +117,19 @@ let g:ctrlp_match_window_reversed = 0
 " use silver searcher for ctrlp
 let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 
+" change the snipmate trigger key to meta x
+let g:SuperTabKey = '<M-S>'
+
+" ycm settings
+let g:ycm_key_list_select_completion = ['<TAB>', '<C-j>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<S-TAB>', '<C-k>', '<Up>']
+
 " ============================================================
 " = MAPPINGS
 " ============================================================
 " set leader key to space
-let mapleader = ","
+map <Space> <nop>
+let mapleader = "\<Space>"
 
 " Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
 vmap <Enter> <Plug>(EasyAlign)
@@ -138,6 +154,10 @@ nnoremap <silent> <c-l> :nohl<cr><c-l>
 imap <c-c> <esc>
 map <c-c> <esc>
 
+" snipMate controls
+:imap <C-J> <Plug>snipMateNextOrTrigger
+:smap <C-J> <Plug>snipMateNextOrTrigger
+
 " Easy window navigation
 nmap \h <C-w>h
 nmap \j <C-w>j
@@ -154,6 +174,9 @@ map ]h :highlight clear ExtraWhiteSpace<cr>
 map [w :NERDTreeToggle<cr>:set relativenumber<cr>
 map ]w :NERDTree<cr>:set relativenumber<cr>
 
+" search for visual selection
+vnorem // y/<c-r>"<cr>
+
 " MACROS
 map <leader>.a :e ~/.oh-my-zsh/custom/aliases.zsh<cr>Gzz
 map <leader>.b :e ~/thoughts/
@@ -167,7 +190,7 @@ map <leader>T :Tabularize<space>/
 map <leader>aa :Ag!<space>
 map <leader>ad <C-W>l:w<cr><C-W>k-
 map <leader>ag :Ag! "<C-r>=expand('<cword>')<CR>"
-map <leader>am :e ~/.vimrc<cr>gg/" MACROS<cr>zz:nohl<cr>jO
+map <leader>am :e ~/.vimrc<cr>gg/" MACROS<cr>zz:nohl<cr>o<esc>^S
 map <leader>aw :Ag! "\b<C-r>=expand('<cword>')<CR>\b"
 map <leader>b :CtrlPBuffer<cr>
 map <leader>d !!today<cr>I#<space><esc>o
@@ -187,26 +210,30 @@ map <leader>gp :let @a=fugitive#head()<cr>:Gpush origin <c-r>a
 map <leader>gri :Git rebase -i<space>
 map <leader>gs :Gstatus<cr>gg<c-n>
 map <leader>gwip :Git commit -a -m 'Wip'<cr>
-map <leader>h <esc>:call ToggleHardMode()<cr>
 map <leader>m :CtrlPMixed<cr>
 map <leader>p :set paste!<cr>
 map <leader>q :bd<cr>
 map <leader>rf :%s/\v(<<c-r><c-w>>)/
+map <leader>ritual <leader>d<cr>3 things I'm grateful for:<cr><cr>3 things that would make today great:<cr><cr>2 daily affirmations (I am great because):<cr><cr>What am I doing today that brings me closer to launching my own product?<esc>{{{
 map <leader>rm :call delete(expand('%')) <bar> bdelete!<cr>
 map <leader>rn :set relativenumber!<cr>
 map <leader>rs :call ReloadAllSnippets()<cr>
 map <leader>sg 1z=
-map <leader>snip :let @0=&ft<cr>:e ~/.vim/bundle/snipmate.vim/snippets/<c-r>0.snippets<cr>
+map <leader>snip :let @0=&ft<cr>:e ~/.vim/plugged/snipmate.vim/snippets/<c-r>0.snippets<cr>
 map <leader>snr :echo ReloadAllSnippets()<cr>
 map <leader>so "kyy:<c-r>k<backspace><cr>
 map <leader>sr :call SearchAndReplace()<cr>
 map <leader>st 0v}b$:sort<cr>
 map <leader>sv :source ~/.vimrc<cr>
+map <leader>sw :set tw=1000<cr>
+map <leader>twc :!wc -w %<cr>
 map <leader>wc :echo system('diffword')<cr>
+map <leader>wg :!write-good %
 map <leader>wis :e ~/Dropbox/wisdom.md<cr>Go
 map <leader>wq :w<bar>bd<cr>
-map <leader>ws :FixWhitespace<cr>
+map <leader>ws :StripWhitespace<cr>
 map <leader>wt :set textwidth=70<cr>
+map <leader>x :x<cr>
 nmap <C-H> :h<space>
 nmap <leader>## 70i#<esc>o<esc>
 nmap <leader>;; 70i;<esc>o<esc>
@@ -242,6 +269,8 @@ augroup END
 
 " Project wide find and replace. See Vimcasts for info.
 command! -nargs=0 -bar Qargs execute 'args' QuickfixFilenames()
+command! -nargs=0 -bar Ritual normal <leader>ritual<cr>
+
 function! QuickfixFilenames()
   " Building a hash ensures we get each buffer only once
   let buffer_numbers = {}
@@ -273,12 +302,13 @@ endfunction
 " =========================================================
 
 " Latex options
+let g:tex_flavor='latex'
+au BufReadPre,FileReadPre *.tex set filetype=tex
 au Filetype tex call SetTexOptions()
 function! SetTexOptions()
   setlocal grepprg=grep\ -nH\ $*
   setlocal shellslash
-  setlocal filetype=tex textwidth=70
-  let g:tex_flavor='latex'
+  setlocal textwidth=70
   let g:AutoPairs={'$':'$', '(':')', '[':']', '{':'}', '"':'"'}
   let g:surround_{char2nr('m')} = "\\texttt{\r}"
   let g:surround_{char2nr('i')} = "\\textit{\r}"
@@ -290,31 +320,37 @@ au Filetype clojure call SetClojureOptions()
 function! SetClojureOptions()
   ClojureHighlightReferences
   setlocal textwidth=70
-  let g:AutoPairs={'"':'"'}
-  let g:AutoPairsFlyMode = 1
+  let b:AutoPairs={'"':'"'}
   " This should enable Emacs like indentation
   let g:clojure_fuzzy_indent=1
   let g:clojure_align_multiline_strings = 1
   " Add some words which should be indented like defn etc: Compojure/compojure-api, midje and schema stuff mostly.
-  let g:clojure_fuzzy_indent_patterns=['^GET', '^POST', '^PUT', '^DELETE', '^ANY', '^HEAD', '^PATCH', '^OPTIONS', '^def']
+  let g:clojure_fuzzy_indent_patterns=['^GET', '^POST', '^PUT', '^DELETE', '^ANY', '^HEAD', '^PATCH', '^OPTIONS', '^def', '^apply']
   " repl mappings
   imap <buffer> <c-\> <esc>cpp
   map <buffer> <c-\> cpp
+  map <buffer> <c-]> :Eval<cr>
   map <buffer> \r :Require!<cr>
 endfunction
-let g:paredit_shortmaps=0
 
 " Javascript options
 au Filetype javascript call SetJavascriptOptions()
 function! SetJavascriptOptions()
   let g:syntastic_javascript_checkers = ['jscs', 'jshint']
   map <buffer> <leader>rj :TernRename<cr>
+  " wrap line by console.log()
+  map <buffer> <leader>c ^vt;S)iconsole.log<esc>^
+  " unwrap console.log
+  map <buffer> <leader>C ^"_dt("_ds)
   " Unfold an inline : `keyword () { (blob;)* }`
   map <buffer> <leader>J ^f{a<cr><esc>:s/;/;\r/g<cr>v%=:nohl<cr>
-  " js: turn a name: function() definition into a function name()
+  " turn a name: function() definition into a function name()
   map <buffer> <leader>:f ^cxw2wcxwbbx$%/,$<cr>:s///g<cr>
+  " turn a function name() into a name: function()
+  map <buffer> <leader>f: ^cxewcxe^ea:<esc>f{=a}f{%a,<esc>
   " unwrap something, e.g. |console.log(foo(bar)) => foo(bar)
   map <leader>uw "_dt("_ds)
+  let g:surround_{char2nr('c')} = "console.log(\r)"
 endfunction
 
 " Ruby options
@@ -331,26 +367,23 @@ endfunction
 au BufNewFile,BufRead *.md,*.markdown setlocal filetype=markdown tw=66
 au Filetype markdown call SetMarkdownOptions()
 function! SetMarkdownOptions()
+  let g:surround_{char2nr('8')}="**\r**"
   iabbrev <buffer> -- —
-  iabbrev <buffer> . .<cr>
 endfunction
 
 " Html options
 au Filetype html,css,htmldjango call SetHtmlOptions()
 function! SetHtmlOptions()
   EmmetInstall
+  inoremap <buffer> <C-\> </<C-X><C-O>
   let g:surround_{char2nr('8')}="{% block \r %}\n{% endblock %}"
   let b:AutoPairs={'$':'$', '(':')', '[':']', '{':'}', '"':'"', '%':'%', '<':'>'}
 endfunction
 
-autocmd FileType clojure,markdown,md,html,js autocmd BufWritePre <buffer> StripWhitespace 
+autocmd FileType tex,clojure,markdown,md,html,javascript,css,scss,vim autocmd BufWritePre <buffer> StripWhitespace
 autocmd Filetype java setlocal ts=4 sts=4 sw=4 expandtab
 autocmd Filetype python setlocal ts=4 sts=4 sw=4 expandtab
-autocmd BufReadPre,FileReadPre * set relativenumber
-
-" Hardmode by default
-autocmd VimEnter,BufNewFile,BufReadPost * silent! call HardMode()
-map <leader>h <esc>:call ToggleHardMode()<cr>
+autocmd BufReadPre,FileReadPre help set relativenumber
 
 let NERDTreeIgnore = ['\.pyc$']
 let NERDTreeCaseSensitiveSort = 1
