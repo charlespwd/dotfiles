@@ -1,7 +1,7 @@
 " load plugins
 call plug#begin()
   Plug 'cakebaker/scss-syntax.vim', { 'for': 'scss' }
-  Plug 'mattn/emmet-vim', { 'for': ['html','htmldjango','css'] }
+  Plug 'mattn/emmet-vim', { 'for': ['html','htmldjango','css','eruby'] }
   Plug 'django.vim', { 'for': 'htmldjango' }
   Plug 'othree/html5.vim', { 'for': 'html' }
   Plug 'kana/vim-textobj-django-template'
@@ -18,14 +18,20 @@ call plug#begin()
   Plug 'tommcdo/vim-exchange'
   Plug 'tomtom/tcomment_vim'
   Plug 'tpope/vim-surround'
+  Plug 'jpalardy/vim-slime'
+
+  " Writing
+  Plug 'reedes/vim-pencil', { 'for': ['mkd', 'tex'] }
+  Plug 'reedes/vim-wordy', { 'for': ['mkd', 'tex'] }
+  Plug 'reedes/vim-lexical', { 'for': ['mkd', 'tex'] }
+  Plug 'reedes/vim-textobj-quote', { 'for': ['mkd', 'tex'] }
 
   " snipmate
-  Plug 'MarcWeber/vim-addon-mw-utils'
-  Plug 'tomtom/tlib_vim'
-  Plug 'garbas/vim-snipmate'
+  Plug 'SirVer/ultisnips'
   Plug 'honza/vim-snippets'
 
   " Navigation
+  Plug 'christoomey/vim-tmux-navigator'
   Plug 'kien/ctrlp.vim'
   Plug 'scrooloose/nerdtree'
 
@@ -38,8 +44,8 @@ call plug#begin()
   Plug 'guns/vim-clojure-static', { 'for': 'clojure' }
   Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
   Plug 'tpope/vim-leiningen', { 'for': 'clojure' }
-  Plug 'guns/vim-clojure-highlight', { 'for': 'clojure' }
   Plug 'vim-scripts/paredit.vim', { 'for': 'clojure' }
+  " Plug 'venantius/vim-eastwood', { 'for': 'clojure' }
   " Plug 'venantius/vim-cljfmt', { 'for': 'clojure' }
 
   " Ruby
@@ -49,10 +55,13 @@ call plug#begin()
   Plug 'vim-ruby/vim-ruby', { 'for': 'ruby' }
 
   " Misc
-  Plug 'gabrielelana/vim-markdown', { 'for': 'markdown' }
+  Plug 'tpope/vim-classpath'
+  Plug 'plasticboy/vim-markdown'
   Plug 'rking/ag.vim'
   Plug 'tpope/vim-dispatch'
   Plug 'tpope/vim-unimpaired'
+  Plug 'kakkyz81/evervim'
+  Plug 'airblade/vim-gitgutter'
 
   " Git
   Plug 'esneider/YUNOcommit.vim'
@@ -73,10 +82,11 @@ set background=light
 colorscheme solarized
 
 " options
-syntax on
+syntax enable
 filetype plugin indent on
 set backspace=2 " make backspace work like most other apps"
 set cursorline " highlight current line
+set diffopt+=vertical
 set expandtab
 set history=1000
 set hlsearch " highlight search
@@ -87,26 +97,38 @@ set nobackup
 set nofoldenable
 set noswapfile
 set nowrap " don't wrap text
-set relativenumber
+" set relativenumber
 set ruler " show row and column in footer
 set shiftwidth=2
 set softtabstop=2
 set splitright " when you split vertically, open new window to the right
-set synmaxcol=120
+set synmaxcol=200
 set tabstop=2
 set ttimeoutlen=100 "decrease timeout for faster insert with O
 set undolevels=1000
 set wildmenu " enable bash style autocompletion
 set wildmode=list:longest,full
 
+highlight Comment cterm=italic
+let g:evervim_devtoken='S=s317:U=3053e55:E=152db06748f:C=14b835546f8:P=1cd:A=en-devtoken:V=2:H=ec596ec2f664beb7f387da9b0262cb1a'
+let g:evervim_splitoption=''
 let g:user_emmet_install_global = 0
 let g:better_whitespace_filetypes_blacklist=[]
+let g:vim_markdown_frontmatter=1
+let g:vim_markdown_folding_disabled=1
+let g:limelight_conceal_ctermfg = 'cyanbright'
+
+" vim-slime config
+let g:slime_target = "tmux"
 
 " open url in browser
 let g:netrw_browsex_viewer = "open"
 
 " enable airline powerline fonts
 let g:airline_powerline_fonts = 1
+
+" enable buffer extension
+let g:airline#extensions#tabline#enabled = 1
 
 " ctrlp config
 let g:ctrlp_map = '<leader>f'
@@ -117,15 +139,19 @@ let g:ctrlp_match_window_reversed = 0
 " use silver searcher for ctrlp
 let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 
-" change the snipmate trigger key to meta x
-let g:SuperTabKey = '<M-S>'
-
 " ycm settings
-let g:ycm_key_list_select_completion = ['<TAB>', '<C-j>', '<Down>']
-let g:ycm_key_list_previous_completion = ['<S-TAB>', '<C-k>', '<Up>']
+let g:ycm_key_list_select_completion = ['<TAB>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<S-TAB>', '<Up>']
 
-" ============================================================
-" = MAPPINGS
+" Trigger configuration.
+imap ® <nop>
+let g:UltiSnipsExpandTrigger="®"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+let g:UltiSnipsSnippetsDir="~/.vim/my-snippets"
+let g:UltiSnipsSnippetDirectories=["UltiSnips", "my-snippets"]
+
+" ============================================================ " = MAPPINGS
 " ============================================================
 " set leader key to space
 map <Space> <nop>
@@ -147,22 +173,12 @@ imap <F6> <ESC>:setlocal spell! spelllang=fr<cr>
 " enter in Normal mode should add a new line
 nnoremap <cr> o<esc>0"_d$
 
-" remap ctrl l to nohl
-nnoremap <silent> <c-l> :nohl<cr><c-l>
+" remap alt-l to nohl
+nnoremap <silent> ¬ :nohl<cr>:normal! <c-l><cr>
 
 " can't be bothered to understand <c-c>, replace with esc
 imap <c-c> <esc>
 map <c-c> <esc>
-
-" snipMate controls
-:imap <C-J> <Plug>snipMateNextOrTrigger
-:smap <C-J> <Plug>snipMateNextOrTrigger
-
-" Easy window navigation
-nmap \h <C-w>h
-nmap \j <C-w>j
-nmap \k <C-w>k
-nmap \l <C-w>l
 
 " Switch to previous (opened) buffer
 map \\ :CtrlPBuffer<cr><cr>
@@ -174,10 +190,19 @@ map ]h :highlight clear ExtraWhiteSpace<cr>
 map [w :NERDTreeToggle<cr>:set relativenumber<cr>
 map ]w :NERDTree<cr>:set relativenumber<cr>
 
+" Create a file from path under the cursor
+map <silent> <leader>cf :call writefile([], expand("<cfile>"), "t")<cr>
+
+" Smarter j and k, go up visiually in soft wrap mode.
+map j gj
+map k gk
+
 " search for visual selection
 vnorem // y/<c-r>"<cr>
 
 " MACROS
+map <leader>ic :set ignorecase!<cr>
+map <leader>"" :ToggleEducate<cr>
 map <leader>.a :e ~/.oh-my-zsh/custom/aliases.zsh<cr>Gzz
 map <leader>.b :e ~/thoughts/
 map <leader>.j :e ~/thoughts/thoughts.md<cr>G
@@ -194,6 +219,7 @@ map <leader>am :e ~/.vimrc<cr>gg/" MACROS<cr>zz:nohl<cr>o<esc>^S
 map <leader>aw :Ag! "\b<C-r>=expand('<cword>')<CR>\b"
 map <leader>b :CtrlPBuffer<cr>
 map <leader>d !!today<cr>I#<space><esc>o
+map <leader>ev :EvervimSearchByQuery<space>
 map <leader>g<space> :Git<space>
 map <leader>ga :Git add %<cr>
 map <leader>gawip :Git commit --amend -a --reuse-message=HEAD<cr>
@@ -204,17 +230,23 @@ map <leader>gd :Gdiff<cr>
 map <leader>gfp :let @a=fugitive#head()<cr>:Gpush -f origin <c-r>a
 map <leader>ggp :let @a=fugitive#head()<cr>:Gpush origin <c-r>a
 map <leader>gi :Git add --intent-to-add %<cr>
-map <leader>glg :Git lg<cr>
+map <leader>glg :Git lg -20<cr>
 map <leader>gof :let @f = expand('%:h')<cr>:let @F = expand('<cword>')<cr>:e <c-r>f
 map <leader>gp :let @a=fugitive#head()<cr>:Gpush origin <c-r>a
 map <leader>gri :Git rebase -i<space>
 map <leader>gs :Gstatus<cr>gg<c-n>
 map <leader>gwip :Git commit -a -m 'Wip'<cr>
+map <leader>journal <leader>d<cr><cr>## Brain dump<cr><cr>## Did I move towards the resistance?<cr><cr>## Did I do something that scared me?<cr><cr>## What's the biggest mistake I made?<cr><cr>## Why didn't I achieve what I set out to achieve?<cr><cr>## What 1 thing I did was right and how can I do better?<cr><cr>## What's the least valuable thing I did last week?<cr><cr>## What can I outsource?<cr><esc>7{zz
 map <leader>m :CtrlPMixed<cr>
-map <leader>p :set paste!<cr>
+map <leader>outcomes IDescribe why you are pursuing it:<CR><CR>Describe how you are pursuing it:<CR><CR>Describe the result:<CR><CR>Describe the first action you'll do this thing this week:<CR>
+map <leader>pc :PlugClean!<cr>
+map <leader>pi :PlugInstall<cr>
+map <leader>po :PencilOff<cr>
+map <leader>pp :set paste!<cr>
+map <leader>pt :PencilToggle<cr>
 map <leader>q :bd<cr>
 map <leader>rf :%s/\v(<<c-r><c-w>>)/
-map <leader>ritual <leader>d<cr>3 things I'm grateful for:<cr><cr>3 things that would make today great:<cr><cr>2 daily affirmations (I am great because):<cr><cr>What am I doing today that brings me closer to launching my own product?<esc>{{{
+map <leader>ritual <leader>d<cr>3 things I'm grateful for:<cr><cr>3 things that would make today great:<cr><cr>2 daily affirmations (I am great because):<cr><cr>What am I doing today that brings me closer to launching my own product?<cr><cr>What are you going to do that is EPIC?<esc>{{{{zz:PencilOff<cr>
 map <leader>rm :call delete(expand('%')) <bar> bdelete!<cr>
 map <leader>rn :set relativenumber!<cr>
 map <leader>rs :call ReloadAllSnippets()<cr>
@@ -223,21 +255,22 @@ map <leader>snip :let @0=&ft<cr>:e ~/.vim/plugged/snipmate.vim/snippets/<c-r>0.s
 map <leader>snr :echo ReloadAllSnippets()<cr>
 map <leader>so "kyy:<c-r>k<backspace><cr>
 map <leader>sr :call SearchAndReplace()<cr>
+map <leader>ss :Ag<space>
 map <leader>st 0v}b$:sort<cr>
 map <leader>sv :source ~/.vimrc<cr>
 map <leader>sw :set tw=1000<cr>
-map <leader>twc :!wc -w %<cr>
 map <leader>wc :echo system('diffword')<cr>
 map <leader>wg :!write-good %
 map <leader>wis :e ~/Dropbox/wisdom.md<cr>Go
 map <leader>wq :w<bar>bd<cr>
 map <leader>ws :StripWhitespace<cr>
 map <leader>wt :set textwidth=70<cr>
-map <leader>x :x<cr>
-nmap <C-H> :h<space>
+map <leader>ww :!wc -w %<cr>
+map <leader>x :ccl<cr>
 nmap <leader>## 70i#<esc>o<esc>
 nmap <leader>;; 70i;<esc>o<esc>
 nmap <leader>== 70i=<esc>o<esc>
+nmap ˙ :h<space>
 vmap <leader>s "ky:%s/\v(<<C-R>k>)/
 
 " Disable ex-mode
@@ -246,8 +279,6 @@ nmap Q <Nop>
 " ============================================================
 " == Functions
 " ============================================================
-
-highlight Comment cterm=italic
 
 " hint to keep lines short
 highlight ColorColumn ctermbg=lightGray
@@ -298,44 +329,90 @@ function! SearchAndReplace()
   endif
 endfunction
 
+function! WordCount()
+  let s:old_status = v:statusmsg
+  let position = getpos(".")
+  exe ":silent normal g\<c-g>"
+  let stat = v:statusmsg
+  let s:word_count = 0
+  if stat != '--No lines in buffer--'
+    let s:word_count = str2nr(split(v:statusmsg)[11])
+    let v:statusmsg = s:old_status
+  end
+  call setpos('.', position)
+  return s:word_count
+endfunction
+
 " ft specific foo
 " =========================================================
 
-" Latex options
+" PROSE OPTIONS
+let g:pencil#autoformat = 1
+let g:pencil#conceallevel = 3
+autocmd Filetype markdown set filetype=mkd
+autocmd FileType mkd call SetProseOptions()
+function! SetProseOptions()
+  call pencil#init()
+  call lexical#init()
+  call textobj#quote#init()
+endfunction
+
+" LATEX OPTIONS
 let g:tex_flavor='latex'
-au BufReadPre,FileReadPre *.tex set filetype=tex
-au Filetype tex call SetTexOptions()
+autocmd BufReadPre,FileReadPre *.tex set filetype=tex
+autocmd Filetype tex call SetTexOptions()
 function! SetTexOptions()
+  call pencil#init()
+  call lexical#init()
+  PencilOff
+  setlocal foldenable
   setlocal grepprg=grep\ -nH\ $*
   setlocal shellslash
   setlocal textwidth=70
-  let g:AutoPairs={'$':'$', '(':')', '[':']', '{':'}', '"':'"'}
+  let g:airline_section_z='%{WordCount()}w %3p%% %{g:airline_symbols.linenr}%#__accent_bold#%4l%#__restore__#:%3v'
+  let g:AutoPairs={'$':'$', '(':')', '[':']', '{':'}'}
+  let g:surround_{char2nr('q')} = "``\r''"
   let g:surround_{char2nr('m')} = "\\texttt{\r}"
   let g:surround_{char2nr('i')} = "\\textit{\r}"
   let g:surround_{char2nr('e')} = "\\textbf{\r}"
 endfunction
 
-" Clojure options
-au Filetype clojure call SetClojureOptions()
+" CLOJURE OPTIONS
+" This should enable Emacs like indentation
+let g:clojure_fuzzy_indent=1
+let g:clojure_align_multiline_strings = 1
+" Add some words which should be indented like defn etc: Compojure/compojure-api, midje and schema stuff mostly.
+let g:clojure_fuzzy_indent_patterns=['^GET', '^POST', '^PUT', '^DELETE', '^ANY', '^HEAD', '^PATCH', '^OPTIONS', '^def', '^apply', '^add-watch']
+let g:paredit_electric_return=1
+let g:paredit_smartjump=1
+let g:paredit_leader = '<Space>'
+autocmd Filetype clojure call SetClojureOptions()
 function! SetClojureOptions()
-  ClojureHighlightReferences
   setlocal textwidth=70
   let b:AutoPairs={'"':'"'}
-  " This should enable Emacs like indentation
-  let g:clojure_fuzzy_indent=1
-  let g:clojure_align_multiline_strings = 1
-  " Add some words which should be indented like defn etc: Compojure/compojure-api, midje and schema stuff mostly.
-  let g:clojure_fuzzy_indent_patterns=['^GET', '^POST', '^PUT', '^DELETE', '^ANY', '^HEAD', '^PATCH', '^OPTIONS', '^def', '^apply']
   " repl mappings
   imap <buffer> <c-\> <esc>cpp
+  nnoremap <buffer> w w
   map <buffer> <c-\> cpp
   map <buffer> <c-]> :Eval<cr>
+  map <buffer> <c-[> ]<C-D>
   map <buffer> \r :Require!<cr>
+  command! Piggie :Piggieback (cemerick.austin/exec-env)
+  command! Biggie :Piggieback (cemerick.austin/exec-env :exec-cmds ["open" "-ga" "/Applications/Google Chrome.app"])
+  command! Wiggie :Piggieback (weasel.repl.websocket/repl-env :ip "0.0.0.0" :port 9001)
 endfunction
 
 " Javascript options
-au Filetype javascript call SetJavascriptOptions()
+let g:javascript_conceal_function   = "λ"
+let g:javascript_conceal_null       = "ø"
+let g:javascript_conceal_this       = "@"
+let g:javascript_conceal_NaN        = "ℕ"
+let g:javascript_conceal_prototype  = "¶"
+let g:javascript_conceal_static     = "•"
+let g:javascript_conceal_super      = "Ω"
+autocmd Filetype javascript call SetJavascriptOptions()
 function! SetJavascriptOptions()
+  set conceallevel=2
   let g:syntastic_javascript_checkers = ['jscs', 'jshint']
   map <buffer> <leader>rj :TernRename<cr>
   " wrap line by console.log()
@@ -353,8 +430,8 @@ function! SetJavascriptOptions()
   let g:surround_{char2nr('c')} = "console.log(\r)"
 endfunction
 
-" Ruby options
-au Filetype ruby call SetRubyOptions()
+" RUBY OPTIONS
+autocmd Filetype ruby call SetRubyOptions()
 function! SetRubyOptions()
   let g:rspec_command = "!rspec --format documentation --color {spec}"
   setlocal ts=2 sts=2 sw=2 expandtab
@@ -362,17 +439,24 @@ function! SetRubyOptions()
   map <buffer> <leader>S :call RunNearestSpec()<CR>
   map <buffer> <leader>T :call RunCurrentSpecFile()<CR>
 endfunction
+autocmd Filetype eruby call SetERubyOptions()
+function! SetERubyOptions()
+  EmmetInstall
+  inoremap <buffer> <C-\> </<C-X><C-O>
+  let b:AutoPairs={'$':'$', '(':')', '[':']', '{':'}', '"':'"', '%':'%', '<':'>'}
+  setlocal ts=4 sts=4 sw=4 expandtab
+endfunction
 
-" Markdown options
-au BufNewFile,BufRead *.md,*.markdown setlocal filetype=markdown tw=66
-au Filetype markdown call SetMarkdownOptions()
+" MARKDOWN OPTIONS
+autocmd BufNewFile,BufRead *.md,*.markdown setlocal filetype=mkd tw=66
+autocmd Filetype mkd call SetMarkdownOptions()
 function! SetMarkdownOptions()
   let g:surround_{char2nr('8')}="**\r**"
   iabbrev <buffer> -- —
 endfunction
 
-" Html options
-au Filetype html,css,htmldjango call SetHtmlOptions()
+" HTML OPTIONS
+autocmd Filetype html,css,htmldjango call SetHtmlOptions()
 function! SetHtmlOptions()
   EmmetInstall
   inoremap <buffer> <C-\> </<C-X><C-O>
@@ -380,10 +464,11 @@ function! SetHtmlOptions()
   let b:AutoPairs={'$':'$', '(':')', '[':']', '{':'}', '"':'"', '%':'%', '<':'>'}
 endfunction
 
-autocmd FileType tex,clojure,markdown,md,html,javascript,css,scss,vim autocmd BufWritePre <buffer> StripWhitespace
+autocmd FileType ruby,tex,clojure,mkd,md,html,javascript,css,scss,vim autocmd BufWritePre <buffer> StripWhitespace
 autocmd Filetype java setlocal ts=4 sts=4 sw=4 expandtab
 autocmd Filetype python setlocal ts=4 sts=4 sw=4 expandtab
 autocmd BufReadPre,FileReadPre help set relativenumber
+autocmd BufNewFile,BufRead *.raml setlocal filetype=yaml
 
 let NERDTreeIgnore = ['\.pyc$']
 let NERDTreeCaseSensitiveSort = 1
