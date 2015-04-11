@@ -1,22 +1,51 @@
 {
-  "eqeqeq": true,
-  "immed": true,
-  "latedef": true,
-  "newcap": true,
-  "noarg": true,
-  "sub": true,
-  "undef": true,
-  "unused": true,
-  "boss": true,
-  "eqnull": true,
+  /*
+   * ENVIRONMENTS
+   * =================
+   */
   "browser": true,
   "node": true,
+  "jquery": true,
+
+  /*
+   * ENFORCING OPTIONS
+   * =================
+   */
+
+  // Force all variable names to use either camelCase or UPPER_CASE.
+  /* "camelcase": true, */
+
+  // Prohibit use of == in favor of ===.
+  "eqeqeq": true,
+
+  // Enforce tab width of 2 spaces.
+  "indent": 2,
+
+  // Prohibt the use of explicitly undeclared variables.
+  "undef": true,
+
+  // Warn when variables are defined but not used.
+  "unused": true,
+
+  // Enforce use of single quotes.
+  "quotmark": "single",
+
+  // Enforce placing 'use strict' at the top of the function scope.
+  "strict": true,
+
+  // Enforce line length to 80 characters.
+  "maxlen": 80,
+
+  // Suppress warnings about == null comparisions.
+  "eqnull": true,
+
+  // Suppress warning on expressions
   "expr": true,
+
+  // Some stuff that should be defined as global.
   "predef": [
     "App",
     "Em",
-    "jQuery",
-    "$",
     "describe",
     "it",
     "before",
