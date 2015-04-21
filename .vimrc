@@ -1,7 +1,8 @@
 " load plugins
 call plug#begin()
+  Plug 'hail2u/vim-css3-syntax', { 'for': 'css' }
   Plug 'cakebaker/scss-syntax.vim', { 'for': 'scss' }
-  Plug 'mattn/emmet-vim', { 'for': ['html','htmldjango','css','eruby'] }
+  Plug 'mattn/emmet-vim', { 'for': ['html','htmldjango','css','eruby','scss'] }
   Plug 'django.vim', { 'for': 'htmldjango' }
   Plug 'othree/html5.vim', { 'for': 'html' }
   Plug 'kana/vim-textobj-django-template'
@@ -40,7 +41,7 @@ call plug#begin()
   Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
 
   " Clojure
-  Plug 'amdt/vim-niji', { 'for': 'clojure' }
+  Plug 'raymond-w-ko/vim-niji', { 'for': 'clojure' }
   Plug 'guns/vim-clojure-static', { 'for': 'clojure' }
   Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
   Plug 'tpope/vim-leiningen', { 'for': 'clojure' }
@@ -74,7 +75,7 @@ call plug#begin()
   Plug 'ntpeters/vim-better-whitespace'
   Plug 'scrooloose/syntastic'
 
-" Plug 'nathanaelkane/vim-indent-guides'
+  Plug 'nathanaelkane/vim-indent-guides'
 call plug#end()
 
 " set color scheme
@@ -126,9 +127,6 @@ let g:netrw_browsex_viewer = "open"
 
 " enable airline powerline fonts
 let g:airline_powerline_fonts = 1
-
-" enable buffer extension
-let g:airline#extensions#tabline#enabled = 1
 
 " ctrlp config
 let g:ctrlp_map = '<leader>f'
@@ -200,12 +198,15 @@ map k gk
 " search for visual selection
 vnorem // y/<c-r>"<cr>
 
+" PLUGS
+map <Plug>Ritual <leader>d<cr>3 things I'm grateful for:<cr><cr>3 things that would make today great:<cr><cr>2 daily affirmations (I am great because):<cr><cr>What am I doing today that brings me closer to launching my own product?<cr><cr>What are you going to do that is EPIC?<esc>{{{{zz:PencilOff<cr>
+
 " MACROS
-map <leader>ic :set ignorecase!<cr>
 map <leader>"" :ToggleEducate<cr>
 map <leader>.a :e ~/.oh-my-zsh/custom/aliases.zsh<cr>Gzz
 map <leader>.b :e ~/thoughts/
 map <leader>.j :e ~/thoughts/thoughts.md<cr>G
+map <leader>.l :e ~/.lein/profiles.clj<cr>
 map <leader>.p :e ~/Dropbox/process/
 map <leader>.t :e ~/.tmux.conf<cr>
 map <leader>.v :e ~/dotfiles/.vimrc<cr>
@@ -236,6 +237,8 @@ map <leader>gp :let @a=fugitive#head()<cr>:Gpush origin <c-r>a
 map <leader>gri :Git rebase -i<space>
 map <leader>gs :Gstatus<cr>gg<c-n>
 map <leader>gwip :Git commit -a -m 'Wip'<cr>
+map <leader>ic :set ignorecase!<cr>
+map <leader>jd :e ~/thoughts/debug.md<cr>
 map <leader>journal <leader>d<cr><cr>## Brain dump<cr><cr>## Did I move towards the resistance?<cr><cr>## Did I do something that scared me?<cr><cr>## What's the biggest mistake I made?<cr><cr>## Why didn't I achieve what I set out to achieve?<cr><cr>## What 1 thing I did was right and how can I do better?<cr><cr>## What's the least valuable thing I did last week?<cr><cr>## What can I outsource?<cr><esc>7{zz
 map <leader>m :CtrlPMixed<cr>
 map <leader>outcomes IDescribe why you are pursuing it:<CR><CR>Describe how you are pursuing it:<CR><CR>Describe the result:<CR><CR>Describe the first action you'll do this thing this week:<CR>
@@ -246,7 +249,7 @@ map <leader>pp :set paste!<cr>
 map <leader>pt :PencilToggle<cr>
 map <leader>q :bd<cr>
 map <leader>rf :%s/\v(<<c-r><c-w>>)/
-map <leader>ritual <leader>d<cr>3 things I'm grateful for:<cr><cr>3 things that would make today great:<cr><cr>2 daily affirmations (I am great because):<cr><cr>What am I doing today that brings me closer to launching my own product?<cr><cr>What are you going to do that is EPIC?<esc>{{{{zz:PencilOff<cr>
+map <leader>ritual <Plug>Ritual
 map <leader>rm :call delete(expand('%')) <bar> bdelete!<cr>
 map <leader>rn :set relativenumber!<cr>
 map <leader>rs :call ReloadAllSnippets()<cr>
@@ -346,15 +349,20 @@ endfunction
 " ft specific foo
 " =========================================================
 
+function! WordCountInStatusBar()
+  let g:airline_section_z='%{WordCount()}w %3p%% %{g:airline_symbols.linenr}%#__accent_bold#%4l%#__restore__#:%3v'
+endfunction
+
 " PROSE OPTIONS
 let g:pencil#autoformat = 1
 let g:pencil#conceallevel = 3
 autocmd Filetype markdown set filetype=mkd
-autocmd FileType mkd call SetProseOptions()
+autocmd FileType mkd,tex call SetProseOptions()
 function! SetProseOptions()
+  call WordCountInStatusBar()
+  AirlineRefresh
   call pencil#init()
   call lexical#init()
-  call textobj#quote#init()
 endfunction
 
 " LATEX OPTIONS
@@ -362,14 +370,11 @@ let g:tex_flavor='latex'
 autocmd BufReadPre,FileReadPre *.tex set filetype=tex
 autocmd Filetype tex call SetTexOptions()
 function! SetTexOptions()
-  call pencil#init()
-  call lexical#init()
   PencilOff
   setlocal foldenable
   setlocal grepprg=grep\ -nH\ $*
   setlocal shellslash
   setlocal textwidth=70
-  let g:airline_section_z='%{WordCount()}w %3p%% %{g:airline_symbols.linenr}%#__accent_bold#%4l%#__restore__#:%3v'
   let g:AutoPairs={'$':'$', '(':')', '[':']', '{':'}'}
   let g:surround_{char2nr('q')} = "``\r''"
   let g:surround_{char2nr('m')} = "\\texttt{\r}"
@@ -382,7 +387,12 @@ endfunction
 let g:clojure_fuzzy_indent=1
 let g:clojure_align_multiline_strings = 1
 " Add some words which should be indented like defn etc: Compojure/compojure-api, midje and schema stuff mostly.
-let g:clojure_fuzzy_indent_patterns=['^GET', '^POST', '^PUT', '^DELETE', '^ANY', '^HEAD', '^PATCH', '^OPTIONS', '^def', '^apply', '^add-watch']
+let g:clojure_fuzzy_indent_patterns=['^GET', '^POST', '^PUT', '^DELETE', '^ANY', '^HEAD', '^PATCH', '^OPTIONS', '^def', '^apply', '^add-watch', '^context']
+let g:niji_light_colors =  [['brown', 'RoyalBlue3'],
+                          \ ['Darkblue', 'SeaGreen3'],
+                          \ ['darkgray', 'DarkOrchid3'],
+                          \ ['darkgreen', 'firebrick3'],
+                          \ ['darkcyan', 'RoyalBlue3']]
 let g:paredit_electric_return=1
 let g:paredit_smartjump=1
 let g:paredit_leader = '<Space>'
@@ -402,7 +412,7 @@ function! SetClojureOptions()
   command! Wiggie :Piggieback (weasel.repl.websocket/repl-env :ip "0.0.0.0" :port 9001)
 endfunction
 
-" Javascript options
+" JAVASCRIPT OPTIONS
 let g:javascript_conceal_function   = "λ"
 let g:javascript_conceal_null       = "ø"
 let g:javascript_conceal_this       = "@"
@@ -410,6 +420,7 @@ let g:javascript_conceal_NaN        = "ℕ"
 let g:javascript_conceal_prototype  = "¶"
 let g:javascript_conceal_static     = "•"
 let g:javascript_conceal_super      = "Ω"
+autocmd BufReadPre,FileReadPre *.es6 set filetype=javascript
 autocmd Filetype javascript call SetJavascriptOptions()
 function! SetJavascriptOptions()
   set conceallevel=2
@@ -451,17 +462,22 @@ endfunction
 autocmd BufNewFile,BufRead *.md,*.markdown setlocal filetype=mkd tw=66
 autocmd Filetype mkd call SetMarkdownOptions()
 function! SetMarkdownOptions()
+  call textobj#quote#init()
   let g:surround_{char2nr('8')}="**\r**"
   iabbrev <buffer> -- —
 endfunction
 
 " HTML OPTIONS
-autocmd Filetype html,css,htmldjango call SetHtmlOptions()
+autocmd Filetype html setlocal ft=htmldjango
+autocmd Filetype html,scss,css,htmldjango call SetHtmlOptions()
+autocmd Filetype html,htmldjango setlocal ts=4 sts=4 sw=4 expandtab
 function! SetHtmlOptions()
   EmmetInstall
   inoremap <buffer> <C-\> </<C-X><C-O>
+  map <buffer> <Plug>DeInline ^:s/\v[{;}]/\0\r/g<cr>ddk=a}:nohl<cr>
+  map <buffer> <leader>il <Plug>DeInline
   let g:surround_{char2nr('8')}="{% block \r %}\n{% endblock %}"
-  let b:AutoPairs={'$':'$', '(':')', '[':']', '{':'}', '"':'"', '%':'%', '<':'>'}
+  let b:AutoPairs={'(':')', '[':']', '{':'}', '"':'"', '%':'%', '<':'>'}
 endfunction
 
 autocmd FileType ruby,tex,clojure,mkd,md,html,javascript,css,scss,vim autocmd BufWritePre <buffer> StripWhitespace
@@ -469,6 +485,7 @@ autocmd Filetype java setlocal ts=4 sts=4 sw=4 expandtab
 autocmd Filetype python setlocal ts=4 sts=4 sw=4 expandtab
 autocmd BufReadPre,FileReadPre help set relativenumber
 autocmd BufNewFile,BufRead *.raml setlocal filetype=yaml
+autocmd BufNewFile,BufRead *.scss setlocal filetype=scss.css
 
 let NERDTreeIgnore = ['\.pyc$']
 let NERDTreeCaseSensitiveSort = 1
