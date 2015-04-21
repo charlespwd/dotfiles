@@ -41,12 +41,14 @@ call plug#begin()
   Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
 
   " Clojure
+  Plug 'guns/vim-sexp', { 'for': 'clojure' }
+  Plug 'tpope/vim-sexp-mappings-for-regular-people', { 'for': 'clojure' }
+  Plug 'guns/vim-clojure-highlight', { 'for': 'clojure' }
   Plug 'raymond-w-ko/vim-niji', { 'for': 'clojure' }
   Plug 'guns/vim-clojure-static', { 'for': 'clojure' }
   Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
   Plug 'tpope/vim-leiningen', { 'for': 'clojure' }
   Plug 'vim-scripts/paredit.vim', { 'for': 'clojure' }
-  " Plug 'venantius/vim-eastwood', { 'for': 'clojure' }
   " Plug 'venantius/vim-cljfmt', { 'for': 'clojure' }
 
   " Ruby
@@ -63,10 +65,12 @@ call plug#begin()
   Plug 'tpope/vim-unimpaired'
   Plug 'kakkyz81/evervim'
   Plug 'airblade/vim-gitgutter'
+  Plug 'tpope/vim-fugitive'
+  Plug 'tpope/vim-repeat'
 
   " Git
   Plug 'esneider/YUNOcommit.vim'
-  Plug 'tpope/vim-fugitive'
+  Plug 'tpope/vim-repeat'
 
   " Style
   Plug 'altercation/vim-colors-solarized'
