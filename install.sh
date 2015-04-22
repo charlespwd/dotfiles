@@ -40,7 +40,7 @@ install_file () {
     fi
 
     echo "installing ${file}"
-    ln -s "${dot_file_path}" "~/${file}"
+    ln -s "${dot_file_path}" "${HOME}/${file}"
   fi
 }
 
@@ -51,7 +51,7 @@ main () {
 
   create_backup_folder
   for dot_file in ${DOT_FILES}; do
-    cd ~
+    cd "${HOME}"
     install_file "${dot_file}" "${current_dir}"
     cd "${current_dir}"
   done
