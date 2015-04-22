@@ -102,7 +102,7 @@ set nobackup
 set nofoldenable
 set noswapfile
 set nowrap " don't wrap text
-" set relativenumber
+set relativenumber
 set ruler " show row and column in footer
 set shiftwidth=2
 set softtabstop=2
