@@ -47,12 +47,12 @@ install_file () {
 }
 
 main () {
-  local DOT_FILES="${@:-.*}"
+  local dot_files="${@:-.*}"
   local current_dir
-  current_dir="$(pwd)" || return
+  current_dir="$(pwd)"
 
   create_backup_folder
-  for dot_file in ${DOT_FILES}; do
+  for dot_file in ${dot_files}; do
     cd "${HOME}"
     install_file "${dot_file}" "${current_dir}"
     cd "${current_dir}"
