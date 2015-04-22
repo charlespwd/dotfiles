@@ -402,6 +402,7 @@ function! SetClojureOptions()
   " repl mappings
   imap <buffer> <c-\> <esc>cpp
   nnoremap <buffer> w w
+  map <buffer> <leader>lint :new|0read !lein eastwood<cr>
   map <buffer> <c-\> cpp
   map <buffer> <c-]> :Eval<cr>
   map <buffer> <c-[> ]<C-D>
