@@ -407,8 +407,10 @@ function! SetClojureOptions()
   " repl mappings
   imap <buffer> <c-\> <esc>cpp
   nnoremap <buffer> w w
-  map <buffer> <leader>lint :new|0read !lein eastwood<cr>
+  map <Plug>LintEastwood :vnew<bar>0read !lein eastwood<cr><cr>:g/\v(\=\= Lin)<bar>(Subprocess failed)<bar>(\=\= Eastwood)<bar>(Entering directory)<bar>(Directories scanned)/d<cr>
+  map <buffer> <leader>lint <Plug>LintEastwood
   map <buffer> <c-\> cpp
+  map <buffer> cpR :RunAllTests<cr>
   map <buffer> <c-]> :Eval<cr>
   map <buffer> <c-[> ]<C-D>
   map <buffer> \r :Require!<cr>
