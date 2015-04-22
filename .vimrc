@@ -59,7 +59,9 @@ call plug#begin()
 
   " Misc
   Plug 'tpope/vim-classpath'
-  Plug 'plasticboy/vim-markdown'
+  " Wait for fix to https://github.com/plasticboy/vim-markdown/issues/194
+  " Plug 'plasticboy/vim-markdown'
+  Plug 'gabrielelana/vim-markdown'
   Plug 'rking/ag.vim'
   Plug 'tpope/vim-dispatch'
   Plug 'tpope/vim-unimpaired'
@@ -131,6 +133,9 @@ let g:netrw_browsex_viewer = "open"
 
 " enable airline powerline fonts
 let g:airline_powerline_fonts = 1
+
+" Add wordcount to airline buffer
+" let g:airline_section_z='%{WordCount()}w %3p%% %{g:airline_symbols.linenr}%#__accent_bold#%4l%#__restore__#:%3v'
 
 " ctrlp config
 let g:ctrlp_map = '<leader>f'
@@ -459,7 +464,7 @@ function! SetERubyOptions()
 endfunction
 
 " MARKDOWN OPTIONS
-autocmd BufNewFile,BufRead *.md,*.markdown setlocal filetype=mkd tw=66
+autocmd BufNewFile,BufRead *.md,*.markdown setlocal filetype=mkd.markdown tw=66
 autocmd Filetype mkd call SetMarkdownOptions()
 function! SetMarkdownOptions()
   call textobj#quote#init()

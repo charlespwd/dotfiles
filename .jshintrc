@@ -6,6 +6,7 @@
   "browser": true,
   "node": true,
   "jquery": true,
+  "esnext": true,
 
   /*
    * ENFORCING OPTIONS
