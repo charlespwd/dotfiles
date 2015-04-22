@@ -1,1 +1,4 @@
 backup
+.vim/plugged
+.vim/.netrwhist
+.vim/.VimballRecord
