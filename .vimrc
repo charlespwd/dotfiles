@@ -204,6 +204,7 @@ vnorem // y/<c-r>"<cr>
 
 " PLUGS
 map <Plug>Ritual <leader>d<cr>3 things I'm grateful for:<cr><cr>3 things that would make today great:<cr><cr>2 daily affirmations (I am great because):<cr><cr>What am I doing today that brings me closer to launching my own product?<cr><cr>What are you going to do that is EPIC?<esc>{{{{zz:PencilOff<cr>
+map <Plug>Journal <leader>d<cr><cr>## Brain dump<cr><cr>## Did I move towards the resistance?<cr><cr>## Did I do something that scared me?<cr><cr>## What's the biggest mistake I made?<cr><cr>## Why didn't I achieve what I set out to achieve?<cr><cr>## What 1 thing I did was right and how can I do better?<cr><cr>## What's the least valuable thing I did last week?<cr><cr>## What can I outsource?<cr><esc>7{zz
 
 " MACROS
 map <leader>"" :ToggleEducate<cr>
@@ -218,10 +219,10 @@ map <leader>.z :e ~/.zshrc<cr>
 map <leader>G :G
 map <leader>T :Tabularize<space>/
 map <leader>aa :Ag!<space>
-map <leader>ad <C-W>l:w<cr><C-W>k-
 map <leader>ag :Ag! "<C-r>=expand('<cword>')<CR>"
 map <leader>am :e ~/.vimrc<cr>gg/" MACROS<cr>zz:nohl<cr>o<esc>^S
 map <leader>aw :Ag! "\b<C-r>=expand('<cword>')<CR>\b"
+map <leader>aW :Ag! "\b<C-r>=expand('<cWORD>')<CR>\b"
 map <leader>b :CtrlPBuffer<cr>
 map <leader>d !!today<cr>I#<space><esc>o
 map <leader>ev :EvervimSearchByQuery<space>
@@ -236,21 +237,21 @@ map <leader>gfp :let @a=fugitive#head()<cr>:Gpush -f origin <c-r>a
 map <leader>ggp :let @a=fugitive#head()<cr>:Gpush origin <c-r>a
 map <leader>gi :Git add --intent-to-add %<cr>
 map <leader>glg :Git lg -20<cr>
-map <leader>gof :let @f = expand('%:h')<cr>:let @F = expand('<cword>')<cr>:e <c-r>f
+" map <leader>gof :let @f = expand('%:h')<cr>:let @F = expand('<cword>')<cr>:e <c-r>f
 map <leader>gp :let @a=fugitive#head()<cr>:Gpush origin <c-r>a
 map <leader>gri :Git rebase -i<space>
 map <leader>gs :Gstatus<cr>gg<c-n>
 map <leader>gwip :Git commit -a -m 'Wip'<cr>
 map <leader>ic :set ignorecase!<cr>
 map <leader>jd :e ~/thoughts/debug.md<cr>
-map <leader>journal <leader>d<cr><cr>## Brain dump<cr><cr>## Did I move towards the resistance?<cr><cr>## Did I do something that scared me?<cr><cr>## What's the biggest mistake I made?<cr><cr>## Why didn't I achieve what I set out to achieve?<cr><cr>## What 1 thing I did was right and how can I do better?<cr><cr>## What's the least valuable thing I did last week?<cr><cr>## What can I outsource?<cr><esc>7{zz
+map <leader>journal <Plug>Journal
 map <leader>m :CtrlPMixed<cr>
-map <leader>outcomes IDescribe why you are pursuing it:<CR><CR>Describe how you are pursuing it:<CR><CR>Describe the result:<CR><CR>Describe the first action you'll do this thing this week:<CR>
 map <leader>pc :PlugClean!<cr>
 map <leader>pi :PlugInstall<cr>
 map <leader>po :PencilOff<cr>
 map <leader>pp :set paste!<cr>
 map <leader>pt :PencilToggle<cr>
+map <leader>pu :PlugUpdate<cr>
 map <leader>q :bd<cr>
 map <leader>rf :%s/\v(<<c-r><c-w>>)/
 map <leader>ritual <Plug>Ritual
@@ -258,7 +259,7 @@ map <leader>rm :call delete(expand('%')) <bar> bdelete!<cr>
 map <leader>rn :set relativenumber!<cr>
 map <leader>rs :call ReloadAllSnippets()<cr>
 map <leader>sg 1z=
-map <leader>snip :let @0=&ft<cr>:e ~/.vim/plugged/snipmate.vim/snippets/<c-r>0.snippets<cr>
+map <leader>snip :UltiSnipsEdit<cr>
 map <leader>snr :echo ReloadAllSnippets()<cr>
 map <leader>so "kyy:<c-r>k<backspace><cr>
 map <leader>sr :call SearchAndReplace()<cr>
