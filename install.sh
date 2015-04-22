@@ -2,6 +2,8 @@
 #
 # Symlink dotfiles in home with dotfiles in this folder.
 # Backs up home files in the dotfiles/backup folder.
+#
+# installs $@ or .* if this script is run with no arguments.
 
 GLOBIGNORE='.:..:.DS_Store:.git:.gitignore'
 
@@ -45,7 +47,7 @@ install_file () {
 }
 
 main () {
-  local DOT_FILES=".*"
+  local DOT_FILES="${@:-.*}"
   local current_dir
   current_dir="$(pwd)" || return
 
@@ -57,6 +59,6 @@ main () {
   done
 }
 
-main
+main "$@"
 
 unset GLOBIGNORE
