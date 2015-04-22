@@ -354,18 +354,12 @@ endfunction
 " ft specific foo
 " =========================================================
 
-function! WordCountInStatusBar()
-  let g:airline_section_z='%{WordCount()}w %3p%% %{g:airline_symbols.linenr}%#__accent_bold#%4l%#__restore__#:%3v'
-endfunction
-
 " PROSE OPTIONS
 let g:pencil#autoformat = 1
 let g:pencil#conceallevel = 3
 autocmd Filetype markdown set filetype=mkd
 autocmd FileType mkd,tex call SetProseOptions()
 function! SetProseOptions()
-  call WordCountInStatusBar()
-  AirlineRefresh
   call pencil#init()
   call lexical#init()
 endfunction
