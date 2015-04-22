@@ -3,7 +3,7 @@
 # Symlink dotfiles in home with dotfiles in this folder.
 # Backs up home files in the dotfiles/backup folder.
 #
-# installs $@ or .* if this script is run with no arguments.
+# installs files passed or .* if this script is run with no arguments.
 
 GLOBIGNORE='.:..:.DS_Store:.git:.gitignore'
 
@@ -34,7 +34,7 @@ install_file () {
   # We don't want to install on top of symlinks
   if [[ -L ${file} ]]; then
     echo "${file} is already installed."
-  else
+  elif [[ -e ${dot_file_path} ]]; then
     backup_file "${file}" "${current_dir}"
     if [[ "$?" -ne 0 ]]; then
       echo "Could not backup ${file}."
