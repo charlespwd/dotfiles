@@ -15,12 +15,8 @@ backup_file () {
   local file="$1"
   local current_dir="$2"
 
-  if [[ -f ${file} ]]; then
-    echo "backing up file ${file} to ${current_dir}/backup..."
-    mv "${file}" "${current_dir}/backup"
-    return "$?"
-  elif [[ -d ${file} ]]; then
-    echo "backing up directory ${file} to ${current_dir}/backup..."
+  if [[ -f ${file} ]] || [[ -d ${file} ]]; then
+    echo "backing up ${file} to ${current_dir}/backup..."
     mv "${file}" "${current_dir}/backup"
     return "$?"
   fi
