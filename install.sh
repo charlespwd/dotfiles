@@ -57,6 +57,6 @@ main () {
   done
 }
 
-main "$@"
+main
 
 unset GLOBIGNORE
