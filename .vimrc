@@ -11,7 +11,6 @@ call plug#begin()
   if !has('gui_running')
     Plug 'Valloric/YouCompleteMe', { 'do': './install.sh'  }
   endif
-  Plug 'junegunn/vim-easy-align'
   Plug 'godlygeek/tabular'
   Plug 'jiangmiao/auto-pairs'
   Plug 'kana/vim-textobj-user'
@@ -59,9 +58,7 @@ call plug#begin()
 
   " Misc
   Plug 'tpope/vim-classpath'
-  " Wait for fix to https://github.com/plasticboy/vim-markdown/issues/194
-  " Plug 'plasticboy/vim-markdown'
-  Plug 'gabrielelana/vim-markdown'
+  Plug 'plasticboy/vim-markdown'
   Plug 'rking/ag.vim'
   Plug 'tpope/vim-dispatch'
   Plug 'tpope/vim-unimpaired'
