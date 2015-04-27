@@ -216,12 +216,14 @@ map <leader>.v :e ~/dotfiles/.vimrc<cr>
 map <leader>.z :e ~/.zshrc<cr>
 map <leader>G :G
 map <leader>T :Tabularize<space>/
+map <leader>aW :Ag! "\b<C-r>=expand('<cWORD>')<CR>\b"
 map <leader>aa :Ag!<space>
 map <leader>ag :Ag! "<C-r>=expand('<cword>')<CR>"
 map <leader>am :e ~/.vimrc<cr>gg/" MACROS<cr>zz:nohl<cr>o<esc>^S
 map <leader>aw :Ag! "\b<C-r>=expand('<cword>')<CR>\b"
-map <leader>aW :Ag! "\b<C-r>=expand('<cWORD>')<CR>\b"
 map <leader>b :CtrlPBuffer<cr>
+map <leader>bgd :set background=dark<cr>
+map <leader>bgl :set background=light<cr>
 map <leader>d !!today<cr>I#<space><esc>o
 map <leader>ev :EvervimSearchByQuery<space>
 map <leader>g<space> :Git<space>
@@ -401,6 +403,8 @@ function! SetClojureOptions()
   imap <buffer> <c-\> <esc>cpp
   nnoremap <buffer> w w
   map <Plug>LintEastwood :vnew<bar>0read !lein eastwood<cr><cr>:g/\v(\=\= Lin)<bar>(Subprocess failed)<bar>(\=\= Eastwood)<bar>(Entering directory)<bar>(Directories scanned)/d<cr>
+  map <Plug>Pprint va)S)aclojure.pprint/pprint <esc>
+  map <buffer> <leader>pp <Plug>Pprint
   map <buffer> <leader>lint <Plug>LintEastwood
   map <buffer> <c-\> cpp
   map <buffer> cpR :RunAllTests<cr>
