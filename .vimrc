@@ -18,7 +18,6 @@ call plug#begin()
   Plug 'tommcdo/vim-exchange'
   Plug 'tomtom/tcomment_vim'
   Plug 'tpope/vim-surround'
-  Plug 'jpalardy/vim-slime'
 
   " Writing
   Plug 'reedes/vim-pencil', { 'for': ['mkd', 'tex'] }
@@ -121,9 +120,6 @@ let g:better_whitespace_filetypes_blacklist=[]
 let g:vim_markdown_frontmatter=1
 let g:vim_markdown_folding_disabled=1
 let g:limelight_conceal_ctermfg = 'cyanbright'
-
-" vim-slime config
-let g:slime_target = "tmux"
 
 " open url in browser
 let g:netrw_browsex_viewer = "open"
