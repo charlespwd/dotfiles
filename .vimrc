@@ -201,10 +201,11 @@ map k gk
 vnorem // y/<c-r>"<cr>
 
 " PLUGS
-map <Plug>Ritual <leader>d<cr>3 things I'm grateful for:<cr><cr>3 things that would make today great:<cr><cr>2 daily affirmations (I am great because):<cr><cr>What am I doing today that brings me closer to launching my own product?<cr><cr>What are you going to do that is EPIC?<esc>{{{{zz:PencilOff<cr>
+map <Plug>Ritual <leader>d<cr>3 things I'm grateful for:<cr><cr>3 things that would make today great:<cr><cr>2 daily affirmations (I am great because):<cr><cr>What am I doing today that brings me closer to launching my own product?<cr><cr>What are you going to do that is EPIC?<cr><cr># What is today's ONE thing such that if it is done, everything else is going to be easier or unnecessary?<esc>{{{{{zz:PencilOff<cr>
 map <Plug>Journal <leader>d<cr><cr>## Brain dump<cr><cr>## Did I move towards the resistance?<cr><cr>## Did I do something that scared me?<cr><cr>## What's the biggest mistake I made?<cr><cr>## Why didn't I achieve what I set out to achieve?<cr><cr>## What 1 thing I did was right and how can I do better?<cr><cr>## What's the least valuable thing I did last week?<cr><cr>## What can I outsource?<cr><esc>7{zz
 
 " MACROS
+" map <leader>gof :let @f = expand('%:h')<cr>:let @F = expand('<cword>')<cr>:e <c-r>f
 map <leader>"" :ToggleEducate<cr>
 map <leader>.a :e ~/.oh-my-zsh/custom/aliases.zsh<cr>Gzz
 map <leader>.b :e ~/thoughts/
@@ -237,7 +238,6 @@ map <leader>gfp :let @a=fugitive#head()<cr>:Gpush -f origin <c-r>a
 map <leader>ggp :let @a=fugitive#head()<cr>:Gpush origin <c-r>a
 map <leader>gi :Git add --intent-to-add %<cr>
 map <leader>glg :Git lg -20<cr>
-" map <leader>gof :let @f = expand('%:h')<cr>:let @F = expand('<cword>')<cr>:e <c-r>f
 map <leader>gp :let @a=fugitive#head()<cr>:Gpush origin <c-r>a
 map <leader>gri :Git rebase -i<space>
 map <leader>gs :Gstatus<cr>gg<c-n>
@@ -351,6 +351,27 @@ function! WordCount()
   return s:word_count
 endfunction
 
+
+function! JSFormat()
+  " Preparation: save last search, and cursor position.
+  let l:win_view = winsaveview()
+  let l:last_search = getreg('/')
+  let fileWorkingDirectory = expand('%:p:h')
+  let currentWorkingDirectory = getcwd()
+  execute ':lcd' . fileWorkingDirectory
+  execute ':silent' . '%!esformatter'
+  if v:shell_error
+    undo
+    "echo "esformatter error, using builtin vim formatter"
+    " use internal formatting command
+    execute ":silent normal! gg=G<cr>"
+  endif
+  " Clean up: restore previous search history, and cursor position
+  execute ':lcd' . currentWorkingDirectory
+  call winrestview(l:win_view)
+  call setreg('/', l:last_search)
+endfunction
+
 " ft specific foo
 " =========================================================
 
@@ -404,13 +425,14 @@ function! SetClojureOptions()
   nnoremap <buffer> w w
   map <Plug>LintEastwood :vnew<bar>0read !lein eastwood<cr><cr>:g/\v(\=\= Lin)<bar>(Subprocess failed)<bar>(\=\= Eastwood)<bar>(Entering directory)<bar>(Directories scanned)/d<cr>
   map <Plug>Pprint va)S)aclojure.pprint/pprint <esc>
-  map <buffer> <leader>pp <Plug>Pprint
+  map <buffer> <leader>pr <Plug>Pprint
   map <buffer> <leader>lint <Plug>LintEastwood
   map <buffer> <c-\> cpp
   map <buffer> cpR :RunAllTests<cr>
   map <buffer> <c-]> :Eval<cr>
   map <buffer> <c-[> ]<C-D>
   map <buffer> \r :Require!<cr>
+  noremap <buffer> <c-c> <esc>
   command! Piggie :Piggieback (cemerick.austin/exec-env)
   command! Biggie :Piggieback (cemerick.austin/exec-env :exec-cmds ["open" "-ga" "/Applications/Google Chrome.app"])
   command! Wiggie :Piggieback (weasel.repl.websocket/repl-env :ip "0.0.0.0" :port 9001)
@@ -441,6 +463,7 @@ function! SetJavascriptOptions()
   " turn a function name() into a name: function()
   map <buffer> <leader>f: ^cxewcxe^ea:<esc>f{=a}f{%a,<esc>
   " unwrap something, e.g. |console.log(foo(bar)) => foo(bar)
+  nnoremap <silent> <leader>e :call JSFormat()<cr>
   map <leader>uw "_dt("_ds)
   let g:surround_{char2nr('c')} = "console.log(\r)"
 endfunction
