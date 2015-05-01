@@ -7,7 +7,7 @@
 [diff]
 	tool = vimdiff
 [core]
-	editor = /usr/bin/vim
+	editor = vim
 [merge]
 	tool = vimdiff
 [filter "media"]
