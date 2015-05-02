@@ -37,6 +37,7 @@ call plug#begin()
   " Javascript
   Plug 'marijnh/tern_for_vim', { 'for': 'javascript', 'do': 'npm install' }
   Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
+  Plug 'moll/vim-node', { 'for': 'javascript' }
 
   " Clojure
   Plug 'guns/vim-sexp', { 'for': 'clojure' }
@@ -206,7 +207,6 @@ map <Plug>Journal <leader>d<cr><cr>## Brain dump<cr><cr>## Did I move towards th
 map <Plug>ToggleTextObjQuotes :ToggleEducate<cr>
 
 " MACROS
-" map <leader>gof :let @f = expand('%:h')<cr>:let @F = expand('<cword>')<cr>:e <c-r>f
 map <leader>"" <Plug>ToggleTextObjQuotes
 map <leader>.a :e ~/.oh-my-zsh/custom/aliases.zsh<cr>Gzz
 map <leader>.b :e ~/thoughts/
@@ -229,10 +229,13 @@ map <leader>bgl :set background=light<cr>
 map <leader>d !!today<cr>I#<space><esc>o
 map <leader>ev :EvervimSearchByQuery<space>
 map <leader>g<space> :Git<space>
-map <leader>ga :Git add %<cr>
+map <leader>ga :Gwrite<cr>
 map <leader>gawip :Git commit --amend -a --reuse-message=HEAD<cr>
 map <leader>gbd :Git branch -D<space>
+map <leader>gcA :Gcommit -v --amend --reuse-message=HEAD<cr>
+map <leader>gca :Gcommit -v --amend<cr>
 map <leader>gcb :Git checkout -b<space>
+map <leader>gcc :Gcommit -v<cr>
 map <leader>gco :Git checkout<space>
 map <leader>gd :Gdiff<cr>
 map <leader>gfp :let @a=fugitive#head()<cr>:Gpush -f origin <c-r>a
