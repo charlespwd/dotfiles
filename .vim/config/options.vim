@@ -29,6 +29,7 @@ set wildmenu " enable bash style autocompletion
 set wildmode=list:longest,full
 
 highlight Comment cterm=italic
+
 let g:evervim_devtoken='S=s317:U=3053e55:E=152db06748f:C=14b835546f8:P=1cd:A=en-devtoken:V=2:H=ec596ec2f664beb7f387da9b0262cb1a'
 let g:evervim_splitoption=''
 let g:user_emmet_install_global = 0

@@ -57,6 +57,7 @@ map <Plug>ToggleTextObjQuotes :ToggleEducate<cr>
 map <leader>"" <Plug>ToggleTextObjQuotes
 map <leader>.a :e ~/.oh-my-zsh/custom/aliases.zsh<cr>Gzz
 map <leader>.b :e ~/thoughts/
+map <leader>.ft :e ~/.vim/config/ft.vim<cr>
 map <leader>.j :e ~/thoughts/thoughts.md<cr>G
 map <leader>.l :e ~/.lein/profiles.clj<cr>
 map <leader>.p :e ~/Dropbox/process/
@@ -68,7 +69,7 @@ map <leader>T :Tabularize<space>/
 map <leader>aW :Ag! "\b<C-r>=expand('<cWORD>')<CR>\b"
 map <leader>aa :Ag!<space>
 map <leader>ag :Ag! "<C-r>=expand('<cword>')<CR>"
-map <leader>am :e ~/.vimrc/config/macros.vim<cr>gg/" MACROS<cr>zz:nohl<cr>o<esc>^S
+map <leader>am :e ~/.vim/config/macros.vim<cr>gg/" MACROS<cr>zz:nohl<cr>o<esc>^S
 map <leader>aw :Ag! "\b<C-r>=expand('<cword>')<CR>\b"
 map <leader>b :CtrlPBuffer<cr>
 map <leader>bgd :set background=dark<cr>

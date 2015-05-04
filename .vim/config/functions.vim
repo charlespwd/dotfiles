@@ -64,4 +64,3 @@ function! WordCount()
   call setpos('.', position)
   return s:word_count
 endfunction
-
