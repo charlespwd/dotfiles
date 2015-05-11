@@ -53,6 +53,7 @@
     "beforeEach",
     "after",
     "afterEach",
-    "angular"
+    "angular",
+    "d3"
   ]
 }
