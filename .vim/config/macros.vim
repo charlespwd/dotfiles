@@ -47,8 +47,6 @@ map <Plug>EvervimJournal <leader>evjournal<cr>/Journal<cr><cr>G<cr><cr><Plug>Jou
 map <Plug>EvervimPlan <leader>evplan<cr>/Plan<cr><cr>G<cr><cr><leader>d<esc><c-k><leader>q<c-j><leader>q
 
 " MACROS
-map <leader>ejournal <Plug>EvervimJournal
-map <leader>eplan <Plug>EvervimPlan
 map <leader>"" <Plug>ToggleTextObjQuotes
 map <leader>.a :e ~/.oh-my-zsh/custom/aliases.zsh<cr>Gzz
 map <leader>.b :e ~/thoughts/
@@ -72,6 +70,8 @@ map <leader>b :CtrlPBuffer<cr>
 map <leader>bgd :set background=dark<cr>
 map <leader>bgl :set background=light<cr>
 map <leader>d !!today<cr>I#<space><esc>o
+map <leader>ejournal <Plug>EvervimJournal
+map <leader>eplan <Plug>EvervimPlan
 map <leader>ev :EvervimSearchByQuery<space>
 map <leader>g<space> :Git<space>
 map <leader>ga :Gwrite<cr>
