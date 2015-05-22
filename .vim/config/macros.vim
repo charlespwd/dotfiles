@@ -1,15 +1,6 @@
-" ============================================================
-" = MAPPINGS
-" ============================================================
-" set leader key to space
+" Set leader key to space
 map <Space> <nop>
 let mapleader = "\<Space>"
-
-" Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
-vmap <Enter> <Plug>(EasyAlign)
-
-" Start interactive EasyAlign for a motion/text object (e.g. gaip)
-nmap ga <Plug>(EasyAlign)
 
 " toggle spell check
 map <F7> :setlocal spell! spelllang=en_us<cr>
@@ -18,7 +9,7 @@ imap <F7> <ESC>:setlocal spell! spelllang=en_us<cr>
 map <F6> :setlocal spell! spelllang=fr<cr>
 imap <F6> <ESC>:setlocal spell! spelllang=fr<cr>
 
-" enter in Normal mode should add a new line
+" enter in Normal mode <cr> should add a new line
 nnoremap <cr> o<esc>0"_d$
 
 " remap alt-l to nohl
@@ -38,15 +29,15 @@ map ]h :highlight clear ExtraWhiteSpace<cr>
 map [w :NERDTreeToggle<cr>:set relativenumber<cr>
 map ]w :NERDTree<cr>:set relativenumber<cr>
 
-" Create a file from path under the cursor
-map <silent> <leader>cf :call writefile([], expand("<cfile>"), "t")<cr>
-
 " Smarter j and k, go up visiually in soft wrap mode.
 map j gj
 map k gk
 
 " search for visual selection
 vnorem // y/<c-r>"<cr>
+
+" Disable ex-mode
+nmap Q <Nop>
 
 " PLUGS
 map <Plug>Ritual <leader>d<cr>3 things I'm grateful for:<cr><cr>3 things that would make today great:<cr><cr>2 daily affirmations (I am great because):<cr><cr>What am I doing today that brings me closer to launching my own product?<cr><cr>What are you going to do that is EPIC?<cr><cr>What is today's ONE thing such that if it is done, everything else is going to be easier or unnecessary?<esc>{{{{{zz:PencilOff<cr>
@@ -64,6 +55,8 @@ map <leader>.b :e ~/thoughts/
 map <leader>.ft :e ~/.vim/config/ft.vim<cr>
 map <leader>.j :e ~/thoughts/thoughts.md<cr>G
 map <leader>.l :e ~/.lein/profiles.clj<cr>
+map <leader>.m :e ~/.vim/config/macros.vim<cr>
+map <leader>.o :e ~/.vim/config/options.vim<cr>
 map <leader>.p :e ~/Dropbox/process/
 map <leader>.t :e ~/.tmux.conf<cr>
 map <leader>.v :e ~/dotfiles/.vimrc<cr>
@@ -136,6 +129,3 @@ nmap <leader>;; 70i;<esc>o<esc>
 nmap <leader>== 70i=<esc>o<esc>
 nmap ˙ :h<space>
 vmap <leader>s "ky:%s/\v(<<C-R>k>)/
-
-" Disable ex-mode
-nmap Q <Nop>
