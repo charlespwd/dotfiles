@@ -13,8 +13,8 @@ endfunction
 
 source ~/.vim/config/ft/clojure.vim
 source ~/.vim/config/ft/html.vim
-source ~/.vim/config/ft/latex.vim
 source ~/.vim/config/ft/javascript.vim
+source ~/.vim/config/ft/latex.vim
 source ~/.vim/config/ft/mkd.vim
 source ~/.vim/config/ft/ruby.vim
 
