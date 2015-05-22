@@ -1,6 +1,6 @@
 " HTML OPTIONS
 autocmd Filetype html setlocal ft=htmldjango
-autocmd Filetype html,scss,css,htmldjango call SetHtmlOptions()
+autocmd Filetype html,htmldjango call SetHtmlOptions()
 autocmd Filetype html,htmldjango setlocal ts=4 sts=4 sw=4 expandtab
 function! SetHtmlOptions()
   EmmetInstall
