@@ -48,6 +48,7 @@ call plug#begin()
   Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
   Plug 'tpope/vim-leiningen', { 'for': 'clojure' }
   Plug 'vim-scripts/paredit.vim', { 'for': 'clojure' }
+  Plug 'honza/vim-clojure-conceal', { 'for': 'clojure' }
   " Plug 'venantius/vim-cljfmt', { 'for': 'clojure' }
 
   " Ruby
