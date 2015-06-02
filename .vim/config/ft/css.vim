@@ -1,7 +1,7 @@
 " CSS and SCSS options
 
 autocmd BufNewFile,BufRead *.scss setlocal filetype=scss.css
-autocmd Filetype css,scss call setCSSOptions()
+autocmd Filetype css,scss call SetCSSOptions()
 function! SetCSSOptions()
   EmmetInstall
   map <buffer> <Plug>DeInline ^:s/\v[{;}]/\0\r/g<cr>ddk=a}:nohl<cr>
