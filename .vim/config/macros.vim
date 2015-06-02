@@ -41,7 +41,7 @@ nmap Q <Nop>
 
 " PLUGS
 map <Plug>Ritual <leader>d<cr>3 things I'm grateful for:<cr><cr>3 things that would make today great:<cr><cr>2 daily affirmations (I am great because):<cr><cr>What am I doing today that brings me closer to launching my own product?<cr><cr>What are you going to do that is EPIC?<cr><cr>What is today's ONE thing such that if it is done, everything else is going to be easier or unnecessary?<esc>{{{{{zz:PencilOff<cr>
-map <Plug>Journal <leader>d<cr><cr>## Brain dump<cr><cr>## Did I move towards the resistance?<cr><cr>## Did I do something that scared me?<cr><cr>## What's the biggest mistake I made?<cr><cr>## Why didn't I achieve what I set out to achieve?<cr><cr>## What 1 thing I did was right and how can I do better?<cr><cr>## What's the least valuable thing I did last week?<cr><cr>## What can I outsource?<cr><esc>7{zz
+map <Plug>Journal <leader>d<cr><cr>## Brain dump<cr><cr>## Did I move towards the resistance?<cr><cr>## Did I do something that scared me?<cr><cr>## What's the biggest mistake I made?<cr><cr>## Why didn't I achieve what I set out to achieve?<cr><cr>## What 1 thing I did was right and how can I do better?<cr><cr>##What am I doing right now that doesn't make me feel "Fuck Yes"?<cr><cr>## What's the least valuable thing I did last week?<cr><cr>## What can I outsource?<cr><esc>7{zz
 map <Plug>ToggleTextObjQuotes :ToggleEducate<cr>
 map <Plug>EvervimJournal <leader>evjournal<cr>/Journal<cr><cr>G<cr><cr><Plug>Journal<esc><c-k><leader>q<c-j><leader>q
 map <Plug>EvervimPlan <leader>evplan<cr>/Plan<cr><cr>G<cr><cr><leader>d<esc><c-k><leader>q<c-j><leader>q
