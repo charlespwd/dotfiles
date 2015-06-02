@@ -55,7 +55,7 @@ map <leader>.j :e ~/thoughts/thoughts.md<cr>G
 map <leader>.l :e ~/.lein/profiles.clj<cr>
 map <leader>.m :e ~/.vim/config/macros.vim<cr>
 map <leader>.o :e ~/.vim/config/options.vim<cr>
-map <leader>.p :e ~/Dropbox/process/
+map <leader>.p :e ~/.vim/config/plugins.vim<cr>
 map <leader>.t :e ~/.tmux.conf<cr>
 map <leader>.v :e ~/dotfiles/.vimrc<cr>
 map <leader>.z :e ~/.zshrc<cr>
