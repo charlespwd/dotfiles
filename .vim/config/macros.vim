@@ -45,6 +45,7 @@ map <Plug>Journal <leader>d<cr><cr>## Brain dump<cr><cr>## Did I move towards th
 map <Plug>ToggleTextObjQuotes :ToggleEducate<cr>
 map <Plug>EvervimJournal <leader>evjournal<cr>/Journal<cr><cr>G<cr><cr><Plug>Journal<esc><c-k><leader>q<c-j><leader>q
 map <Plug>EvervimPlan <leader>evplan<cr>/Plan<cr><cr>G<cr><cr><leader>d<esc><c-k><leader>q<c-j><leader>q
+map <Plug>NextDiff :Gstatus<cr>/not staged<cr>/modified<cr>WD:pclose<cr>
 
 " MACROS
 map <leader>"" <Plug>ToggleTextObjQuotes
@@ -74,13 +75,14 @@ map <leader>ejournal <Plug>EvervimJournal
 map <leader>eplan <Plug>EvervimPlan
 map <leader>ev :EvervimSearchByQuery<space>
 map <leader>g<space> :Git<space>
-map <leader>ga :Gwrite<cr>
+map <leader>ga <c-l>:Gwrite<cr>
 map <leader>gawip :Git commit --amend -a --reuse-message=HEAD<cr>
 map <leader>gbd :Git branch -D<space>
 map <leader>gcA :Gcommit -v --amend --reuse-message=HEAD<cr>
 map <leader>gca :Gcommit -v --amend<cr>
 map <leader>gcb :Git checkout -b<space>
 map <leader>gcc :Gcommit -v<cr>
+map <leader>nd <Plug>NextDiff
 map <leader>gco :Git checkout<space>
 map <leader>gd :Gdiff<cr>
 map <leader>gfp :let @a=fugitive#head()<cr>:Gpush -f origin <c-r>a
