@@ -28,6 +28,11 @@ function! SetClojureOptions()
   map <buffer> <c-]> :Eval<cr>
   map <buffer> <c-[> ]<C-D>
   map <buffer> \r :Require!<cr>
+  map <buffer> <leader>up cqp(use 'clojure.pprint)<cr>
+  map <buffer> <leader>ee cqp(do (in-ns 'statistics.repl) (start-server))<cr>
+  map <buffer> <leader>re cqp(do (in-ns 'statistics.repl) (stop-server) (refresh))<cr>
+  map <buffer> <leader>rr cqp(do (in-ns 'statistics.repl) (refresh))<cr>
+  noremap <buffer> <leader>sh :Slamhound<CR>
   noremap <buffer> <c-c> <esc>
   command! Piggie :Piggieback (cemerick.austin/exec-env)
   command! Biggie :Piggieback (cemerick.austin/exec-env :exec-cmds ["open" "-ga" "/Applications/Google Chrome.app"])
