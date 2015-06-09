@@ -10,6 +10,8 @@ source ~/.vim/config/ft/ruby.vim
 " Prose options
 let g:pencil#autoformat = 1
 let g:pencil#conceallevel = 3
+let g:lexical#thesaurus_key = '<leader>t'
+
 autocmd Filetype markdown set filetype=mkd
 autocmd FileType mkd,tex call SetProseOptions()
 function! SetProseOptions()

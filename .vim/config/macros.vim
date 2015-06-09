@@ -51,6 +51,7 @@ map <Plug>NextDiff :Gstatus<cr>/not staged<cr>/modified<cr>WD:pclose<cr>
 map <leader>"" <Plug>ToggleTextObjQuotes
 map <leader>.a :e ~/.oh-my-zsh/custom/aliases.zsh<cr>Gzz
 map <leader>.b :e ~/thoughts/
+map <leader>.c :e ~/.vim/config/ft/clojure.vim<cr>
 map <leader>.ft :e ~/.vim/config/ft.vim<cr>
 map <leader>.j :e ~/thoughts/thoughts.md<cr>G
 map <leader>.l :e ~/.lein/profiles.clj<cr>
@@ -82,7 +83,6 @@ map <leader>gcA :Gcommit -v --amend --reuse-message=HEAD<cr>
 map <leader>gca :Gcommit -v --amend<cr>
 map <leader>gcb :Git checkout -b<space>
 map <leader>gcc :Gcommit -v<cr>
-map <leader>nd <Plug>NextDiff
 map <leader>gco :Git checkout<space>
 map <leader>gd :Gdiff<cr>
 map <leader>gfp :let @a=fugitive#head()<cr>:Gpush -f origin <c-r>a
@@ -97,6 +97,7 @@ map <leader>ic :set ignorecase!<cr>
 map <leader>jd :e ~/thoughts/debug.md<cr>
 map <leader>journal <Plug>Journal
 map <leader>m :CtrlPMixed<cr>
+map <leader>nd <Plug>NextDiff
 map <leader>pc :PlugClean!<cr>
 map <leader>pi :PlugInstall<cr>
 map <leader>po :PencilOff<cr>
