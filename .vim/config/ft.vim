@@ -1,3 +1,6 @@
+" Stuff that should come first
+source ~/.vim/config/ft/prose.vim
+
 " Filetypes
 source ~/.vim/config/ft/clojure.vim
 source ~/.vim/config/ft/css.vim
@@ -6,18 +9,6 @@ source ~/.vim/config/ft/javascript.vim
 source ~/.vim/config/ft/latex.vim
 source ~/.vim/config/ft/mkd.vim
 source ~/.vim/config/ft/ruby.vim
-
-" Prose options
-let g:pencil#autoformat = 1
-let g:pencil#conceallevel = 3
-let g:lexical#thesaurus_key = '<leader>t'
-
-autocmd Filetype markdown set filetype=mkd
-autocmd FileType mkd,tex call SetProseOptions()
-function! SetProseOptions()
-  call pencil#init()
-  call lexical#init()
-endfunction
 
 " Others
 autocmd FileType ruby,tex,clojure,mkd,md,html,javascript,css,scss,vim autocmd BufWritePre <buffer> StripWhitespace
