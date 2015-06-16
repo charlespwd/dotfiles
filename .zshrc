@@ -1,5 +1,4 @@
 # Path to your oh-my-zsh installation.
-
 export ZSH=$HOME/.oh-my-zsh
 
 # Set name of the theme to load.
@@ -21,13 +20,13 @@ ZSH_THEME="avit"
 # DISABLE_LS_COLORS="true"
 
 # Uncomment the following line to disable auto-setting terminal title.
-# DISABLE_AUTO_TITLE="true"
+DISABLE_AUTO_TITLE="true"
 
 # Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
+ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
-# COMPLETION_WAITING_DOTS="true"
+COMPLETION_WAITING_DOTS="true"
 
 # Uncomment the following line if you want to disable marking untracked files
 # under VCS as dirty. This makes repository status check for large repositories
@@ -48,25 +47,24 @@ ZSH_CUSTOM=~/.zsh_custom
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git osx vagrant node npm rbenv be rake rails vi-mode jump brew heroku cp autoenv)
 
+# Load oh-my-zsh
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
+# Change your path
 export PATH="/opt/local/bin:/opt/local/sbin:/Users/charlespclermont/bin:/Users/charlespclermont/npm/bin:/usr/local/heroku/bin:/usr/local/bin:/bin:/usr/sbin:/sbin:/usr/bin:/usr/texbin"
 export PATH="/Users/charlespclermont/.scripts:$PATH"
 
+# Default editor
 export EDITOR='vim'
 
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
+# Enable c-x,c-e command line editing
+autoload -U edit-command-line
+zle -N edit-command-line
+bindkey '\C-x\C-e' edit-command-line
 
-# ssh
-# export SSH_KEY_PATH="~/.ssh/dsa_id"
-
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
+# RBENV config
 export RBENV_ROOT="$HOME/.rbenv"
 
 if [ -d $RBENV_ROOT ]; then
@@ -74,36 +72,24 @@ if [ -d $RBENV_ROOT ]; then
   eval "$(rbenv init -)"
 fi
 
+# PYENV config
 export PYENV_ROOT="/usr/local/opt/pyenv"
 
 if which pyenv > /dev/null; then
   eval "$(pyenv init -)";
 fi
 
+# LEIN config
 export CLOJURESCRIPT="$HOME/bin/clojurescript"
 export LEIN_FAST_TRAMPOLINE=y
 alias cljsbuild="lein trampoline cljsbuild $@"
 
-## GPG AGENT
-# export GPG_AGENT_INFO_FILE=$HOME/.gpg-agent-info  
-# gpg-agent --daemon --enable-ssh-support --write-env-file "${GPG_AGENT_INFO_FILE}"
-#
-# if [ -f "${GPG_AGENT_INFO_FILE}" ]; then  
-#   . "${GPG_AGENT_INFO_FILE}"
-#   export GPG_AGENT_INFO
-#   export SSH_AUTH_SOCK
-#   export SSH_AGENT_PID
-# fi
-#
-# export GPG_TTY=$(tty) 
-#
-# BINDINGS
-
-# Enable c-x,c-e command line editing
+# Enable command editing in editor with c-x,c-e
 autoload -U edit-command-line
 zle -N edit-command-line
 bindkey '\C-x\C-e' edit-command-line
 
+# Bindings (fuzzy autocomplete)
 bindkey '^R' history-incremental-search-backward
 bindkey '^S' history-incremental-search-forward
 bindkey '^P' history-search-backward
@@ -111,10 +97,4 @@ bindkey '^N' history-search-forward
 
 # FZF config
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-# follow .git_ignore 
-export FZF_DEFAULT_COMMAND='ag -l -g ""'
-
-# Enable c-x,c-e command line editing
-autoload -U edit-command-line
-zle -N edit-command-line
-bindkey '\C-x\C-e' edit-command-line
+export FZF_DEFAULT_COMMAND='ag -l -g ""' # follow .git_ignore
