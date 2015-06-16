@@ -1,4 +1,5 @@
 " set color scheme
+let g:solarized_contrast = "high"
 set background=light
 colorscheme solarized
 

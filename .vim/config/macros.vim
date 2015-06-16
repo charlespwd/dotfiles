@@ -25,6 +25,9 @@ map ]h :highlight clear ExtraWhiteSpace<cr>
 map [w :NERDTreeToggle<cr>:set relativenumber<cr>
 map ]w :NERDTree<cr>:set relativenumber<cr>
 
+" toggle background color solarized.
+call togglebg#map("<leader>cc")
+
 " Smarter j and k, go up visiually in soft wrap mode.
 map j gj
 map k gk
