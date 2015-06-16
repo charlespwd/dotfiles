@@ -39,6 +39,7 @@ let g:better_whitespace_filetypes_blacklist=[]
 let g:vim_markdown_frontmatter=1
 let g:vim_markdown_folding_disabled=1
 let g:limelight_conceal_ctermfg = 'cyanbright'
+let g:macdict_window_size = 'botright 12split'
 
 " open url in browser
 let g:netrw_browsex_viewer = "open"
@@ -69,6 +70,13 @@ let g:ctrlp_user_command = {
 " ycm settings
 let g:ycm_key_list_select_completion = ['<TAB>', '<Down>']
 let g:ycm_key_list_previous_completion = ['<S-TAB>', '<Up>']
+let g:ycm_filetype_blacklist = {
+      \ 'mail' : 1,
+      \ 'mkd' : 1,
+      \ 'notes' : 1,
+      \ 'text' : 1,
+      \ 'vimwiki' : 1
+      \ }
 
 " Trigger configuration.
 imap ® <nop>

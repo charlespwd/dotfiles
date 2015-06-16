@@ -130,6 +130,7 @@ map <leader>ss :Ag<space>
 map <leader>st 0v}b$:sort<cr>
 map <leader>sv :source ~/.vimrc<cr>
 map <leader>sw :set tw=1000<cr>
+map <leader>th :OnlineThesaurusCurrentWord<cr>
 map <leader>wc :echo system('diffword')<cr>
 map <leader>wg :!write-good %
 map <leader>wis :e ~/Dropbox/wisdom.md<cr>Go

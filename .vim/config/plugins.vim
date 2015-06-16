@@ -24,6 +24,8 @@ call plug#begin()
   Plug 'reedes/vim-wordy', { 'for': ['mkd', 'tex'] }
   Plug 'reedes/vim-lexical', { 'for': ['mkd', 'tex'] }
   Plug 'reedes/vim-textobj-quote', { 'for': ['mkd', 'tex'] }
+  Plug 'modsound/macdict-vim', { 'for': ['mkd', 'tex'], 'do': 'cd autoload && make' }
+  Plug 'beloglazov/vim-online-thesaurus'
 
   " snipmate
   Plug 'SirVer/ultisnips'
