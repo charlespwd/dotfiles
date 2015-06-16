@@ -113,3 +113,8 @@ bindkey '^N' history-search-forward
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 # follow .git_ignore 
 export FZF_DEFAULT_COMMAND='ag -l -g ""'
+
+# Enable c-x,c-e command line editing
+autoload -U edit-command-line
+zle -N edit-command-line
+bindkey '\C-x\C-e' edit-command-line
