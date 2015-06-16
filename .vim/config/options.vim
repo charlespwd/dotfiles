@@ -50,15 +50,6 @@ let g:airline_powerline_fonts = 1
 " Add wordcount to airline buffer
 " let g:airline_section_z='%{WordCount()}w %3p%% %{g:airline_symbols.linenr}%#__accent_bold#%4l%#__restore__#:%3v'
 
-" ctrlp config
-let g:ctrlp_map = '<leader>f'
-let g:ctrlp_max_height = 30
-let g:ctrlp_working_path_mode = 0
-let g:ctrlp_match_window_reversed = 0
-let g:ctrlp_custom_ignore = '\v.*bower_components.*'
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip           " tmp and zips
-set wildignore+=*.woff*,*.eot,*.ttf,*/fonts/*.svg  " fonts
-
 " use silver searcher for ctrlp
 let g:ctrlp_user_command = {
       \   'types': {
