@@ -108,3 +108,8 @@ bindkey '^R' history-incremental-search-backward
 bindkey '^S' history-incremental-search-forward
 bindkey '^P' history-search-backward
 bindkey '^N' history-search-forward
+
+# FZF config
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# follow .git_ignore 
+export FZF_DEFAULT_COMMAND='ag -l -g ""'
