@@ -46,7 +46,7 @@ ZSH_THEME="avit"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git osx vagrant node npm rbenv be rake rails vi-mode jump brew heroku cp)
+plugins=(git osx vagrant node npm rbenv be rake rails vi-mode jump brew heroku cp autoenv)
 
 source $ZSH/oh-my-zsh.sh
 
