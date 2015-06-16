@@ -80,3 +80,4 @@ let g:UltiSnipsSnippetDirectories=["UltiSnips", "my-snippets"]
 
 let NERDTreeIgnore = ['\.pyc$']
 let NERDTreeCaseSensitiveSort = 1
+

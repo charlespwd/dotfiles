@@ -14,5 +14,3 @@ function! SetERubyOptions()
   let b:AutoPairs={'$':'$', '(':')', '[':']', '{':'}', '"':'"', '%':'%', '<':'>'}
   setlocal ts=4 sts=4 sw=4 expandtab
 endfunction
-
-
