@@ -31,8 +31,9 @@ call plug#begin()
 
   " Navigation
   Plug 'christoomey/vim-tmux-navigator'
-  Plug 'kien/ctrlp.vim'
+  Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install'  }
   Plug 'scrooloose/nerdtree'
+  Plug 'Shougo/unite.vim'
 
   " Javascript
   Plug 'marijnh/tern_for_vim', { 'for': 'javascript', 'do': 'npm install' }

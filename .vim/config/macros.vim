@@ -18,10 +18,6 @@ nnoremap <silent> ¬ :nohl<cr>:normal! <c-l><cr>
 " can't be bothered to understand <c-c>, replace with esc
 imap <c-c> <esc>
 map <c-c> <esc>
-
-" Switch to previous (opened) buffer
-map \\ :CtrlPBuffer<cr><cr>
-
 map [g :Gstatus<cr>
 map ]g :Gstatus<cr>q
 map [h :highlight ExtraWhitespace ctermbg=darkred guibg=#382424<cr>
@@ -39,13 +35,22 @@ vnorem // y/<c-r>"<cr>
 " Disable ex-mode
 nmap Q <Nop>
 
+" SCRIPTS
+nnoremap <SID>RecentBuffers :call fzf#run({
+      \   'source':  reverse(<sid>buflist()),
+      \   'sink':    function('<sid>bufopen'),
+      \   'options': '+m',
+      \   'down':    len(<sid>buflist()) + 2
+      \ })<CR>
+
 " PLUGS
-map <Plug>Ritual <leader>d<cr>3 things I'm grateful for:<cr><cr>3 things that would make today great:<cr><cr>2 daily affirmations (I am great because):<cr><cr>What am I doing today that brings me closer to launching my own product?<cr><cr>What are you going to do that is EPIC?<cr><cr>What is today's ONE thing such that if it is done, everything else is going to be easier or unnecessary?<esc>{{{{{zz:PencilOff<cr>
-map <Plug>Journal <leader>d<cr><cr>## Brain dump<cr><cr>## Did I move towards the resistance?<cr><cr>## Did I do something that scared me?<cr><cr>## What's the biggest mistake I made?<cr><cr>## Why didn't I achieve what I set out to achieve?<cr><cr>## What 1 thing I did was right and how can I do better?<cr><cr>##What am I doing right now that doesn't make me feel "Fuck Yes"?<cr><cr>## What's the least valuable thing I did last week?<cr><cr>## What can I outsource?<cr><esc>7{zz
-map <Plug>ToggleTextObjQuotes :ToggleEducate<cr>
 map <Plug>EvervimJournal <leader>evjournal<cr>/Journal<cr><cr>G<cr><cr><Plug>Journal<esc><c-k><leader>q<c-j><leader>q
-map <Plug>EvervimPlan <leader>evplan<cr>/Plan<cr><cr>G<cr><cr><leader>d<esc><c-k><leader>q<c-j><leader>q
+map <Plug>EvervimPlan <leader>evplan<cr>/Plan<cr><cr>G<cr><cr><leader>dd<esc><c-k><leader>q<c-j><leader>q
+map <Plug>Journal <leader>dd<cr><cr>## Brain dump<cr><cr>## Did I move towards the resistance?<cr><cr>## Did I do something that scared me?<cr><cr>## What's the biggest mistake I made?<cr><cr>## Why didn't I achieve what I set out to achieve?<cr><cr>## What 1 thing I did was right and how can I do better?<cr><cr>##What am I doing right now that doesn't make me feel "Fuck Yes"?<cr><cr>## What's the least valuable thing I did last week?<cr><cr>## What can I outsource?<cr><esc>7{zz
+map <Plug>MostRecentBuffer :e #<cr>
 map <Plug>NextDiff :Gstatus<cr>/not staged<cr>/modified<cr>WD:pclose<cr>
+map <Plug>Ritual <leader>dd<cr>3 things I'm grateful for:<cr><cr>3 things that would make today great:<cr><cr>2 daily affirmations (I am great because):<cr><cr>What am I doing today which will bring me closer to having 20 clients?<cr><cr>What are you going to do that is EPIC?<cr><cr>What is today's ONE thing such that if it is done, everything else is going to be easier or unnecessary?<esc>{{{{{zz:PencilOff<cr>
+map <Plug>ToggleTextObjQuotes :ToggleEducate<cr>
 
 " MACROS
 map <leader>"" <Plug>ToggleTextObjQuotes
@@ -60,7 +65,11 @@ map <leader>.o :e ~/.vim/config/options.vim<cr>
 map <leader>.p :e ~/.vim/config/plugins.vim<cr>
 map <leader>.t :e ~/.tmux.conf<cr>
 map <leader>.v :e ~/dotfiles/.vimrc<cr>
+map <leader>.w :e ~/thoughts/new-words.md<cr>
 map <leader>.z :e ~/.zshrc<cr>
+map <leader>?m :Unite mapping<cr>i
+map <leader>?/ :Unite line<cr>i
+map <leader>F :FZF ~/<cr>
 map <leader>G :G
 map <leader>T :Tabularize<space>/
 map <leader>aW :Ag! "\b<C-r>=expand('<cWORD>')<CR>\b"
@@ -68,13 +77,14 @@ map <leader>aa :Ag!<space>
 map <leader>ag :Ag! "<C-r>=expand('<cword>')<CR>"
 map <leader>am :e ~/.vim/config/macros.vim<cr>gg/" MACROS<cr>zz:nohl<cr>o<esc>^S
 map <leader>aw :Ag! "\b<C-r>=expand('<cword>')<CR>\b"
-map <leader>b :CtrlPBuffer<cr>
+map <leader>b <SID>RecentBuffers()
 map <leader>bgd :set background=dark<cr>
 map <leader>bgl :set background=light<cr>
-map <leader>d !!today<cr>I#<space><esc>o
+map <leader>dd !!today<cr>I#<space><esc>o
 map <leader>ejournal <Plug>EvervimJournal
 map <leader>eplan <Plug>EvervimPlan
 map <leader>ev :EvervimSearchByQuery<space>
+map <leader>f :FZF<cr>
 map <leader>g<space> :Git<space>
 map <leader>ga <c-l>:Gwrite<cr>
 map <leader>gawip :Git commit --amend -a --reuse-message=HEAD<cr>
@@ -96,13 +106,11 @@ map <leader>gwip :Git commit -a -m 'Wip'<cr>
 map <leader>ic :set ignorecase!<cr>
 map <leader>jd :e ~/thoughts/debug.md<cr>
 map <leader>journal <Plug>Journal
-map <leader>m :CtrlPMixed<cr>
 map <leader>nd <Plug>NextDiff
 map <leader>pc :PlugClean!<cr>
 map <leader>pi :PlugInstall<cr>
-map <leader>po :PencilOff<cr>
+map <leader>po :PencilToggle<cr>
 map <leader>pp :set paste!<cr>
-map <leader>pt :PencilToggle<cr>
 map <leader>pu :PlugUpdate<cr>
 map <leader>q :bd<cr>
 map <leader>rf :%s/\v(<<c-r><c-w>>)/
@@ -127,6 +135,7 @@ map <leader>ws :StripWhitespace<cr>
 map <leader>wt :set textwidth=70<cr>
 map <leader>ww :!wc -w %<cr>
 map <leader>x :ccl<cr>
+map \\ <Plug>MostRecentBuffer
 nmap <leader>## 70i#<esc>o<esc>
 nmap <leader>;; 70i;<esc>o<esc>
 nmap <leader>== 70i=<esc>o<esc>
