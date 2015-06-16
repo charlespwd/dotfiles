@@ -64,3 +64,19 @@ function! WordCount()
   call setpos('.', position)
   return s:word_count
 endfunction
+
+" Function to open recent buffers.
+function! s:buflist()
+  redir => ls
+  silent ls
+  redir END
+  return split(ls, '\n')
+endfunction
+
+function! s:bufopen(e)
+  execute 'buffer' matchstr(a:e, '^[ 0-9]*')
+endfunction
+
+" Locate file on the system
+command! -nargs=1 Locate call fzf#run(
+      \ {'source': 'locate <q-args>', 'sink': 'e', 'options': '-m'})
