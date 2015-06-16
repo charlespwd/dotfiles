@@ -5,6 +5,7 @@
 #
 # installs files passed or .* if this script is run with no arguments.
 
+# ignore installing those files, they are not to be symlinked
 GLOBIGNORE='.:..:.DS_Store:.git:.gitignore'
 
 create_backup_folder () {

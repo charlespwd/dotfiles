@@ -57,7 +57,7 @@ map <Plug>ToggleTextObjQuotes :ToggleEducate<cr>
 
 " MACROS
 map <leader>"" <Plug>ToggleTextObjQuotes
-map <leader>.a :e ~/.oh-my-zsh/custom/aliases.zsh<cr>Gzz
+map <leader>.a :e ~/.zsh_custom/aliases.zsh<cr>Gzz
 map <leader>.b :e ~/thoughts/
 map <leader>.c :e ~/.vim/config/ft/clojure.vim<cr>
 map <leader>.ft :e ~/.vim/config/ft.vim<cr>
@@ -71,7 +71,7 @@ map <leader>.v :e ~/dotfiles/.vimrc<cr>
 map <leader>.w :e ~/thoughts/new-words.md<cr>
 map <leader>.z :e ~/.zshrc<cr>
 map <leader>?m :Unite mapping<cr>i
-map <leader>?/ :Unite line<cr>i
+map <leader>/ :Unite line<cr>i
 map <leader>F :FZF ~/<cr>
 map <leader>G :G
 map <leader>T :Tabularize<space>/
