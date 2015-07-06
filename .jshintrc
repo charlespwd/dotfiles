@@ -29,7 +29,7 @@
   "unused": true,
 
   // Enforce use of single quotes.
-  "quotmark": "single",
+  /* "quotmark": "single", */
 
   // Enforce placing 'use strict' at the top of the function scope.
   "strict": true,
