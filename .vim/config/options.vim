@@ -5,7 +5,10 @@ colorscheme solarized
 
 " options
 set backspace=2 " make backspace work like most other apps"
-set cursorline " highlight current line
+set nocursorline " don't highlight current line
+set nocursorcolumn "
+set scrolljump=5
+set lazyredraw
 set diffopt+=vertical
 set expandtab
 set history=1000
@@ -17,7 +20,7 @@ set nobackup
 set nofoldenable
 set noswapfile
 set nowrap " don't wrap text
-set relativenumber
+" set relativenumber
 set rtp+=~/.fzf " add fzf
 set ruler " show row and column in footer
 set shiftwidth=2
@@ -32,14 +35,21 @@ set wildmode=list:longest,full
 
 highlight Comment cterm=italic
 
+let g:better_whitespace_filetypes_blacklist=[]
 let g:evervim_devtoken='S=s317:U=3053e55:E=152db06748f:C=14b835546f8:P=1cd:A=en-devtoken:V=2:H=ec596ec2f664beb7f387da9b0262cb1a'
 let g:evervim_splitoption=''
-let g:user_emmet_install_global = 0
-let g:better_whitespace_filetypes_blacklist=[]
-let g:vim_markdown_frontmatter=1
-let g:vim_markdown_folding_disabled=1
+let g:jsdoc_default_mapping = '<leader>doc'
 let g:limelight_conceal_ctermfg = 'cyanbright'
 let g:macdict_window_size = 'botright 12split'
+let g:user_emmet_install_global = 0
+let g:vim_markdown_folding_disabled=1
+let g:vim_markdown_frontmatter=1
+
+" netrw options
+let g:netrw_banner=0 " hide top message
+let g:netrw_liststyle=3 " tree listing by default
+let g:netrw_list_hide='.*\.swp$' " hide files via regex
+let g:netrw_chgwin=1 " open netrw on different window
 
 " open url in browser
 let g:netrw_browsex_viewer = "open"
