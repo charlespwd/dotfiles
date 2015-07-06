@@ -65,7 +65,7 @@ call plug#begin()
   " Misc
   Plug 'airblade/vim-gitgutter'
   Plug 'benmills/vimux'
-  Plug 'kakkyz81/evervim', { 'on', 'EvervimSearchByQuery' }
+  Plug 'kakkyz81/evervim', { 'on': 'EvervimSearchByQuery' }
   Plug 'plasticboy/vim-markdown', { 'for': ['markdown', 'mkd'] }
   Plug 'rking/ag.vim'
   Plug 'tpope/vim-classpath'
