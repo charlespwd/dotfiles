@@ -1,8 +1,4 @@
 {
-  "preset": "google",
-  "validateIndentation": 2,
-  "disallowSpacesInAnonymousFunctionExpression": {
-    "beforeOpeningRoundBrace": true
-  },
-  "maximumLineLength": 100
+  "preset": "airbnb",
+  "esnext": true
 }
