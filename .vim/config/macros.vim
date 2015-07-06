@@ -22,8 +22,8 @@ map [g :Gstatus<cr>
 map ]g :Gstatus<cr>q
 map [h :highlight ExtraWhitespace ctermbg=darkred guibg=#382424<cr>
 map ]h :highlight clear ExtraWhiteSpace<cr>
-map [w :NERDTreeToggle<cr>:set relativenumber<cr>
-map ]w :NERDTree<cr>:set relativenumber<cr>
+map [w :NERDTreeToggle<cr>
+map ]w :NERDTree<cr>
 
 " toggle background color solarized.
 call togglebg#map("<leader>cc")
@@ -38,8 +38,23 @@ vnorem // y/<c-r>"<cr>
 " Disable ex-mode
 nmap Q <Nop>
 
+" If text is selected, save it in the v buffer and send that buffer it to tmux
+vmap <Plug>SendToTmux "vy:call VimuxSlime()<CR>
+
+" Function to open recent buffers.
+function! s:buflist()
+  redir => ls
+  silent ls
+  redir END
+  return split(ls, '\n')
+endfunction
+
+function! s:bufopen(e)
+  execute 'buffer' matchstr(a:e, '^[ 0-9]*')
+endfunction
+
 " SCRIPTS
-nnoremap <SID>RecentBuffers :call fzf#run({
+nnoremap <Plug>RecentBuffers :call fzf#run({
       \   'source':  reverse(<sid>buflist()),
       \   'sink':    function('<sid>bufopen'),
       \   'options': '+m',
@@ -54,6 +69,9 @@ map <Plug>MostRecentBuffer :e #<cr>
 map <Plug>NextDiff :Gstatus<cr>/not staged<cr>/modified<cr>WD:pclose<cr>
 map <Plug>Ritual <leader>dd<cr>3 things I'm grateful for:<cr><cr>3 things that would make today great:<cr><cr>2 daily affirmations (I am great because):<cr><cr>What am I doing today which will bring me closer to having 20 clients?<cr><cr>What are you going to do that is EPIC?<cr><cr>What is today's ONE thing such that if it is done, everything else is going to be easier or unnecessary?<esc>{{{{{zz:PencilOff<cr>
 map <Plug>ToggleTextObjQuotes :ToggleEducate<cr>
+
+" not sure let's see just how I like it
+imap jj <esc>
 
 " MACROS
 map <leader>"" <Plug>ToggleTextObjQuotes
@@ -70,17 +88,17 @@ map <leader>.t :e ~/.tmux.conf<cr>
 map <leader>.v :e ~/dotfiles/.vimrc<cr>
 map <leader>.w :e ~/thoughts/new-words.md<cr>
 map <leader>.z :e ~/.zshrc<cr>
-map <leader>?m :Unite mapping<cr>i
 map <leader>/ :Unite line<cr>i
+map <leader>?m :Unite mapping<cr>i
 map <leader>F :FZF ~/<cr>
 map <leader>G :G
 map <leader>T :Tabularize<space>/
-map <leader>aW :Ag! "\b<C-r>=expand('<cWORD>')<CR>\b"
+map <leader>aW :let @1=expand('<cWORD>')<cr>:Ag! "\b<C-r>1\b"
 map <leader>aa :Ag!<space>
 map <leader>ag :Ag! "<C-r>=expand('<cword>')<CR>"
 map <leader>am :e ~/.vim/config/macros.vim<cr>gg/" MACROS<cr>zz:nohl<cr>o<esc>^S
-map <leader>aw :Ag! "\b<C-r>=expand('<cword>')<CR>\b"
-map <leader>b <SID>RecentBuffers()
+map <leader>aw :let @1=expand('<cword>')<cr>:Ag! "\b<C-r>1\b"
+map <leader>b <Plug>RecentBuffers
 map <leader>bgd :set background=dark<cr>
 map <leader>bgl :set background=light<cr>
 map <leader>dd !!today<cr>I#<space><esc>o
@@ -113,7 +131,7 @@ map <leader>nd <Plug>NextDiff
 map <leader>pc :PlugClean!<cr>
 map <leader>pi :PlugInstall<cr>
 map <leader>po :PencilToggle<cr>
-map <leader>pp :set paste!<cr>
+map <leader>pp "+p
 map <leader>pu :PlugUpdate<cr>
 map <leader>q :bd<cr>
 map <leader>rf :%s/\v(<<c-r><c-w>>)/
@@ -121,12 +139,13 @@ map <leader>ritual <Plug>Ritual
 map <leader>rm :call delete(expand('%')) <bar> bdelete!<cr>
 map <leader>rn :set relativenumber!<cr>
 map <leader>rs :call ReloadAllSnippets()<cr>
+map <leader>sR <leader>aW<cr>:Qfdo s/<c-r>1
 map <leader>sg 1z=
 map <leader>snip :UltiSnipsEdit<cr>
 map <leader>snr :echo ReloadAllSnippets()<cr>
 map <leader>so "kyy:<c-r>k<backspace><cr>
-map <leader>sr :call SearchAndReplace()<cr>
-map <leader>ss :Ag<space>
+map <leader>sr <leader>aw<cr>:Qfdo s/<c-r>1
+map <leader>ss :echo ":Ag! <search>\n:Qfdo s/from/to/gc"<cr>
 map <leader>st 0v}b$:sort<cr>
 map <leader>sv :source ~/.vimrc<cr>
 map <leader>sw :set tw=1000<cr>
@@ -145,3 +164,4 @@ nmap <leader>;; 70i;<esc>o<esc>
 nmap <leader>== 70i=<esc>o<esc>
 nmap ˙ :h<space>
 vmap <leader>s "ky:%s/\v(<<C-R>k>)/
+vmap <leader>vy <Plug>SendToTmux
