@@ -6,6 +6,9 @@ let g:javascript_conceal_NaN        = "ℕ"
 let g:javascript_conceal_prototype  = "¶"
 let g:javascript_conceal_static     = "•"
 let g:javascript_conceal_super      = "Ω"
+" let g:syntastic_javascript_checkers = ['jscs', 'jshint']
+let g:syntastic_javascript_checkers = ['jsxhint']
+let g:syntastic_javascript_jsxhint_args = ['--es6module']
 
 function! JSFormat()
   " Preparation: save last search, and cursor position.
@@ -28,8 +31,8 @@ function! JSFormat()
 endfunction
 
 function! SetJavascriptOptions()
+  let b:surround_{char2nr('c')} = "console.log(\r)"
   set conceallevel=2
-  let g:syntastic_javascript_checkers = ['jscs', 'jshint']
   map <buffer> <leader>rj :TernRename<cr>
   " wrap line by console.log()
   map <buffer> <leader>c ^vt;S)iconsole.log<esc>^
@@ -44,7 +47,6 @@ function! SetJavascriptOptions()
   " unwrap something, e.g. |console.log(foo(bar)) => foo(bar)
   nnoremap <silent> <leader>e :call JSFormat()<cr>
   map <leader>uw "_dt("_ds)
-  let g:surround_{char2nr('c')} = "console.log(\r)"
 endfunction
 
 autocmd BufReadPre,FileReadPre *.es6 set filetype=javascript
