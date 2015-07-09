@@ -48,13 +48,12 @@ call plug#begin()
   Plug 'christoph-frick/vim-fireplace', { 'for': 'clojure' }
   Plug 'guns/vim-clojure-highlight', { 'for': 'clojure' }
   Plug 'guns/vim-clojure-static', { 'for': 'clojure' }
-  Plug 'guns/vim-sexp', { 'for': 'clojure' }
   Plug 'guns/vim-slamhound', { 'for': 'clojure' }
   Plug 'honza/vim-clojure-conceal', { 'for': 'clojure' }
   Plug 'raymond-w-ko/vim-niji', { 'for': 'clojure' }
   Plug 'tpope/vim-leiningen', { 'for': 'clojure' }
-  Plug 'tpope/vim-sexp-mappings-for-regular-people', { 'for': 'clojure' }
-  Plug 'vim-scripts/paredit.vim', { 'for': 'clojure' }
+  Plug 'guns/vim-sexp', { 'for': ['clojure', 'vim', 'javascript'] }
+  Plug 'tpope/vim-sexp-mappings-for-regular-people', { 'for': ['clojure', 'vim', 'javascript'] }
 
   " Ruby
   Plug 'nelstrom/vim-textobj-rubyblock', { 'for': 'ruby' }

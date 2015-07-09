@@ -44,6 +44,27 @@ let g:macdict_window_size = 'botright 12split'
 let g:user_emmet_install_global = 0
 let g:vim_markdown_folding_disabled=1
 let g:vim_markdown_frontmatter=1
+let g:sexp_filetypes = 'clojure,scheme,lisp,timl,javascript,vim'
+let g:sexp_enable_insert_mode_mappings = 0
+let g:sexp_mappings = {
+      \ 'sexp_round_head_wrap_list':      '<Leader>W(',
+      \ 'sexp_round_tail_wrap_list':      '<Leader>W)',
+      \ 'sexp_square_head_wrap_list':     '<Leader>W[',
+      \ 'sexp_square_tail_wrap_list':     '<Leader>W]',
+      \ 'sexp_curly_head_wrap_list':      '<Leader>W{',
+      \ 'sexp_curly_tail_wrap_list':      '<Leader>W}',
+      \ 'sexp_round_head_wrap_element':   '<Leader>w(',
+      \ 'sexp_round_tail_wrap_element':   '<Leader>w)',
+      \ 'sexp_square_head_wrap_element':  '<Leader>w[',
+      \ 'sexp_square_tail_wrap_element':  '<Leader>w]',
+      \ 'sexp_curly_head_wrap_element':   '<Leader>w{',
+      \ 'sexp_curly_tail_wrap_element':   '<Leader>w}',
+      \ 'sexp_insert_at_list_head':       '',
+      \ 'sexp_insert_at_list_tail':       '',
+      \ 'sexp_raise_list':                '<Leader>O',
+      \ 'sexp_raise_element':             '<Leader>s',
+      \ 'sexp_splice_list':               '<Leader>S',
+      \ }
 
 " netrw options
 let g:netrw_banner=0 " hide top message
