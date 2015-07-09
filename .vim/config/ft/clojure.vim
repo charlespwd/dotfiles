@@ -11,14 +11,10 @@ let g:niji_light_colors =  [['brown', 'RoyalBlue3'],
                           \ ['darkgray', 'DarkOrchid3'],
                           \ ['darkgreen', 'firebrick3'],
                           \ ['darkcyan', 'RoyalBlue3']]
-let g:paredit_electric_return=1
-let g:paredit_smartjump=1
-let g:paredit_leader = '<Space>'
-
 autocmd filetype clojure call SetClojureCommonOptions()
 function! SetClojureCommonOptions()
   setlocal textwidth=80
-  let b:AutoPairs={'"':'"'}
+  let b:AutoPairs={'"':'"','[':']','{':'}','(':')'}
   nnoremap <buffer> w w
   noremap <buffer> <c-c> <esc>
 
