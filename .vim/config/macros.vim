@@ -160,7 +160,7 @@ map <leader>wq :w<bar>bd<cr>
 map <leader>ws :StripWhitespace<cr>
 map <leader>wt :set textwidth=70<cr>
 map <leader>ww :!wc -w %<cr>
-map <leader>x :ccl<cr>
+map <silent> <leader>x :ccl<cr>:lcl<cr>
 map \\ <Plug>MostRecentBuffer
 nmap <leader>## 70i#<esc>o<esc>
 nmap <leader>;; 70i;<esc>o<esc>
