@@ -69,6 +69,9 @@ map <Plug>MostRecentBuffer :e #<cr>
 map <Plug>NextDiff :Gstatus<cr>/not staged<cr>/modified<cr>WD:pclose<cr>
 map <Plug>Ritual <leader>dd<cr>3 things I'm grateful for:<cr><cr>3 things that would make today great:<cr><cr>2 daily affirmations (I am great because):<cr><cr>What am I doing today which will bring me closer to having 20 clients?<cr><cr>What are you going to do that is EPIC?<cr><cr>What is today's ONE thing such that if it is done, everything else is going to be easier or unnecessary?<esc>{{{{{zz:PencilOff<cr>
 map <Plug>ToggleTextObjQuotes :ToggleEducate<cr>
+map <SID>SearchFromRegisterK :Ag! "<c-r>k"<cr>
+map <SID>SearchFromRegisterKWithBounds :Ag! "\b<c-r>k\b"<cr>
+map <SID>QfreplaceFromRegisterK :Qfdo s/<c-r>k//gc<bar>w<left><left><left><left><left>
 
 " not sure let's see just how I like it
 imap jj <esc>
@@ -93,11 +96,11 @@ map <leader>?m :Unite mapping<cr>i
 map <leader>F :FZF ~/<cr>
 map <leader>G :G
 map <leader>T :Tabularize<space>/
-map <leader>aW :let @1=expand('<cWORD>')<cr>:Ag! "\b<C-r>1\b"
+map <leader>aW :let @k=expand('<cWORD>')<cr><sid>SearchFromRegisterKWithBounds()
 map <leader>aa :Ag!<space>
 map <leader>ag :Ag! "<C-r>=expand('<cword>')<CR>"
 map <leader>am :e ~/.vim/config/macros.vim<cr>gg/" MACROS<cr>zz:nohl<cr>o<esc>^S
-map <leader>aw :let @1=expand('<cword>')<cr>:Ag! "\b<C-r>1\b"
+map <leader>aw :let @k=expand('<cword>')<cr><sid>SearchFromRegisterKWithBounds()
 map <leader>b <Plug>RecentBuffers
 map <leader>bgd :set background=dark<cr>
 map <leader>bgl :set background=light<cr>
@@ -165,3 +168,6 @@ nmap <leader>== 70i=<esc>o<esc>
 nmap ˙ :h<space>
 vmap <leader>s "ky:%s/\v(<<C-R>k>)/
 vmap <leader>vy <Plug>SendToTmux
+vmap <leader>aa "ky<sid>SearchFromRegisterK()
+vmap <leader>aw "ky<sid>SearchFromRegisterKWithBounds()
+vmap <leader>ss "ky<sid>SearchFromRegisterKWithBounds()<sid>QfreplaceFromRegisterK()
