@@ -6,9 +6,9 @@ let g:javascript_conceal_NaN        = "ℕ"
 let g:javascript_conceal_prototype  = "¶"
 let g:javascript_conceal_static     = "•"
 let g:javascript_conceal_super      = "Ω"
-" let g:syntastic_javascript_checkers = ['jscs', 'jshint']
-let g:syntastic_javascript_checkers = ['jsxhint']
-let g:syntastic_javascript_jsxhint_args = ['--es6module']
+let g:syntastic_javascript_checkers = ['jshint']
+" let g:syntastic_javascript_checkers = ['jsxhint']
+" let g:syntastic_javascript_jsxhint_args = ['--es6module']
 
 function! JSFormat()
   " Preparation: save last search, and cursor position.
@@ -31,8 +31,10 @@ function! JSFormat()
 endfunction
 
 function! SetJavascriptOptions()
+  " surround with console.log
   let b:surround_{char2nr('c')} = "console.log(\r)"
   set conceallevel=2
+
   map <buffer> <leader>rj :TernRename<cr>
   " wrap line by console.log()
   map <buffer> <leader>c ^vt;S)iconsole.log<esc>^
