@@ -145,13 +145,12 @@ map <leader>ritual <Plug>Ritual
 map <leader>rm :call delete(expand('%')) <bar> bdelete!<cr>
 map <leader>rn :set relativenumber!<cr>
 map <leader>rs :call ReloadAllSnippets()<cr>
-map <leader>sR <leader>aW<cr>:Qfdo s/<c-r>1
+map <leader>sR <leader>aW<Plug>QfreplaceFromRegisterK
 map <leader>sg 1z=
 map <leader>snip :UltiSnipsEdit<cr>
 map <leader>snr :echo ReloadAllSnippets()<cr>
 map <leader>so "kyy:<c-r>k<backspace><cr>
-map <leader>sr <leader>aw<cr>:Qfdo s/<c-r>1
-map <leader>ss :echo ":Ag! <search>\n:Qfdo s/from/to/gc"<cr>
+map <leader>sr <leader>aw<Plug>QfreplaceFromRegisterK
 map <leader>st 0v}b$:sort<cr>
 map <leader>sv :source ~/.vimrc<cr>
 map <leader>sw :set tw=1000<cr>
@@ -168,9 +167,11 @@ map \\ <Plug>MostRecentBuffer
 nmap <leader>## 70i#<esc>o<esc>
 nmap <leader>;; 70i;<esc>o<esc>
 nmap <leader>== 70i=<esc>o<esc>
+nmap <leader>a/ 16a/<esc><cr>k==
 nmap ˙ :h<space>
-vmap <leader>s "ky:%s/\v(<<C-R>k>)/
-vmap <leader>vy <Plug>SendToTmux
 vmap <leader>aa "ky<sid>SearchFromRegisterK()
 vmap <leader>aw "ky<sid>SearchFromRegisterKWithBounds()
-vmap <leader>ss "ky<sid>SearchFromRegisterKWithBounds()<sid>QfreplaceFromRegisterK()
+vmap <leader>s "ky:%s/\v(<<C-R>k>)/
+vmap <leader>ss "ky<sid>SearchFromRegisterK()<Plug>QfreplaceFromRegisterK
+vmap <leader>sw "ky<sid>SearchFromRegisterKWithBounds()<Plug>QfreplaceFromRegisterK
+vmap <leader>vy <Plug>SendToTmux
