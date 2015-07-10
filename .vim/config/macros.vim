@@ -67,21 +67,23 @@ map <Plug>EvervimPlan <leader>evplan<cr>/Plan<cr><cr>G<cr><cr><leader>dd<esc><c-
 map <Plug>Journal <leader>dd<cr><cr>## Brain dump<cr><cr>## Did I move towards the resistance?<cr><cr>## Did I do something that scared me?<cr><cr>## What's the biggest mistake I made?<cr><cr>## Why didn't I achieve what I set out to achieve?<cr><cr>## What 1 thing I did was right and how can I do better?<cr><cr>##What am I doing right now that doesn't make me feel "Fuck Yes"?<cr><cr>## What's the least valuable thing I did last week?<cr><cr>## What can I outsource?<cr><esc>7{zz
 map <Plug>MostRecentBuffer :e #<cr>
 map <Plug>NextDiff :Gstatus<cr>/not staged<cr>/modified<cr>WD:pclose<cr>
+map <Plug>QfreplaceFromRegisterK :Qfdo s/<c-r>k//gce<bar>w<left><left><left><left><left><left>
 map <Plug>Ritual <leader>dd<cr>3 things I'm grateful for:<cr><cr>3 things that would make today great:<cr><cr>2 daily affirmations (I am great because):<cr><cr>What am I doing today which will bring me closer to having 20 clients?<cr><cr>What are you going to do that is EPIC?<cr><cr>What is today's ONE thing such that if it is done, everything else is going to be easier or unnecessary?<esc>{{{{{zz:PencilOff<cr>
 map <Plug>ToggleTextObjQuotes :ToggleEducate<cr>
 map <SID>SearchFromRegisterK :Ag! "<c-r>k"<cr>
 map <SID>SearchFromRegisterKWithBounds :Ag! "\b<c-r>k\b"<cr>
-map <SID>QfreplaceFromRegisterK :Qfdo s/<c-r>k//gc<bar>w<left><left><left><left><left>
 
 " not sure let's see just how I like it
 imap jj <esc>
 
 " MACROS
+" map <leader>ss :let @k=input("")<bar>normal <Plug>QfreplaceFromRegisterK
 map <leader>"" <Plug>ToggleTextObjQuotes
 map <leader>.a :e ~/.zsh_custom/aliases.zsh<cr>Gzz
 map <leader>.b :e ~/thoughts/
 map <leader>.c :e ~/.vim/config/ft/clojure.vim<cr>
-map <leader>.ft :e ~/.vim/config/ft.vim<cr>
+map <leader>.ff :e ~/.vim/config/ft.vim<cr>
+map <leader>.ft :let @k=&ft<cr>:e ~/.vim/config/ft/<c-r>k.vim<cr>
 map <leader>.j :e ~/thoughts/thoughts.md<cr>G
 map <leader>.l :e ~/.lein/profiles.clj<cr>
 map <leader>.m :e ~/.vim/config/macros.vim<cr>
