@@ -31,6 +31,8 @@ function! JSFormat()
 endfunction
 
 function! SetJavascriptOptions()
+  GitGutterDisable
+
   " surround with console.log
   let b:surround_{char2nr('c')} = "console.log(\r)"
   set conceallevel=2
