@@ -101,8 +101,7 @@ let g:ycm_filetype_blacklist = {
       \ }
 
 " Trigger configuration.
-imap ® <nop>
-let g:UltiSnipsExpandTrigger="®"
+let g:UltiSnipsExpandTrigger="<C-space>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 let g:UltiSnipsSnippetsDir="~/.vim/my-snippets"
