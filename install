@@ -1,5 +1,6 @@
 #!/bin/bash
 #
+# Install important packages AND
 # Symlink dotfiles in home with dotfiles in this folder.
 # Backs up home files in the dotfiles/backup folder.
 #
@@ -7,6 +8,93 @@
 
 # ignore installing those files, they are not to be symlinked
 GLOBIGNORE='.:..:.DS_Store:.git:.gitignore'
+HOMEBREW_PACKAGES="the_silver_searcher fzf autoenv tree vim"
+
+is_installed () {
+  # This works with scripts and programs. For more info, check
+  # http://goo.gl/B9683D
+  type $1 &> /dev/null 2>&1
+  return "$?"
+}
+
+is_brew_installed () {
+  brew --prefix "$1" &> /dev/null
+  return "$?"
+}
+
+install_homebrew () {
+  if ! is_installed brew; then
+    echo "installing brew."
+    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+  fi
+
+  for package in $HOMEBREW_PACKAGES; do
+    if ! is_brew_installed $package; then
+      echo "installing $package"
+      brew install $package
+    fi
+  done
+}
+
+install_git () {
+  if ! is_installed git; then
+    echo "installing git."
+    brew install git
+  fi
+
+  if ! is_installed git-extras; then
+    echo "installing git extras"
+    brew install git-extras
+  fi
+}
+
+install_node () {
+  # This one is a script
+  if ! is_brew_installed nvm; then
+    echo "installing nvm"
+    brew install nvm
+  fi
+
+  if ! is_installed node; then
+    echo "installing node with nvm."
+    nvm install node
+
+    # reclaim ownership of the ~/.npm module
+    sudo chown -R $(whoami) ~/.npm
+
+    npm install -g grunt
+    npm install -g gulp
+    npm install -g browserify
+    npm install -g jshint
+  fi
+}
+
+install_curl () {
+  is_installed curl || brew install curl
+}
+
+install_oh_my_zsh () {
+  if ! is_installed zsh; then
+    brew install zsh
+
+    # make zsh default shell
+    chsh -s `which zsh`
+  fi
+
+  if ! [[ -d ~/.oh-my-zsh ]] ; then
+    install_curl
+    sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+
+    # plugins
+    brew install autoenv
+  fi
+}
+
+install_tmux () {
+  if ! is_installed tmux; then
+    brew install tmux
+  fi
+}
 
 create_backup_folder () {
   mkdir -p "./backup"
@@ -48,7 +136,20 @@ main () {
   local current_dir
   current_dir="$(pwd)"
 
+  if ! [ "$#" -ne 0 ]; then
+    echo "=============================="
+    echo "Installing missing packages:"
+    install_homebrew
+    install_git
+    install_node
+    install_tmux
+    install_oh_my_zsh
+    echo ""
+  fi
+
   create_backup_folder
+  echo "=============================="
+  echo "Symlinking dotfile(s): $dot_files"
   for dot_file in ${dot_files}; do
     cd "${HOME}"
     install_file "${dot_file}" "${current_dir}"
