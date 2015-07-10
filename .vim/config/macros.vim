@@ -97,6 +97,7 @@ map <leader>/ :Unite line<cr>i
 map <leader>?m :Unite mapping<cr>i
 map <leader>F :FZF ~/<cr>
 map <leader>G :G
+map <leader>R :redraw!<cr>
 map <leader>T :Tabularize<space>/
 map <leader>aW :let @k=expand('<cWORD>')<cr><sid>SearchFromRegisterKWithBounds()
 map <leader>aa :Ag!<space>
