@@ -4,11 +4,9 @@ let g:javascript_conceal_null       = "ø"
 let g:javascript_conceal_this       = "@"
 let g:javascript_conceal_NaN        = "ℕ"
 let g:javascript_conceal_prototype  = "¶"
-let g:javascript_conceal_static     = "•"
+" let g:javascript_conceal_static     = "•"
 let g:javascript_conceal_super      = "Ω"
-let g:syntastic_javascript_checkers = ['jshint']
-" let g:syntastic_javascript_checkers = ['jsxhint']
-" let g:syntastic_javascript_jsxhint_args = ['--es6module']
+let g:syntastic_javascript_checkers = ['eslint']
 
 function! JSFormat()
   " Preparation: save last search, and cursor position.

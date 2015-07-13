@@ -145,3 +145,41 @@ function(${1:x}) {
 	return ${2:$1};
 }
 endsnippet
+
+snippet log
+console.log(${1});
+endsnippet
+
+snippet recomponent
+'use strict';
+
+import React from 'react';
+
+class ${1:Class} extends React.Component {
+	render() {
+		return (
+			${2}
+		);
+	}
+}
+
+export default $1;
+endsnippet
+
+snippet component
+class ${1:Class} extends React.Component {
+	render() {
+		return (
+			${2}
+		);
+	}
+}
+endsnippet
+
+snippet pt
+React.PropTypes.${1:object}
+endsnippet
+
+snippet ptr
+React.PropTypes.${1:object}.isRequired${2}
+endsnippet
