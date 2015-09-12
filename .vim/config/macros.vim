@@ -41,27 +41,9 @@ nmap Q <Nop>
 " If text is selected, save it in the v buffer and send that buffer it to tmux
 vmap <Plug>SendToTmux "vy:call VimuxSlime()<CR>
 
-" Function to open recent buffers.
-function! s:buflist()
-  redir => ls
-  silent ls
-  redir END
-  return split(ls, '\n')
-endfunction
-
-function! s:bufopen(e)
-  execute 'buffer' matchstr(a:e, '^[ 0-9]*')
-endfunction
-
-" SCRIPTS
-nnoremap <Plug>RecentBuffers :call fzf#run({
-      \   'source':  reverse(<sid>buflist()),
-      \   'sink':    function('<sid>bufopen'),
-      \   'options': '+m',
-      \   'down':    len(<sid>buflist()) + 2
-      \ })<CR>
-
 " PLUGS
+map <Plug>ExpandHTML vatJ^vat:s/\v%V(\>)(\<)<bar>(\>)(\w)<bar>(\w)(\<)<bar>(\>) <bar> (\<)/\1\3\5\7\r\2\4\6\8/ge<cr>=at:nohl<cr>kJ=at
+map <Plug>PrettyAttrs ^vi>:s/\v ([a-zA-Z\-]+\="[^"]*")/\r\1/g<cr>=a>J^%:nohl<cr>
 map <Plug>EvervimJournal <leader>evjournal<cr>/Journal<cr><cr>G<cr><cr><Plug>Journal<esc><c-k><leader>q<c-j><leader>q
 map <Plug>EvervimPlan <leader>evplan<cr>/Plan<cr><cr>G<cr><cr><leader>dd<esc><c-k><leader>q<c-j><leader>q
 map <Plug>Journal <leader>dd<cr><cr>## Brain dump<cr><cr>## Did I move towards the resistance?<cr><cr>## Did I do something that scared me?<cr><cr>## What's the biggest mistake I made?<cr><cr>## Why didn't I achieve what I set out to achieve?<cr><cr>## What 1 thing I did was right and how can I do better?<cr><cr>##What am I doing right now that doesn't make me feel "Fuck Yes"?<cr><cr>## What's the least valuable thing I did last week?<cr><cr>## What can I outsource?<cr><esc>7{zz
@@ -73,11 +55,20 @@ map <Plug>ToggleTextObjQuotes :ToggleEducate<cr>
 map <SID>SearchFromRegisterK :Ag! "<c-r>k"<cr>
 map <SID>SearchFromRegisterKWithBounds :Ag! "\b<c-r>k\b"<cr>
 
+" `:SS some/text` will search for `some/text` in the file (escapes all special characters)
+command! -nargs=1 SS let @/ = '\V'.escape(<q-args>, '/\')|normal! /<C-R>/<CR>
+
 " not sure let's see just how I like it
 imap jj <esc>
 
+"This allows for change paste motion cp{motion}
+nmap <silent> cp :set opfunc=ChangePaste<CR>g@
+function! ChangePaste(type, ...)
+    silent exe "normal! `[v`]\"_c"
+    silent exe "normal! p"
+endfunction
+
 " MACROS
-" map <leader>ss :let @k=input("")<bar>normal <Plug>QfreplaceFromRegisterK
 map <leader>"" <Plug>ToggleTextObjQuotes
 map <leader>.a :e ~/.zsh_custom/aliases.zsh<cr>Gzz
 map <leader>.b :e ~/thoughts/
@@ -95,23 +86,22 @@ map <leader>.w :e ~/thoughts/new-words.md<cr>
 map <leader>.z :e ~/.zshrc<cr>
 map <leader>/ :Unite line<cr>i
 map <leader>?m :Unite mapping<cr>i
-map <leader>F :FZF ~/<cr>
+map <leader>F :Files ~/<cr>
 map <leader>G :G
 map <leader>R :redraw!<cr>
-map <leader>T :Tabularize<space>/
 map <leader>aW :let @k=expand('<cWORD>')<cr><sid>SearchFromRegisterKWithBounds()
 map <leader>aa :Ag!<space>
 map <leader>ag :Ag! "<C-r>=expand('<cword>')<CR>"
 map <leader>am :e ~/.vim/config/macros.vim<cr>gg/" MACROS<cr>zz:nohl<cr>o<esc>^S
 map <leader>aw :let @k=expand('<cword>')<cr><sid>SearchFromRegisterKWithBounds()
-map <leader>b <Plug>RecentBuffers
-map <leader>bgd :set background=dark<cr>
-map <leader>bgl :set background=light<cr>
+map <leader>b :Buffers<cr>
 map <leader>dd !!today<cr>I#<space><esc>o
+map <leader>ds :Dash<space>
 map <leader>ejournal <Plug>EvervimJournal
 map <leader>eplan <Plug>EvervimPlan
 map <leader>ev :EvervimSearchByQuery<space>
-map <leader>f :FZF<cr>
+map <leader>extract ?function<cr>vf{%"fdiplaceholder<esc><cr><cr>"fpf(i<space>placeholder<esc>*
+map <leader>f :Files<cr>
 map <leader>g<space> :Git<space>
 map <leader>ga <c-l>:Gwrite<cr>
 map <leader>gawip :Git commit --amend -a --reuse-message=HEAD<cr>
@@ -131,6 +121,8 @@ map <leader>gri :Git rebase -i<space>
 map <leader>gs :Gstatus<cr>gg<c-n>
 map <leader>gwip :Git commit -a -m 'Wip'<cr>
 map <leader>ic :set ignorecase!<cr>
+map <leader>ii <Plug>PrettyAttrs
+map <leader>il <Plug>ExpandHTML
 map <leader>jd :e ~/thoughts/debug.md<cr>
 map <leader>journal <Plug>Journal
 map <leader>nd <Plug>NextDiff
@@ -151,9 +143,11 @@ map <leader>snip :UltiSnipsEdit<cr>
 map <leader>snr :echo ReloadAllSnippets()<cr>
 map <leader>so "kyy:<c-r>k<backspace><cr>
 map <leader>sr <leader>aw<Plug>QfreplaceFromRegisterK
+map <leader>ss :let @k=Input("Search: ")<cr><sid>SearchFromRegisterK()<Plug>QfreplaceFromRegisterK
 map <leader>st 0v}b$:sort<cr>
 map <leader>sv :source ~/.vimrc<cr>
 map <leader>sw :set tw=1000<cr>
+map <leader>t/ :Tabularize<space>/
 map <leader>th :OnlineThesaurusCurrentWord<cr>
 map <leader>wc :echo system('diffword')<cr>
 map <leader>wg :!write-good %
