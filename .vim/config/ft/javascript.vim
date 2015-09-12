@@ -4,37 +4,37 @@ let g:javascript_conceal_null       = "ø"
 let g:javascript_conceal_this       = "@"
 let g:javascript_conceal_NaN        = "ℕ"
 let g:javascript_conceal_prototype  = "¶"
-" let g:javascript_conceal_static     = "•"
+let g:javascript_conceal_static     = "•"
 let g:javascript_conceal_super      = "Ω"
-let g:syntastic_javascript_checkers = ['eslint']
-
-function! JSFormat()
-  " Preparation: save last search, and cursor position.
-  let l:win_view = winsaveview()
-  let l:last_search = getreg('/')
-  let fileWorkingDirectory = expand('%:p:h')
-  let currentWorkingDirectory = getcwd()
-  execute ':lcd' . fileWorkingDirectory
-  execute ':silent' . '%!esformatter'
-  if v:shell_error
-    undo
-    "echo "esformatter error, using builtin vim formatter"
-    " use internal formatting command
-    execute ":silent normal! gg=G<cr>"
-  endif
-  " Clean up: restore previous search history, and cursor position
-  execute ':lcd' . currentWorkingDirectory
-  call winrestview(l:win_view)
-  call setreg('/', l:last_search)
-endfunction
 
 function! SetJavascriptOptions()
-  GitGutterDisable
+
+  if filereadable('./.eslintrc')
+    let g:syntastic_javascript_checkers = ['eslint']
+  else
+    let g:syntastic_javascript_checkers = ['jshint']
+  endif
 
   " surround with console.log
   let b:surround_{char2nr('c')} = "console.log(\r)"
+  let b:surround_{char2nr('F')} = "(function() {\n\r\n})();"
+  let b:surround_{char2nr('f')} = "function PLACEHOLDER() {\n\r\n}"
+  let b:surround_{char2nr('i')} = "$injector.get('\r');"
   set conceallevel=2
 
+  " Extract text under cursor as variable
+  map <buffer> <Plug>JSExtractVariable "vd<esc>:let @n=Input('Name: ')<cr>"nP[{ovar <c-r>n = <c-r>v;<esc>:%s#<c-r>v#<c-r>n#gc<cr>
+  vmap <buffer> <leader>X <Plug>JSExtractVariable
+
+  " Inline variable
+  map <buffer> <Plug>JSInlineVariable "ny<esc>?\v(let<bar>var<bar>const) <c-r>n<cr>f=w"vdt;dd:%s#<c-r>n#<c-r>v#gc
+  vmap <buffer> <leader>I <Plug>JSInlineVariable
+
+  map <buffer> <leader>.. :!npm test<cr>
+  map <buffer> <leader>., :!npm test -- %<cr>
+  map <buffer> <leader>I f)i,<space>
+  map <buffer> <leader>== :Esformatter<cr>
+  vmap <buffer> == :EsformatterVisual<cr>
   map <buffer> <leader>rj :TernRename<cr>
   " wrap line by console.log()
   map <buffer> <leader>c ^vt;S)iconsole.log<esc>^
@@ -45,7 +45,7 @@ function! SetJavascriptOptions()
   " turn a name: function() definition into a function name()
   map <buffer> <leader>:f ^cxw2wcxwbbx$%/,$<cr>:s///g<cr>
   " turn a function name() into a name: function()
-  map <buffer> <leader>f: ^cxewcxe^ea:<esc>f{=a}f{%a,<esc>
+  map <buffer> <leader>:F ^cxewcxe^ea:<esc>f{=a}f{%a,<esc>
   " unwrap something, e.g. |console.log(foo(bar)) => foo(bar)
   nnoremap <silent> <leader>e :call JSFormat()<cr>
   map <leader>uw "_dt("_ds)
