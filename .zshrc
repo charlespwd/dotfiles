@@ -107,3 +107,4 @@ source $(brew --prefix nvm)/nvm.sh
 
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
+export PHANTOMJS_BIN=`which phantomjs`
