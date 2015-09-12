@@ -34,9 +34,6 @@
   // Enforce placing 'use strict' at the top of the function scope.
   "strict": true,
 
-  // Enforce line length to 80 characters.
-  "maxlen": 80,
-
   // Suppress warnings about == null comparisions.
   "eqnull": true,
 
