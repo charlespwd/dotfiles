@@ -1,0 +1,21 @@
+snippet defn
+(defn ${1:func-name}
+	"${2:docstring}"
+	[${3:argslist}]
+	${4}
+	)
+endsnippet
+
+snippet ppr "pprint" i
+clojure.pprint/pprint
+endsnippet
+
+snippet test
+(deftest ${1:my-test}
+	(testing "${2:Something}"
+		(is (${3:= true false}) "${4:Document yo' test}")))
+endsnippet
+
+snippet is
+(is (${1:= true false}) "${2:Document yo' test}")
+endsnippet
