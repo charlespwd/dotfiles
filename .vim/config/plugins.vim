@@ -35,11 +35,13 @@ call plug#begin()
   Plug 'Shougo/unite.vim'
   Plug 'christoomey/vim-tmux-navigator'
   Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install'  }
+  Plug 'junegunn/fzf.vim'
   Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 
   " Javascript
   Plug 'heavenshell/vim-jsdoc', { 'for': 'javascript' }
   Plug 'marijnh/tern_for_vim', { 'for': 'javascript', 'do': 'npm install' }
+  Plug 'millermedeiros/vim-esformatter', { 'for': 'javascript' }
   Plug 'moll/vim-node', { 'for': 'javascript' }
   Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
 
@@ -62,6 +64,8 @@ call plug#begin()
   Plug 'vim-ruby/vim-ruby', { 'for': 'ruby' }
 
   " Misc
+  Plug 'rizzatti/dash.vim'
+  Plug 'tpope/vim-projectionist'
   Plug 'airblade/vim-gitgutter'
   Plug 'benmills/vimux'
   Plug 'kakkyz81/evervim', { 'on': 'EvervimSearchByQuery' }
@@ -71,6 +75,8 @@ call plug#begin()
   Plug 'tpope/vim-dispatch'
   Plug 'tpope/vim-repeat'
   Plug 'tpope/vim-unimpaired'
+  Plug 'lambdatoast/elm.vim', { 'for': ['elm'] }
+  Plug 'christoomey/vim-sort-motion'
 
   " Git
   Plug 'esneider/YUNOcommit.vim'
