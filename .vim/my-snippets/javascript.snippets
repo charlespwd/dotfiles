@@ -140,7 +140,7 @@ snippet closure
 })();
 endsnippet
 
-snippet fn
+snippet fn "a lambda" i
 function(${1:x}) {
 	return ${2:$1};
 }
@@ -151,11 +151,11 @@ console.log(${1});
 endsnippet
 
 snippet recomponent
-'use strict';
+import React, { Component, PropTypes } from 'react';
 
-import React from 'react';
+class ${1:Class} extends Component {
+	static propTypes = {}
 
-class ${1:Class} extends React.Component {
 	render() {
 		return (
 			${2}
@@ -177,9 +177,255 @@ class ${1:Class} extends React.Component {
 endsnippet
 
 snippet pt
-React.PropTypes.${1:object}
+PropTypes.${1:object}
 endsnippet
 
 snippet ptr
-React.PropTypes.${1:object}.isRequired${2}
+PropTypes.${1:object}.isRequired${2}
+endsnippet
+
+snippet ngi
+/* @ngInject */
+endsnippet
+
+snippet qdef
+var deferred = $q.defer();
+return deferred.promise;
+endsnippet
+
+snippet ngfn
+/* @ngInject */
+function ${1:fnName}(${2:arguments}) {
+	${3}
+}
+endsnippet
+
+snippet ngdescribers
+/* jshint expr:true */
+'use strict';
+
+describe('Unit: ${1:Unit}', function() {
+	var $rootScope, scope, $3;
+	beforeEach(module('${2:app}'));
+
+	beforeEach(inject(function($injector) {
+		$rootScope = $injector.get('$rootScope');
+		scope = $rootScope.$new();
+
+		${3:service} = $injector.get('$3');
+	}));
+
+	it('${4:should exist}', function() {
+		scope.$digest();
+		expect($3).to.exist;
+	});
+});
+endsnippet
+
+snippet ngdescribe
+/* jshint expr:true */
+'use strict';
+
+describe('Unit: ${1:Unit}', function() {
+	var $rootScope, $3;
+	beforeEach(module('${2:app}'));
+
+	beforeEach(inject(function($injector) {
+		$rootScope = $injector.get('$rootScope');
+		${3:service} = $injector.get('$3');
+	}));
+
+	it('${4:should exist}', function() {
+		expect($3).${5:to.exist};
+	});
+});
+endsnippet
+
+snippet inj
+${1:foo} = $injector.get('$1');
+endsnippet
+
+snippet esdescribe
+'use strict';
+
+import chai from 'chai';
+import sinon from 'sinon';
+import sinonChai from 'sinon-chai';
+chai.use(sinonChai);
+
+import ${1:Something} from '${2:../src/}';
+
+describe('Unit: $1', () => {
+	it('should exist', () => {
+		expect($1).to.exist;
+	});
+});
+endsnippet
+
+snippet edesc
+describe('${1}', () => {
+	${2}
+});
+endsnippet
+
+snippet itt
+it('should ${1:do something}', function() {
+	${2}
+});
+endsnippet
+
+snippet it
+it('should ${1:do something}', () => {
+	${2}
+});
+endsnippet
+
+snippet ()
+() => {
+	${1}
+}
+endsnippet
+
+snippet ebeforeEach
+beforeEach(() => {
+	${1}
+});
+endsnippet
+
+snippet ebefore
+before(() => {
+	${1}
+});
+endsnippet
+
+snippet eafterEach
+afterEach(() => {
+	${1}
+});
+endsnippet
+
+snippet eafter
+after(() => {
+	${1}
+});
+endsnippet
+
+snippet emodule
+'use strict';
+
+export default class ${1:MyClass} {
+	constructor() {
+		${2}
+	}
+}
+endsnippet
+
+snippet afterhttp
+afterEach(function() {
+	$httpBackend.verifyNoOutstandingExpectation();
+	$httpBackend.verifyNoOutstandingRequest();
+});
+endsnippet
+
+snippet webpack-babel
+'use strict';
+
+var webpack = require('webpack');
+
+var babelLoader = {
+	test: /\.js$/,
+	exclude: /node_modules/,
+	loader: 'babel',
+	query: {
+		optional: ['runtime'], // so you don't inject helpers in every file
+		stage: 0 // get newer features
+	}
+};
+
+module.exports = {
+
+	// where your app starts
+	entry: './${1:app.js}.js',
+
+	// compiled
+	output: {
+		filename: './${2:bundle}.js'
+	},
+
+	// inline source-maps
+	devtool: 'inline-source-map',
+
+	// loaders
+	module: {
+		loaders: [
+			babelLoader
+		]
+	}
+};
+endsnippet
+
+snippet sass-loader
+{
+	// SASS LOADER
+	// remember to
+	// npm i -D style-loader css-loader autoprefixer-loader sass-loader
+	test: /\.scss$/,
+	loader: 'style!css!autoprefixer!sass',
+}
+endsnippet
+
+snippet req
+var ${1:module} = require('${2:$1}');
+endsnippet
+
+snippet jdescribe
+/* eslint-env jasmine */
+
+import ${1:Module} from './${2:$1}';
+
+describe('Unit: $2', () => {
+	it('should exist', () => {
+		expect($1).toBeDefined();
+	});
+});
+endsnippet
+
+snippet creq
+const ${1:module} = require('${2:$1}');
+endsnippet
+
+snippet lreq
+let ${1:module} = require('${2:$1}');
+endsnippet
+
+snippet imp 
+import ${1:module} from '${2:$1}';
+endsnippet
+
+snippet ngdesc
+describe('${1}', function() {
+
+});
+endsnippet
+
+snippet xp
+expect(${1:module}).${2:toBeDefined()};
+endsnippet
+
+snippet ngxpg
+$httpBackend.expect${3:GET}(${1}).respond(${2});
+endsnippet
+
+snippet flush
+$httpBackend.flush();
+endsnippet
+
+snippet FN "function" i
+function ${1:name}(${2:args}) {
+	${3}
+}
+endsnippet
+
+snippet bc "bower component" i
+'bower_components/${1:angular}/${2:$1}.js'
 endsnippet
