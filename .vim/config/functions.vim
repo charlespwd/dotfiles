@@ -3,7 +3,7 @@
 " ============================================================
 
 " hint to keep lines short
-highlight ColorColumn ctermbg=lightGray
+highlight ColorColumn ctermbg=black
 call matchadd('ColorColumn', '\%81v', 100)
 
 " automatically create dirs for files if they don't exist:
@@ -116,4 +116,11 @@ command! -nargs=1 Locate call fzf#run(
 function! VimuxSlime()
   call VimuxSendText(@v)
   call VimuxSendKeys("Enter")
+endfunction
+
+function! Input(prompt)
+    call inputsave()
+    let text = input(a:prompt)
+    call inputrestore()
+    return text
 endfunction
