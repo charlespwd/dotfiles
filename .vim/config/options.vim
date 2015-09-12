@@ -1,6 +1,11 @@
 " set color scheme
-let g:solarized_contrast = "high"
-set background=light
+if ("LIGHT" == $BACKGROUND)
+  let g:solarized_contrast = "normal"
+  set background=light
+else
+  let g:solarized_contrast = "normal"
+  set background=dark
+endif
 colorscheme solarized
 
 " options
@@ -20,7 +25,7 @@ set nobackup
 set nofoldenable
 set noswapfile
 set nowrap " don't wrap text
-" set relativenumber
+set relativenumber
 set rtp+=~/.fzf " add fzf
 set ruler " show row and column in footer
 set shiftwidth=2
@@ -107,6 +112,14 @@ let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 let g:UltiSnipsSnippetsDir="~/.vim/my-snippets"
 let g:UltiSnipsSnippetDirectories=["UltiSnips", "my-snippets"]
 
+" Syntastic
+let g:syntastic_error_symbol = "✗"
+let g:syntastic_warning_symbol = "⚠"
+let g:syntastic_auto_jump = 0
+
 let NERDTreeIgnore = ['\.pyc$']
 let NERDTreeCaseSensitiveSort = 1
-
+let NERDTreeMinimalUI = 1
+let NERDTreeAutoDeleteBuffer = 1
+let NERDTreeWinSize = 41
+let NERDTreeQuitOnOpen = 1
