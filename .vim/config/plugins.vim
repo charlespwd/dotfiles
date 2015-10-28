@@ -83,7 +83,8 @@ call plug#begin()
   Plug 'tpope/vim-fugitive'
 
   " Style
-  Plug 'altercation/vim-colors-solarized'
+  " Plug 'altercation/vim-colors-solarized'
+  Plug 'morhetz/gruvbox'
   Plug 'bling/vim-airline'
   Plug 'edkolev/tmuxline.vim'
   Plug 'ntpeters/vim-better-whitespace'

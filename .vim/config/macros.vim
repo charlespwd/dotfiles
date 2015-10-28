@@ -10,7 +10,7 @@ map <F6> :setlocal spell! spelllang=fr<cr>
 imap <F6> <ESC>:setlocal spell! spelllang=fr<cr>
 
 " enter in Normal mode <cr> should add a new line
-nnoremap <cr> o<esc>0"_d$
+" nnoremap <cr> o<esc>0"_d$
 
 " remap alt-l to nohl
 nnoremap <silent> ¬ :nohl<cr>:normal! <c-l><cr>
@@ -26,7 +26,14 @@ map [w :NERDTreeToggle<cr>
 map ]w :NERDTree<cr>
 
 " toggle background color solarized.
-call togglebg#map("<leader>cc")
+if exists("g:solarized_contrast")
+  call togglebg#map("<leader>cc")
+endif
+
+if exists("g:gruvbox_invert_signs")
+  map [o* :let g:gruvbox_invert_signs=1<cr>:colorscheme gruvbox<cr>
+  map ]o* :let g:gruvbox_invert_signs=0<cr>:colorscheme gruvbox<cr>
+endif
 
 " Smarter j and k, go up visiually in soft wrap mode.
 map j gj

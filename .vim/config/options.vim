@@ -1,12 +1,26 @@
-" set color scheme
-if ("LIGHT" == $BACKGROUND)
-  let g:solarized_contrast = "normal"
-  set background=light
-else
-  let g:solarized_contrast = "normal"
-  set background=dark
+if exists('g:solarized_contrast')
+  let g:solarized_contrast = "high"
+  if ("LIGHT" == $BACKGROUND)
+    let g:solarized_contrast = "high"
+    set background=light
+  else
+    let g:solarized_contrast = "normal"
+    set background=dark
+  endif
+  colorscheme solarized
 endif
-colorscheme solarized
+
+if exists('g:gruvbox_bold')
+  set background=dark
+  let g:gruvbox_termcolors=16
+  let g:gruvbox_hls_cursor="green"
+  let g:gruvbox_sign_column="bg0"
+  let g:gruvbox_invert_selection=0
+  let g:gruvbox_invert_tabline=1
+  let g:gruvbox_invert_signs=0
+  let g:gruvbox_improved_strings=0
+  colorscheme gruvbox
+endif
 
 " options
 set backspace=2 " make backspace work like most other apps"
