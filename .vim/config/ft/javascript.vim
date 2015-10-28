@@ -6,6 +6,7 @@ let g:javascript_conceal_NaN        = "ℕ"
 let g:javascript_conceal_prototype  = "¶"
 let g:javascript_conceal_static     = "•"
 let g:javascript_conceal_super      = "Ω"
+let g:angular_skip_alternate_mappings = 1
 
 function! SetJavascriptOptions()
 
@@ -17,9 +18,11 @@ function! SetJavascriptOptions()
 
   " surround with console.log
   let b:surround_{char2nr('c')} = "console.log(\r)"
+  let b:surround_{char2nr('a')} = "$scope.$apply(function() {\n\r\n});"
   let b:surround_{char2nr('F')} = "(function() {\n\r\n})();"
   let b:surround_{char2nr('f')} = "function PLACEHOLDER() {\n\r\n}"
   let b:surround_{char2nr('i')} = "$injector.get('\r');"
+  let b:surround_{char2nr('d')} = "describe('', function() {\n\r\n});"
   set conceallevel=2
 
   " Extract text under cursor as variable
@@ -30,6 +33,7 @@ function! SetJavascriptOptions()
   map <buffer> <Plug>JSInlineVariable "ny<esc>?\v(let<bar>var<bar>const) <c-r>n<cr>f=w"vdt;dd:%s#<c-r>n#<c-r>v#gc
   vmap <buffer> <leader>I <Plug>JSInlineVariable
 
+  map <buffer> <leader>B :!npm run build<cr>
   map <buffer> <leader>.. :!npm test<cr>
   map <buffer> <leader>., :!npm test -- %<cr>
   map <buffer> <leader>I f)i,<space>

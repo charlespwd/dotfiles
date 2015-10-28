@@ -55,9 +55,13 @@ source $ZSH/oh-my-zsh.sh
 # Change your path
 export PATH="/opt/local/bin:/opt/local/sbin:/Users/charlespclermont/bin:/Users/charlespclermont/npm/bin:/usr/local/heroku/bin:/usr/local/bin:/bin:/usr/sbin:/sbin:/usr/bin:/usr/texbin"
 export PATH="/Users/charlespclermont/.scripts:$PATH"
+export PATH="$PATH:/usr/local/mysql/bin"
 
 # Default editor
 export EDITOR='vim'
+
+# CONFIG HOME (neovim)
+export XDG_CONFIG_HOME='~/.config'
 
 # Enable c-x,c-e command line editing
 autoload -U edit-command-line

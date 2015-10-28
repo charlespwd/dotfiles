@@ -58,6 +58,42 @@ snippet ngdirective
 })();
 endsnippet
 
+snippet ngdirectivemodel
+(function() {
+	'use strict';
+
+	angular
+		.module('${1:interactiveVideo.components}')
+		.directive('${2:directiveName}', $2);
+
+	/* @ngInject */
+	function $2() {
+		var directive = {
+			controllerAs: '${3:alias}',
+			require: 'ngModel',
+			replace: true,
+			template: ${4:'<div></div>'},
+			restrict: 'E',
+			link: link,
+			scope: true,
+		};
+		return directive;
+
+		function link(scope, el, attr, ctrl) {
+			// directive -> ngModel
+			scope.$watch('$3', function($3) {
+				ctrl.$setViewValue($3);
+			}, true);
+
+			// ngModel -> directive
+			ctrl.$render = function() {
+				var modelValue = ctrl.$viewValue;
+			};
+		}
+	}
+})();
+endsnippet
+
 snippet ngfactory
 (function() {
 	'use strict';
@@ -109,6 +145,16 @@ snippet ngmodule
 		.module('${1:module}', [
 			'${2:dependencies}'
 		]);
+})();
+endsnippet
+
+snippet ngconstant
+(function() {
+	'use strict';
+
+	angular
+		.module('${1:module}')
+		.contant('${2:CONSTANT}', ${3});
 })();
 endsnippet
 
@@ -228,16 +274,54 @@ snippet ngdescribe
 
 describe('Unit: ${1:Unit}', function() {
 	var $rootScope, $3;
-	beforeEach(module('${2:app}'));
 
-	beforeEach(inject(function($injector) {
-		$rootScope = $injector.get('$rootScope');
-		${3:service} = $injector.get('$3');
-	}));
+	beforeEach(config);
+	beforeEach(inject(injections));
 
 	it('${4:should exist}', function() {
 		expect($3).${5:to.exist};
 	});
+
+	function config() {
+		module('${2}');
+	}
+
+	function injections($injector) {
+		$rootScope = $injector.get('$rootScope');
+		${3:service} = $injector.get('$3');
+	}
+});
+endsnippet
+
+snippet ngdescribectrl
+/* jshint expr:true */
+'use strict';
+
+describe('Unit: ${1:Unit}', function() {
+	var $rootScope, $controller, scope, ctrl;
+
+	beforeEach(config);
+	beforeEach(inject(injections));
+
+	it('${4:should exist}', function() {
+		${5:expect(ctrl).toBeDefined();}
+	});
+
+	function config() {
+		module('${2:module}');
+	}
+
+	function injections($injector) {
+		$rootScope = $injector.get('$rootScope');
+		$controller = $injector.get('$controller');
+		scope = $rootScope.$new();
+
+		ctrl = $controller('$1', {
+			$scope: scope,
+		});
+
+		scope.${3:controllerAs} = ctrl;
+	}
 });
 endsnippet
 
@@ -268,13 +352,13 @@ describe('${1}', () => {
 });
 endsnippet
 
-snippet itt
+snippet it
 it('should ${1:do something}', function() {
 	${2}
 });
 endsnippet
 
-snippet it
+snippet itt
 it('should ${1:do something}', () => {
 	${2}
 });
@@ -402,7 +486,7 @@ snippet imp
 import ${1:module} from '${2:$1}';
 endsnippet
 
-snippet ngdesc
+snippet desc
 describe('${1}', function() {
 
 });
@@ -428,4 +512,57 @@ endsnippet
 
 snippet bc "bower component" i
 'bower_components/${1:angular}/${2:$1}.js'
+endsnippet
+
+snippet b4inj
+beforeEach(inject(function($injector) {
+	${1}
+}));
+endsnippet
+
+snippet b4e
+beforeEach(function() {
+	${1}
+});
+endsnippet
+
+snippet afe
+afterEach(function() {
+	${1}
+});
+endsnippet
+
+snippet itinj
+it('${1}', inject(function() {
+	${2}
+}));
+endsnippet
+
+snippet ngconfig
+(function() {
+	'use strict';
+
+	angular
+		.module('${1:module}')
+		.config(${2:config});
+
+	/* @ngInject */
+	function $2(${3:dependencies}) {
+		${4}
+	}
+})();
+endsnippet
+
+snippet ppty
+Object.defineProperty(${1:obj}, '${2:ppty}', {
+	${3}
+});
+endsnippet
+
+snippet ppties
+Object.defineProperties(${1:obj}, {
+	'${2:ppty}': {
+		${3}
+	},
+});
 endsnippet

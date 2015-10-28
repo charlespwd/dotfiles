@@ -19,3 +19,42 @@ endsnippet
 snippet is
 (is (${1:= true false}) "${2:Document yo' test}")
 endsnippet
+
+snippet user
+(ns user
+	(:require
+		[alembic.still :refer (distill load-project)]
+		[clojure.java.io :as io]
+		[clojure.java.javadoc :refer (javadoc)]
+		[clojure.pprint :refer (pprint)]
+		[clojure.reflect :refer (reflect)]
+		[clojure.repl :refer (apropos dir doc find-doc pst source)]
+		[clojure.set :as set]
+		[clojure.string :as str]
+		[clojure.test :as test]
+		[clojure.tools.namespace.repl :as ctnr :refer (refresh-all refresh)])
+	(:refer-clojure :exclude [read]))
+
+(defn add-deps
+	"Hot load dependencies into your REPL."
+	[& deps]
+	(doseq [dep deps]
+		(distill dep)))
+
+(defn reload-deps
+	"Reload leiningen dependencies."
+	[]
+	(load-project))
+
+(defn reset []
+	(try (ctnr/refresh)))
+endsnippet
+
+snippet userdeps
+:dependencies [
+[org.clojure/tools.namespace "0.2.10"] ; refresh
+[org.clojure/tools.nrepl "0.2.10"]     ; nrepl
+[alembic "0.3.2"]                     ; load deps in the repl
+]
+:source-paths ["env/dev/clj" "src"]
+endsnippet
