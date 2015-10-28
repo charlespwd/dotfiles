@@ -1,0 +1,9 @@
+#!/bin/bash
+
+if [[ -a "Gruntfile.js" ]]; then
+  grunt $@;
+elif [[ -a "gulpfile.js" ]]; then
+  gulp $@;
+fi
+
+exit 0;
