@@ -124,3 +124,9 @@ function! Input(prompt)
     call inputrestore()
     return text
 endfunction
+
+function! SetupCommandAlias(from, to)
+  exec 'cnoreabbrev <expr> '.a:from
+        \ .' ((getcmdtype() is# ":" && getcmdline() is# "'.a:from.'")'
+        \ .'? ("'.a:to.'") : ("'.a:from.'"))'
+endfun
