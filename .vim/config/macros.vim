@@ -75,7 +75,18 @@ function! ChangePaste(type, ...)
     silent exe "normal! p"
 endfunction
 
+" ABBREVS
+call SetupCommandAlias('T', 'Tabularize')
+
 " MACROS
+imap <c-d>0 <esc>:let @d=system('date +"%B %d, %Y"')<cr>"dpkJA
+imap <c-d>1 <esc>:let @d=system('date -v+1d +"%B %d, %Y"')<cr>"dpkJA
+imap <c-d>2 <esc>:let @d=system('date -v+2d +"%B %d, %Y"')<cr>"dpkJA
+imap <c-d>3 <esc>:let @d=system('date -v+3d +"%B %d, %Y"')<cr>"dpkJA
+imap <c-d>4 <esc>:let @d=system('date -v+4d +"%B %d, %Y"')<cr>"dpkJA
+imap <c-d>5 <esc>:let @d=system('date -v+5d +"%B %d, %Y"')<cr>"dpkJA
+imap <c-d>6 <esc>:let @d=system('date -v+6d +"%B %d, %Y"')<cr>"dpkJA
+imap <c-d>7 <esc>:let @d=system('date -v+7d +"%B %d, %Y"')<cr>"dpkJA
 map <leader>"" <Plug>ToggleTextObjQuotes
 map <leader>.a :e ~/.zsh_custom/aliases.zsh<cr>Gzz
 map <leader>.b :e ~/thoughts/
@@ -93,6 +104,7 @@ map <leader>.w :e ~/thoughts/new-words.md<cr>
 map <leader>.z :e ~/.zshrc<cr>
 map <leader>/ :Unite line<cr>i
 map <leader>?m :Unite mapping<cr>i
+map <leader>D :Dash<cr>
 map <leader>F :Files ~/<cr>
 map <leader>G :G
 map <leader>R :redraw!<cr>
@@ -112,6 +124,7 @@ map <leader>f :Files<cr>
 map <leader>g<space> :Git<space>
 map <leader>ga <c-l>:Gwrite<cr>
 map <leader>gawip :Git commit --amend -a --reuse-message=HEAD<cr>
+map <leader>gb :Gblame<cr>
 map <leader>gbd :Git branch -D<space>
 map <leader>gcA :Gcommit -v --amend --reuse-message=HEAD<cr>
 map <leader>gca :Gcommit -v --amend<cr>
@@ -138,7 +151,6 @@ map <leader>pi :PlugInstall<cr>
 map <leader>po :PencilToggle<cr>
 map <leader>pp "+p
 map <leader>pu :PlugUpdate<cr>
-map <leader>q :bd<cr>
 map <leader>rf :%s/\v(<<c-r><c-w>>)/
 map <leader>ritual <Plug>Ritual
 map <leader>rm :call delete(expand('%')) <bar> bdelete!<cr>
@@ -163,6 +175,7 @@ map <leader>wq :w<bar>bd<cr>
 map <leader>ws :StripWhitespace<cr>
 map <leader>wt :set textwidth=70<cr>
 map <leader>ww :!wc -w %<cr>
+map <silent> <leader>q :bd<cr>
 map <silent> <leader>x :ccl<cr>:lcl<cr>
 map \\ <Plug>MostRecentBuffer
 nmap <leader>## 70i#<esc>o<esc>
