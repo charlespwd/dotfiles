@@ -18,6 +18,8 @@ function! SetClojureCommonOptions()
   nnoremap <buffer> w w
   noremap <buffer> <c-c> <esc>
 
+  let b:surround_{char2nr('p')} = "(clojure.pprint/pprint \r)"
+
   " jump to definition
   map <buffer> <c-[> ]<C-D>
   " evaluate around code
