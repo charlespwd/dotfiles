@@ -10,17 +10,15 @@ if exists('g:solarized_contrast')
   colorscheme solarized
 endif
 
-if exists('g:gruvbox_bold')
-  set background=dark
-  let g:gruvbox_termcolors=16
-  let g:gruvbox_hls_cursor="green"
-  let g:gruvbox_sign_column="bg0"
-  let g:gruvbox_invert_selection=0
-  let g:gruvbox_invert_tabline=1
-  let g:gruvbox_invert_signs=0
-  let g:gruvbox_improved_strings=0
-  colorscheme gruvbox
-endif
+set background=dark
+let g:gruvbox_termcolors=16
+let g:gruvbox_hls_cursor="green"
+let g:gruvbox_sign_column="bg0"
+let g:gruvbox_invert_selection=0
+let g:gruvbox_invert_tabline=1
+let g:gruvbox_invert_signs=1
+let g:gruvbox_improved_strings=0
+colorscheme gruvbox
 
 " options
 set backspace=2 " make backspace work like most other apps"
@@ -52,7 +50,7 @@ set undolevels=1000
 set wildmenu " enable bash style autocompletion
 set wildmode=list:longest,full
 
-highlight Comment cterm=italic
+" highlight Comment cterm=italic
 
 let g:better_whitespace_filetypes_blacklist=[]
 let g:evervim_devtoken='S=s317:U=3053e55:E=152db06748f:C=14b835546f8:P=1cd:A=en-devtoken:V=2:H=ec596ec2f664beb7f387da9b0262cb1a'
@@ -113,6 +111,7 @@ let g:ycm_key_list_select_completion = ['<TAB>', '<Down>']
 let g:ycm_key_list_previous_completion = ['<S-TAB>', '<Up>']
 let g:ycm_filetype_blacklist = {
       \ 'mail' : 1,
+      \ 'markdown': 1,
       \ 'mkd' : 1,
       \ 'notes' : 1,
       \ 'text' : 1,
@@ -137,3 +136,6 @@ let NERDTreeMinimalUI = 1
 let NERDTreeAutoDeleteBuffer = 1
 let NERDTreeWinSize = 41
 let NERDTreeQuitOnOpen = 1
+
+let g:EditorConfig_exec_path="/usr/local/bin/editorconfig"
+let g:EditorConfig_exclude_patterns = ['fugitive://.*']
