@@ -21,11 +21,11 @@ call plug#begin()
 
   " Writing
   Plug 'beloglazov/vim-online-thesaurus'
-  Plug 'modsound/macdict-vim', { 'for': ['mkd', 'tex'], 'do': 'cd autoload && make' }
-  Plug 'reedes/vim-lexical', { 'for': ['mkd', 'tex'] }
-  Plug 'reedes/vim-pencil', { 'for': ['mkd', 'tex'] }
-  Plug 'reedes/vim-textobj-quote', { 'for': ['mkd', 'tex'] }
-  Plug 'reedes/vim-wordy', { 'for': ['mkd', 'tex'] }
+  Plug 'modsound/macdict-vim', { 'for': ['markdown', 'tex'], 'do': 'cd autoload && make' }
+  Plug 'reedes/vim-lexical', { 'for': ['markdown', 'tex'] }
+  Plug 'reedes/vim-pencil', { 'for': ['markdown', 'tex', 'mail'] }
+  Plug 'reedes/vim-textobj-quote', { 'for': ['markdown', 'tex'] }
+  Plug 'reedes/vim-wordy', { 'for': ['markdown', 'tex'] }
 
   " snipmate
   Plug 'SirVer/ultisnips'
@@ -40,7 +40,7 @@ call plug#begin()
 
   " Javascript
   Plug 'heavenshell/vim-jsdoc', { 'for': 'javascript' }
-  Plug 'marijnh/tern_for_vim', { 'for': 'javascript', 'do': 'npm install' }
+  " Plug 'marijnh/tern_for_vim', { 'for': 'javascript', 'do': 'npm install' }
   Plug 'millermedeiros/vim-esformatter', { 'for': 'javascript' }
   Plug 'moll/vim-node', { 'for': 'javascript' }
   Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
@@ -64,12 +64,13 @@ call plug#begin()
   Plug 'vim-ruby/vim-ruby', { 'for': 'ruby' }
 
   " Misc
+  Plug 'editorconfig/editorconfig-vim'
   Plug 'rizzatti/dash.vim'
   Plug 'tpope/vim-projectionist'
   Plug 'airblade/vim-gitgutter'
   Plug 'benmills/vimux'
   Plug 'kakkyz81/evervim', { 'on': 'EvervimSearchByQuery' }
-  Plug 'plasticboy/vim-markdown', { 'for': ['markdown', 'mkd'] }
+  Plug 'plasticboy/vim-markdown', { 'for': ['markdown'] }
   Plug 'rking/ag.vim'
   Plug 'tpope/vim-classpath'
   Plug 'tpope/vim-dispatch'
