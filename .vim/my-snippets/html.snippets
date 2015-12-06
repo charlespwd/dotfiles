@@ -1,3 +1,35 @@
 snippet pc
 <pre><code>{{${1}|json}}</code></pre>
 endsnippet
+
+snippet md-input
+<md-input-container>
+	<label>${1}</label>
+	<input ng-model="${2}">
+</md-input-container>
+endsnippet
+
+snippet md-select
+<md-input-container>
+	<label>${1}</label>
+	<md-select ng-model="${2}">
+		<md-option ng-repeat="${3} in ${4}" value="{{${5}}}">
+			{{${6}}}
+		</md-option>
+	</md-select>
+</md-input-container>
+endsnippet
+
+snippet md-list
+<md-list>
+	<md-subheader class="md-no-sticky">${1}</md-subheader>
+	<md-list-item class="md-3-line" ng-repeat="${2} in ${3}">
+		<img ng-src="{{item.face}}?{{$index}}" class="md-avatar" alt="{{item.who}}" />
+		<div class="md-list-item-text" layout="column">
+			<h3>{{ item.who }}</h3>
+			<h4>{{ item.what }}</h4>
+			<p>{{ item.notes }}</p>
+		</div>
+	</md-list-item>
+</md-list>
+endsnippet
