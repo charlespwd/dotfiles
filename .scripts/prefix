@@ -1,0 +1,35 @@
+#!/bin/bash
+def="./*.mp4"
+prefix=${1:-"foo_"}
+files="${2:-$def}"
+
+move_files() {
+  for file in $files; do
+    filename=$(basename "$file")
+    extension="${filename##*.}"
+    filename="${filename%.*}"
+    echo $file "$prefix$filename.$extension"
+    mv $file "$prefix$filename.$extension"
+  done;
+}
+
+echo '================'
+
+for file in $files; do
+  filename=$(basename "$file")
+  extension="${filename##*.}"
+  filename="${filename%.*}"
+  echo "$file -> $prefix$filename.$extension"
+done;
+
+echo '================'
+
+while true; do
+    read -p "Do you wish to perform the modif? [Y/n]" yn
+    case $yn in
+        [Yy]* ) move_files; break;;
+        [Nn]* ) exit;;
+        * ) echo "Please answer yes or no.";
+    esac
+done
+

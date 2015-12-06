@@ -1,0 +1,9 @@
+#!/bin/bash
+
+files=$1
+regex=$2
+replace=$3
+
+for f in $files; do
+  echo "mv $f `cat echo $f | sed s/$regex/$replace/`"
+done
