@@ -462,7 +462,7 @@ snippet req
 var ${1:module} = require('${2:$1}');
 endsnippet
 
-snippet jdescribe
+snippet edescribe
 /* eslint-env jasmine */
 
 import ${1:Module} from './${2:$1}';
@@ -520,6 +520,18 @@ beforeEach(inject(function($injector) {
 }));
 endsnippet
 
+snippet eb4e
+beforeEach(() => {
+	${1}
+});
+endsnippet
+
+snippet eafe
+afterEach(() => {
+	${1}
+});
+endsnippet
+
 snippet b4e
 beforeEach(function() {
 	${1}
@@ -569,4 +581,16 @@ endsnippet
 
 snippet clj
 console.log(JSON.stringify(${1}, null, 2))
+endsnippet
+
+snippet ectxt
+EC.textToBePresentInElement($('${1}'), ${2})
+endsnippet
+
+snippet ecp
+EC.presenceOf($('${1}'))
+endsnippet
+
+snippet ect
+EC.titleContains('${1}')
 endsnippet
