@@ -4,6 +4,8 @@ if [[ -a "Gruntfile.js" ]]; then
   grunt $@;
 elif [[ -a "gulpfile.js" ]]; then
   gulp $@;
+elif [[ -a "package.json" ]]; then
+  npm run $@;
 fi
 
 exit 0;
