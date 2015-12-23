@@ -83,6 +83,9 @@ if which pyenv > /dev/null; then
   eval "$(pyenv init -)";
 fi
 
+# BOOT config
+export BOOT_CLOJURE_VERSION="1.7.0"
+
 # LEIN config
 export CLOJURESCRIPT="$HOME/bin/clojurescript"
 # export LEIN_FAST_TRAMPOLINE=y
