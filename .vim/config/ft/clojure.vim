@@ -5,7 +5,9 @@ let g:clojure_fuzzy_indent=1
 let g:clojure_align_multiline_strings = 1
 
 " Add some words which should be indented like defn etc: Compojure/compojure-api, midje and schema stuff mostly.
-let g:clojure_fuzzy_indent_patterns=['^GET', '^POST', '^PUT', '^DELETE', '^ANY', '^HEAD', '^PATCH', '^OPTIONS', '^def', '^apply', '^add-watch', '^context']
+let g:clojure_fuzzy_indent_patterns=['^GET', '^POST', '^PUT', '^DELETE', '^ANY', '^HEAD', '^PATCH', '^OPTIONS',
+      \ '^def', '^apply', '^add-watch', '^context', '^try', '^catch',
+      \ '^is', '^thrown?', '^thrown-with-msg?']
 let g:niji_light_colors =  [['brown', 'RoyalBlue3'],
                           \ ['Darkblue', 'SeaGreen3'],
                           \ ['darkgray', 'DarkOrchid3'],
@@ -36,7 +38,7 @@ function! SetClojureOptions()
   map <buffer> <leader>pr <Plug>Pprint
   map <buffer> <leader>lint <Plug>LintEastwood
 
-  map <buffer> cpR :RunAllTests<cr>
+  map <buffer> cpR :Eval (user/run-all-tests)<cr>
   map <buffer> \r :Require!<cr>
   map <buffer> <leader>up cqp(use 'clojure.pprint)<cr>
   map <buffer> <leader>ee cqp(do (in-ns 'user) (go))<cr>
