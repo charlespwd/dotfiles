@@ -1,8 +1,8 @@
+
+#
 # Add yourself some shortcuts to projects you often work on
 # Example:
-#
 # brainstormr=/Users/robbyrussell/Projects/development/planetargon/brainstormr
-
 alias ":x"="exit"
 alias "@b"="b build"
 alias "a?"="alias | grep"
@@ -14,12 +14,15 @@ alias be="bundle exec"
 alias bi="bundle install"
 alias bs="b serve"
 alias bss="browser-sync start --server"
+alias bt="b test"
+alias bta="b test:auto"
 alias c="cd"
 alias firefox="/Applications/Firefox.app/Contents/MacOS/firefox"
 alias fitocracy="java -jar ~/.scripts/fitocracy-lifts.jar"
 alias gai="git add --intent-to-add"
 alias gap="git add --patch"
 alias gbd="git branch -D"
+alias gbdm="git branch --merged | grep -v \"\*\" | grep -v master | grep -v dev | xargs -n 1 git branch -d"
 alias gbuild="git add dist && git commit -m [Build]"
 alias gcb="git checkout -b"
 alias gci="git clean -i"
@@ -30,7 +33,9 @@ alias ggfpush='git push -f origin $(current_branch)'
 alias gl="git pull --rebase"
 alias glg="git lg"
 alias glp="git lg -p"
+alias gnext="gco master && gl && gbdm"
 alias gr="grunt"
+alias grhom="git reset --hard origin/master"
 alias h="heroku"
 alias ideas="v ~/thoughts/ideas.md"
 alias j="jump"
@@ -46,7 +51,7 @@ alias n="npm run"
 alias npr="npm run"
 alias o="open"
 alias onsight="cd ~/ws/onsight/webapp"
-alias papi="jump pier && tmux rename-window 'api' && bundle exec rails server -p 3111"
+alias papi="jump papi && tmux rename-window 'api' && bundle exec rails server -p 3111"
 alias pas="j pier-authors && tmux rename-window 'authors-server' && b serve"
 alias plan="v -c ':execute \"normal \<Plug>EvervimPlan\"'"
 alias pmd="pandoc -s -f markdown_github -t html --css ~/.mutt/markdown.css"
