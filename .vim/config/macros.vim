@@ -50,7 +50,7 @@ vmap <Plug>SendToTmux "vy:call VimuxSlime()<CR>
 
 " PLUGS
 map <Plug>ExpandHTML vatJ^vat:s/\v%V(\>)(\<)<bar>(\>)(\w)<bar>(\w)(\<)<bar>(\>) <bar> (\<)/\1\3\5\7\r\2\4\6\8/ge<cr>=at:nohl<cr>kJ=at
-map <Plug>PrettyAttrs ^vi>:s/\v ([a-zA-Z\-]+\="[^"]*")/\r\1/g<cr>=a>J^%:nohl<cr>
+map <Plug>PrettyAttrs :s/[a-z\-0-9]\{-}="[^"]\{-}"/\r&/g<cr>=a>Jvi>:s/\v $//g<cr>
 map <Plug>EvervimJournal <leader>evjournal<cr>/Journal<cr><cr>G<cr><cr><Plug>Journal<esc><c-k><leader>q<c-j><leader>q
 map <Plug>EvervimPlan <leader>evplan<cr>/Plan<cr><cr>G<cr><cr><leader>dd<esc><c-k><leader>q<c-j><leader>q
 map <Plug>Journal <leader>dd<cr><cr>## Brain dump<cr><cr>## Did I move towards the resistance?<cr><cr>## Did I do something that scared me?<cr><cr>## What's the biggest mistake I made?<cr><cr>## Why didn't I achieve what I set out to achieve?<cr><cr>## What 1 thing I did was right and how can I do better?<cr><cr>##What am I doing right now that doesn't make me feel "Fuck Yes"?<cr><cr>## What's the least valuable thing I did last week?<cr><cr>## What can I outsource?<cr><esc>7{zz

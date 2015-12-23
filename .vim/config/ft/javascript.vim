@@ -33,7 +33,7 @@ function! SetJavascriptOptions()
   map <buffer> <Plug>JSInlineVariable "ny<esc>?\v(let<bar>var<bar>const) <c-r>n<cr>f=w"vdt;dd:%s#<c-r>n#<c-r>v#gc
   vmap <buffer> <leader>I <Plug>JSInlineVariable
 
-  map <buffer> <leader>B :!npm run build<cr>
+  map <buffer> <leader>B :!b build<cr>
   map <buffer> <leader>.. :!npm test<cr>
   map <buffer> <leader>., :!npm test -- %<cr>
   map <buffer> <leader>I f)i,<space>
