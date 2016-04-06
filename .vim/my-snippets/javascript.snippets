@@ -361,7 +361,7 @@ endsnippet
 snippet itt
 it('should ${1:do something}', () => {
 	${2}
-});
+})
 endsnippet
 
 snippet ()
@@ -373,25 +373,25 @@ endsnippet
 snippet ebeforeEach
 beforeEach(() => {
 	${1}
-});
+})
 endsnippet
 
 snippet ebefore
 before(() => {
 	${1}
-});
+})
 endsnippet
 
 snippet eafterEach
 afterEach(() => {
 	${1}
-});
+})
 endsnippet
 
 snippet eafter
 after(() => {
 	${1}
-});
+})
 endsnippet
 
 snippet emodule
@@ -465,13 +465,13 @@ endsnippet
 snippet edescribe
 /* eslint-env jasmine */
 
-import ${1:Module} from './${2:$1}';
+import ${1:Module} from './${2:$1}'
 
 describe('Unit: $2', () => {
 	it('should exist', () => {
-		expect($1).toBeDefined();
-	});
-});
+		expect($1).toBeDefined()
+	})
+})
 endsnippet
 
 snippet creq
@@ -523,13 +523,13 @@ endsnippet
 snippet eb4e
 beforeEach(() => {
 	${1}
-});
+})
 endsnippet
 
 snippet eafe
 afterEach(() => {
 	${1}
-});
+})
 endsnippet
 
 snippet b4e
@@ -593,4 +593,60 @@ endsnippet
 
 snippet ect
 EC.titleContains('${1}')
+endsnippet
+
+snippet ngroute
+(function() {
+	'use strict';
+
+	angular
+		.module('${1:module}')
+		.config(config);
+
+	/* @ngInject */
+	function config($stateProvider, $urlRouterProvider) {
+		$stateProvider
+			.state('${2:route}', {
+				url: '/${3:url}',
+				templateUrl: 'src/interactive-videos/interactive-videos.html'
+			})
+	}
+})();
+endsnippet
+
+snippet remiddleware
+const ${1:identity} = (store) => (next) => (action) => {
+	return next(action);
+};
+
+export default identity;
+endsnippet
+
+snippet reducer
+import { ${1:type} } from '../actions/types';
+
+const initialState = {
+	isInvalidated: false,
+	isFetching: true,
+};
+
+export function ${2:dates}(${3:$2State} = initialState, action) {
+	switch (action.type) {
+		case $1:
+			return fetchState($3, action);
+
+		default:
+			return $3;
+	}
+}
+endsnippet
+
+snippet testrunner "Description" b
+require('es6-promise').polyfill();
+require('whatwg-fetch');
+
+// require all modules ending in ".spec.js" from the
+// current directory and all subdirectories
+var testsContext = require.context("./src", true, /.spec\.js$/);
+testsContext.keys().forEach(testsContext);
 endsnippet

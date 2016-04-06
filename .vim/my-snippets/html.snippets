@@ -33,3 +33,65 @@ snippet md-list
 	</md-list-item>
 </md-list>
 endsnippet
+
+snippet ion-view
+<ion-view>
+	<ion-content view-title="${1}">
+		${2}
+	</ion-content>
+</ion-view>
+endsnippet
+
+snippet ion-list
+<div class="list">
+	<a ui-sref="${1}"
+		class="bodytext-colour item item-icon-right"
+		ng-repeat="${2} in ::${3}">
+		${4}
+		<i class="icon ion-ios-arrow-right muted"></i>
+	</a>
+</div>
+endsnippet
+
+snippet ion-input
+<label class="item item-input">
+	<input type="text"
+	placeholder="${1}"
+	ng-model="${2}">
+</label>
+endsnippet
+
+snippet ion-inline-input
+<label class="item item-input">
+	<span class="input-label">${1}</span>
+	<input type="text"
+		${2}
+		>
+</label>
+endsnippet
+
+snippet ion-switch
+<li class="item item-toggle">
+	${1:label}
+	<label class="toggle toggle-assertive">
+		<input type="checkbox"
+		ng-model="${2:model}">
+		<div class="track">
+			<div class="handle"></div>
+		</div>
+	</label>
+</li>
+endsnippet
+
+snippet ion-select
+<label class="item item-input item-select">
+	<div class="input-label">
+		${1:Label}
+	</div>
+	<select ng-model="${2}">
+		<option ng-repeat="${3}" value="{{${4}}}">
+			{{${5}}}
+		</option>
+	</select>
+</label>
+endsnippet

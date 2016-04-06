@@ -62,3 +62,23 @@ endsnippet
 snippet rpt
 "redpoint-test.myshopify.com"
 endsnippet
+
+snippet timbre
+[taoensso.timbre :as timbre]
+endsnippet
+
+snippet req
+(:require ${1})
+endsnippet
+
+snippet rtest
+[clojure.test :refer :all]
+endsnippet
+
+snippet mock "a mock" i
+with-redefs [${1:fn-name} (fn [${2:args}] (${3:body}))]${4}
+endsnippet
+
+snippet source
+:source-paths [${1:"src" "env"}]
+endsnippet
