@@ -129,6 +129,14 @@ let g:UltiSnipsSnippetDirectories=["UltiSnips", "my-snippets"]
 let g:syntastic_error_symbol = "✗"
 let g:syntastic_warning_symbol = "⚠"
 let g:syntastic_auto_jump = 0
+let g:syntastic_check_on_wq = 0
+let g:syntastic_mode_map = {
+      \ "mode": "passive",
+      \ "active_filetypes": [],
+      \ "passive_filetypes": [] }
+
+" GitGutter
+let g:gitgutter_enabled = 0
 
 let NERDTreeIgnore = ['\.pyc$']
 let NERDTreeCaseSensitiveSort = 1
