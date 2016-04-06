@@ -1,8 +1,9 @@
-
-#
 # Add yourself some shortcuts to projects you often work on
 # Example:
 # brainstormr=/Users/robbyrussell/Projects/development/planetargon/brainstormr
+
+alias npmc="npm --cache-min=1000000"
+alias "whatsmyip"="echo \`ifconfig en0 2>/dev/null|awk '/inet / {print $2}'|sed 's/addr://'\`"
 alias ":x"="exit"
 alias "@b"="b build"
 alias "a?"="alias | grep"
@@ -17,6 +18,7 @@ alias bss="browser-sync start --server"
 alias bt="b test"
 alias bta="b test:auto"
 alias c="cd"
+alias dev:stats="j server && n dev && j app && n dev"
 alias firefox="/Applications/Firefox.app/Contents/MacOS/firefox"
 alias fitocracy="java -jar ~/.scripts/fitocracy-lifts.jar"
 alias gai="git add --intent-to-add"
@@ -51,7 +53,8 @@ alias n="npm run"
 alias npr="npm run"
 alias o="open"
 alias onsight="cd ~/ws/onsight/webapp"
-alias papi="jump papi && tmux rename-window 'api' && bundle exec rails server -p 3111"
+alias papi80="jump papi && tmux rename-window 'api' && sudo bundle exec rails server -b 0.0.0.0 -p 80"
+alias papi="jump papi && tmux rename-window 'api' && bundle exec rake db:migrate && bundle exec rails server -p 3111"
 alias pas="j pier-authors && tmux rename-window 'authors-server' && b serve"
 alias plan="v -c ':execute \"normal \<Plug>EvervimPlan\"'"
 alias pmd="pandoc -s -f markdown_github -t html --css ~/.mutt/markdown.css"
@@ -63,6 +66,7 @@ alias ritual="v -c ':execute \"normal G2o\<Esc>\<Plug>Ritual\"' ~/thoughts/thoug
 alias rs="bundle exec rails server"
 alias s="say"
 alias school="cd ~/Documents/school"
+alias sudo="sudo "
 alias ta=". tmux_attach_or_new"
 alias thoughts="v -c ':normal G' ~/thoughts/thoughts.md"
 alias thoughts="v -c ':normal G<cr><cr><leader>ritual' ~/thoughts/thoughts.md"
