@@ -21,8 +21,10 @@ function! SetJavascriptOptions()
   let b:surround_{char2nr('a')} = "$scope.$apply(function() {\n\r\n});"
   let b:surround_{char2nr('F')} = "(function() {\n\r\n})();"
   let b:surround_{char2nr('f')} = "function PLACEHOLDER() {\n\r\n}"
-  let b:surround_{char2nr('i')} = "$injector.get('\r');"
+  let b:surround_{char2nr('i')} = "it('', function() {\n\r\n});"
+  let b:surround_{char2nr('I')} = "if (true) {\n\r\n}"
   let b:surround_{char2nr('d')} = "describe('', function() {\n\r\n});"
+  let b:surround_{char2nr('D')} = "describe('', () => {\n\r\n})"
   set conceallevel=2
 
   " Extract text under cursor as variable
@@ -33,6 +35,7 @@ function! SetJavascriptOptions()
   map <buffer> <Plug>JSInlineVariable "ny<esc>?\v(let<bar>var<bar>const) <c-r>n<cr>f=w"vdt;dd:%s#<c-r>n#<c-r>v#gc
   vmap <buffer> <leader>I <Plug>JSInlineVariable
 
+  map <buffer> <leader>af vaBV
   map <buffer> <leader>B :!b build<cr>
   map <buffer> <leader>.. :!npm test<cr>
   map <buffer> <leader>., :!npm test -- %<cr>
@@ -42,8 +45,6 @@ function! SetJavascriptOptions()
   map <buffer> <leader>rj :TernRename<cr>
   " wrap line by console.log()
   map <buffer> <leader>c ^vt;S)iconsole.log<esc>^
-  " unwrap console.log
-  map <buffer> <leader>C ^"_dt("_ds)
   " Unfold an inline : `keyword () { (blob;)* }`
   map <buffer> <leader>J ^f{a<cr><esc>:s/;/;\r/g<cr>v%=:nohl<cr>
   " turn a name: function() definition into a function name()
