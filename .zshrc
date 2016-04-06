@@ -1,3 +1,6 @@
+# remove file permissions to everyone else by default
+umask go-rwx
+
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
 
@@ -56,6 +59,7 @@ source $ZSH/oh-my-zsh.sh
 export PATH="/opt/local/bin:/opt/local/sbin:/Users/charlespclermont/bin:/Users/charlespclermont/npm/bin:/usr/local/heroku/bin:/usr/local/bin:/bin:/usr/sbin:/sbin:/usr/bin:/usr/texbin"
 export PATH="/Users/charlespclermont/.scripts:$PATH"
 export PATH="$PATH:/usr/local/mysql/bin"
+export PATH="$PATH:/Users/charlespclermont/Library/Android/sdk/platform-tools:/Users/charlespclermont/Library/Android/sdk/tools"
 
 # Default editor
 export EDITOR='vim'
