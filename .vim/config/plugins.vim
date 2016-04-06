@@ -12,35 +12,30 @@ call plug#begin()
     Plug 'Valloric/YouCompleteMe', { 'do': './install.sh'  }
   endif
   Plug 'godlygeek/tabular'
-  Plug 'jiangmiao/auto-pairs'
+  Plug 'jiangmiao/auto-pairs', { 'for': ['javascript', 'ruby', 'clojure'] }
   Plug 'kana/vim-textobj-user'
+  Plug 'wellle/targets.vim'
   Plug 'tommcdo/vim-exchange'
   Plug 'tomtom/tcomment_vim'
   Plug 'tpope/vim-surround'
   Plug 'vim-scripts/matchit.zip'
 
   " Writing
-  Plug 'beloglazov/vim-online-thesaurus'
-  Plug 'modsound/macdict-vim', { 'for': ['markdown', 'tex'], 'do': 'cd autoload && make' }
-  Plug 'reedes/vim-lexical', { 'for': ['markdown', 'tex'] }
-  Plug 'reedes/vim-pencil', { 'for': ['markdown', 'tex', 'mail'] }
+  Plug 'plasticboy/vim-markdown', { 'for': ['markdown'] }
   Plug 'reedes/vim-textobj-quote', { 'for': ['markdown', 'tex'] }
-  Plug 'reedes/vim-wordy', { 'for': ['markdown', 'tex'] }
 
   " snipmate
   Plug 'SirVer/ultisnips'
   Plug 'honza/vim-snippets'
 
   " Navigation
-  Plug 'Shougo/unite.vim'
   Plug 'christoomey/vim-tmux-navigator'
   Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install'  }
   Plug 'junegunn/fzf.vim'
   Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 
   " Javascript
-  Plug 'heavenshell/vim-jsdoc', { 'for': 'javascript' }
-  " Plug 'marijnh/tern_for_vim', { 'for': 'javascript', 'do': 'npm install' }
+  Plug 'ternjs/tern_for_vim', { 'for': 'javascript', 'do': 'npm install' }
   Plug 'millermedeiros/vim-esformatter', { 'for': 'javascript' }
   Plug 'moll/vim-node', { 'for': 'javascript' }
   Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
@@ -51,7 +46,7 @@ call plug#begin()
   Plug 'guns/vim-clojure-highlight', { 'for': 'clojure' }
   Plug 'guns/vim-clojure-static', { 'for': 'clojure' }
   Plug 'guns/vim-slamhound', { 'for': 'clojure' }
-  Plug 'honza/vim-clojure-conceal', { 'for': 'clojure' }
+  " Plug 'honza/vim-clojure-conceal', { 'for': 'clojure' }
   Plug 'raymond-w-ko/vim-niji', { 'for': 'clojure' }
   Plug 'tpope/vim-leiningen', { 'for': 'clojure' }
   Plug 'guns/vim-sexp', { 'for': ['clojure', 'vim', 'javascript'] }
@@ -65,18 +60,13 @@ call plug#begin()
 
   " Misc
   Plug 'editorconfig/editorconfig-vim'
-  Plug 'rizzatti/dash.vim'
   Plug 'tpope/vim-projectionist'
   Plug 'airblade/vim-gitgutter'
-  Plug 'benmills/vimux'
-  Plug 'kakkyz81/evervim', { 'on': 'EvervimSearchByQuery' }
-  Plug 'plasticboy/vim-markdown', { 'for': ['markdown'] }
   Plug 'rking/ag.vim'
   Plug 'tpope/vim-classpath'
   Plug 'tpope/vim-dispatch'
   Plug 'tpope/vim-repeat'
   Plug 'tpope/vim-unimpaired'
-  Plug 'lambdatoast/elm.vim', { 'for': ['elm'] }
   Plug 'christoomey/vim-sort-motion'
 
   " Git
