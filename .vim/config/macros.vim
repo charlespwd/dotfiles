@@ -49,15 +49,18 @@ nmap Q <Nop>
 vmap <Plug>SendToTmux "vy:call VimuxSlime()<CR>
 
 " PLUGS
-map <Plug>ExpandHTML vatJ^vat:s/\v%V(\>)(\<)<bar>(\>)(\w)<bar>(\w)(\<)<bar>(\>) <bar> (\<)/\1\3\5\7\r\2\4\6\8/ge<cr>=at:nohl<cr>kJ=at
+map <Plug>DeleteEmptyLinesInTag() vit:g/\v^\s*$/d<cr>:nohl<cr>
+map <Plug>SurroundTagsWithEnter() :s/\v(\<[^>]*\>)/\r&\r/g<cr>
+map <Plug>IndentInTagAndRemoveBoundaries() kJ^=itkJ=it:StripWhitespace<cr>
+map <Plug>ExpandHTML <Plug>SurroundTagsWithEnter()<Plug>IndentInTagAndRemoveBoundaries()<Plug>DeleteEmptyLinesInTag()
+
+map <sid>DisableBackspace :inoremap <buffer> <silent> <bs> <Nop>
+map <leader>bsd <sid>DisableBackspace()
+
 map <Plug>PrettyAttrs :s/[a-z\-0-9]\{-}="[^"]\{-}"/\r&/g<cr>=a>Jvi>:s/\v $//g<cr>
-map <Plug>EvervimJournal <leader>evjournal<cr>/Journal<cr><cr>G<cr><cr><Plug>Journal<esc><c-k><leader>q<c-j><leader>q
-map <Plug>EvervimPlan <leader>evplan<cr>/Plan<cr><cr>G<cr><cr><leader>dd<esc><c-k><leader>q<c-j><leader>q
-map <Plug>Journal <leader>dd<cr><cr>## Brain dump<cr><cr>## Did I move towards the resistance?<cr><cr>## Did I do something that scared me?<cr><cr>## What's the biggest mistake I made?<cr><cr>## Why didn't I achieve what I set out to achieve?<cr><cr>## What 1 thing I did was right and how can I do better?<cr><cr>##What am I doing right now that doesn't make me feel "Fuck Yes"?<cr><cr>## What's the least valuable thing I did last week?<cr><cr>## What can I outsource?<cr><esc>7{zz
 map <Plug>MostRecentBuffer :e #<cr>
 map <Plug>NextDiff :Gstatus<cr>/not staged<cr>/modified<cr>WD:pclose<cr>
 map <Plug>QfreplaceFromRegisterK :Qfdo s/<c-r>k//gce<bar>w<left><left><left><left><left><left>
-map <Plug>Ritual <leader>dd<cr>3 things I'm grateful for:<cr><cr>3 things that would make today great:<cr><cr>2 daily affirmations (I am great because):<cr><cr>What am I doing today which will bring me closer to having 20 clients?<cr><cr>What are you going to do that is EPIC?<cr><cr>What is today's ONE thing such that if it is done, everything else is going to be easier or unnecessary?<esc>{{{{{zz:PencilOff<cr>
 map <Plug>ToggleTextObjQuotes :ToggleEducate<cr>
 map <SID>SearchFromRegisterK :Ag! "<c-r>k"<cr>
 map <SID>SearchFromRegisterKWithBounds :Ag! "\b<c-r>k\b"<cr>
@@ -103,6 +106,7 @@ map <leader>"" <Plug>ToggleTextObjQuotes
 map <leader>.a :e ~/.zsh_custom/aliases.zsh<cr>Gzz
 map <leader>.b :e ~/thoughts/
 map <leader>.c :e ~/.vim/config/ft/clojure.vim<cr>
+map <leader>.d :e ~/thoughts/debug.md<cr>
 map <leader>.ff :e ~/.vim/config/ft.vim<cr>
 map <leader>.ft :let @k=&ft<cr>:e ~/.vim/config/ft/<c-r>k.vim<cr>
 map <leader>.j :e ~/thoughts/thoughts.md<cr>G
@@ -115,11 +119,13 @@ map <leader>.v :e ~/dotfiles/.vimrc<cr>
 map <leader>.w :e ~/thoughts/new-words.md<cr>
 map <leader>.z :e ~/.zshrc<cr>
 map <leader>/ :Unite line<cr>i
+map <leader>;; :%s/;//g<cr>
 map <leader>?m :Unite mapping<cr>i
 map <leader>D :Dash<cr>
 map <leader>F :Files ~/<cr>
 map <leader>G :G
 map <leader>R :redraw!<cr>
+map <leader>V "+p
 map <leader>aW :let @k=expand('<cWORD>')<cr><sid>SearchFromRegisterKWithBounds()
 map <leader>aa :Ag!<space>
 map <leader>ag :Ag! "<C-r>=expand('<cword>')<CR>"
@@ -146,6 +152,7 @@ map <leader>gco :Git checkout<space>
 map <leader>gd :Gdiff<cr>
 map <leader>gfp :let @a=fugitive#head()<cr>:Gpush -f origin <c-r>a
 map <leader>ggp :let @a=fugitive#head()<cr>:Gpush origin <c-r>a
+map <leader>ggt :GitGutterToggle<cr>
 map <leader>gi :Git add --intent-to-add %<cr>
 map <leader>glg :Git lg -20<cr>
 map <leader>gp :let @a=fugitive#head()<cr>:Gpush origin <c-r>a
@@ -169,6 +176,9 @@ map <leader>rm :call delete(expand('%')) <bar> bdelete!<cr>
 map <leader>rn :set relativenumber!<cr>
 map <leader>rs :call ReloadAllSnippets()<cr>
 map <leader>sR <leader>aW<Plug>QfreplaceFromRegisterK
+map <leader>scc :SyntasticCheck<cr>
+map <leader>scr :SyntasticReset<cr>
+map <leader>sct :SyntasticToggleMode<cr>
 map <leader>sg 1z=
 map <leader>snip :UltiSnipsEdit<cr>
 map <leader>snr :echo ReloadAllSnippets()<cr>
@@ -191,15 +201,17 @@ map <silent> <leader>q :bd<cr>
 map <silent> <leader>x :ccl<cr>:lcl<cr>
 map \\ <Plug>MostRecentBuffer
 nmap <leader>## 70i#<esc>o<esc>
-nmap <leader>;; 70i;<esc>o<esc>
 nmap <leader>== 70i=<esc>o<esc>
 nmap <leader>a/ 16a/<esc><cr>k==
+nmap Ó :tab help<space>
 nmap ˙ :h<space>
+vmap <leader>C "+y
+vmap <leader>V "+p
 vmap <leader>aa "ky<sid>SearchFromRegisterK()
 vmap <leader>aw "ky<sid>SearchFromRegisterKWithBounds()
+vmap <leader>rf *:%s//
 vmap <leader>s "ky:%s/\v(<<C-R>k>)/
 vmap <leader>ss "ky<sid>SearchFromRegisterK()<Plug>QfreplaceFromRegisterK
 vmap <leader>sw "ky<sid>SearchFromRegisterKWithBounds()<Plug>QfreplaceFromRegisterK
 vmap <leader>vy <Plug>SendToTmux
-vmap <leader>C "+y
-vmap <leader>V "+p
+vmap ç "+y
