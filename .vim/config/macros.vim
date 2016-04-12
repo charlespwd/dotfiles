@@ -88,6 +88,8 @@ vnoremap <silent> # :<C-U>
 
 " ABBREVS
 call SetupCommandAlias('T', 'Tabularize')
+call SetupCommandAlias('ZON', 'ZenModeOn')
+call SetupCommandAlias('ZOFF', 'ZenModeOff')
 
 " MACROS
 imap <c-d>0 <esc>:let @d=system('date +"%B %d, %Y"')<cr>"dpkJA
@@ -102,7 +104,7 @@ map <leader>"" <Plug>ToggleTextObjQuotes
 map <leader>.a :e ~/.zsh_custom/aliases.zsh<cr>Gzz
 map <leader>.c :e ~/.vim/config/ft/clojure.vim<cr>
 map <leader>.d :e ~/thoughts/debug.md<cr>
-map <leader>.fn :e ~/dotfiles/.vim/functions.vim<cr>
+map <leader>.fn :e ~/dotfiles/.vim/config/functions.vim<cr>
 map <leader>.ff :e ~/dotfiles/.vim/config/ft.vim<cr>
 map <leader>.ft :let @k=&ft<cr>:e ~/.vim/config/ft/<c-r>k.vim<cr>
 map <leader>.j :e ~/thoughts/thoughts.md<cr>G

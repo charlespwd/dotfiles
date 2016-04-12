@@ -99,6 +99,7 @@ function! FZenModeOn()
   inoremap <buffer> <bs> <nop>
   inoremap <buffer> <c-w> <nop>
   inoremap <buffer> <del> <nop>
+  set norelativenumber
   DisableWhitespace
   GitGutterDisable
   SyntasticReset
@@ -108,6 +109,7 @@ function! FZenModeOff()
   iunmap <buffer> <bs>
   iunmap <buffer> <c-w>
   iunmap <buffer> <del>
+  set relativenumber
   EnableWhitespace
   GitGutterEnable
   SyntasticCheck
