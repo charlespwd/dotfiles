@@ -24,6 +24,15 @@ augroup END
 command! -nargs=0 -bar Qargs execute 'args' QuickfixFilenames()
 command! -nargs=0 -bar Ritual normal <leader>ritual<cr>
 
+function! QuickfixFilenames()
+  " Building a hash ensures we get each buffer only once
+  let buffer_numbers = {}
+  for quickfix_item in getqflist()
+    let buffer_numbers[quickfix_item['bufnr']] = bufname(quickfix_item['bufnr'])
+  endfor
+  return join(map(values(buffer_numbers), 'fnameescape(v:val)'))
+endfunction
+
 " .vim/plugin/qfdo.vim
 " Run a command on each line in the Quickfix buffer.
 " Qfdo! uses the location list instead.
@@ -82,17 +91,32 @@ function! QFDo_each_line(bang, command)
    endtry
 endfunction
 
+" Qfdo and such
 command! -nargs=1 -bang Qfdo :call QFDo_each_line(<bang>0,<q-args>)
 command! -nargs=1 -bang Qfdofile :call QFDo(<bang>0,<q-args>)
 
-function! QuickfixFilenames()
-  " Building a hash ensures we get each buffer only once
-  let buffer_numbers = {}
-  for quickfix_item in getqflist()
-    let buffer_numbers[quickfix_item['bufnr']] = bufname(quickfix_item['bufnr'])
-  endfor
-  return join(map(values(buffer_numbers), 'fnameescape(v:val)'))
+function! FZenModeOn()
+  inoremap <buffer> <bs> <nop>
+  inoremap <buffer> <c-w> <nop>
+  inoremap <buffer> <del> <nop>
+  DisableWhitespace
+  GitGutterDisable
+  SyntasticReset
 endfunction
+
+function! FZenModeOff()
+  iunmap <buffer> <bs>
+  iunmap <buffer> <c-w>
+  iunmap <buffer> <del>
+  EnableWhitespace
+  GitGutterEnable
+  SyntasticCheck
+endfunction
+
+" ZenMode for writing prose without the backspace and such
+command! -nargs=0 ZenMode :call FZenModeOn()
+command! -nargs=0 ZenModeOn :call FZenModeOn()
+command! -nargs=0 ZenModeOff :call FZenModeOff()
 
 function! WordCount()
   let s:old_status = v:statusmsg

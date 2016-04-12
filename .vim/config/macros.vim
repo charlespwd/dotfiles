@@ -43,7 +43,7 @@ map k gk
 vnorem // y/<c-r>"<cr>
 
 " Disable ex-mode
-nmap Q <Nop>
+map Q <Nop>
 
 " If text is selected, save it in the v buffer and send that buffer it to tmux
 vmap <Plug>SendToTmux "vy:call VimuxSlime()<CR>
@@ -53,10 +53,6 @@ map <Plug>DeleteEmptyLinesInTag() vit:g/\v^\s*$/d<cr>:nohl<cr>
 map <Plug>SurroundTagsWithEnter() :s/\v(\<[^>]*\>)/\r&\r/g<cr>
 map <Plug>IndentInTagAndRemoveBoundaries() kJ^=itkJ=it:StripWhitespace<cr>
 map <Plug>ExpandHTML <Plug>SurroundTagsWithEnter()<Plug>IndentInTagAndRemoveBoundaries()<Plug>DeleteEmptyLinesInTag()
-
-map <sid>DisableBackspace :inoremap <buffer> <silent> <bs> <Nop>
-map <leader>bsd <sid>DisableBackspace()
-
 map <Plug>PrettyAttrs :s/[a-z\-0-9]\{-}="[^"]\{-}"/\r&/g<cr>=a>Jvi>:s/\v $//g<cr>
 map <Plug>MostRecentBuffer :e #<cr>
 map <Plug>NextDiff :Gstatus<cr>/not staged<cr>/modified<cr>WD:pclose<cr>
@@ -104,24 +100,21 @@ imap <c-d>6 <esc>:let @d=system('date -v+6d +"%B %d, %Y"')<cr>"dpkJA
 imap <c-d>7 <esc>:let @d=system('date -v+7d +"%B %d, %Y"')<cr>"dpkJA
 map <leader>"" <Plug>ToggleTextObjQuotes
 map <leader>.a :e ~/.zsh_custom/aliases.zsh<cr>Gzz
-map <leader>.b :e ~/thoughts/
 map <leader>.c :e ~/.vim/config/ft/clojure.vim<cr>
 map <leader>.d :e ~/thoughts/debug.md<cr>
-map <leader>.ff :e ~/.vim/config/ft.vim<cr>
+map <leader>.fn :e ~/dotfiles/.vim/functions.vim<cr>
+map <leader>.ff :e ~/dotfiles/.vim/config/ft.vim<cr>
 map <leader>.ft :let @k=&ft<cr>:e ~/.vim/config/ft/<c-r>k.vim<cr>
 map <leader>.j :e ~/thoughts/thoughts.md<cr>G
 map <leader>.l :e ~/.lein/profiles.clj<cr>
-map <leader>.m :e ~/.vim/config/macros.vim<cr>
-map <leader>.o :e ~/.vim/config/options.vim<cr>
-map <leader>.p :e ~/.vim/config/plugins.vim<cr>
+map <leader>.m :e ~/dotfiles/.vim/config/macros.vim<cr>
+map <leader>.o :e ~/dotfiles/.vim/config/options.vim<cr>
+map <leader>.p :e ~/dotfiles/.vim/config/plugins.vim<cr>
 map <leader>.t :e ~/.tmux.conf<cr>
 map <leader>.v :e ~/dotfiles/.vimrc<cr>
 map <leader>.w :e ~/thoughts/new-words.md<cr>
 map <leader>.z :e ~/.zshrc<cr>
-map <leader>/ :Unite line<cr>i
 map <leader>;; :%s/;//g<cr>
-map <leader>?m :Unite mapping<cr>i
-map <leader>D :Dash<cr>
 map <leader>F :Files ~/<cr>
 map <leader>G :G
 map <leader>R :redraw!<cr>
@@ -133,10 +126,6 @@ map <leader>am :e ~/.vim/config/macros.vim<cr>gg/" MACROS<cr>zz:nohl<cr>o<esc>^S
 map <leader>aw :let @k=expand('<cword>')<cr><sid>SearchFromRegisterKWithBounds()
 map <leader>b :Buffers<cr>
 map <leader>dd !!today<cr>I#<space><esc>o
-map <leader>ds :Dash<space>
-map <leader>ejournal <Plug>EvervimJournal
-map <leader>eplan <Plug>EvervimPlan
-map <leader>ev :EvervimSearchByQuery<space>
 map <leader>extract ?function<cr>vf{%"fdiplaceholder<esc><cr><cr>"fpf(i<space>placeholder<esc>*
 map <leader>f :Files<cr>
 map <leader>g<space> :Git<space>
@@ -189,10 +178,8 @@ map <leader>st 0v}b$:sort<cr>
 map <leader>sv :source ~/.vimrc<cr>
 map <leader>sw :set tw=1000<cr>
 map <leader>t/ :Tabularize<space>/
-map <leader>th :OnlineThesaurusCurrentWord<cr>
 map <leader>wc :echo system('diffword')<cr>
 map <leader>wg :!write-good %
-map <leader>wis :e ~/Dropbox/wisdom.md<cr>Go
 map <leader>wq :w<bar>bd<cr>
 map <leader>ws :StripWhitespace<cr>
 map <leader>wt :set textwidth=70<cr>

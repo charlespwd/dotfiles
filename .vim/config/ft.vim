@@ -17,5 +17,3 @@ autocmd Filetype python setlocal ts=4 sts=4 sw=4 expandtab
 autocmd BufReadPre,FileReadPre help set relativenumber
 autocmd BufNewFile,BufRead *.raml setlocal filetype=yaml
 autocmd Filetype mail setlocal ft=markdown.mail
-autocmd Filetype markdown.mail setlocal fo+=aw
-autocmd Filetype markdown.mail PencilOff
