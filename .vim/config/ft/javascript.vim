@@ -23,6 +23,7 @@ function! SetJavascriptOptions()
   let b:surround_{char2nr('f')} = "function PLACEHOLDER() {\n\r\n}"
   let b:surround_{char2nr('i')} = "it('', function() {\n\r\n});"
   let b:surround_{char2nr('I')} = "if (true) {\n\r\n}"
+  let b:surround_{char2nr('n')} = "{{/*\n\r\n*/}}"
   let b:surround_{char2nr('d')} = "describe('', function() {\n\r\n});"
   let b:surround_{char2nr('D')} = "describe('', () => {\n\r\n})"
   set conceallevel=2
