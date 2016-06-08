@@ -12,7 +12,7 @@ call plug#begin()
     Plug 'Valloric/YouCompleteMe', { 'do': './install.sh'  }
   endif
   Plug 'godlygeek/tabular'
-  Plug 'jiangmiao/auto-pairs', { 'for': ['javascript', 'ruby', 'clojure'] }
+  Plug 'jiangmiao/auto-pairs'
   Plug 'kana/vim-textobj-user'
   Plug 'wellle/targets.vim'
   Plug 'tommcdo/vim-exchange'
@@ -24,7 +24,7 @@ call plug#begin()
   Plug 'plasticboy/vim-markdown', { 'for': ['markdown'] }
   Plug 'reedes/vim-textobj-quote', { 'for': ['markdown', 'tex'] }
 
-  " snipmate
+  " snipmate (REQUIRES brew install python)
   Plug 'SirVer/ultisnips'
   Plug 'honza/vim-snippets'
 
@@ -39,6 +39,7 @@ call plug#begin()
   Plug 'millermedeiros/vim-esformatter', { 'for': 'javascript' }
   Plug 'moll/vim-node', { 'for': 'javascript' }
   Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
+  Plug 'mxw/vim-jsx', { 'for': 'javascript' }
 
   " Clojure
   " Plug 'venantius/vim-cljfmt', { 'for': 'clojure' }
@@ -58,8 +59,10 @@ call plug#begin()
   Plug 'tpope/vim-endwise', { 'for': 'ruby' }
   Plug 'vim-ruby/vim-ruby', { 'for': 'ruby' }
 
+  " Python
+  Plug 'alfredodeza/pytest.vim', { 'for': 'python' }
+
   " Misc
-  Plug 'editorconfig/editorconfig-vim'
   Plug 'tpope/vim-projectionist'
   Plug 'airblade/vim-gitgutter'
   Plug 'rking/ag.vim'
@@ -69,16 +72,19 @@ call plug#begin()
   Plug 'tpope/vim-unimpaired'
   Plug 'christoomey/vim-sort-motion'
 
+  " requires brew install python
+  Plug 'editorconfig/editorconfig-vim'
+
   " Git
   Plug 'esneider/YUNOcommit.vim'
   Plug 'tpope/vim-fugitive'
 
   " Style
   " Plug 'altercation/vim-colors-solarized'
-  Plug 'morhetz/gruvbox'
   Plug 'bling/vim-airline'
   Plug 'edkolev/tmuxline.vim'
   Plug 'ntpeters/vim-better-whitespace'
   Plug 'scrooloose/syntastic'
   Plug 'nathanaelkane/vim-indent-guides'
+  Plug 'morhetz/gruvbox'
 call plug#end()
