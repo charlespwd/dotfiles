@@ -6,6 +6,7 @@ source ~/.vim/config/ft/clojure.vim
 source ~/.vim/config/ft/css.vim
 source ~/.vim/config/ft/html.vim
 source ~/.vim/config/ft/javascript.vim
+source ~/.vim/config/ft/python.vim
 source ~/.vim/config/ft/latex.vim
 source ~/.vim/config/ft/markdown.vim
 source ~/.vim/config/ft/ruby.vim
