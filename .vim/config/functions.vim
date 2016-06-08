@@ -95,6 +95,24 @@ endfunction
 command! -nargs=1 -bang Qfdo :call QFDo_each_line(<bang>0,<q-args>)
 command! -nargs=1 -bang Qfdofile :call QFDo(<bang>0,<q-args>)
 
+function! FEditMode()
+  let g:syntastic_check_on_open = 1
+  let g:syntastic_check_on_wq = 1
+  GitGutterEnable
+  SyntasticCheck
+endfunction
+
+function! FHackMode()
+  let g:syntastic_check_on_open = 0
+  let g:syntastic_check_on_wq = 0
+  GitGutterDisable
+  SyntasticToggleMode
+  SyntasticReset
+endfunction
+
+command! -nargs=0 HackMode :call FHackMode()
+command! -nargs=0 EditMode :call FEditMode()
+
 function! FZenModeOn()
   inoremap <buffer> <bs> <nop>
   inoremap <buffer> <c-w> <nop>
