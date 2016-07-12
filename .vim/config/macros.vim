@@ -163,7 +163,7 @@ map <leader>pp "+p
 map <leader>pu :PlugUpdate<cr>
 map <leader>rf :%s/\v(<<c-r><c-w>>)/
 map <leader>ritual <Plug>Ritual
-map <leader>rm :call delete(expand('%')) <bar> bdelete!<cr>
+map <leader>rm :call delete(expand('%')) <bar> bdelete!
 map <leader>rn :set relativenumber!<cr>
 map <leader>rs :call ReloadAllSnippets()<cr>
 map <leader>sR <leader>aW<Plug>QfreplaceFromRegisterK

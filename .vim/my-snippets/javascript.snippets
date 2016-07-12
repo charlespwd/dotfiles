@@ -196,6 +196,28 @@ snippet log
 console.log(${1});
 endsnippet
 
+snippet remodule
+/**
+ * @module ${1:moduleName}
+ */
+endsnippet
+
+snippet reslcomponent
+import React, { PropTypes } from 'react';
+
+const ${1:Class} = (props) => {
+	return (
+		${2}
+	);
+};
+
+$1.propTypes = {
+
+};
+
+export default $1;
+endsnippet
+
 snippet recomponent
 import React, { Component, PropTypes } from 'react'
 
@@ -206,6 +228,46 @@ class ${1:Class} extends Component {
 		return (
 			${2}
 		)
+	}
+}
+
+export default $1;
+endsnippet
+
+snippet recomponent;
+import React, { Component, PropTypes } from 'react';
+
+class ${1:Class} extends Component {
+	static propTypes = {}
+
+	render() {
+		return (
+			${2}
+		);
+	}
+}
+
+export default $1;
+endsnippet
+
+snippet recomponentcontainer
+import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
+
+function select(state) {
+	return {
+		state
+	};
+}
+
+@connect(select)
+class ${1:Class} extends Component {
+	static propTypes = {}
+
+	render() {
+		return (
+			${2}
+		);
 	}
 }
 
@@ -351,7 +413,7 @@ endsnippet
 snippet edesc
 describe('${1}', () => {
 	${2}
-});
+})
 endsnippet
 
 snippet it
@@ -484,8 +546,12 @@ snippet lreq
 let ${1:module} = require('${2:$1}');
 endsnippet
 
-snippet imp 
+snippet imp
 import ${1:module} from '${2:$1}';
+endsnippet
+
+snippet .imp
+import ${1:module} from './${2:$1}';
 endsnippet
 
 snippet desc

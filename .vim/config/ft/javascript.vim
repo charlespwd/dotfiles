@@ -8,13 +8,21 @@ let g:javascript_conceal_static     = "•"
 let g:javascript_conceal_super      = "Ω"
 let g:angular_skip_alternate_mappings = 1
 
+" these 2 lines check to see if eslint is installed via local npm and runs that before going global
+let s:eslint_path = system('PATH=$(npm bin):$PATH && which eslint')
+let g:syntastic_javascript_eslint_exec = substitute(s:eslint_path, '^\n*\s*\(.\{-}\)\n*\s*$', '\1', '')
+let b:syntastic_javascript_eslint_exec = substitute(s:eslint_path, '^\n*\s*\(.\{-}\)\n*\s*$', '\1', '')
+
+let b:syntastic_javascript_checkers = ['eslint']
+let g:syntastic_javascript_checkers = ['eslint']
+
 function! SetJavascriptOptions()
 
-  if filereadable('./.eslintrc')
-    let g:syntastic_javascript_checkers = ['eslint']
-  else
-    let g:syntastic_javascript_checkers = ['jshint']
-  endif
+  " if filereadable('./.eslintrc')
+  "   let g:syntastic_javascript_checkers = ['eslint']
+  " else
+  "   let g:syntastic_javascript_checkers = ['jshint']
+  " endif
 
   " surround with console.log
   let b:surround_{char2nr('c')} = "console.log(\r)"
@@ -35,11 +43,16 @@ function! SetJavascriptOptions()
   " Inline variable
   map <buffer> <Plug>JSInlineVariable "ny<esc>?\v(let<bar>var<bar>const) <c-r>n<cr>f=w"vdt;dd:%s#<c-r>n#<c-r>v#gc
   vmap <buffer> <leader>I <Plug>JSInlineVariable
+  map <buffer> <Plug>JumpToModule() viw"iy/import <c-r>i<cr>f'gf:nohl<cr>
 
+  map <buffer> <leader>x :Errors<cr>
+  map <buffer> <leader>gf <Plug>JumpToModule()
+  " jump to function definition (outbox only)
+  map <buffer> <c-[> viw"fybb<Plug>JumpToModule()/<c-r>f<cr>zt
   map <buffer> <leader>af vaBV
   map <buffer> <leader>B :!b build<cr>
   map <buffer> <leader>.. :!npm test<cr>
-  map <buffer> <leader>., :!npm test -- %<cr>
+  map <buffer> <leader>., :!./node_modules/protractor/bin/protractor protractor.conf.js --specs %<cr>
   map <buffer> <leader>I f)i,<space>
   map <buffer> <leader>== :Esformatter<cr>
   vmap <buffer> == :EsformatterVisual<cr>
@@ -57,5 +70,6 @@ function! SetJavascriptOptions()
   map <leader>uw "_dt("_ds)
 endfunction
 
-autocmd BufReadPre,FileReadPre *.es6 set filetype=javascript
+autocmd BufReadPre,FileReadPre *.es6,*.jsx set filetype=javascript
+autocmd BufEnter *.js,*.jsx set completeopt-=preview
 autocmd Filetype javascript call SetJavascriptOptions()

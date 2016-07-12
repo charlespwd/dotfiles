@@ -2,6 +2,7 @@
 # Example:
 # brainstormr=/Users/robbyrussell/Projects/development/planetargon/brainstormr
 
+alias fetchupstream="git stash && git checkout master.obt && git fetch upstream && git reset --hard upstream/master.obt && git push"
 alias npmc="npm --cache-min=1000000"
 alias "whatsmyip"="echo \`ifconfig en0 2>/dev/null|awk '/inet / {print $2}'|sed 's/addr://'\`"
 alias ":x"="exit"
