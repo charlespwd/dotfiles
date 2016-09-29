@@ -1,3 +1,107 @@
+snippet qmodule
+import ${1:module} from '../../src/client/assets/javascripts/$1'
+endsnippet
+
+snippet testdeps
+const proxyquire = require('proxyquire').noCallThru();
+import { expect } from 'chai';
+import sinon from 'sinon';
+endsnippet
+
+snippet ierrbug
+const errbug = require('../../common/utils/debug').error(__filename);
+endsnippet
+
+snippet idebug
+const debug = require('../../common/utils/debug')(__filename);
+endsnippet
+
+snippet imp_ "lodash import"
+import { ${1:map} } from 'lodash';
+endsnippet
+
+snippet cnm "Node Modules"
+/* Node Modules */
+endsnippet
+
+snippet ca "Actions"
+/* Actions */
+endsnippet
+
+snippet cs "Stores"
+/* Stores */
+endsnippet
+
+snippet cu "Utils"
+/* Utils */
+endsnippet
+
+snippet cC "Constants"
+/* Constants */
+endsnippet
+
+snippet cc "Components"
+/* Components */
+endsnippet
+
+snippet imps "Store"
+import ${1:Store} from '../../${2:common}/stores/${3:$1}';
+endsnippet
+
+snippet impa "Action"
+import ${1:Action} from '../../${2:common}/actions/${3:$1}';
+endsnippet
+
+snippet impu "Util"
+import ${1:Util} from '../../${2:common}/utils/${3:$1}';
+endsnippet
+
+snippet impC "Constant"
+import ${1:Constant} from '../../${2:common}/constants/${3:$1}';
+endsnippet
+
+snippet impc "Component"
+import ${1:Component} from '../../${2:common}/components/${3:$1}';
+endsnippet
+
+snippet reaction
+/* @module ${1:Module}Actions */
+import flux from '../../common/flux';
+import { ActionTypes } from '../constants/$1Constants';
+import { simpleAction } from '../../common/utils/actions';
+
+module.exports = flux.createActions({
+	${2:setState}: simpleAction(ActionTypes.${3:CONSTANT}),
+});
+endsnippet
+
+snippet restore
+/* @module ${1:Module}Store */
+import createStore from '../../common/utils/createStore';
+import { ActionTypes } from '../constants/${2:$1}Constants';
+
+const initialState = {};
+
+const selectors = {
+
+};
+
+const reducer = (state, payload) => {
+
+};
+
+export default createStore(selectors, reducer, initialState);
+endsnippet
+
+snippet reconstants
+/* @module ${1:Module}Constants */
+import mirror from 'keymirror';
+
+export const ActionTypes = mirror({
+	${2:SET_STATE}: null,
+});
+endsnippet
+
 snippet ngcontroller
 (function() {
 	'use strict';
@@ -393,6 +497,20 @@ snippet inj
 ${1:foo} = $injector.get('$1');
 endsnippet
 
+snippet um
+jest.unmock('${1:lodash}');
+endsnippet
+
+snippet jdescribe
+import ${1:Module} from '../$1';
+
+jest.unmock('../$1');
+${2}
+
+describe('Module: $1', () => {
+});
+endsnippet
+
 snippet esdescribe
 'use strict';
 
@@ -410,14 +528,14 @@ describe('Unit: $1', () => {
 });
 endsnippet
 
-snippet edesc
+snippet desc
 describe('${1}', () => {
 	${2}
-})
+});
 endsnippet
 
 snippet it
-it('should ${1:do something}', function() {
+it('should ${1:do something}', () => {
 	${2}
 });
 endsnippet
@@ -446,7 +564,7 @@ before(() => {
 })
 endsnippet
 
-snippet eafterEach
+snippet afterEach
 afterEach(() => {
 	${1}
 })
@@ -552,12 +670,6 @@ endsnippet
 
 snippet .imp
 import ${1:module} from './${2:$1}';
-endsnippet
-
-snippet desc
-describe('${1}', function() {
-
-});
 endsnippet
 
 snippet xp

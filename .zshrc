@@ -65,7 +65,7 @@ export PATH="$PATH:/Users/charlespclermont/Library/Android/sdk/platform-tools:/U
 export EDITOR='vim'
 
 # CONFIG HOME (neovim)
-export XDG_CONFIG_HOME='~/.config'
+export XDG_CONFIG_HOME='/Users/charlespclermont/.config'
 
 # Enable c-x,c-e command line editing
 autoload -U edit-command-line
@@ -116,6 +116,28 @@ export FZF_TMUX_HEIGHT="50%"
 export NVM_DIR=~/.nvm
 source $(brew --prefix nvm)/nvm.sh
 
+# Prioritize utilization of locally installed scripts
+export PATH="node_modules/.bin:$PATH"
+
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
 export PHANTOMJS_BIN=`which phantomjs`
+
+# push new branch
+gpn(){
+	git push --set-upstream origin "$(git rev-parse --abbrev-ref HEAD)" $@
+}
+
+### make PRs like a boss
+# push and open a page compare on GitHub
+pr() {
+    if [ $# -lt 1 ]; then
+        echo "Usage: pr [target branch name] [target repo, default to outbox]"
+        return
+    fi
+    local curbranch=`git rev-parse --abbrev-ref HEAD`
+    gpn && sleep 4 && hub compare outbox:${1}...cpclermont:$curbranch
+}
+alias gpr=pr
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"

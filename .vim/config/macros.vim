@@ -22,18 +22,16 @@ map [g :Gstatus<cr>
 map ]g :Gstatus<cr>q
 map [h :highlight ExtraWhitespace ctermbg=darkred guibg=#382424<cr>
 map ]h :highlight clear ExtraWhiteSpace<cr>
-map [w :NERDTreeToggle<cr>
-map ]w :NERDTree<cr>
+map [w :NERDTreeToggle<cr>:set relativenumber<cr>
+map ]w :NERDTree<cr>:set relativenumber<cr>
 
 " toggle background color solarized.
 if exists("g:solarized_contrast")
   call togglebg#map("<leader>cc")
 endif
 
-if exists("g:gruvbox_invert_signs")
-  map [o* :let g:gruvbox_invert_signs=1<cr>:colorscheme gruvbox<cr>
-  map ]o* :let g:gruvbox_invert_signs=0<cr>:colorscheme gruvbox<cr>
-endif
+" logical Y
+map Y y$
 
 " Smarter j and k, go up visiually in soft wrap mode.
 map j gj
@@ -41,6 +39,10 @@ map k gk
 
 " search for visual selection
 vnorem // y/<c-r>"<cr>
+
+if has('nvim')
+  nnoremap <silent> <BS> :TmuxNavigateLeft<cr>
+endif
 
 " Disable ex-mode
 map Q <Nop>
@@ -90,6 +92,7 @@ vnoremap <silent> # :<C-U>
 call SetupCommandAlias('T', 'Tabularize')
 call SetupCommandAlias('ZON', 'ZenModeOn')
 call SetupCommandAlias('ZOFF', 'ZenModeOff')
+call SetupCommandAlias('eod', 'e ~/summary.md')
 
 " MACROS
 imap <c-d>0 <esc>:let @d=system('date +"%B %d, %Y"')<cr>"dpkJA
@@ -101,11 +104,14 @@ imap <c-d>5 <esc>:let @d=system('date -v+5d +"%B %d, %Y"')<cr>"dpkJA
 imap <c-d>6 <esc>:let @d=system('date -v+6d +"%B %d, %Y"')<cr>"dpkJA
 imap <c-d>7 <esc>:let @d=system('date -v+7d +"%B %d, %Y"')<cr>"dpkJA
 map <leader>"" <Plug>ToggleTextObjQuotes
+map <leader>% :let @*=expand("%")<CR>
+map <leader>,, :Neomake<cr>
+map <leader>,. :lopen<cr>
 map <leader>.a :e ~/.zsh_custom/aliases.zsh<cr>Gzz
 map <leader>.c :e ~/.vim/config/ft/clojure.vim<cr>
 map <leader>.d :e ~/thoughts/debug.md<cr>
-map <leader>.fn :e ~/dotfiles/.vim/config/functions.vim<cr>
 map <leader>.ff :e ~/dotfiles/.vim/config/ft.vim<cr>
+map <leader>.fn :e ~/dotfiles/.vim/config/functions.vim<cr>
 map <leader>.ft :let @k=&ft<cr>:e ~/.vim/config/ft/<c-r>k.vim<cr>
 map <leader>.j :e ~/thoughts/thoughts.md<cr>G
 map <leader>.l :e ~/.lein/profiles.clj<cr>
@@ -149,12 +155,15 @@ map <leader>glg :Git lg -20<cr>
 map <leader>gp :let @a=fugitive#head()<cr>:Gpush origin <c-r>a
 map <leader>gri :Git rebase -i<space>
 map <leader>gs :Gstatus<cr>gg<c-n>
+map <leader>gsta :Git stash
+map <leader>gstp :Git stash pop
 map <leader>gwip :Git commit -a -m 'Wip'<cr>
 map <leader>ic :set ignorecase!<cr>
 map <leader>ii <Plug>PrettyAttrs
 map <leader>il <Plug>ExpandHTML
 map <leader>jd :e ~/thoughts/debug.md<cr>
 map <leader>journal <Plug>Journal
+map <leader>mv :Gmove <c-r>%
 map <leader>nd <Plug>NextDiff
 map <leader>pc :PlugClean!<cr>
 map <leader>pi :PlugInstall<cr>

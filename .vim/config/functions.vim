@@ -96,13 +96,13 @@ command! -nargs=1 -bang Qfdo :call QFDo_each_line(<bang>0,<q-args>)
 command! -nargs=1 -bang Qfdofile :call QFDo(<bang>0,<q-args>)
 
 function! FEditMode()
-  GitGutterEnable
+  " GitGutterEnable
   SyntasticToggleMode
   SyntasticCheck
 endfunction
 
 function! FHackMode()
-  GitGutterDisable
+  " GitGutterDisable
   SyntasticToggleMode
   SyntasticReset
 endfunction
@@ -118,7 +118,7 @@ function! FZenModeOn()
   inoremap <buffer> <del> <nop>
   set norelativenumber
   DisableWhitespace
-  GitGutterDisable
+  " GitGutterDisable
   SyntasticReset
 endfunction
 
@@ -128,7 +128,7 @@ function! FZenModeOff()
   iunmap <buffer> <del>
   set relativenumber
   EnableWhitespace
-  GitGutterEnable
+  " GitGutterEnable
   SyntasticCheck
 endfunction
 

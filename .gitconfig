@@ -4,6 +4,7 @@
 [alias]
 	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
 	fuck = reset --hard HEAD
+	up = !git fetch && git rebase --autostash FETCH_HEAD
 [diff]
 	tool = vimdiff
 [core]
@@ -19,3 +20,6 @@
 	templatedir = ~/.git_template
 [credential]
 	helper = osxkeychain
+[hub]
+	host = my.example.org
+	host = github.outboxtechnology.com
