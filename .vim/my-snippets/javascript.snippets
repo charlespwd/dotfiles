@@ -87,7 +87,11 @@ const selectors = {
 };
 
 const reducer = (state, payload) => {
-
+	switch (payload.actionType) {
+		default: {
+			return state;
+		}
+	}
 };
 
 export default createStore(selectors, reducer, initialState);

@@ -1,27 +1,19 @@
 " load plugins
 call plug#begin()
+  " html stuff
   Plug 'cakebaker/scss-syntax.vim', { 'for': 'scss' }
   Plug 'django.vim', { 'for': 'htmldjango' }
   Plug 'hail2u/vim-css3-syntax', { 'for': 'css' }
   Plug 'mattn/emmet-vim', { 'for': ['html','htmldjango','css','eruby','scss','sass'] }
   Plug 'othree/html5.vim', { 'for': 'html' }
 
-  " General editing goodies
+  " Autocomplete engine
   if !has('gui_running')
     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
   endif
 
-  " Autocomplete helper
+  " Autocomplete helper (use tab instead of <c-n> and <c-p>)
   Plug 'ervandew/supertab'
-
-  " Plug 'godlygeek/tabular'
-  Plug 'Raimondi/delimitMate'
-  Plug 'kana/vim-textobj-user'
-  Plug 'tommcdo/vim-exchange'
-  Plug 'tomtom/tcomment_vim'
-  Plug 'tpope/vim-surround'
-  Plug 'vim-scripts/matchit.zip'
-  Plug 'jpalardy/vim-slime'
 
   " Writing
   Plug 'plasticboy/vim-markdown', { 'for': ['markdown'] }
@@ -37,8 +29,7 @@ call plug#begin()
   Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 
   " Javascript
-  " Plug 'ternjs/tern_for_vim', { 'for': 'javascript', 'do': 'npm install' }
-  " Plug 'millermedeiros/vim-esformatter', { 'for': 'javascript' }
+  Plug 'carlitux/deoplete-ternjs', { 'for': ['javascript'] }
   Plug 'moll/vim-node', { 'for': 'javascript' }
   Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
   Plug 'mxw/vim-jsx', { 'for': 'javascript' }
@@ -54,15 +45,28 @@ call plug#begin()
   Plug 'tpope/vim-leiningen', { 'for': 'clojure' }
   Plug 'guns/vim-sexp', { 'for': ['clojure'] }
   Plug 'tpope/vim-sexp-mappings-for-regular-people', { 'for': ['clojure'] }
+  Plug 'tpope/vim-classpath', { 'for': ['clojure'] }
+
+  " async jobs with vim, also used by clojure, otherwise use neomake
+  Plug 'tpope/vim-dispatch', { 'for': ['clojure'] }
 
   " Misc
   Plug 'tpope/vim-projectionist'
-  Plug 'rking/ag.vim'
-  Plug 'tpope/vim-classpath'
-  Plug 'tpope/vim-dispatch'
   Plug 'tpope/vim-repeat'
   Plug 'tpope/vim-unimpaired'
   Plug 'christoomey/vim-sort-motion'
+  Plug 'Raimondi/delimitMate'
+  Plug 'kana/vim-textobj-user'
+  Plug 'tommcdo/vim-exchange'
+  Plug 'tomtom/tcomment_vim'
+  Plug 'tpope/vim-surround'
+  Plug 'vim-scripts/matchit.zip'
+  Plug 'jpalardy/vim-slime'
+  " Plug 'godlygeek/tabular'
+
+  " grepping
+  Plug 'rking/ag.vim'
+  Plug 'mhinz/vim-grepper'
 
   " requires brew install python
   Plug 'editorconfig/editorconfig-vim'
@@ -76,15 +80,16 @@ call plug#begin()
   Plug 'edkolev/tmuxline.vim'
   Plug 'ntpeters/vim-better-whitespace'
 
-  "linting
+  " linting vim
   if !has('nvim')
     Plug 'scrooloose/syntastic', { 'for': ['javascript'] }
   endif
 
+  " linting nvim
   if has('nvim')
     Plug 'neomake/neomake'
   endif
 
-  " Plug 'nathanaelkane/vim-indent-guides'
+  Plug 'nathanaelkane/vim-indent-guides'
   Plug 'morhetz/gruvbox'
 call plug#end()

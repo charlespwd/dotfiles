@@ -103,6 +103,9 @@ let g:ctrlp_user_command = {
 
 " deoplete config
 let g:deoplete#enable_at_startup = 1
+let g:deoplete#file#enable_buffer_path = 1
+let g:deoplete#enable_refresh_always = 1
+call deoplete#custom#set('_', 'min_pattern_length', 1)
 
 " supertab options
 let g:SuperTabDefaultCompletionType = '<c-n>'
@@ -160,3 +163,4 @@ vmap <c-d><c-d> JV<Plug>SlimeRegionSendu
 
 " delimitMate
 let g:delimitMate_expand_cr = 1
+let g:delimitMate_expand_space = 1

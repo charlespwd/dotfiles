@@ -60,8 +60,8 @@ map <Plug>MostRecentBuffer :e #<cr>
 map <Plug>NextDiff :Gstatus<cr>/not staged<cr>/modified<cr>WD:pclose<cr>
 map <Plug>QfreplaceFromRegisterK :Qfdo s/<c-r>k//gce<bar>w<left><left><left><left><left><left>
 map <Plug>ToggleTextObjQuotes :ToggleEducate<cr>
-map <SID>SearchFromRegisterK :Ag! "<c-r>k"<cr>
-map <SID>SearchFromRegisterKWithBounds :Ag! "\b<c-r>k\b"<cr>
+map <SID>SearchFromRegisterK :GrepperAg "<c-r>k"<cr>
+map <SID>SearchFromRegisterKWithBounds :GrepperAg "\b<c-r>k\b"<cr>
 
 " `:SS some/text` will search for `some/text` in the file (escapes all special characters)
 command! -nargs=1 SS let @/ = '\V'.escape(<q-args>, '/\')|normal! /<C-R>/<CR>
@@ -111,6 +111,7 @@ map <leader>.a :e ~/.zsh_custom/aliases.zsh<cr>Gzz
 map <leader>.c :e ~/.vim/config/ft/clojure.vim<cr>
 map <leader>.d :e ~/thoughts/debug.md<cr>
 map <leader>.ff :e ~/dotfiles/.vim/config/ft.vim<cr>
+map <leader>.fj :e ~/dotfiles/.vim/config/ft/javascript.vim<cr>
 map <leader>.fn :e ~/dotfiles/.vim/config/functions.vim<cr>
 map <leader>.ft :let @k=&ft<cr>:e ~/.vim/config/ft/<c-r>k.vim<cr>
 map <leader>.j :e ~/thoughts/thoughts.md<cr>G
@@ -127,11 +128,9 @@ map <leader>F :Files ~/<cr>
 map <leader>G :G
 map <leader>R :redraw!<cr>
 map <leader>V "+p
-map <leader>aW :let @k=expand('<cWORD>')<cr><sid>SearchFromRegisterKWithBounds()
-map <leader>aa :Ag!<space>
-map <leader>ag :Ag! "<C-r>=expand('<cword>')<CR>"
+map <leader>aa :Grepper -tool ag<cr>
 map <leader>am :e ~/.vim/config/macros.vim<cr>gg/" MACROS<cr>zz:nohl<cr>o<esc>^S
-map <leader>aw :let @k=expand('<cword>')<cr><sid>SearchFromRegisterKWithBounds()
+map <leader>aw :Grepper -tool ag -cword -noprompt<cr>
 map <leader>b :Buffers<cr>
 map <leader>dd !!today<cr>I#<space><esc>o
 map <leader>extract ?function<cr>vf{%"fdiplaceholder<esc><cr><cr>"fpf(i<space>placeholder<esc>*
@@ -183,7 +182,7 @@ map <leader>sg 1z=
 map <leader>snip :UltiSnipsEdit<cr>
 map <leader>snr :echo ReloadAllSnippets()<cr>
 map <leader>so "kyy:<c-r>k<backspace><cr>
-map <leader>sr <leader>aw<Plug>QfreplaceFromRegisterK
+map <leader>sr :let @k=expand('<cword>')<cr><leader>aw<Plug>QfreplaceFromRegisterK
 map <leader>ss :let @k=Input("Search: ")<cr><sid>SearchFromRegisterK()<Plug>QfreplaceFromRegisterK
 map <leader>st 0v}b$:sort<cr>
 map <leader>sv :source ~/.vimrc<cr>

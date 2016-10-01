@@ -60,7 +60,12 @@ function! SetJavascriptOptions()
   map <buffer> <leader>:f ^cxw2wcxwbbx$%/,$<cr>:s///g<cr>
   " turn a function name() into a name: function()
   map <buffer> <leader>:F ^cxewcxe^ea:<esc>f{=a}f{%a,<esc>
+  " turn an import statement into a proxyquire mock
   map <buffer> <leader>mock ^dt'f;i: {},<esc>lD==
+  " turn a require statement into an import statement
+  map <buffer> <leader>imp cwimport<esc>f=dt(ifrom <esc>f(ds)
+  " turn an import statement into a require statement
+  map <buffer> <leader>req cwconst<esc>wWcw=<esc>f'irequire(<esc>lxf;i)<esc>
   " unwrap something, e.g. |console.log(foo(bar)) => foo(bar)
   nnoremap <silent> <leader>e :call JSFormat()<cr>
   map <leader>uw "_dt("_ds)
@@ -71,7 +76,7 @@ autocmd BufReadPre,FileReadPre *.es6,*.jsx set filetype=javascript
 autocmd Filetype javascript call SetJavascriptOptions()
 
 " run lint on save
-autocmd BufWrite *.js,*.jsx Neomake fastlint
+autocmd BufRead,BufWrite *.js,*.jsx Neomake fastlint
 
 " disable the annoying vim-node doc preview
 autocmd BufEnter *.js,*.jsx set completeopt-=preview
