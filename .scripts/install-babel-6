@@ -1,4 +1,0 @@
-npm install --save-dev babel-preset-es2015 babel-preset-stage-0
-echo "{\n\
-  \"presets\": [ \"es2015\", \"stage-0\" ]\n\
-}" > .babelrc

@@ -1,2 +1,0 @@
-#!/bin/sh
-tmux swap-window -s $1 -t $2
