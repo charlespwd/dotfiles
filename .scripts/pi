@@ -1,0 +1,45 @@
+#!/bin/bash
+
+pi="${2-raspi}.local"
+
+case "$1" in
+  mount)
+    echo "Mounting $pi on ~/ws/pi"
+    sshfs $pi: ~/ws/pi
+    ;;
+
+  unmount)
+    echo "Unmounting $pi from ~/ws/pi"
+    umount ~/ws/pi
+    ;;
+
+  connect)
+    echo "Connecting to $pi"
+    ssh $pi
+    ;;
+
+  desktop)
+    echo "Opening desktop view of $pi"
+    ssh $pi '~/scripts/vnc start'
+    /Applications/RealVNC/VNC\ Viewer.app/Contents/MacOS/vncviewer rpi.local:0
+    ;;
+
+  shutdown)
+    echo "Shutting down $pi"
+    ssh $pi 'sudo shutdown -h now'
+    ;;
+
+  reboot)
+    echo "Rebooting down $pi"
+    ssh $pi 'sudo shutdown -h now'
+    sleep 10
+    ssh $pi
+    ;;
+
+  *)
+   echo "Usage: pi {connect|desktop|shutdown|reboot} [hostname]"
+   exit 1
+   ;;
+esac
+
+exit 0
