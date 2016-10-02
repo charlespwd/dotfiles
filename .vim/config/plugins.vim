@@ -29,7 +29,6 @@ call plug#begin()
   Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 
   " Javascript
-  Plug 'carlitux/deoplete-ternjs', { 'for': ['javascript'] }
   Plug 'moll/vim-node', { 'for': 'javascript' }
   Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
   Plug 'mxw/vim-jsx', { 'for': 'javascript' }
