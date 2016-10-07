@@ -89,6 +89,6 @@ call plug#begin()
     Plug 'neomake/neomake'
   endif
 
-  Plug 'nathanaelkane/vim-indent-guides'
+  " Plug 'nathanaelkane/vim-indent-guides'
   Plug 'morhetz/gruvbox'
 call plug#end()

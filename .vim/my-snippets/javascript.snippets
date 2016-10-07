@@ -1,3 +1,19 @@
+snippet mock
+${1:Mock} = {
+	${2:someFn}: sinon.stub(),
+};
+endsnippet
+
+snippet withmocks
+let $1;
+
+beforeEach(() => {
+	${1:MyModule} = proxyquire('../$1', {
+		${2}
+	}).default;
+});
+endsnippet
+
 snippet qmodule
 import ${1:module} from '../../src/client/assets/javascripts/$1'
 endsnippet
@@ -704,12 +720,6 @@ beforeEach(inject(function($injector) {
 }));
 endsnippet
 
-snippet eb4e
-beforeEach(() => {
-	${1}
-})
-endsnippet
-
 snippet eafe
 afterEach(() => {
 	${1}
@@ -717,13 +727,13 @@ afterEach(() => {
 endsnippet
 
 snippet b4e
-beforeEach(function() {
+beforeEach(() => {
 	${1}
 });
 endsnippet
 
 snippet afe
-afterEach(function() {
+afterEach(() => {
 	${1}
 });
 endsnippet

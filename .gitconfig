@@ -5,12 +5,18 @@
 	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
 	fuck = reset --hard HEAD
 	up = !git fetch && git rebase --autostash FETCH_HEAD
+[core]
+	editor = nvim
 [diff]
 	tool = vimdiff
-[core]
-	editor = vim
+[difftool]
+  prompt = false
 [merge]
 	tool = vimdiff
+[mergetool]
+  prompt = true
+[mergetool "vimdiff"]
+  cmd = nvim -d $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
 [filter "media"]
 	clean = git-media-clean %f
 	smudge = git-media-smudge %f

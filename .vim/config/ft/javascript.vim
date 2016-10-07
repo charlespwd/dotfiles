@@ -50,6 +50,7 @@ function! SetJavascriptOptions()
   map <buffer> <leader>I f)i,<space>
   map <buffer> <leader>== :Esformatter<cr>
   map <buffer> <leader>.. :Dispatch<cr>
+  map <buffer> <leader>lint :NeomakeSh npm run precommit<cr>:copen<cr>
   vmap <buffer> == :EsformatterVisual<cr>
   map <buffer> <leader>rj :TernRename<cr>
   " wrap line by console.log()

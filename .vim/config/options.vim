@@ -104,7 +104,7 @@ let g:ctrlp_user_command = {
 " deoplete config
 let g:deoplete#enable_at_startup = 1
 let g:deoplete#file#enable_buffer_path = 1
-let g:deoplete#enable_refresh_always = 1
+" let g:deoplete#enable_refresh_always = 1
 call deoplete#custom#set('_', 'min_pattern_length', 1)
 
 " supertab options
