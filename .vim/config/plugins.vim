@@ -32,6 +32,9 @@ call plug#begin()
   Plug 'moll/vim-node', { 'for': 'javascript' }
   Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
   Plug 'mxw/vim-jsx', { 'for': 'javascript' }
+  Plug 'leafgarland/typescript-vim', { 'for': 'typescript' }
+  Plug 'Shougo/vimproc.vim', { 'for': 'typescript', 'do': 'make -f make_mac.mak' }
+  Plug 'Quramy/tsuquyomi', { 'for': 'typescript' }
 
   " Clojure
   " Plug 'venantius/vim-cljfmt', { 'for': 'clojure' }
@@ -76,6 +79,7 @@ call plug#begin()
 
   " Style
   Plug 'bling/vim-airline'
+  Plug 'vim-airline/vim-airline-themes'
   Plug 'edkolev/tmuxline.vim'
   Plug 'ntpeters/vim-better-whitespace'
 

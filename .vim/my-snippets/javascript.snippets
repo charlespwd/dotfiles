@@ -1,3 +1,7 @@
+snippet exp
+expect($1).to.$2
+endsnippet
+
 snippet mock
 ${1:Mock} = {
 	${2:someFn}: sinon.stub(),
@@ -32,8 +36,8 @@ snippet idebug
 const debug = require('../../common/utils/debug')(__filename);
 endsnippet
 
-snippet imp_ "lodash import"
-import { ${1:map} } from 'lodash';
+snippet imp_ "import properties"
+import { ${1:map} } from '${2:lodash}';
 endsnippet
 
 snippet cnm "Node Modules"
@@ -361,7 +365,7 @@ endsnippet
 snippet recomponent;
 import React, { Component, PropTypes } from 'react';
 
-class ${1:Class} extends Component {
+export default class ${1:Class} extends Component {
 	static propTypes = {}
 
 	render() {
@@ -370,8 +374,6 @@ class ${1:Class} extends Component {
 		);
 	}
 }
-
-export default $1;
 endsnippet
 
 snippet recomponentcontainer
@@ -664,14 +666,14 @@ snippet req
 var ${1:module} = require('${2:$1}');
 endsnippet
 
-snippet edescribe
-/* eslint-env jasmine */
-
+snippet test
+import { expect } from 'chai'
+import sinon from 'sinon'
 import ${1:Module} from './${2:$1}'
 
-describe('Unit: $2', () => {
+describe('Module: $2', () => {
 	it('should exist', () => {
-		expect($1).toBeDefined()
+		expect($1).to.exist
 	})
 })
 endsnippet

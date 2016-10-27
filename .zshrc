@@ -136,7 +136,7 @@ pr() {
         return
     fi
     local curbranch=`git rev-parse --abbrev-ref HEAD`
-    gpn && sleep 4 && hub compare outbox:${1}...cpclermont:$curbranch
+    gpn && sleep 4 && hub compare ${2:-outbox}:${1}...${3:-cpclermont}:$curbranch
 }
 alias gpr=pr
 

@@ -7,13 +7,27 @@ let g:javascript_conceal_prototype  = "¶"
 let g:javascript_conceal_static     = "•"
 let g:javascript_conceal_super      = "Ω"
 let g:angular_skip_alternate_mappings = 1
-let g:neomake_javascript_fastlint_maker = {
-      \ 'exe': 'eslint_d',
-      \ 'args': ['--quiet', '-f', 'compact'],
-      \ 'errorformat': '%E%f: line %l\, col %c\, Error - %m,' .
-      \ '%W%f: line %l\, col %c\, Warning - %m'
-      \ }
-let g:neomake_javascript_enabled_markers = ['fastlint']
+" let g:neomake_javascript_fastlint_maker = {
+"       \ 'exe': 'eslint_d',
+"       \ 'args': ['--quiet', '-f', 'compact'],
+"       \ 'errorformat': '%E%f: line %l\, col %c\, Error - %m,' .
+"       \ '%W%f: line %l\, col %c\, Warning - %m'
+"       \ }
+let g:neomake_javascript_enabled_markers = ['eslint']
+let g:do_lint_js=1
+" let g:neomake_typescript_tsc_maker = {
+"       \ 'args': ['-m', 'commonjs', '--target', 'es5', '--strictNullChecks', '--noEmit'],
+"       \ 'errorformat':
+"           \ '%E%f %#(%l\,%c): error %m,' .
+"           \ '%E%f %#(%l\,%c): %m,' .
+"           \ '%Eerror %m,' .
+"           \ '%C%\s%\+%m'
+"       \ }
+
+function! SetTypescriptOptions()
+  map <buffer> <leader>rj :TsuRenameSymbol<cr>
+  map <buffer> <leader>rf :TsuRenameSymbol<cr>
+endfunction
 
 function! SetJavascriptOptions()
   let b:surround_{char2nr('p')} = "(\n\t\r\n)"
@@ -26,30 +40,19 @@ function! SetJavascriptOptions()
   let b:surround_{char2nr('i')} = "it('', function() {\n\r\n});"
   let b:surround_{char2nr('I')} = "if (true) {\n\r\n}"
   let b:surround_{char2nr('n')} = "{{/*\n\r\n*/}}"
-  let b:surround_{char2nr('d')} = "describe('', function() {\n\r\n});"
-  let b:surround_{char2nr('D')} = "describe('', () => {\n\r\n})"
+  let b:surround_{char2nr('D')} = "describe('', function() {\n\r\n});"
+  let b:surround_{char2nr('d')} = "describe('', () => {\n\r\n})"
   set conceallevel=0
 
-  " Extract text under cursor as variable
-  map <buffer> <Plug>JSExtractVariable "vd<esc>:let @n=Input('Name: ')<cr>"nP[{ovar <c-r>n = <c-r>v;<esc>:%s#<c-r>v#<c-r>n#gc<cr>
-  vmap <buffer> <leader>X <Plug>JSExtractVariable
-
-  " Inline variable
-  map <buffer> <Plug>JSInlineVariable "ny<esc>?\v(let<bar>var<bar>const) <c-r>n<cr>f=w"vdt;dd:%s#<c-r>n#<c-r>v#gc
-  vmap <buffer> <leader>I <Plug>JSInlineVariable
-  map <buffer> <Plug>JumpToModule() viw"iy/import <c-r>i<cr>f'gf:nohl<cr>
-
-  map <buffer> <leader>* "iyiw/\v(function<bar>const<bar>import.*) <<c-r>i><cr>:nohl<cr>
-  map <buffer> <leader>X :Errors<cr>
   map <buffer> <leader>gf <Plug>JumpToModule()
   " jump to function definition (outbox only)
   map <buffer> K viw"fybb<Plug>JumpToModule()/<c-r>f<cr>zt
   map <buffer> <leader>af vaBV
   map <buffer> <leader>B :!b build<cr>
-  map <buffer> <leader>., :!./node_modules/protractor/bin/protractor protractor.conf.js --specs %<cr>
+  " map <buffer> <leader>., :!./node_modules/protractor/bin/protractor protractor.conf.js --specs %<cr>
+  " map <buffer> <leader>.. :Dispatch<cr>
   map <buffer> <leader>I f)i,<space>
   map <buffer> <leader>== :Esformatter<cr>
-  map <buffer> <leader>.. :Dispatch<cr>
   map <buffer> <leader>lint :NeomakeSh npm run precommit<cr>:copen<cr>
   vmap <buffer> == :EsformatterVisual<cr>
   map <buffer> <leader>rj :TernRename<cr>
@@ -71,13 +74,14 @@ function! SetJavascriptOptions()
   nnoremap <silent> <leader>e :call JSFormat()<cr>
   map <leader>uw "_dt("_ds)
 endfunction
-
 " Set js options for all js files
 autocmd BufReadPre,FileReadPre *.es6,*.jsx set filetype=javascript
 autocmd Filetype javascript call SetJavascriptOptions()
+autocmd Filetype typescript call SetTypescriptOptions()
 
 " run lint on save
-autocmd BufRead,BufWrite *.js,*.jsx Neomake fastlint
+autocmd BufRead,BufWrite *.js,*.jsx if exists('g:do_lint_js') && g:do_lint_js | Neomake eslint | endif
+" autocmd BufRead,BufWrite *.ts if exists('g:do_lint_js') && g:do_lint_js | Neomake | endif
 
 " disable the annoying vim-node doc preview
 autocmd BufEnter *.js,*.jsx set completeopt-=preview

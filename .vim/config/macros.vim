@@ -90,6 +90,7 @@ vnoremap <silent> # :<C-U>
 
 " ABBREVS
 call SetupCommandAlias('T', 'Tabularize')
+call SetupCommandAlias('NM', 'NeomakeSh npm run start')
 call SetupCommandAlias('ZON', 'ZenModeOn')
 call SetupCommandAlias('ZOFF', 'ZenModeOff')
 call SetupCommandAlias('eod', 'e ~/summary.md')
@@ -105,6 +106,7 @@ imap <c-d>6 <esc>:let @d=system('date -v+6d +"%B %d, %Y"')<cr>"dpkJA
 imap <c-d>7 <esc>:let @d=system('date -v+7d +"%B %d, %Y"')<cr>"dpkJA
 map <leader>"" <Plug>ToggleTextObjQuotes
 map <leader>% :let @*=expand("%")<CR>
+map <leader>,t :if exists('g:do_lint_js') && g:do_lint_js <bar> let g:do_lint_js=0 <bar> else <bar> let g:do_lint_js=1 <bar> endif <bar> echo g:do_lint_js<cr>
 map <leader>,, :Neomake<cr>
 map <leader>,. :lopen<cr>
 map <leader>.a :e ~/.zsh_custom/aliases.zsh<cr>Gzz
@@ -195,6 +197,7 @@ map <leader>ws :StripWhitespace<cr>
 map <leader>wt :set textwidth=70<cr>
 map <leader>ww :!wc -w %<cr>
 map <silent> <leader>q :bd<cr>
+map <silent> <leader>Q :bn<bar>bd #<cr>
 map <silent> <leader>x :ccl<cr>:lcl<cr>
 map \\ <Plug>MostRecentBuffer
 nmap <leader>## 70i#<esc>o<esc>

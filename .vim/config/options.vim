@@ -21,6 +21,7 @@ let g:gruvbox_improved_strings=0
 colorscheme gruvbox
 
 " options
+set path+="**"
 set backspace=2 " make backspace work like most other apps"
 set nocursorline " don't highlight current line
 set nocursorcolumn "
@@ -92,6 +93,10 @@ let g:netrw_browsex_viewer = "open"
 
 " enable airline powerline fonts
 let g:airline_powerline_fonts = 1
+let g:airline_left_sep=''
+let g:airline_right_sep=''
+let g:airline_theme='base16color'
+let g:tmuxline_powerline_separators = 0
 
 " use silver searcher for ctrlp
 let g:ctrlp_user_command = {
@@ -122,7 +127,7 @@ let g:UltiSnipsSnippetDirectories=["UltiSnips", "my-snippets"]
 " neomake
 highlight CpErrorMsg ctermbg=1 ctermfg=0
 highlight CpWarningMsg ctermbg=3 ctermfg=0
-let g:neomake_serialize = 1
+let g:neomake_serialize = 0
 let g:neomake_warning_sign = {
   \ 'text': '⚠',
   \ 'texthl': 'CpWarningMsg',
@@ -147,6 +152,9 @@ let g:EditorConfig_exclude_patterns = ['fugitive://.*']
 
 " vim-jsx
 let g:jsx_ext_required = 0
+
+" tsuquyomi (typescript)
+let g:tsuquyomi_disable_quickfix=0
 
 " neovim + python
 let g:python_host_skip_check=1
