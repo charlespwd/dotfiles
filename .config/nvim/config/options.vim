@@ -6,7 +6,12 @@ let g:gruvbox_invert_selection=0
 let g:gruvbox_invert_tabline=1
 let g:gruvbox_invert_signs=1
 let g:gruvbox_improved_strings=0
-colorscheme gruvbox
+
+try
+  colorscheme gruvbox
+catch /^Vim\%((\a\+)\)\=:E185/
+  " deal with it
+endtry
 
 " OS specific configurations
 if has('unix')
@@ -54,7 +59,6 @@ set ttimeoutlen=100 "decrease timeout for faster insert with O
 set undolevels=1000
 set wildmode=list:longest,full
 set nosmarttab
-
 " better whitespace
 let g:better_whitespace_filetypes_blacklist=[]
 
@@ -119,7 +123,7 @@ let g:SuperTabContextDefaultCompletionType = '<c-n>'
 let g:UltiSnipsExpandTrigger="<c-@>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
-let g:UltiSnipsSnippetsDir="~/.vim/my-snippets"
+let g:UltiSnipsSnippetsDir="~/.config/nvim/my-snippets"
 let g:UltiSnipsSnippetDirectories=["UltiSnips", "my-snippets"]
 
 " neomake
@@ -160,7 +164,7 @@ let g:python3_host_skip_check=1
 " vim-slime
 let g:slime_target = "tmux"
 let g:slime_no_mappings = 1
-let g:slime_paste_file = "$HOME/.slime_paste"
+" let g:slime_paste_file = "$HOME/.slime_paste"
 vmap <c-d><c-d> JV<Plug>SlimeRegionSendu
 " nmap <c-d><c-d> V<Plug>SlimeRegionSend
 

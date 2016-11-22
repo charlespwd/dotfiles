@@ -109,21 +109,21 @@ map <leader>,, :Neomake<cr>
 map <leader>,. :lopen<cr>
 map <leader>,t :if exists('g:do_lint_js') && g:do_lint_js <bar> let g:do_lint_js=0 <bar> else <bar> let g:do_lint_js=1 <bar> endif <bar> echo g:do_lint_js<cr>
 map <leader>.a :e ~/dotfiles/.zsh_custom/aliases.zsh<cr>Gzz
-map <leader>.c :e ~/.vim/config/ft/clojure.vim<cr>
+map <leader>.c :e ~/.config/nvim/config/ft/clojure.vim<cr>
 map <leader>.d :e ~/.config/i3/startup.sh<cr>
-map <leader>.ff :e ~/dotfiles/.vim/config/ft.vim<cr>
-map <leader>.fj :e ~/dotfiles/.vim/config/ft/javascript.vim<cr>
-map <leader>.fn :e ~/dotfiles/.vim/config/functions.vim<cr>
-map <leader>.ft :let @k=&ft<cr>:e ~/.vim/config/ft/<c-r>k.vim<cr>
+map <leader>.ff :e ~/dotfiles/.config/nvim/config/ft.vim<cr>
+map <leader>.fj :e ~/dotfiles/.config/nvim/config/ft/javascript.vim<cr>
+map <leader>.fn :e ~/dotfiles/.config/nvim/config/functions.vim<cr>
+map <leader>.ft :let @k=&ft<cr>:e ~/.config/nvim/config/ft/<c-r>k.vim<cr>
 map <leader>.i :e ~/.config/i3/config<cr>
 map <leader>.j :e ~/thoughts/thoughts.md<cr>G
 map <leader>.l :e ~/.lein/profiles.clj<cr>
-map <leader>.m :e ~/dotfiles/.vim/config/macros.vim<cr>/" MACROS<cr>:nohl<cr>
-map <leader>.o :e ~/dotfiles/.vim/config/options.vim<cr>
-map <leader>.p :e ~/dotfiles/.vim/config/plugins.vim<cr>
+map <leader>.m :e ~/dotfiles/.config/nvim/config/macros.vim<cr>/" MACROS<cr>:nohl<cr>
+map <leader>.o :e ~/dotfiles/.config/nvim/config/options.vim<cr>
+map <leader>.p :e ~/dotfiles/.config/nvim/config/plugins.vim<cr>
 map <leader>.s :e ~/.config/i3status/config<cr>
 map <leader>.t :e ~/.tmux.conf<cr>
-map <leader>.v :e ~/dotfiles/.vimrc<cr>
+map <leader>.v :e ~/dotfiles/.config/nvim/init.vim<cr>
 map <leader>.w :e ~/thoughts/new-words.md<cr>
 map <leader>.z :e ~/.zshrc<cr>
 map <leader>;; :%s/;//g<cr>

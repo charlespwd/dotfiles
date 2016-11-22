@@ -1,8 +1,8 @@
 syntax enable
 filetype plugin indent on
 
-source ~/.vim/config/plugins.vim
-source ~/.vim/config/options.vim
-source ~/.vim/config/functions.vim
-source ~/.vim/config/macros.vim
-source ~/.vim/config/ft.vim
+source config/plugins.vim
+source config/options.vim
+source config/functions.vim
+source config/macros.vim
+source config/ft.vim

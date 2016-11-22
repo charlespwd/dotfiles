@@ -1,5 +1,5 @@
 " load plugins
-call plug#begin()
+call plug#begin('~/dotfiles/.config/nvim/plugged')
   " html stuff
   Plug 'cakebaker/scss-syntax.vim', { 'for': 'scss' }
   Plug 'django.vim', { 'for': 'htmldjango' }
@@ -7,25 +7,25 @@ call plug#begin()
   Plug 'mattn/emmet-vim', { 'for': ['html','htmldjango','css','eruby','scss','sass'] }
   Plug 'othree/html5.vim', { 'for': 'html' }
 
-  " Autocomplete engine
+  "" Autocomplete engine
   if !has('gui_running')
     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
   endif
 
   " Autocomplete helper (use tab instead of <c-n> and <c-p>)
   Plug 'ervandew/supertab'
-
   " Writing
+
   Plug 'plasticboy/vim-markdown', { 'for': ['markdown'] }
 
-  " snipmate (REQUIRES brew install python)
+  "" snipmate (REQUIRES brew install python)
   Plug 'SirVer/ultisnips'
   Plug 'honza/vim-snippets'
 
-  " Navigation
+  "" Navigation "
   Plug 'christoomey/vim-tmux-navigator'
   Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install'  }
-  Plug 'junegunn/fzf.vim'
+  Plug 'junegunn/fzf.vim' 
   Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 
   " Javascript
