@@ -54,6 +54,9 @@ function! SetJavascriptOptions()
   map <buffer> <leader>I f)i,<space>
   map <buffer> <leader>== :Esformatter<cr>
   map <buffer> <leader>lint :NeomakeSh npm run precommit<cr>:copen<cr>
+  " open/close object, open means on multiple lines, close means one line
+  map <buffer> <leader>{ ^f{f}bea,<esc>:s/,/,\r/g<cr>%a<cr><esc>=a}:nohl<cr>
+  map <buffer> <leader>} ]}k$xva}J
   vmap <buffer> == :EsformatterVisual<cr>
   map <buffer> <leader>rj :TernRename<cr>
   " wrap line by console.log()

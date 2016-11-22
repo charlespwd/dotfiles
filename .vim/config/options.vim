@@ -1,15 +1,3 @@
-if exists('g:solarized_contrast')
-  let g:solarized_contrast = "high"
-  if ("LIGHT" == $BACKGROUND)
-    let g:solarized_contrast = "high"
-    set background=light
-  else
-    let g:solarized_contrast = "normal"
-    set background=dark
-  endif
-  colorscheme solarized
-endif
-
 set background=dark
 let g:gruvbox_termcolors=16
 let g:gruvbox_hls_cursor="green"
@@ -19,6 +7,24 @@ let g:gruvbox_invert_tabline=1
 let g:gruvbox_invert_signs=1
 let g:gruvbox_improved_strings=0
 colorscheme gruvbox
+
+" OS specific configurations
+if has('unix')
+  let s:uname = system("uname -s")
+
+  " OSX
+  if s:uname == "Darwin"
+    let g:EditorConfig_exec_path = '/usr/local/bin/editorconfig'
+    let g:python_host_prog = '/usr/local/bin/python2'
+    let g:python3_host_prog = '/usr/local/bin/python3'
+
+  " Linux
+  else
+    let g:EditorConfig_exec_path = '/usr/bin/editorconfig'
+    let g:python_host_prog = '/usr/bin/python2'
+    let g:python3_host_prog = '/usr/bin/python3'
+  endif
+endif
 
 " options
 set path+="**"
@@ -98,14 +104,6 @@ let g:airline_right_sep=''
 let g:airline_theme='base16color'
 let g:tmuxline_powerline_separators = 0
 
-" use silver searcher for ctrlp
-let g:ctrlp_user_command = {
-      \   'types': {
-      \     1: ['.git', 'ag %s -l --nocolor -g ""'],
-      \   },
-      \   'ignore': 1
-      \ }
-
 " deoplete config
 let g:deoplete#enable_at_startup = 1
 let g:deoplete#file#enable_buffer_path = 1
@@ -147,7 +145,6 @@ let NERDTreeQuitOnOpen = 1
 
 " editorconfig
 let g:EditorConfig_core_mode = 'external_command'
-let g:EditorConfig_exec_path="/usr/local/bin/editorconfig"
 let g:EditorConfig_exclude_patterns = ['fugitive://.*']
 
 " vim-jsx
@@ -159,8 +156,6 @@ let g:tsuquyomi_disable_quickfix=0
 " neovim + python
 let g:python_host_skip_check=1
 let g:python3_host_skip_check=1
-let g:python_host_prog='/usr/local/bin/python2'
-let g:python3_host_prog='/usr/local/bin/python3'
 
 " vim-slime
 let g:slime_target = "tmux"

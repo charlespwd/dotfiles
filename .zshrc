@@ -1,3 +1,6 @@
+# For switching configs
+OS=$(uname -s)
+
 # remove file permissions to everyone else by default
 umask go-rwx
 
@@ -48,52 +51,37 @@ ZSH_CUSTOM=~/.zsh_custom
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git osx vagrant node npm rbenv be rake rails vi-mode jump brew heroku cp autoenv)
+if [ "$OS" = "Linux" ]; then
+  plugins=(git node npm vi-mode jump cp)
+elif [ "$OS" = "Darwin" ]; then
+  plugins=(git osx vagrant node npm rbenv be rake rails vi-mode jump brew heroku cp autoenv)
+fi
 
 # Load oh-my-zsh
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
+# Add $scr variable
+export scr="$HOME/.scripts"
+
 # Change your path
-export PATH="/opt/local/bin:/opt/local/sbin:/Users/charlespclermont/bin:/Users/charlespclermont/npm/bin:/usr/local/heroku/bin:/usr/local/bin:/bin:/usr/sbin:/sbin:/usr/bin:/usr/texbin"
-export PATH="/Users/charlespclermont/.scripts:$PATH"
-export PATH="$PATH:/usr/local/mysql/bin"
-export PATH="$PATH:/Users/charlespclermont/Library/Android/sdk/platform-tools:/Users/charlespclermont/Library/Android/sdk/tools"
+export PATH="$HOME/.scripts:$PATH"
+
+# Load os specific config
+[ "$OS" = "Linux" ] && source ~/dotfiles/arch.sh
+[ "$OS" = "Darwin" ] && source ~/dotfiles/osx.sh
 
 # Default editor
-export EDITOR='vim'
+export EDITOR='nvim'
 
 # CONFIG HOME (neovim)
-export XDG_CONFIG_HOME='/Users/charlespclermont/.config'
+export XDG_CONFIG_HOME='$HOME/.config'
 
 # Enable c-x,c-e command line editing
 autoload -U edit-command-line
 zle -N edit-command-line
 bindkey '\C-x\C-e' edit-command-line
-
-# RBENV config
-export RBENV_ROOT="$HOME/.rbenv"
-
-if [ -d $RBENV_ROOT ]; then
-  export PATH="$RBENV_ROOT/bin:$PATH"
-  eval "$(rbenv init -)"
-fi
-
-# PYENV config
-export PYENV_ROOT="/usr/local/opt/pyenv"
-
-if which pyenv > /dev/null; then
-  eval "$(pyenv init -)";
-fi
-
-# BOOT config
-export BOOT_CLOJURE_VERSION="1.7.0"
-
-# LEIN config
-export CLOJURESCRIPT="$HOME/bin/clojurescript"
-# export LEIN_FAST_TRAMPOLINE=y
-alias cljsbuild="lein trampoline cljsbuild $@"
 
 # Enable command editing in editor with c-x,c-e
 autoload -U edit-command-line
@@ -112,16 +100,8 @@ export FZF_DEFAULT_COMMAND='ag -l -g ""' # follow .git_ignore
 export FZF_TMUX=1
 export FZF_TMUX_HEIGHT="50%"
 
-# Node config
-export NVM_DIR=~/.nvm
-source $(brew --prefix nvm)/nvm.sh
-
 # Prioritize utilization of locally installed scripts
 export PATH="node_modules/.bin:$PATH"
-
-### Added by the Heroku Toolbelt
-export PATH="/usr/local/heroku/bin:$PATH"
-export PHANTOMJS_BIN=`which phantomjs`
 
 # push new branch
 gpn(){
@@ -136,8 +116,11 @@ pr() {
         return
     fi
     local curbranch=`git rev-parse --abbrev-ref HEAD`
-    gpn && sleep 4 && hub compare ${2:-outbox}:${1}...${3:-cpclermont}:$curbranch
+    gpn && sleep 4
+    url=`hub compare -u ${2:-outbox}:${1}...${3:-cpclermont}:$curbranch`
+    echo "$url"
+    echo "$url" | xclip -i -sel clipboard
+    echo "Compare url copied to clipboard"
+    hub compare ${2:-outbox}:${1}...${3:-cpclermont}:$curbranch
 }
 alias gpr=pr
-
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"

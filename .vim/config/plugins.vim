@@ -70,7 +70,7 @@ call plug#begin()
   Plug 'rking/ag.vim'
   Plug 'mhinz/vim-grepper'
 
-  " requires brew install python
+  " requires python (and python-editorconfig on arch)
   Plug 'editorconfig/editorconfig-vim'
 
   " Git

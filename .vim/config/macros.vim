@@ -12,9 +12,6 @@ imap <F6> <ESC>:setlocal spell! spelllang=fr<cr>
 " enter in Normal mode <cr> should add a new line
 " nnoremap <cr> o<esc>0"_d$
 
-" remap alt-l to nohl
-nnoremap <silent> ¬ :nohl<cr>:normal! <c-l><cr>
-
 " can't be bothered to understand <c-c>, replace with esc
 imap <c-c> <esc>
 map <c-c> <esc>
@@ -91,6 +88,8 @@ vnoremap <silent> # :<C-U>
 " ABBREVS
 call SetupCommandAlias('T', 'Tabularize')
 call SetupCommandAlias('NM', 'NeomakeSh npm run start')
+call SetupCommandAlias('NMS', 'NeomakeSh npm run start')
+call SetupCommandAlias('NSH', 'NeomakeSh npm run start')
 call SetupCommandAlias('ZON', 'ZenModeOn')
 call SetupCommandAlias('ZOFF', 'ZenModeOff')
 call SetupCommandAlias('eod', 'e ~/summary.md')
@@ -106,21 +105,23 @@ imap <c-d>6 <esc>:let @d=system('date -v+6d +"%B %d, %Y"')<cr>"dpkJA
 imap <c-d>7 <esc>:let @d=system('date -v+7d +"%B %d, %Y"')<cr>"dpkJA
 map <leader>"" <Plug>ToggleTextObjQuotes
 map <leader>% :let @*=expand("%")<CR>
-map <leader>,t :if exists('g:do_lint_js') && g:do_lint_js <bar> let g:do_lint_js=0 <bar> else <bar> let g:do_lint_js=1 <bar> endif <bar> echo g:do_lint_js<cr>
 map <leader>,, :Neomake<cr>
 map <leader>,. :lopen<cr>
-map <leader>.a :e ~/.zsh_custom/aliases.zsh<cr>Gzz
+map <leader>,t :if exists('g:do_lint_js') && g:do_lint_js <bar> let g:do_lint_js=0 <bar> else <bar> let g:do_lint_js=1 <bar> endif <bar> echo g:do_lint_js<cr>
+map <leader>.a :e ~/dotfiles/.zsh_custom/aliases.zsh<cr>Gzz
 map <leader>.c :e ~/.vim/config/ft/clojure.vim<cr>
-map <leader>.d :e ~/thoughts/debug.md<cr>
+map <leader>.d :e ~/.config/i3/startup.sh<cr>
 map <leader>.ff :e ~/dotfiles/.vim/config/ft.vim<cr>
 map <leader>.fj :e ~/dotfiles/.vim/config/ft/javascript.vim<cr>
 map <leader>.fn :e ~/dotfiles/.vim/config/functions.vim<cr>
 map <leader>.ft :let @k=&ft<cr>:e ~/.vim/config/ft/<c-r>k.vim<cr>
+map <leader>.i :e ~/.config/i3/config<cr>
 map <leader>.j :e ~/thoughts/thoughts.md<cr>G
 map <leader>.l :e ~/.lein/profiles.clj<cr>
-map <leader>.m :e ~/dotfiles/.vim/config/macros.vim<cr>
+map <leader>.m :e ~/dotfiles/.vim/config/macros.vim<cr>/" MACROS<cr>:nohl<cr>
 map <leader>.o :e ~/dotfiles/.vim/config/options.vim<cr>
 map <leader>.p :e ~/dotfiles/.vim/config/plugins.vim<cr>
+map <leader>.s :e ~/.config/i3status/config<cr>
 map <leader>.t :e ~/.tmux.conf<cr>
 map <leader>.v :e ~/dotfiles/.vimrc<cr>
 map <leader>.w :e ~/thoughts/new-words.md<cr>
@@ -134,6 +135,7 @@ map <leader>aa :Grepper -tool ag<cr>
 map <leader>am :e ~/.vim/config/macros.vim<cr>gg/" MACROS<cr>zz:nohl<cr>o<esc>^S
 map <leader>aw :Grepper -tool ag -cword -noprompt<cr>
 map <leader>b :Buffers<cr>
+map <leader>c :Commands<cr>
 map <leader>dd !!today<cr>I#<space><esc>o
 map <leader>extract ?function<cr>vf{%"fdiplaceholder<esc><cr><cr>"fpf(i<space>placeholder<esc>*
 map <leader>f :Files<cr>
@@ -159,6 +161,7 @@ map <leader>gs :Gstatus<cr>gg<c-n>
 map <leader>gsta :Git stash
 map <leader>gstp :Git stash pop
 map <leader>gwip :Git commit -a -m 'Wip'<cr>
+map <leader>hr :let @"='<C-r>%:<C-r>=line('.')+1<cr>'<cr>
 map <leader>ic :set ignorecase!<cr>
 map <leader>ii <Plug>PrettyAttrs
 map <leader>il <Plug>ExpandHTML
@@ -189,6 +192,7 @@ map <leader>ss :let @k=Input("Search: ")<cr><sid>SearchFromRegisterK()<Plug>Qfre
 map <leader>st 0v}b$:sort<cr>
 map <leader>sv :source ~/.vimrc<cr>
 map <leader>sw :set tw=1000<cr>
+map <leader>t- i- [ ]<space>
 map <leader>t/ :Tabularize<space>/
 map <leader>wc :echo system('diffword')<cr>
 map <leader>wg :!write-good %
@@ -196,15 +200,13 @@ map <leader>wq :w<bar>bd<cr>
 map <leader>ws :StripWhitespace<cr>
 map <leader>wt :set textwidth=70<cr>
 map <leader>ww :!wc -w %<cr>
-map <silent> <leader>q :bd<cr>
 map <silent> <leader>Q :bn<bar>bd #<cr>
+map <silent> <leader>q :bd<cr>
 map <silent> <leader>x :ccl<cr>:lcl<cr>
 map \\ <Plug>MostRecentBuffer
 nmap <leader>## 70i#<esc>o<esc>
 nmap <leader>== 70i=<esc>o<esc>
 nmap <leader>a/ 16a/<esc><cr>k==
-nmap Ó :tab help<space>
-nmap ˙ :h<space>
 vmap <leader>C "+y
 vmap <leader>V "+p
 vmap <leader>aa "ky<sid>SearchFromRegisterK()
@@ -214,4 +216,19 @@ vmap <leader>s "ky:%s/\v(<<C-R>k>)/
 vmap <leader>ss "ky<sid>SearchFromRegisterK()<Plug>QfreplaceFromRegisterK
 vmap <leader>sw "ky<sid>SearchFromRegisterKWithBounds()<Plug>QfreplaceFromRegisterK
 vmap <leader>vy <Plug>SendToTmux
-vmap ç "+y
+
+" arch keymap specific stuff...
+vmap ã "+y
+nmap È :tab help<space>
+nmap è :h<space>
+
+" osx keymaps
+" nmap Ó :tab help<space>
+" nmap ˙ :h<space>
+" vmap ç "+y
+
+" remap alt-l to nohl (arch)
+nnoremap <silent> ì :nohl<cr>:normal! <c-l><cr>
+
+" remap alt-l to nohl (osx)
+" nnoremap <silent> ¬ :nohl<cr>:normal! <c-l><cr>
