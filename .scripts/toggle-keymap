@@ -1,0 +1,13 @@
+#!/bin/bash
+
+current=$(setxkbmap -print | grep xkb_symbols | grep -o "us\|ca(fr)")
+case $current in
+  "us")
+    setxkbmap ca fr
+    ;;
+  "ca(fr)")
+    setxkbmap us
+    ;;
+  *)
+    exit 1
+esac

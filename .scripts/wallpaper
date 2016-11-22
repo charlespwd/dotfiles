@@ -1,0 +1,9 @@
+#!/bin/bash
+
+shopt -s nullglob
+
+while true; do
+	feh --bg-fill --randomize /home/charles/.wallpaper/*
+
+	sleep 15m
+done

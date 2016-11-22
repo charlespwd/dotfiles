@@ -1,0 +1,28 @@
+#!/bin/bash
+
+cd /home/charles/ws/outbox/es5;
+
+SESSION_NAME='outbox'
+
+tmux has-session -t ${SESSION_NAME}
+
+if [ $? != 0 ]; then
+  # create the session
+  tmux new-session -s ${SESSION_NAME} -n vim -d
+
+  # first window, vim.
+  tmux send-keys -t ${SESSION_NAME}:1 'vim' C-m
+
+  # build window
+  tmux new-window -n 'build' -t ${SESSION_NAME}
+  tmux send-keys -t ${SESSION_NAME}:2 'dashd06' C-m
+
+  # test window
+  tmux new-window -n 'tests' -t ${SESSION_NAME}
+  tmux send-keys -t ${SESSION_NAME}:3 'npm run test-watch' C-m
+
+  # start in vim
+  tmux select-window -t ${SESSION_NAME}:1
+fi
+
+tmux attach -t ${SESSION_NAME}

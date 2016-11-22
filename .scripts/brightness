@@ -1,0 +1,4 @@
+#!/bin/bash
+
+BRIGHTNESS=`/bin/node /home/charles/.scripts/brightness.js $1`
+sudo tee /sys/class/backlight/gmux_backlight/brightness <<< $BRIGHTNESS
