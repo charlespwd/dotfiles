@@ -1,0 +1,6 @@
+#!/bin/bash
+set -e
+d=`date +"%d-%m-%Y-%H-%M"`
+fn="/tmp/screenshot-${d}.png"
+maim --select $fn
+echo $fn | xclip -i -selection clipboard

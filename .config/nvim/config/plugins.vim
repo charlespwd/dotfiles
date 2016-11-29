@@ -25,7 +25,7 @@ call plug#begin('~/dotfiles/.config/nvim/plugged')
   "" Navigation "
   Plug 'christoomey/vim-tmux-navigator'
   Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install'  }
-  Plug 'junegunn/fzf.vim' 
+  Plug 'junegunn/fzf.vim'
   Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 
   " Javascript

@@ -20,7 +20,7 @@ case "$1" in
 
   desktop)
     echo "Opening desktop view of $pi"
-    ssh $pi '~/scripts/vnc start'
+    ssh $pi '~/bin/vnc start'
     /Applications/RealVNC/VNC\ Viewer.app/Contents/MacOS/vncviewer rpi.local:0
     ;;
 

@@ -1,32 +1,33 @@
 ! bar and window settings
 ! gruvbox theme
-! set $background #282828
-! set $foreground #ebdbb2
+#define S_background #282828
+#define S_foreground #ebdbb2
 ! Black + DarkGrey
-set $color0s #1d2021
-set $color0  #282828
-set $color8  #928374
+#define S_colorH  #1d2021
+#define S_color0  #282828
+#define S_colorS  #32302f
+#define S_color8  #928374
 ! DarkRed + Red
-set $color1  #cc241d
-set $color9  #fb4934
+#define S_color1  #cc241d
+#define S_color9  #fb4934
 ! DarkGreen + Green
-set $color2  #98971a
-set $color10 #b8bb26
+#define S_color2  #98971a
+#define S_color10 #b8bb26
 ! DarkYellow + Yellow
-set $color3  #d79921
-set $color11 #fabd2f
+#define S_color3  #d79921
+#define S_color11 #fabd2f
 ! DarkBlue + Blue
-set $color4  #458588
-set $color12 #83a598
+#define S_color4  #458588
+#define S_color12 #83a598
 ! DarkMagenta + Magenta
-set $color5  #b16286
-set $color13 #d3869b
+#define S_color5  #b16286
+#define S_color13 #d3869b
 ! DarkCyan + Cyan
-set $color6  #689d6a
-set $color14 #8ec07c
+#define S_color6  #689d6a
+#define S_color14 #8ec07c
 ! LightGrey + White
-set $color7  #a89984
-set $color15 #ebdbb2
+#define S_color7  #a89984
+#define S_color15 #ebdbb2
 
 ! "Enabled modi" Set from: Default
 rofi.modi:                           run,window
@@ -47,13 +48,15 @@ rofi.columns:                        1
 rofi.font:                           DejaVu Sans Mono 40
 
 ! "Color scheme for normal row" Set from: Default
-rofi.color-normal:                   #fdf6e3,#002b36,#fdf6e3,#586e75,#eee8d5
+
+! State:                              'bg',  'fg',   'bgalt', 'hlbg', 'hlfg'
+!rofi.color-normal:                   #fdf6e3,#002b36,#fdf6e3,#586e75,#eee8d5
 
 ! "Color scheme for urgent row" Set from: Default
-rofi.color-urgent:                   #fdf6e3,#dc322f,#fdf6e3,#dc322f,#fdf6e3
+!rofi.color-urgent:                   #fdf6e3,#dc322f,#fdf6e3,#dc322f,#fdf6e3
 
 ! "Color scheme for active row" Set from: Default
-rofi.color-active:                   #fdf6e3,#268bd2,#fdf6e3,#268bd2,#fdf6e3
+!rofi.color-active:                   #fdf6e3,#268bd2,#fdf6e3,#268bd2,#fdf6e3
 
 ! "Color scheme window" Set from: Default
 ! rofi.color-window:                   #fdf6e3,#002b36
@@ -61,11 +64,21 @@ rofi.color-active:                   #fdf6e3,#268bd2,#fdf6e3,#268bd2,#fdf6e3
 ! ------------------------------------------------------------------------------
 ! Android ROFI Color theme
 ! ------------------------------------------------------------------------------
+! rofi.color-enabled: true
+! rofi.color-window: #273238, #273238, #1e2529
+! rofi.color-normal: #273238, #c1c1c1, #273238, #394249, #ffffff
+! rofi.color-active: #273238, #80cbc4, #273238, #394249, #80cbc4
+! rofi.color-urgent: #273238, #ff1844, #273238, #394249, #ff1844
+
+! ------------------------------------------------------------------------------
+! ROFI Gruvbox/Solarized mix
+! ------------------------------------------------------------------------------
+! State:              'bg',    'fg', 'bgalt',  'hlbg',  'hlfg'
 rofi.color-enabled: true
-rofi.color-window: #273238, #273238, #1e2529
-rofi.color-normal: #273238, #c1c1c1, #273238, #394249, #ffffff
-rofi.color-active: #273238, #80cbc4, #273238, #394249, #80cbc4
-rofi.color-urgent: #273238, #ff1844, #273238, #394249, #ff1844
+rofi.color-window: #1d2021, #1d2021, #003642
+rofi.color-normal: #1d2021, #819396, #1d2021, #32302f, #819396
+rofi.color-active: #1d2021, #008ed4, #1d2021, #32302f, #008ed4
+rofi.color-urgent: #1d2021, #da4281, #1d2021, #32302f, #da4281
 
 ! "Border width" Set from: Default
 rofi.bw:                             0

@@ -17,10 +17,10 @@ LAPTOP_W=2880
 LAPTOP_H=1800
 LAPTOP_MODe="${LAPTOP_W}x${LAPTOP_H}"
 FULL_SCALE="${SCALE}x${SCALE}"
-FRAME_BUFFER_W=$(calc "Math.floor($MONITOR_W * $SCALE)")
-FRAME_BUFFER_H=$(calc "Math.floor($LAPTOP_H + $MONITOR_H * $SCALE) + 1")
+FRAME_BUFFER_W=$(node-calc "Math.floor($MONITOR_W * $SCALE)")
+FRAME_BUFFER_H=$(node-calc "Math.floor($LAPTOP_H + $MONITOR_H * $SCALE) + 1")
 FRAME_BUFFER="${FRAME_BUFFER_W}x${FRAME_BUFFER_H}"
-Y_OFFSET=$(calc "Math.ceil($MONITOR_H * $SCALE) + 1")
+Y_OFFSET=$(node-calc "Math.ceil($MONITOR_H * $SCALE) + 1")
 LAPTOP_OFFSET="0x$Y_OFFSET"
 
 xrandr --output DP-2 --auto --primary --pos $LAPTOP_OFFSET --scale 1x1 \

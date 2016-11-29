@@ -6,7 +6,7 @@ backup
 .config/chromium
 .config/google-chrome
 .DS_Store
-.scripts/random
+bin/random
 .config/cef_user_data
 .config/Messenger
 .config/spotify

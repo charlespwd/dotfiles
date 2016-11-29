@@ -63,10 +63,10 @@ source $ZSH/oh-my-zsh.sh
 # User configuration
 
 # Add $scr variable
-export scr="$HOME/.scripts"
+export scr="$HOME/bin"
 
 # Change your path
-export PATH="$HOME/.scripts:$PATH"
+export PATH="$HOME/bin:$PATH"
 
 # Load os specific config
 [ "$OS" = "Linux" ] && source ~/dotfiles/arch.sh
@@ -76,7 +76,7 @@ export PATH="$HOME/.scripts:$PATH"
 export EDITOR='nvim'
 
 # CONFIG HOME (neovim)
-export XDG_CONFIG_HOME='$HOME/dotfiles/.config'
+export XDG_CONFIG_HOME="$HOME/dotfiles/.config"
 
 # Enable c-x,c-e command line editing
 autoload -U edit-command-line
