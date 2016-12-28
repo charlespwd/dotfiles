@@ -15,7 +15,7 @@ case "$1" in
 
   connect)
     echo "Connecting to $pi"
-    ssh $pi
+    ssh pi@$pi
     ;;
 
   desktop)
@@ -31,9 +31,9 @@ case "$1" in
 
   reboot)
     echo "Rebooting down $pi"
-    ssh $pi 'sudo shutdown -h now'
+    ssh pi@$pi 'sudo shutdown -h now'
     sleep 10
-    ssh $pi
+    ssh pi@$pi
     ;;
 
   *)

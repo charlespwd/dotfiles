@@ -1,33 +1,33 @@
-! bar and window settings
-! gruvbox theme
-#define S_background #282828
-#define S_foreground #ebdbb2
-! Black + DarkGrey
-#define S_colorH  #1d2021
-#define S_color0  #282828
-#define S_colorS  #32302f
-#define S_color8  #928374
-! DarkRed + Red
-#define S_color1  #cc241d
-#define S_color9  #fb4934
-! DarkGreen + Green
-#define S_color2  #98971a
-#define S_color10 #b8bb26
-! DarkYellow + Yellow
-#define S_color3  #d79921
-#define S_color11 #fabd2f
-! DarkBlue + Blue
-#define S_color4  #458588
-#define S_color12 #83a598
-! DarkMagenta + Magenta
-#define S_color5  #b16286
-#define S_color13 #d3869b
-! DarkCyan + Cyan
-#define S_color6  #689d6a
-#define S_color14 #8ec07c
-! LightGrey + White
-#define S_color7  #a89984
-#define S_color15 #ebdbb2
+!! bar and window settings
+!! gruvbox theme
+!#define S_background #282828
+!#define S_foreground #ebdbb2
+!! Black + DarkGrey
+!#define S_colorH  #1d2021
+!#define S_color0  #282828
+!#define S_colorS  #32302f
+!#define S_color8  #928374
+!! DarkRed + Red
+!#define S_color1  #cc241d
+!#define S_color9  #fb4934
+!! DarkGreen + Green
+!#define S_color2  #98971a
+!#define S_color10 #b8bb26
+!! DarkYellow + Yellow
+!#define S_color3  #d79921
+!#define S_color11 #fabd2f
+!! DarkBlue + Blue
+!#define S_color4  #458588
+!#define S_color12 #83a598
+!! DarkMagenta + Magenta
+!#define S_color5  #b16286
+!#define S_color13 #d3869b
+!! DarkCyan + Cyan
+!#define S_color6  #689d6a
+!#define S_color14 #8ec07c
+!! LightGrey + White
+!#define S_color7  #a89984
+!#define S_color15 #ebdbb2
 
 ! "Enabled modi" Set from: Default
 rofi.modi:                           run,window
@@ -87,7 +87,7 @@ rofi.bw:                             0
 ! rofi.location:                       0
 
 ! "Padding" Set from: Default
-rofi.padding:                        10
+rofi.padding:                        600
 
 ! "Y-offset relative to location" Set from: Default
 ! rofi.yoffset:                        0
@@ -174,7 +174,7 @@ rofi.separator-style:                none
 rofi.hide-scrollbar:                 true
 
 ! "Fullscreen" Set from: Default
-! rofi.fullscreen:                     false
+rofi.fullscreen:                     true
 
 ! "Fake transparency" Set from: Default
 ! rofi.fake-transparency:              false
@@ -195,7 +195,7 @@ rofi.hide-scrollbar:                 true
 ! rofi.fake-background:                screenshot
 
 ! "Window Format. w (desktop name), t (title), n (name), r (role), c (class)" Set from: Default
-! rofi.window-format:                  {w}   {c}   {t}
+rofi.window-format:                  {c}   {t}
 
 ! "Pidfile location" Set from: Default
 ! rofi.pid:                            /run/user/1000/rofi.pid
@@ -368,16 +368,16 @@ rofi.hide-scrollbar:                 true
 ! rofi.display-ssh:                    
 
 ! "The display name of this browser" Set from: Default
-! rofi.display-run:                    
+rofi.display-run:                    
 
 ! "The display name of this browser" Set from: Default
-! rofi.display-drun:                   
+rofi.display-drun:                   
 
 ! "The display name of this browser" Set from: Default
-! rofi.display-window:                 
+rofi.display-window:                 
 
 ! "The display name of this browser" Set from: Default
 ! rofi.display-windowcd:               
 
 ! "The display name of this browser" Set from: Default
-! rofi.display-combi:                  
+rofi.display-combi: $

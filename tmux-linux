@@ -4,3 +4,6 @@ bind-key -t vi-copy y copy-pipe "xclip -i -selection clipboard"
 
 # paste (C-s C-p)
 bind C-p run "tmux set-buffer \"$(xclip -o -sel clipboard)\"; tmux paste-buffer"
+
+# set default terminal
+set -g default-terminal "screen-256color"

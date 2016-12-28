@@ -9,3 +9,6 @@ bind-key -t vi-copy y copy-pipe "reattach-to-user-namespace pbcopy"
 # paste
 unbind C-p
 bind C-p paste-buffer
+
+# set default terminal
+set -g default-terminal "screen-256color"

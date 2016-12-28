@@ -32,6 +32,7 @@ if has('unix')
 endif
 
 " options
+set textwidth=70
 set path+="**"
 set backspace=2 " make backspace work like most other apps"
 set nocursorline " don't highlight current line
@@ -42,7 +43,7 @@ set diffopt+=vertical
 set expandtab
 set history=10000
 set laststatus=2	" always show the status bar
-set listchars=eol:$,tab:>-,trail:~,extends:>,precedes:< " character representations
+set listchars=eol:$,tab:>-,trail:~,space:· " character representations
 set nobackup
 set nofoldenable
 set noswapfile
@@ -127,16 +128,15 @@ let g:UltiSnipsSnippetsDir="~/.config/nvim/my-snippets"
 let g:UltiSnipsSnippetDirectories=["UltiSnips", "my-snippets"]
 
 " neomake
-highlight CpErrorMsg ctermbg=1 ctermfg=0
-highlight CpWarningMsg ctermbg=3 ctermfg=0
-let g:neomake_serialize = 0
+let g:neomake_highlight_columns=0
+let g:neomake_serialize=0
 let g:neomake_warning_sign = {
   \ 'text': '⚠',
-  \ 'texthl': 'CpWarningMsg',
+  \ 'texthl': 'DiffText',
   \ }
 let g:neomake_error_sign = {
   \ 'text': '✗',
-  \ 'texthl': 'CpErrorMsg',
+  \ 'texthl': 'DiffDelete',
   \ }
 
 " NERDTree config

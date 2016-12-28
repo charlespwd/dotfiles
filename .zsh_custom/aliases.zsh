@@ -11,6 +11,7 @@ if [[ "$OS" -eq "Linux" ]]; then
   alias chrome="chromium &> /dev/null &"
   alias mountmc="sudo mount -t cifs //raspi.local/mediacenter /mnt/mediacenter -o username=pi"
   alias mountnd="sudo mount -t cifs //raspi.local/networkdrive /mnt/networkdrive"
+  alias pbcopy="xclip -sel clipboard"
 elif [[ "$OS" -eq "Darwin" ]]; then
   alias chrome="/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome"
   alias firefox="/Applications/Firefox.app/Contents/MacOS/firefox"

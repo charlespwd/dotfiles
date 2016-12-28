@@ -1,3 +1,9 @@
+let g:vimwiki_map_prefix = '<Leader>ww'
+let g:vimwiki_list = [
+ \ {'path': '~/documents/wiki/'},
+ \ {'path': '~/documents/outbox/'}
+ \ ]
+let g:vimwiki_folding = 'syntax'
 " load plugins
 call plug#begin('~/dotfiles/.config/nvim/plugged')
   " html stuff
@@ -14,9 +20,10 @@ call plug#begin('~/dotfiles/.config/nvim/plugged')
 
   " Autocomplete helper (use tab instead of <c-n> and <c-p>)
   Plug 'ervandew/supertab'
-  " Writing
 
+  " Writing
   Plug 'plasticboy/vim-markdown', { 'for': ['markdown'] }
+  Plug 'vimwiki/vimwiki'
 
   "" snipmate (REQUIRES brew install python)
   Plug 'SirVer/ultisnips'
@@ -27,6 +34,7 @@ call plug#begin('~/dotfiles/.config/nvim/plugged')
   Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install'  }
   Plug 'junegunn/fzf.vim'
   Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+  Plug 'danro/rename.vim'
 
   " Javascript
   Plug 'moll/vim-node', { 'for': 'javascript' }
@@ -64,7 +72,7 @@ call plug#begin('~/dotfiles/.config/nvim/plugged')
   Plug 'tpope/vim-surround'
   Plug 'vim-scripts/matchit.zip'
   Plug 'jpalardy/vim-slime'
-  " Plug 'godlygeek/tabular'
+  Plug 'godlygeek/tabular'
 
   " grepping
   Plug 'rking/ag.vim'

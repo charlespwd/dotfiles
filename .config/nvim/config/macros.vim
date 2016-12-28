@@ -104,7 +104,7 @@ imap <c-d>5 <esc>:let @d=system('date -v+5d +"%B %d, %Y"')<cr>"dpkJA
 imap <c-d>6 <esc>:let @d=system('date -v+6d +"%B %d, %Y"')<cr>"dpkJA
 imap <c-d>7 <esc>:let @d=system('date -v+7d +"%B %d, %Y"')<cr>"dpkJA
 map <leader>"" <Plug>ToggleTextObjQuotes
-map <leader>% :let @*=expand("%")<CR>
+map <leader>% :let @+=expand("%")<CR>
 map <leader>,, :Neomake<cr>
 map <leader>,. :lopen<cr>
 map <leader>,t :if exists('g:do_lint_js') && g:do_lint_js <bar> let g:do_lint_js=0 <bar> else <bar> let g:do_lint_js=1 <bar> endif <bar> echo g:do_lint_js<cr>
@@ -194,23 +194,21 @@ map <leader>sv :source ~/.vimrc<cr>
 map <leader>sw :set tw=1000<cr>
 map <leader>t- i- [ ]<space>
 map <leader>t/ :Tabularize<space>/
-map <leader>wc :echo system('diffword')<cr>
-map <leader>wg :!write-good %
 map <leader>wq :w<bar>bd<cr>
 map <leader>ws :StripWhitespace<cr>
-map <leader>wt :set textwidth=70<cr>
-map <leader>ww :!wc -w %<cr>
+" map <leader>ww :!wc -w %<cr>
 map <silent> <leader>Q :bn<bar>bd #<cr>
 map <silent> <leader>q :bd<cr>
 map <silent> <leader>x :ccl<cr>:lcl<cr>
 map \\ <Plug>MostRecentBuffer
 nmap <leader>## 70i#<esc>o<esc>
-nmap <leader>== 70i=<esc>o<esc>
+" nmap <leader>== 70i=<esc>o<esc>
 nmap <leader>a/ 16a/<esc><cr>k==
 vmap <leader>C "+y
 vmap <leader>V "+p
 vmap <leader>aa "ky<sid>SearchFromRegisterK()
 vmap <leader>aw "ky<sid>SearchFromRegisterKWithBounds()
+vmap <leader>ld :Linediff<cr>
 vmap <leader>rf *:%s//
 vmap <leader>s "ky:%s/\v(<<C-R>k>)/
 vmap <leader>ss "ky<sid>SearchFromRegisterK()<Plug>QfreplaceFromRegisterK

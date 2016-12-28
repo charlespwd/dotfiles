@@ -21,3 +21,7 @@ bin/random
 .config/calibre
 .config/libreoffice
 .config/xfce4/helpers.rc
+.config/Pinta
+.config/VirtualBox
+.config/icedtea-web
+.config/mono.addins

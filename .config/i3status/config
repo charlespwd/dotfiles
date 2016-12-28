@@ -36,8 +36,9 @@ general {
         # color = '#ebdbb2'
 }
 
-# order += "disk /"
-# order += "disk /home"
+order += "cpu_usage"
+order += "disk /"
+order += "disk /home"
 order += "wireless _first_"
 order += "battery 0"
 order += "volume master"
@@ -74,4 +75,13 @@ volume master {
    device = "default"
    mixer = "Master"
    mixer_idx = 0
+}
+
+cpu_usage {
+  format = " %usage"
+}
+
+cpu_temperature 0 {
+  format = "T: %degrees °C"
+    path = "/sys/devices/platform/coretemp.0/temp1_input"
 }
