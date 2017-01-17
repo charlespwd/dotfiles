@@ -19,3 +19,6 @@ eval $(keychain --eval --quiet id_rsa)
 
 # Load autoenv
 source /usr/share/autoenv/activate.sh
+
+# load ruby
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
