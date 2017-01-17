@@ -95,14 +95,14 @@ call SetupCommandAlias('ZOFF', 'ZenModeOff')
 call SetupCommandAlias('eod', 'e ~/summary.md')
 
 " MACROS
-imap <c-d>0 <esc>:let @d=system('date +"%B %d, %Y"')<cr>"dpkJA
-imap <c-d>1 <esc>:let @d=system('date -v+1d +"%B %d, %Y"')<cr>"dpkJA
-imap <c-d>2 <esc>:let @d=system('date -v+2d +"%B %d, %Y"')<cr>"dpkJA
-imap <c-d>3 <esc>:let @d=system('date -v+3d +"%B %d, %Y"')<cr>"dpkJA
-imap <c-d>4 <esc>:let @d=system('date -v+4d +"%B %d, %Y"')<cr>"dpkJA
-imap <c-d>5 <esc>:let @d=system('date -v+5d +"%B %d, %Y"')<cr>"dpkJA
-imap <c-d>6 <esc>:let @d=system('date -v+6d +"%B %d, %Y"')<cr>"dpkJA
-imap <c-d>7 <esc>:let @d=system('date -v+7d +"%B %d, %Y"')<cr>"dpkJA
+imap <c-e>0 <esc>:let @d=system('date +"%Y/%m/%d"')<cr>a<c-r>d<esc>kJA
+imap <c-e>1 <esc>:let @d=system('date -v+1d +"%B %d, %Y"')<cr>"dpkJA
+imap <c-e>2 <esc>:let @d=system('date -v+2d +"%B %d, %Y"')<cr>"dpkJA
+imap <c-e>3 <esc>:let @d=system('date -v+3d +"%B %d, %Y"')<cr>"dpkJA
+imap <c-e>4 <esc>:let @d=system('date -v+4d +"%B %d, %Y"')<cr>"dpkJA
+imap <c-e>5 <esc>:let @d=system('date -v+5d +"%B %d, %Y"')<cr>"dpkJA
+imap <c-e>6 <esc>:let @d=system('date -v+6d +"%B %d, %Y"')<cr>"dpkJA
+imap <c-e>7 <esc>:let @d=system('date -v+7d +"%B %d, %Y"')<cr>"dpkJA
 map <leader>"" <Plug>ToggleTextObjQuotes
 map <leader>% :let @+=expand("%")<CR>
 map <leader>,, :Neomake<cr>
@@ -174,6 +174,7 @@ map <leader>pi :PlugInstall<cr>
 map <leader>po :PencilToggle<cr>
 map <leader>pp "+p
 map <leader>pu :PlugUpdate<cr>
+map <leader>rr :%s//
 map <leader>rf :%s/\v(<<c-r><c-w>>)/
 map <leader>ritual <Plug>Ritual
 map <leader>rm :call delete(expand('%')) <bar> bdelete!
@@ -216,9 +217,9 @@ vmap <leader>sw "ky<sid>SearchFromRegisterKWithBounds()<Plug>QfreplaceFromRegist
 vmap <leader>vy <Plug>SendToTmux
 
 " arch keymap specific stuff...
-vmap ã "+y
-nmap È :tab help<space>
-nmap è :h<space>
+vmap <a-c> "+y
+nmap <a-s-h> :tab help<space>
+nmap <a-h> :h<space>
 
 " osx keymaps
 " nmap Ó :tab help<space>
@@ -226,7 +227,7 @@ nmap è :h<space>
 " vmap ç "+y
 
 " remap alt-l to nohl (arch)
-nnoremap <silent> ì :nohl<cr>:normal! <c-l><cr>
+nnoremap <silent> <a-l> :nohl<cr>:normal! <c-l><cr>
 
 " remap alt-l to nohl (osx)
 " nnoremap <silent> ¬ :nohl<cr>:normal! <c-l><cr>

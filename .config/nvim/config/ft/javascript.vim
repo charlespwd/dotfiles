@@ -30,6 +30,7 @@ function! SetTypescriptOptions()
 endfunction
 
 function! SetJavascriptOptions()
+  setlocal textwidth=80
   let b:surround_{char2nr('p')} = "(\n\t\r\n)"
   let b:surround_{char2nr('P')} = "{\n\t\r\n}"
   let b:surround_{char2nr('S')} = "[\n\t\r\n]"

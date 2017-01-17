@@ -60,6 +60,9 @@ set ttimeoutlen=100 "decrease timeout for faster insert with O
 set undolevels=1000
 set wildmode=list:longest,full
 set nosmarttab
+set formatoptions+=t " make sure lines are wrapped with textwidth
+set formatoptions+=l " make sure lines don't get wrapped if they are already long
+
 " better whitespace
 let g:better_whitespace_filetypes_blacklist=[]
 
@@ -120,8 +123,7 @@ let g:SuperTabDefaultCompletionType = '<c-n>'
 let g:SuperTabContextDefaultCompletionType = '<c-n>'
 
 " Ultisnips
-" <c-@> actually maps to <ctrl-space> why? no f'in clue.
-let g:UltiSnipsExpandTrigger="<c-@>"
+let g:UltiSnipsExpandTrigger="<c-space>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 let g:UltiSnipsSnippetsDir="~/.config/nvim/my-snippets"
