@@ -109,7 +109,7 @@ workspace "$w10" output DP-1
 # KEY BINDINGS
 
 # start a terminal
-bindsym $mod+Shift+Return exec i3-sensible-terminal
+bindsym $mod+Shift+Return exec urxvt
 
 # kill focused window
 bindsym $mod+q kill
@@ -306,11 +306,11 @@ bar {
   }
 }
 
-exec_always --no-startup-id $dir/startup.sh
+exec_always --no-startup-id $scripts/trackpad_config.sh
 # exec --no-startup-id $dir/wallpaper
 # exec --no-startup-id compton --backend glx --paint-on-overlay --vsync opengl-swc -b -I 0.05 -O 0.08
 exec --no-startup-id dunst
-exec --no-startup-id i3-sensible-terminal
+exec --no-startup-id urxvt
 exec --no-startup-id chromium
 exec --no-startup-id slack
 exec --no-startup-id thunderbird

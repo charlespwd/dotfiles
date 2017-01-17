@@ -7,7 +7,8 @@
 # i3 every time.
 
 # Sensitivity
-synclient AccelFactor=0.0275
+# backup value
+synclient AccelFactor=0.0205
 synclient MinSpeed=3.5
 synclient MaxSpeed=10.75
 
@@ -28,7 +29,3 @@ synclient PalmDetect=1
 
 # Misc
 synclient TapAndDragGesture=0
-
-## Dual screen config
-# xrandr --output DP-2 --scale 2x2 --fb 3840x3960 --pos 0x0
-# xrandr --output eDP-2 --scale 1x1 --pos 0x2160
