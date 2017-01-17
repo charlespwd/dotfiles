@@ -1,16 +1,12 @@
 #!/bin/bash
 
-cd /home/charles/ws/outbox/es5;
+cd $HOME/ws/thesunners/theme
 
-SESSION_NAME='outbox'
+SESSION_NAME='shopify'
 
 tmux has-session -t ${SESSION_NAME}
 
 if [ $? != 0 ]; then
-
-  # start nginx
-  systemctl start nginx
-
   # create the session
   tmux new-session -s ${SESSION_NAME} -n vim -d
 
@@ -19,11 +15,11 @@ if [ $? != 0 ]; then
 
   # build window
   tmux new-window -n 'build' -t ${SESSION_NAME}
-  tmux send-keys -t ${SESSION_NAME}:2 'NODE_ENV=dev-adc npm run webpack-dashboard' C-m
+  tmux send-keys -t ${SESSION_NAME}:2 'theme watch --notify=shopify.update' C-m
 
   # test window
-  tmux new-window -n 'tests' -t ${SESSION_NAME}
-  tmux send-keys -t ${SESSION_NAME}:3 'npm run test-watch' C-m
+  tmux new-window -n 'watch' -t ${SESSION_NAME}
+  tmux send-keys -t ${SESSION_NAME}:3 'guard' C-m
 
   # start in vim
   tmux select-window -t ${SESSION_NAME}:1
