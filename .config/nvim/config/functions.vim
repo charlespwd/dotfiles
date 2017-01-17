@@ -173,3 +173,44 @@ function! SetupCommandAlias(from, to)
         \ .' ((getcmdtype() is# ":" && getcmdline() is# "'.a:from.'")'
         \ .'? ("'.a:to.'") : ("'.a:from.'"))'
 endfun
+
+function! OpenJsx()
+  let str = getline('.')
+  let output = s:OpenJsxStr(str)
+  let jsx = matchstr(str, '\v\zs\<.*/?\>')
+  execute 'normal! ddO  '.output
+  sleep 100m
+  execute 'normal =a>'
+  execute 'normal =a>'
+endfunction
+
+function! s:OpenJsxStr(str)
+  let jsx = matchstr(a:str, '\v\zs\<.*/?\>')
+
+  if empty(jsx)
+    echom "This line is not a jsx node"
+  endif
+
+  let name = matchlist(jsx, '\v\<(\w*)')[1]
+  let attrs = substitute(jsx, '<'.name.' ', '', '')
+  let attrs = substitute(attrs, '\v( /)?\>', '', '')
+  let output = '<'.name
+
+  while 1
+    let attr = matchstr(attrs, '\v\w*\=\{.{-}\}')
+    if empty(attr)
+      break
+    endif
+    let output = output."\r  ".attr
+    let attrs = substitute(attrs, attr, '', '')
+  endwhile
+
+  let closing = matchstr(jsx, '\v/?\>', '', '')
+  let output = output."\r".closing
+
+  return output
+endfunc
+
+call s:OpenJsxStr('<SeatPickerPopover viewId={this.viewId} addToCart={this.addToCart} closePopover={this.onClosePopover} />')
+call s:OpenJsxStr('<SeatPickerPopover viewId={this.viewId} addToCart={this.addToCart} closePopover={this.onClosePopover}>')
+call s:OpenJsxStr('<SeatPickerPopover style={{ backgroundColor: 1 }} addToCart={this.addToCart} closePopover={this.onClosePopover}>')
