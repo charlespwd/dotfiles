@@ -110,13 +110,31 @@ let g:airline_powerline_fonts = 1
 let g:airline_left_sep=''
 let g:airline_right_sep=''
 let g:airline_theme='base16color'
+let g:airline_symbols = {
+      \  'linenr': '',
+      \  'paste': 'PASTE',
+      \  'colnr': '',
+      \  'notexists': '∄',
+      \  'readonly': '',
+      \  'spell': 'SPELL',
+      \  'modified': '+',
+      \  'space': ' ',
+      \  'crypt': '🔒 ',
+      \  'branch': '',
+      \  'whitespace': '✹'
+      \}
+
+let g:airline_section_y = ''
+let g:airline_section_z = '%{g:airline_symbols.linenr}%4l/%L %{g:airline_symbols.colnr}%4v'
+" let g:airline_section_z = '%#__accent_bold#%{g:airline_symbols.linenr}%4l%#__restore__#%#__accent_bold#/%L#__restore__# :%3v'
 let g:tmuxline_powerline_separators = 0
 
 " deoplete config
 let g:deoplete#enable_at_startup = 1
 let g:deoplete#file#enable_buffer_path = 1
-" let g:deoplete#enable_refresh_always = 1
-call deoplete#custom#set('_', 'min_pattern_length', 1)
+" call deoplete#custom#set('_', 'min_pattern_length', 1)
+" call deoplete#custom#set('file', 'min_pattern_length', 0)
+let g:deoplete#auto_complete_delay = 150
 
 " supertab options
 let g:SuperTabDefaultCompletionType = '<c-n>'

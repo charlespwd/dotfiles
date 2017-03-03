@@ -33,7 +33,7 @@
 rofi.modi:                           run,window
 
 ! "Window opacity" Set from: Default
-rofi.opacity:                        90
+rofi.opacity:                        50
 
 ! "Window width" Set from: Default
 rofi.width:                          50

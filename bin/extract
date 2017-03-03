@@ -1,0 +1,15 @@
+#!/bin/bash
+
+if [ -f $1 ]; then
+  src=$1
+  dest="${src%%.*}"
+  case $1 in
+    *.tar.gz)  mkdir -p $dest; tar xvzf $src -C $dest ;;
+    *.tar)     mkdir -p $dest; tar xvf $src -C $dest  ;;
+    *.zip)     unzip $src -d $dest                    ;;
+    *)         echo "don't know how to extract $1"; exit 1  ;;
+  esac
+  tree $dest
+else
+  echo "'$1' is not a valid file!"
+fi

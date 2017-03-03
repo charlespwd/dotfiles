@@ -46,16 +46,15 @@ call plug#begin('~/dotfiles/.config/nvim/plugged')
 
   " Clojure
   " Plug 'venantius/vim-cljfmt', { 'for': 'clojure' }
-  Plug 'christoph-frick/vim-fireplace', { 'for': 'clojure' }
+  " Plug 'christoph-frick/vim-fireplace', { 'for': 'clojure' }
   Plug 'guns/vim-clojure-highlight', { 'for': 'clojure' }
   Plug 'guns/vim-clojure-static', { 'for': 'clojure' }
   Plug 'guns/vim-slamhound', { 'for': 'clojure' }
   " Plug 'honza/vim-clojure-conceal', { 'for': 'clojure' }
   Plug 'raymond-w-ko/vim-niji', { 'for': 'clojure' }
   Plug 'tpope/vim-leiningen', { 'for': 'clojure' }
-  Plug 'guns/vim-sexp', { 'for': ['clojure'] }
-  Plug 'tpope/vim-sexp-mappings-for-regular-people', { 'for': ['clojure'] }
-  Plug 'tpope/vim-classpath', { 'for': ['clojure'] }
+  " Plug 'guns/vim-sexp', { 'for': ['clojure'] }
+  " Plug 'tpope/vim-sexp-mappings-for-regular-people', { 'for': ['clojure'] } Plug 'tpope/vim-classpath', { 'for': ['clojure'] }
 
   " async jobs with vim, also used by clojure, otherwise use neomake
   Plug 'tpope/vim-dispatch', { 'for': ['clojure'] }
@@ -73,6 +72,7 @@ call plug#begin('~/dotfiles/.config/nvim/plugged')
   Plug 'vim-scripts/matchit.zip'
   Plug 'jpalardy/vim-slime'
   Plug 'godlygeek/tabular'
+  Plug 'tpope/vim-cucumber'
 
   " grepping
   Plug 'rking/ag.vim'

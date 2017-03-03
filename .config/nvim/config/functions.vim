@@ -197,7 +197,7 @@ function! s:OpenJsxStr(str)
   let output = '<'.name
 
   while 1
-    let attr = matchstr(attrs, '\v\w*\=\{.{-}\}')
+    let attr = matchstr(attrs, '\v\w*\=(\{.{-}\}|".{-}")')
     if empty(attr)
       break
     endif
@@ -208,9 +208,13 @@ function! s:OpenJsxStr(str)
   let closing = matchstr(jsx, '\v/?\>', '', '')
   let output = output."\r".closing
 
+  " for debugging, uncomment below
+  " echom output
+
   return output
 endfunc
 
 call s:OpenJsxStr('<SeatPickerPopover viewId={this.viewId} addToCart={this.addToCart} closePopover={this.onClosePopover} />')
 call s:OpenJsxStr('<SeatPickerPopover viewId={this.viewId} addToCart={this.addToCart} closePopover={this.onClosePopover}>')
 call s:OpenJsxStr('<SeatPickerPopover style={{ backgroundColor: 1 }} addToCart={this.addToCart} closePopover={this.onClosePopover}>')
+call s:OpenJsxStr('<iframe attr="some-key" />')

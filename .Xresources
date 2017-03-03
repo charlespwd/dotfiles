@@ -1,0 +1,108 @@
+! Resolution settings
+Xft.dpi: 170
+Xft.autohint: 0
+Xft.lcdfilter: lcddefault
+Xft.hintstyle: hintfull
+Xft.antialias: 1
+Xft.rgba: rgb
+
+! Cursor size
+Xcursor.size: 32
+
+! ----------------------------------------------------------------------
+! xterm config
+! ----------------------------------------------------------------------
+! xterm 256 colors is the name
+xterm*termName: xterm-256color
+
+! support utf8
+xterm*locale: true
+
+! font description
+xterm*faceName: DejaVuSansMonoForPowerline Nerd Font:style=Book
+! xterm*faceName: MesloLGSDZ Nerd Font:style=RegularForPowerline
+! xterm*faceName: FantasqueSansMono Nerd Font:style=Regular
+! xterm*faceName: LiterationMonoPowerline Nerd Font
+xterm*faceSize: 12
+
+! <c-h> is broken, make it work properly
+xterm*backarrowKey: false
+xterm*ttyModes: erase ^?
+
+! ----------------------------------------------------------------------
+! urxvt config
+! ----------------------------------------------------------------------
+URxvt*termName: xterm-256color
+
+! click urls
+URxvt*perl-ext-common: default,matcher,resize-font
+URxvt*url-launcher: /usr/bin/chromium
+URxvt*matcher.button: 1
+
+! underline and change the color of urls
+URxvt.matcher.rend.0: Uline Bold fg5
+
+! change the letter spacing
+URxvt.letterSpace: -1
+
+! font
+URxvt.font: xft:DejaVuSansMonoForPowerline Nerd Font:style=Book:size=14
+
+! cursor blinking
+URxvt*cursorBlink: false
+
+! scrollbar
+URxvt*scrollBar: false
+
+! resize fonts on the fly!
+URxvt.keysym.C-minus:     resize-font:smaller
+URxvt.keysym.C-equal:     resize-font:bigger
+
+! disable crappy shortcuts
+URxvt.iso14755: false
+URxvt.iso14755_52: false
+
+! re-enable c-s-left
+URxvt.keysym.C-S-Left:		string:\033[1;6D
+URxvt.keysym.C-S-Right:		string:\033[1;6C
+
+! gruvbox colors
+! -----------------------------------------------------------------------------
+! File: gruvbox-dark.xresources
+! Description: Retro groove colorscheme generalized
+! Author: morhetz <morhetz@gmail.com>
+! Source: https://github.com/morhetz/gruvbox-generalizd
+! Last Modified: 6 Sep 2014
+! -----------------------------------------------------------------------------
+
+! hard contrast:
+! *background: #1d2021
+! normal contrast:
+*background: #282828
+! soft contrast:
+! *background: #32302f
+*foreground: #ebdbb2
+! Black + DarkGrey
+*color0:  #282828
+*color8:  #928374
+! DarkRed + Red
+*color1:  #cc241d
+*color9:  #fb4934
+! DarkGreen + Green
+*color2:  #98971a
+*color10: #b8bb26
+! DarkYellow + Yellow
+*color3:  #d79921
+*color11: #fabd2f
+! DarkBlue + Blue
+*color4:  #458588
+*color12: #83a598
+! DarkMagenta + Magenta
+*color5:  #b16286
+*color13: #d3869b
+! DarkCyan + Cyan
+*color6:  #689d6a
+*color14: #8ec07c
+! LightGrey + White
+*color7:  #a89984
+*color15: #ebdbb2

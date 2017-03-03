@@ -9,7 +9,7 @@
 # Sensitivity
 # backup value
 synclient AccelFactor=0.0205
-synclient MinSpeed=3.5
+synclient MinSpeed=2
 synclient MaxSpeed=10.75
 
 # Controls
@@ -26,6 +26,8 @@ synclient CoastingFriction=125
 
 # Palm Detection while typing
 synclient PalmDetect=1
+synclient PalmMinWidth=8
+synclient PalmMinZ=100
 
 # Misc
 synclient TapAndDragGesture=0

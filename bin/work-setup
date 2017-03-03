@@ -25,3 +25,7 @@ LAPTOP_OFFSET="0x$Y_OFFSET"
 
 xrandr --output DP-2 --auto --primary --pos $LAPTOP_OFFSET --scale 1x1 \
        --output DP-1 --auto --scale 1.5x1.5 --pos 0x0
+
+$HOME/bin/wallpaper
+
+$HOME/bin/restart-polybar

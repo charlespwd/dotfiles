@@ -87,14 +87,16 @@ vnoremap <silent> # :<C-U>
 
 " ABBREVS
 call SetupCommandAlias('T', 'Tabularize')
-call SetupCommandAlias('NM', 'NeomakeSh npm run start')
-call SetupCommandAlias('NMS', 'NeomakeSh npm run start')
-call SetupCommandAlias('NSH', 'NeomakeSh npm run start')
+call SetupCommandAlias('NM', 'NeomakeSh')
+call SetupCommandAlias('NMS', 'NeomakeSh')
+call SetupCommandAlias('NSH', 'NeomakeSh')
 call SetupCommandAlias('ZON', 'ZenModeOn')
 call SetupCommandAlias('ZOFF', 'ZenModeOff')
 call SetupCommandAlias('eod', 'e ~/summary.md')
 
 " MACROS
+" map <leader>ww :!wc -w %<cr>
+" nmap <leader>== 70i=<esc>o<esc>
 imap <c-e>0 <esc>:let @d=system('date +"%Y/%m/%d"')<cr>a<c-r>d<esc>kJA
 imap <c-e>1 <esc>:let @d=system('date -v+1d +"%B %d, %Y"')<cr>"dpkJA
 imap <c-e>2 <esc>:let @d=system('date -v+2d +"%B %d, %Y"')<cr>"dpkJA
@@ -108,6 +110,7 @@ map <leader>% :let @+=expand("%")<CR>
 map <leader>,, :Neomake<cr>
 map <leader>,. :lopen<cr>
 map <leader>,t :if exists('g:do_lint_js') && g:do_lint_js <bar> let g:do_lint_js=0 <bar> else <bar> let g:do_lint_js=1 <bar> endif <bar> echo g:do_lint_js<cr>
+map <leader>.P :e ~/.config/polybar/config<cr>
 map <leader>.a :e ~/dotfiles/.zsh_custom/aliases.zsh<cr>Gzz
 map <leader>.c :e ~/.config/nvim/config/ft/clojure.vim<cr>
 map <leader>.d :e ~/.config/i3/startup.sh<cr>
@@ -125,6 +128,7 @@ map <leader>.s :e ~/.config/i3status/config<cr>
 map <leader>.t :e ~/.tmux.conf<cr>
 map <leader>.v :e ~/dotfiles/.config/nvim/init.vim<cr>
 map <leader>.w :e ~/thoughts/new-words.md<cr>
+map <leader>.x :e ~/dotfiles/.Xresources<cr>
 map <leader>.z :e ~/.zshrc<cr>
 map <leader>;; :%s/;//g<cr>
 map <leader>F :Files ~/<cr>
@@ -174,11 +178,11 @@ map <leader>pi :PlugInstall<cr>
 map <leader>po :PencilToggle<cr>
 map <leader>pp "+p
 map <leader>pu :PlugUpdate<cr>
-map <leader>rr :%s//
 map <leader>rf :%s/\v(<<c-r><c-w>>)/
 map <leader>ritual <Plug>Ritual
 map <leader>rm :call delete(expand('%')) <bar> bdelete!
 map <leader>rn :set relativenumber!<cr>
+map <leader>rr :%s//
 map <leader>rs :call ReloadAllSnippets()<cr>
 map <leader>sR <leader>aW<Plug>QfreplaceFromRegisterK
 map <leader>scc :SyntasticCheck<cr>
@@ -197,13 +201,11 @@ map <leader>t- i- [ ]<space>
 map <leader>t/ :Tabularize<space>/
 map <leader>wq :w<bar>bd<cr>
 map <leader>ws :StripWhitespace<cr>
-" map <leader>ww :!wc -w %<cr>
 map <silent> <leader>Q :bn<bar>bd #<cr>
 map <silent> <leader>q :bd<cr>
 map <silent> <leader>x :ccl<cr>:lcl<cr>
 map \\ <Plug>MostRecentBuffer
 nmap <leader>## 70i#<esc>o<esc>
-" nmap <leader>== 70i=<esc>o<esc>
 nmap <leader>a/ 16a/<esc><cr>k==
 vmap <leader>C "+y
 vmap <leader>V "+p

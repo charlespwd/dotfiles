@@ -846,3 +846,41 @@ require('whatwg-fetch');
 var testsContext = require.context("./src", true, /.spec\.js$/);
 testsContext.keys().forEach(testsContext);
 endsnippet
+
+snippet testwithmocks "Proxiquire and cie"
+const proxyquire = require('proxyquire').noCallThru();
+import { expect } from 'chai';
+import sinon from 'sinon';
+
+describe('Module: ${1:MyModule}', () => {
+	let $1;
+
+	beforeEach(() => {
+		$1 = proxyquire('../$1', {
+			${2}
+		}).default;
+	});
+
+	it('should exist', () => {
+		expect($1).to.exist;
+	});
+});
+endsnippet
+
+snippet When
+this.When(/${1:myregex}/, () => {
+	${2}
+});
+endsnippet
+
+snippet Then
+this.Then(/${1:myregex}/, () => {
+	${2}
+});
+endsnippet
+
+snippet Given
+this.Given(/${1:myregex}/, () => {
+	${2}
+});
+endsnippet

@@ -58,6 +58,10 @@ function! SetJavascriptOptions()
   " open/close object, open means on multiple lines, close means one line
   map <buffer> <leader>{ ^f{f}bea,<esc>:s/,/,\r/g<cr>%a<cr><esc>=a}:nohl<cr>
   map <buffer> <leader>} ]}k$xva}J
+
+  " turn function into an arrow function
+  map <buffer> <leader>ta :s/function/const<cr>f(i = <esc>f(%a =><esc>
+  map <buffer> <leader>tf :s/const/function<cr>:s/ = (/(<cr>:s/=> //<cr>
   vmap <buffer> == :EsformatterVisual<cr>
   map <buffer> <leader>rj :TernRename<cr>
   " wrap line by console.log()
@@ -69,7 +73,9 @@ function! SetJavascriptOptions()
   " turn a function name() into a name: function()
   map <buffer> <leader>:F ^cxewcxe^ea:<esc>f{=a}f{%a,<esc>
   " turn an import statement into a proxyquire mock
-  map <buffer> <leader>mock ^dt'f;i: {},<esc>lD==
+  map <buffer> <PLUG>Mock() ^dt'f;i: {},<del><esc>
+  map <buffer> <leader>mock <PLUG>Mock()==
+  map <buffer> <leader>Mock <PLUG>Mock()F'b"iyef{cf}<c-r>i<esc>==
   " turn a require statement into an import statement
   map <buffer> <leader>imp cwimport<esc>f=dt(ifrom <esc>f(ds)
   " turn an import statement into a require statement
@@ -78,6 +84,7 @@ function! SetJavascriptOptions()
   nnoremap <silent> <leader>e :call JSFormat()<cr>
   map <leader>uw "_dt("_ds)
 endfunction
+
 " Set js options for all js files
 autocmd BufReadPre,FileReadPre *.es6,*.jsx set filetype=javascript
 autocmd Filetype javascript call SetJavascriptOptions()
@@ -89,3 +96,9 @@ autocmd BufRead,BufWrite *.js,*.jsx if exists('g:do_lint_js') && g:do_lint_js | 
 
 " disable the annoying vim-node doc preview
 autocmd BufEnter *.js,*.jsx set completeopt-=preview
+
+autocmd User Node
+  \ if &filetype == "javascript.jsx" |
+  \   nmap <buffer> <C-w>f <Plug>NodeVSplitGotoFile |
+  \   nmap <buffer> <C-w><C-f> <Plug>NodeVSplitGotoFile |
+  \ endif
