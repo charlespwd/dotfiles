@@ -25,3 +25,5 @@ bin/random
 .config/VirtualBox
 .config/icedtea-web
 .config/mono.addins
+.config/gtk-3.0/bookmarks
+.config/GIMP

@@ -44,23 +44,44 @@ set $text-color          #ebdbb2
 set $inactive-text-color #a89984
 set $urgent-bg-color     #282828
 
-set $w1  1: I
-set $w2  2: II
-set $w3  3: III
-set $w4  4: IV
-set $w5  5: V
-set $w6  6: VI
-set $w7  7:VII
-set $w8  8:VIII
-set $w9  9:IX
-set $w10 10:X
+# set $w1  1: I
+# set $w2  2: II
+# set $w3  3: III
+# set $w4  4: IV
+# set $w5  5: V
+# set $w6  6: VI
+# set $w7  7:VII
+# set $w8  8:VIII
+# set $w9  9:IX
+# set $w10 10:X
+# set $w1  1:1 
+# set $w2  2:2 
+# set $w3  3:3 
+# set $w4  4:4 
+# set $w5  5:5 
+# set $w6  6:6 
+# set $w7  7:7
+# set $w8  8:8
+# set $w9  9:9
+# set $w10 10:10
+set $w1 1:1
+set $w2 2:2
+set $w3 3:3
+set $w4 4:4
+set $w5 5:5
+set $w6 6:6
+set $w7 7:7
+set $w8 8:8
+set $w9 9:9
+set $w10 10:10
 
 ##
 # GLOBAL CONFIGURATIONS
 
 # Font for window titles. Will also be used by the bar unless a different font is used in the bar {} block below.
-font pango:FantasqueSansMono Nerd Font 10
-# font pango:SFNS Display:style=Regular 8
+# font pango:FantasqueSansMono Nerd Font 10
+font pango:SFNS Display:style=Regular 8
+# font pango:DejaVuSansMonoForPowerline Nerd Font:style=Book
 
 # remove the title bar completely.
 new_window none
@@ -77,33 +98,41 @@ focus_follows_mouse no
 # remove borders
 for_window [class="^.*"] border pixel 0
 
-# Chrome in tab 2, always
-assign [instance="chromium"] $w2
+# Chrome rule
+# assign [instance="chromium"] $w2
+assign [instance="chromium"] $w3
+assign [instance="google-chrome"] $w2
+for_window [instance="google-chrome.*org.chromium.Chromium"] floating enable
+for_window [instance="google-chrome.*org.chromium.Chromium"] resize set 2000 1500
+for_window [instance="chromium.*org.chromium.Chromium"] floating enable
+for_window [instance="chromium.*org.chromium.Chromium"] resize set 2000 1500
+# for_window [window_role="pop-up"] floating enable
+# for_window [title="^Developer Tools.*"] floating disable
 
-# Slack in tab 3, always
-assign [instance="slack"] $w3
-assign [instance="Messenger"] $w3
+# Spotify rule
+for_window [class="Spotify"] move to workspace $w2
 
-# Spotify on 4, always
-for_window [class="Spotify"] move to workspace $w4
+# Slack rule
+assign [instance="slack"] $w4
+assign [instance="Messenger"] $w4
 
-# GitKraken on 5
-assign [instance="gitkraken"] $w5
-
-# Thunderbird on 6
+# Thunderbird rule
 assign [instance="Mail"] $w6
 
-# terminal on screen 1
-workspace "$w1" output DP-2
-workspace "$w2" output DP-1
-workspace "$w3" output DP-2
-workspace "$w4" output DP-1
-workspace "$w5" output DP-2
-workspace "$w6" output DP-1
-workspace "$w7" output DP-2
-workspace "$w8" output DP-1
-workspace "$w9" output DP-2
-workspace "$w10" output DP-1
+# GitKraken rule
+assign [instance="gitkraken"] $w5
+
+# worspace ordering
+workspace "$w1" output DP-1
+workspace "$w2" output DP-2
+workspace "$w3" output DP-1
+workspace "$w4" output DP-2
+workspace "$w5" output DP-1
+workspace "$w6" output DP-2
+workspace "$w7" output DP-1
+workspace "$w8" output DP-2
+workspace "$w9" output DP-1
+workspace "$w10" output DP-2
 
 ##
 # KEY BINDINGS
@@ -136,7 +165,7 @@ bindsym $mod+l focus right
 # alternatively, you can use the cursor keys:
 bindsym $mod+Left focus left
 bindsym $mod+Down focus down
-bindsym $mod+Uip focus up
+bindsym $mod+Up focus up
 bindsym $mod+Right focus right
 
 # move focused window
@@ -206,11 +235,11 @@ bindsym $mod+Shift+0 move container to workspace $w10
 bindsym --release $mod+Shift+c reload
 
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
-bindsym $mod+Shift+r restart
+bindsym $mod+Shift+r restart; exec sleep 1; exec $scripts/restart-polybar
 
 # screenshot settings (a la osx)
 bindsym --release $mod+Control+4 exec --no-startup-id $scripts/screenshot-to-clipboard
-bindsym --release $mod+Control+dollar exec --no-startup-id $scripts/screenshot-to-tmp
+bindsym --release $mod+Control+Shift+4 exec --no-startup-id $scripts/screenshot-to-tmp
 
 # volume settings
 bindsym XF86AudioRaiseVolume exec --no-startup-id amixer sset Master 5%+
@@ -287,31 +316,35 @@ client.urgent            $urgent-bg-color    $urgent-bg-color    $text-color    
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
-bar {
-  status_command i3status
-  position top
-  height 40
-  tray_padding 7
-  tray_output none
-  strip_workspace_numbers yes
-  separator_symbol " "
-  colors {
-    background $bg-color
-    separator $foreground
-    statusline $color15
-    #                   border     background   text
-    focused_workspace   $color10   $color10     $color0
-    inactive_workspace  $color0s   $color0s     $color15
-    urgent_workspace    $color11   $color11     $color0
-  }
-}
+# bar {
+#   status_command i3status
+#   position top
+#   height 40
+#   tray_padding 7
+#   tray_output none
+#   strip_workspace_numbers yes
+#   separator_symbol "   "
+#   colors {
+#     background $bg-color
+#     separator $foreground
+#     statusline $color15
+#     #                   border     background   text
+#     focused_workspace   $color10   $color10     $color0
+#     inactive_workspace  $color0s   $color0s     $color15
+#     urgent_workspace    $color11   $color11     $color0
+#   }
+# }
+
+# polybar!
+exec --no-startup-id polybar main
 
 exec_always --no-startup-id $scripts/trackpad_config.sh
-# exec --no-startup-id $dir/wallpaper
-# exec --no-startup-id compton --backend glx --paint-on-overlay --vsync opengl-swc -b -I 0.05 -O 0.08
+exec_always --no-startup-id $scripts/wallpaper
+# exec --no-startup-id compton --backend glx --vsync opengl-swc -I 0.05 -O 0.08
 exec --no-startup-id dunst
 exec --no-startup-id urxvt
 exec --no-startup-id chromium
+# exec --no-startup-id google-chrome-stable --profile-directory="Profile 1"
 exec --no-startup-id slack
 exec --no-startup-id thunderbird
 # exec --no-startup-id exec i3-msg 'workspace $w4; exec spotify; exec sleep 1; workspace $w1'
