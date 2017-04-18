@@ -52,10 +52,10 @@ modules-center =
 ; modules-right = filesystem xbacklight volume xkeyboard memory cpu wifi eth battery temperature date powermenu
 modules-right = ip root home volume xkeyboard wifi battery date powermenu
 
-; tray-position = right
-; tray-padding = 2
-; tray-transparent = true
-; tray-background = #0063ff
+tray-position = right
+tray-padding = 2
+tray-transparent = false
+tray-background = ${colors.background}
 
 ;wm-restack = bspwm
 ;wm-restack = i3

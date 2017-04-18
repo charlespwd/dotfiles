@@ -134,6 +134,7 @@ map <leader>;; :%s/;//g<cr>
 map <leader>F :Files ~/<cr>
 map <leader>G :G
 map <leader>R :redraw!<cr>
+map <leader>U :GundoToggle<cr>
 map <leader>V "+p
 map <leader>aa :Grepper -tool ag<cr>
 map <leader>am :e ~/.vim/config/macros.vim<cr>gg/" MACROS<cr>zz:nohl<cr>o<esc>^S
@@ -217,6 +218,7 @@ vmap <leader>s "ky:%s/\v(<<C-R>k>)/
 vmap <leader>ss "ky<sid>SearchFromRegisterK()<Plug>QfreplaceFromRegisterK
 vmap <leader>sw "ky<sid>SearchFromRegisterKWithBounds()<Plug>QfreplaceFromRegisterK
 vmap <leader>vy <Plug>SendToTmux
+" tmap <Esc> <C-\><C-n>
 
 " arch keymap specific stuff...
 vmap <a-c> "+y

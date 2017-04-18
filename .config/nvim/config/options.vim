@@ -63,6 +63,21 @@ set nosmarttab
 set formatoptions+=t " make sure lines are wrapped with textwidth
 set formatoptions+=l " make sure lines don't get wrapped if they are already long
 
+" Persistent undo tree (even after you trash the buffer)
+" You can also setup a cron job that deletes files unused for 90 days
+" like this
+"
+" # m h  dom mon dow   command
+"  43 00 *   *   3     find /home/charles/.vim/undo-dir -type f -mtime +90 -delete
+if !isdirectory($HOME."/.vim")
+    call mkdir($HOME."/.vim", "", 0770)
+endif
+if !isdirectory($HOME."/.vim/undo-dir")
+    call mkdir($HOME."/.vim/undo-dir", "", 0700)
+endif
+set undodir=~/.vim/undo-dir
+set undofile
+
 " better whitespace
 let g:better_whitespace_filetypes_blacklist=[]
 

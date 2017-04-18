@@ -1,18 +1,34 @@
-# Add yourself some shortcuts to projects you often work on
-# Example:
-# brainstormr=/Users/robbyrussell/Projects/development/planetargon/brainstormr
-
 OS=$(uname -s)
-if [[ "$OS" -eq "Linux" ]]; then
+if [ "$OS" = "Linux" ]; then
+
+  # functions related to default applications
+  function default_and_mime {
+    ft=$(xdg-mime query filetype $1)
+    def=$(xdg-mime query default $ft)
+    echo "ft: $ft, default: ${def:-None}"
+  }
+
+  function set_default {
+    if [[ "$#" -ne 2 ]]; then
+      echo "Usage: set-default entry.desktop mimetype"
+      exit 1;
+    fi
+    xdg-mime default $1 $2
+  }
+
   alias ".."="cd .."
   alias "..."="cd ../.."
   alias ".i3"="vim ~/.config/i3/config"
   alias ".i3status"="vim ~/.config/i3status/config"
+  alias "filetype?"="xdg-mime query filetype"
+  alias "default?"='default_and_mime'
+  alias "set-default"="set_default"
   alias chrome="chromium &> /dev/null &"
   alias mountmc="sudo mount -t cifs //raspi.local/mediacenter /mnt/mediacenter -o username=pi"
   alias mountnd="sudo mount -t cifs //raspi.local/networkdrive /mnt/networkdrive"
+  alias open="xdg-open"
   alias pbcopy="xclip -sel clipboard"
-elif [[ "$OS" -eq "Darwin" ]]; then
+elif [ "$OS" = "Darwin" ]; then
   alias chrome="/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome"
   alias firefox="/Applications/Firefox.app/Contents/MacOS/firefox"
   alias pimount="sshfs rpi.local: ~/ws/pi"
@@ -35,11 +51,10 @@ alias bta="b test:auto"
 alias c="cd"
 alias dev:stats="j server && n dev && j app && n dev"
 alias fitocracy="java -jar ~/dotfiles/bin/fitocracy-lifts.jar"
-alias gcob='git checkout $(git branch | fzf)'
 alias gai="git add --intent-to-add"
 alias gap="git add --patch"
 alias gbd="git branch -D"
-alias gbdm="git branch --merged | grep -v \"\*\" | grep -v \"^master\" | xargs -n 1 git branch -d"
+alias gbdm="git branch --merged | grep -v \"\*\" | grep -v \"master\" | xargs -n 1 git branch -d"
 alias gbdmerged='git branch | grep "^\s*merge" | xargs -n 1 git branch -d'
 alias gbuild="git add dist && git commit -m [Build]"
 alias gcb="git checkout -b"
@@ -47,6 +62,7 @@ alias gci="git clean -i"
 alias gcio="git clean -i *.orig"
 alias gcl="git clone"
 alias gcmsg="echo 'Please use gc instead. Be a man and write a proper commit message.'"
+alias gcob='git checkout $(git branch | fzf)'
 alias gdc="git diff --cached"
 alias ggfpush='git push -f origin $(current_branch)'
 alias gl="git pull --rebase"
@@ -66,18 +82,19 @@ alias ls="ls --color -h --group-directories-first -l"
 alias m="mutt"
 alias md="grip"
 alias mlint="/Applications/MATLAB_R2014a.app/bin/maci64/mlint"
+alias mountmc="sudo mount -t cifs //raspi.local/mediacenter /mnt/mediacenter -o username=pi"
+alias mountnd="sudo mount -t cifs //raspi.local/networkdrive /mnt/networkdrive"
 alias n="npm run"
 alias npmc="npm --cache-min=1000000"
 alias npr="npm run"
 alias nwjs="/Applications/nwjs.app/Contents/MacOS/nwjs"
 alias o="open"
 alias onsight="cd ~/ws/onsight/webapp"
-alias mountmc="sudo mount -t cifs //raspi.local/mediacenter /mnt/mediacenter -o username=pi"
-alias mountnd="sudo mount -t cifs //raspi.local/networkdrive /mnt/networkdrive"
 alias plan="v -c ':execute \"normal \<Plug>EvervimPlan\"'"
 alias pmd="pandoc -s -f markdown_github -t html --css ~/.mutt/markdown.css"
 alias precommit="npm run precommit -- --format compact"
 alias process="cd ~/Dropbox/process/"
+alias reload-aliases="source $HOME/.zsh_custom/aliases.zsh"
 alias reload=". ~/.zshrc && echo 'ZSH config reloaded from ~/.zshrc'"
 alias rg="rails g"
 alias rgh="rails g --help"
@@ -85,6 +102,7 @@ alias ritual="v -c ':execute \"normal G2o\<Esc>\<Plug>Ritual\"' ~/thoughts/thoug
 alias rs="bundle exec rails server"
 alias s="say"
 alias school="cd ~/Documents/school"
+alias selenium="java -jar /usr/share/selenium-server/selenium-server-standalone.jar"
 alias sudo="sudo "
 alias ta=". tmux_attach_or_new"
 alias thoughts="v -c ':normal G' ~/thoughts/thoughts.md"

@@ -39,6 +39,7 @@ set $color15 #ebdbb2
 # Theme colors
 set $focused-border      #98971a
 set $bg-color 	         #282828
+set $border-color        #504945
 set $inactive-bg-color   #282828
 set $text-color          #ebdbb2
 set $inactive-text-color #a89984
@@ -80,11 +81,14 @@ set $w10 10:10
 
 # Font for window titles. Will also be used by the bar unless a different font is used in the bar {} block below.
 # font pango:FantasqueSansMono Nerd Font 10
-font pango:SFNS Display:style=Regular 8
+font pango:SFNS Display:style=Regular 9
 # font pango:DejaVuSansMonoForPowerline Nerd Font:style=Book
 
 # remove the title bar completely.
 new_window none
+
+# add the title bar to new floating windows
+new_float normal
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -97,6 +101,8 @@ focus_follows_mouse no
 
 # remove borders
 for_window [class="^.*"] border pixel 0
+for_window [floating] border normal 7
+for_window [floating] title_format "<span size='smaller'> %title</span>"
 
 # Chrome rule
 # assign [instance="chromium"] $w2
@@ -309,9 +315,9 @@ bindsym $mod+grave mode "$mode_system"
 bindsym $mod+$alt+space exec --no-startup-id $scripts/toggle-keymap
 
 # window colors          border              background          text                  indicator
-client.focused           $bg-color           $bg-color           $text-color           $bg-color
-client.unfocused         $bg-color           $inactive-bg-color  $inactive-text-color  $bg-color
-client.focused_inactive  $bg-color           $inactive-bg-color  $inactive-text-color  $bg-color
+client.focused           $border-color       $border-color       $text-color           $bg-color
+client.unfocused         $border-color       $inactive-bg-color  $inactive-text-color  $bg-color
+client.focused_inactive  $border-color       $inactive-bg-color  $inactive-text-color  $bg-color
 client.urgent            $urgent-bg-color    $urgent-bg-color    $text-color           $bg-color
 
 # Start i3bar to display a workspace bar (plus the system information i3status

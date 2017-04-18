@@ -35,6 +35,7 @@ call plug#begin('~/dotfiles/.config/nvim/plugged')
   Plug 'junegunn/fzf.vim'
   Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
   Plug 'danro/rename.vim'
+  Plug 'sjl/gundo.vim'
 
   " Javascript
   Plug 'moll/vim-node', { 'for': 'javascript' }
