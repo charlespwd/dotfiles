@@ -10,4 +10,18 @@
 	<startup-notify/>
 	<directories/>
 </action>
+<action>
+	<icon>utilities-terminal</icon>
+	<name>Copy File Path</name>
+	<unique-id>1489433818574480-1</unique-id>
+	<command>echo %f | xclip -i -selection clipboard</command>
+	<description>Copy file path to clipboard</description>
+	<patterns>*</patterns>
+	<directories/>
+	<audio-files/>
+	<image-files/>
+	<other-files/>
+	<text-files/>
+	<video-files/>
+</action>
 </actions>
