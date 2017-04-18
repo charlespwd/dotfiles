@@ -19,7 +19,7 @@ if [ $? != 0 ]; then
 
   # build window
   tmux new-window -n 'build' -t ${SESSION_NAME}
-  tmux send-keys -t ${SESSION_NAME}:2 'NODE_ENV=dev-adc npm run webpack-dashboard' C-m
+  tmux send-keys -t ${SESSION_NAME}:2 'swd' C-m
 
   # test window
   tmux new-window -n 'tests' -t ${SESSION_NAME}

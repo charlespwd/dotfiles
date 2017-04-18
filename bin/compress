@@ -1,6 +1,6 @@
 #!/bin/bash
 
-USAGE="compress dest files..."
+USAGE="Usage: compress dest files..."
 
 dest=$1
 shift

@@ -1,0 +1,5 @@
+#!/bin/bash
+
+url="http://localhost:4000/#/78d0d317-cc25-4e35-9bb3-9bc7bb65e2cc/shop/search?ec=VMO170423E"
+# url="https://localhost:3000/#/taylorswift_d"
+xdotool type --delay 10 $url

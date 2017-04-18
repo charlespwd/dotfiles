@@ -6,13 +6,10 @@
 
 usage() {
     echo "    $(tput bold)menu calc$(tput sgr0)
-    A calculator for use with Rofi or dmenu(2)
+    A unit conversion util for use with Rofi or dmenu(2)
     Basic usage:
-    = 4+2
-    = (4+2)/(4+3)
-    = 4^2
-    = sqrt(4)
-    = c(2)
+     convert 4kg lb
+     convert 4ml l
 
     The answer can be used for further calculations
 
@@ -35,7 +32,8 @@ else
     exit
 fi
 
-answer=$(echo "$@" | bc -l | sed '/\./ s/\.\{0,1\}0\{1,\}$//')
+echo $@
+answer=$(units --compact --one-line $@)
 
 action=$(echo -e "Copy to clipboard\nClear\nClose" | $menu -p "= $answer")
 

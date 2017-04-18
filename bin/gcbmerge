@@ -1,0 +1,12 @@
+#!/bin/bash
+
+if [ $# -ne 2 ]; then
+  echo "Usage gcbmerge from dest"
+  exit 1
+fi
+
+FROM=$1
+DEST=$2
+DATE=$(date +%m-%d-%Y)
+
+git checkout -b "merge/${FROM}-into-${DEST}-${DATE}"

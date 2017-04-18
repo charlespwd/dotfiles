@@ -1,0 +1,29 @@
+#!/bin/bash
+
+set -e
+
+DATE=$(date +%d-%m-%Y)
+A="2.7.1dev"
+B="2.8dev"
+C="2.8.1dev"
+D="master"
+
+git fetch upstream
+
+echo "=============== $A-into-$B-$DATE"
+git checkout upstream/$B
+git checkout -b merge/$A-into-$B-$DATE
+git merge upstream/$A
+gpr $B
+
+echo "=============== $B-into-$C-$DATE"
+git checkout upstream/$C
+git checkout -b merge/$B-into-$C-$DATE
+git merge merge/$A-into-$B-$DATE
+gpr $C
+
+echo "=============== $C-into-$D-$DATE"
+git checkout upstream/$D
+git checkout -b merge/$C-into-$D-$DATE
+git merge merge/$B-into-$C-$DATE
+gpr $D
