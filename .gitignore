@@ -27,3 +27,7 @@ bin/random
 .config/mono.addins
 .config/gtk-3.0/bookmarks
 .config/GIMP
+.config/nvim/undo-dir
+.config/gedit
+.config/enchant
+.config/configstore
