@@ -1,4 +1,5 @@
 #!/bin/bash
 
-BRIGHTNESS=`/bin/node /home/charles/bin/brightness.js $1`
+NODE=$(which node)
+BRIGHTNESS=`$NODE /home/charles/bin/brightness.js $1`
 sudo tee /sys/class/backlight/gmux_backlight/brightness <<< $BRIGHTNESS

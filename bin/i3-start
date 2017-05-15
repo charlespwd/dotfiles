@@ -1,0 +1,9 @@
+#!/bin/zsh
+
+IS_SECOND_MONITOR_CONNECTED=$(xrandr -q | grep "HDMI1 connected")
+
+if [[ $IS_SECOND_MONITOR_CONNECTED = '' ]]; then
+  $HOME/bin/home-setup
+else
+  $HOME/bin/work-setup
+fi

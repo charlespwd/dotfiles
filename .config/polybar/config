@@ -21,7 +21,7 @@ foreground-dim = #928374
 
 [bar/base]
 width = 100%
-height = 42
+height = 60
 ;offset-x = 1%
 ;offset-y = 1%
 ; radius = 6.0
@@ -42,10 +42,10 @@ padding-right = 0
 module-margin-left = 2
 module-margin-right = 2
 
-font-0 = SFNS Display:style=Regular:pixelsize=18;1
+font-0 = SFNS Display:style=Regular:pixelsize=24;1
 ; font-0 = xft:DejaVuSansMonoForPowerline Nerd Font:style=Book:size=14:pixelsize=18;1
-font-1 = unifont:fontformat=truetype:size=16:antialias=false;0
-font-2 = FontAwesome:pixelsize=18;1
+font-1 = unifont:fontformat=truetype:size=22:antialias=false;0
+font-2 = FontAwesome:pixelsize=24;1
 
 modules-left = i3
 modules-center =
@@ -53,7 +53,7 @@ modules-center =
 modules-right = ip root home volume xkeyboard wifi battery date powermenu
 
 tray-position = right
-tray-padding = 2
+tray-padding = 0
 tray-transparent = false
 tray-background = ${colors.background}
 
@@ -155,36 +155,37 @@ label-mode-foreground = #000
 label-mode-background = ${colors.primary}
 
 ; focused = Active workspace on focused monitor
-label-focused = %icon%  %index%
+label-focused = %icon%%index%
 label-focused-background = ${module/bspwm.label-focused-background}
 label-focused-underline = ${module/bspwm.label-focused-underline}
 label-focused-padding = ${module/bspwm.label-focused-padding}
 
 ; unfocused = Inactive workspace on any monitor
-label-unfocused = %icon%  %index%
+label-unfocused = %icon%%index%
 label-unfocused-padding = ${module/bspwm.label-occupied-padding}
 
 ; visible = Active workspace on unfocused monitor
-label-visible = %icon%  %index%
+label-visible = %icon%%index%
 label-visible-background = ${self.label-focused-background}
 label-visible-underline = ${self.label-focused-underline}
 label-visible-padding = ${self.label-focused-padding}
 
 ; urgent = Workspace with urgency hint set
-label-urgent = %icon%  %index%
+label-urgent = %icon%%index%
 label-urgent-background = ${module/bspwm.label-urgent-background}
 label-urgent-padding = ${module/bspwm.label-urgent-padding}
 label-urgent-foreground = ${colors.background}
 
-ws-icon-0 = "1:1;"
-ws-icon-1 = "2:2;"
-ws-icon-2 = "3:3;"
-ws-icon-3 = "4:4;"
-ws-icon-4 = "5:5;"
-ws-icon-5 = "6:6;"
-ws-icon-6 = "7:7;"
-ws-icon-7 = "8:8;"
-ws-icon-8 = "9:9;"
+ws-icon-0 = "1:1;  "
+ws-icon-1 = "2:2;  "
+ws-icon-2 = "3:3;  "
+ws-icon-3 = "4:4;  "
+ws-icon-4 = "5:5;  "
+ws-icon-5 = "6:6;  "
+ws-icon-6 = "7:7;"
+ws-icon-7 = "8:8; "
+ws-icon-8 = "9:9; "
+ws-icon-9 = "10:10; "
 
 [module/mpd]
 type = internal/mpd
@@ -239,7 +240,7 @@ label = %percentage_used%%
 
 [module/wifi]
 type = internal/network
-interface = wlp4s0
+interface = ${env:WIFI_INTERFACE:wlp4s0}
 interval = 3.0
 
 format-connected = <ramp-signal> <label-connected>
@@ -261,7 +262,7 @@ ramp-signal-foreground = ${colors.foreground-dim}
 
 [module/ip]
 type = internal/network
-interface = wlp4s0
+interface = ${env:WIFI_INTERFACE:wlp4s0}
 interval = 3.0
 
 format-connected-underline = #55aa55

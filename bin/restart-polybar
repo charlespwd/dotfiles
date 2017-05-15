@@ -1,7 +1,7 @@
 #!/bin/bash
 
 killall polybar
-polybar main &> /dev/null &
+MONITOR=eDP1 polybar main &> /dev/null &
 disown
-polybar secondary &> /dev/null &
+MONITOR=HDMI1 polybar secondary &> /dev/null &
 disown

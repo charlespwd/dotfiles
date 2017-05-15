@@ -1,0 +1,5 @@
+#!/bin/bash
+
+compton -b
+xrandr --output eDP1 --mode 3840x2160 \
+       --output HDMI1 --off

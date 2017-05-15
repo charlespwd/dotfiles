@@ -32,9 +32,6 @@
 ! "Enabled modi" Set from: Default
 rofi.modi:                           run,window
 
-! "Window opacity" Set from: Default
-rofi.opacity:                        50
-
 ! "Window width" Set from: Default
 rofi.width:                          50
 
@@ -47,38 +44,15 @@ rofi.columns:                        1
 ! "Font to use" Set from: Default
 rofi.font:                           DejaVu Sans Mono 40
 
-! "Color scheme for normal row" Set from: Default
-
-! State:                              'bg',  'fg',   'bgalt', 'hlbg', 'hlfg'
-!rofi.color-normal:                   #fdf6e3,#002b36,#fdf6e3,#586e75,#eee8d5
-
-! "Color scheme for urgent row" Set from: Default
-!rofi.color-urgent:                   #fdf6e3,#dc322f,#fdf6e3,#dc322f,#fdf6e3
-
-! "Color scheme for active row" Set from: Default
-!rofi.color-active:                   #fdf6e3,#268bd2,#fdf6e3,#268bd2,#fdf6e3
-
-! "Color scheme window" Set from: Default
-! rofi.color-window:                   #fdf6e3,#002b36
-
-! ------------------------------------------------------------------------------
-! Android ROFI Color theme
-! ------------------------------------------------------------------------------
-! rofi.color-enabled: true
-! rofi.color-window: #273238, #273238, #1e2529
-! rofi.color-normal: #273238, #c1c1c1, #273238, #394249, #ffffff
-! rofi.color-active: #273238, #80cbc4, #273238, #394249, #80cbc4
-! rofi.color-urgent: #273238, #ff1844, #273238, #394249, #ff1844
-
 ! ------------------------------------------------------------------------------
 ! ROFI Gruvbox/Solarized mix
 ! ------------------------------------------------------------------------------
-! State:              'bg',    'fg', 'bgalt',  'hlbg',  'hlfg'
+! State:                     'bg',           'fg',        'bgalt',         'hlbg',         'hlfg'
 rofi.color-enabled: true
-rofi.color-window: #1d2021, #1d2021, #003642
-rofi.color-normal: #1d2021, #819396, #1d2021, #32302f, #819396
-rofi.color-active: #1d2021, #008ed4, #1d2021, #32302f, #008ed4
-rofi.color-urgent: #1d2021, #da4281, #1d2021, #32302f, #da4281
+rofi.color-window: argb: ee1d2021,        #1d2021, argb: BB1d2021
+rofi.color-normal: argb: 001d2021,        #819396, argb: 001d2021, argb: 8832302f, argb: FF819396
+rofi.color-active: argb: 001d2021,        #008ed4, argb: 001d2021, argb: 8832302f, argb: FF008ed4
+rofi.color-urgent: argb: 001d2021,        #da4281, argb: 001d2021, argb: 8832302f, argb: FFda4281
 
 ! "Border width" Set from: Default
 rofi.bw:                             0
