@@ -84,11 +84,7 @@ install_file () {
   if [[ -L ${file} ]]; then
     echo "${file} is already installed."
   elif [[ -e ${dot_file_path} ]]; then
-    backup_file "${file}" "${current_dir}"
-    if [[ "$?" -ne 0 ]]; then
-      echo "Could not backup ${file}."
-      return 1
-    fi
+#    backup_file "${file}" "${current_dir}"
 
     echo "installing ${file}"
     ln -s "${dot_file_path}" "${HOME}/${file}"
@@ -103,13 +99,9 @@ main () {
   if ! [ "$#" -ne 0 ]; then
     echo "=============================="
     echo "Installing missing packages: $HOMEBREW_PACKAGES"
-    install_homebrew
-    install_node
-    install_oh_my_zsh
     echo ""
   fi
 
-  create_backup_folder
   echo "=============================="
   echo "Symlinking dotfile(s): $dot_files"
   for dot_file in ${dot_files}; do
