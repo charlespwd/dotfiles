@@ -22,8 +22,5 @@
 	smudge = git-media-smudge %f
 [push]
 	default = simple
-[init]
-	templatedir = ~/.git_template
 [hub]
-	host = my.example.org
 	host = github.outboxtechnology.com

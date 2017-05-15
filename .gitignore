@@ -31,3 +31,7 @@ bin/random
 .config/gedit
 .config/enchant
 .config/configstore
+.config/transmission-daemon
+.config/eog
+.config/google-chrome-beta
+.config/xarchiver
