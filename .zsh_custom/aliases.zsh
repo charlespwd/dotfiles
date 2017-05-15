@@ -11,7 +11,7 @@ if [ "$OS" = "Linux" ]; then
   function set_default {
     if [[ "$#" -ne 2 ]]; then
       echo "Usage: set-default entry.desktop mimetype"
-      exit 1;
+      return 1;
     fi
     xdg-mime default $1 $2
   }
@@ -20,6 +20,7 @@ if [ "$OS" = "Linux" ]; then
   alias "..."="cd ../.."
   alias ".i3"="vim ~/.config/i3/config"
   alias ".i3status"="vim ~/.config/i3status/config"
+  alias ".p"="vim ~/.config/polybar/config"
   alias "filetype?"="xdg-mime query filetype"
   alias "default?"='default_and_mime'
   alias "set-default"="set_default"
@@ -28,6 +29,7 @@ if [ "$OS" = "Linux" ]; then
   alias mountnd="sudo mount -t cifs //raspi.local/networkdrive /mnt/networkdrive"
   alias open="xdg-open"
   alias pbcopy="xclip -sel clipboard"
+  alias gtypist="gtypist -w"
 elif [ "$OS" = "Darwin" ]; then
   alias chrome="/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome"
   alias firefox="/Applications/Firefox.app/Contents/MacOS/firefox"
@@ -82,8 +84,6 @@ alias ls="ls --color -h --group-directories-first -l"
 alias m="mutt"
 alias md="grip"
 alias mlint="/Applications/MATLAB_R2014a.app/bin/maci64/mlint"
-alias mountmc="sudo mount -t cifs //raspi.local/mediacenter /mnt/mediacenter -o username=pi"
-alias mountnd="sudo mount -t cifs //raspi.local/networkdrive /mnt/networkdrive"
 alias n="npm run"
 alias npmc="npm --cache-min=1000000"
 alias npr="npm run"
@@ -124,7 +124,9 @@ alias xrdbr="xrdb ~/.Xresources"
 alias selenium="java -jar /usr/share/selenium-server/selenium-server-standalone.jar"
 
 # client specific
-alias fetchupstream="gwip && git checkout master && git fetch upstream && git reset --hard upstream/master && git push -f origin master"
+alias fetchupstream="gwip; [[ $(basename $(pwd)) = 'es5' ]] && git checkout master && git fetch upstream && git reset --hard upstream/master && git push -f origin master"
 alias outbox-start="work-setup && outbox-setup"
 alias outbox-vpn="sudo openconnect -u cpclermont --authgroup=Anyconnect connect.outboxenterprises.com"
 alias weather="curl wttr.in/Montreal"
+alias passid='lpass ls --format "%an [id: %ai]" | fzf | egrep -o "\[id: .*\]" | egrep -o "[0-9]+"'
+alias getpass='lpass show -cp $(passid)'
