@@ -25,7 +25,8 @@ if has('unix')
 
   " Linux
   else
-    let g:EditorConfig_exec_path = '/usr/bin/editorconfig'
+    " let g:EditorConfig_exec_path = '/usr/bin/editorconfig'
+    let g:EditorConfig_exec_path = '/home/charles/.local/bin/editorconfig'
     let g:python_host_prog = '/usr/bin/python2'
     let g:python3_host_prog = '/usr/bin/python3'
   endif
@@ -34,15 +35,14 @@ endif
 " options
 set textwidth=70
 set path+="**"
-set backspace=2 " make backspace work like most other apps"
+"set backspace=2 " make backspace work like most other apps"
 set nocursorline " don't highlight current line
-set nocursorcolumn "
-set scrolljump=5
-set lazyredraw
+set nocursorcolumn
+"set lazyredraw
 set diffopt+=vertical
 set expandtab
 set history=10000
-set laststatus=2	" always show the status bar
+"set laststatus=2	" always show the status bar
 set listchars=eol:$,tab:>-,trail:~,space:· " character representations
 set nobackup
 set nofoldenable
@@ -50,13 +50,12 @@ set noswapfile
 set nowrap " don't wrap text
 set relativenumber
 set rtp+=~/.fzf " add fzf
-set ruler " show row and column in footer
 set shiftwidth=2
 set softtabstop=2
 set splitright " when you split vertically, open new window to the right
-set synmaxcol=200
+"set synmaxcol=200
 set tabstop=2
-set ttimeoutlen=100 "decrease timeout for faster insert with O
+"set ttimeoutlen=100 "decrease timeout for faster insert with O
 set undolevels=1000
 set wildmode=list:longest,full
 set nosmarttab

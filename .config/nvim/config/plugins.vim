@@ -8,14 +8,21 @@ let g:vimwiki_folding = 'syntax'
 call plug#begin('~/dotfiles/.config/nvim/plugged')
   " html stuff
   Plug 'cakebaker/scss-syntax.vim', { 'for': 'scss' }
-  Plug 'django.vim', { 'for': 'htmldjango' }
   Plug 'hail2u/vim-css3-syntax', { 'for': 'css' }
   Plug 'mattn/emmet-vim', { 'for': ['html','htmldjango','css','eruby','scss','sass'] }
   Plug 'othree/html5.vim', { 'for': 'html' }
 
   "" Autocomplete engine
   if !has('gui_running')
-    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+    " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+
+    " nvim-completion-manager stuff
+    Plug 'roxma/nvim-completion-manager'
+    Plug 'roxma/python-support.nvim'
+    " this is for javascript tern completion
+    Plug 'roxma/nvim-cm-tern',  {'do': 'npm install'}
+    " this is for typescript and stuff
+    Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
   endif
 
   " Autocomplete helper (use tab instead of <c-n> and <c-p>)
@@ -41,21 +48,22 @@ call plug#begin('~/dotfiles/.config/nvim/plugged')
   Plug 'moll/vim-node', { 'for': 'javascript' }
   Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
   Plug 'mxw/vim-jsx', { 'for': 'javascript' }
-  Plug 'leafgarland/typescript-vim', { 'for': 'typescript' }
-  Plug 'Shougo/vimproc.vim', { 'for': 'typescript', 'do': 'make -f make_mac.mak' }
-  Plug 'Quramy/tsuquyomi', { 'for': 'typescript' }
+  " Plug 'leafgarland/typescript-vim', { 'for': 'typescript' }
+  " Plug 'Shougo/vimproc.vim', { 'for': 'typescript', 'do': 'make -f make_mac.mak' }
+  " Plug 'Quramy/tsuquyomi', { 'for': 'typescript' }
 
   " Clojure
   " Plug 'venantius/vim-cljfmt', { 'for': 'clojure' }
-  " Plug 'christoph-frick/vim-fireplace', { 'for': 'clojure' }
+  Plug 'christoph-frick/vim-fireplace', { 'for': 'clojure' }
   Plug 'guns/vim-clojure-highlight', { 'for': 'clojure' }
   Plug 'guns/vim-clojure-static', { 'for': 'clojure' }
   Plug 'guns/vim-slamhound', { 'for': 'clojure' }
   " Plug 'honza/vim-clojure-conceal', { 'for': 'clojure' }
   Plug 'raymond-w-ko/vim-niji', { 'for': 'clojure' }
   Plug 'tpope/vim-leiningen', { 'for': 'clojure' }
-  " Plug 'guns/vim-sexp', { 'for': ['clojure'] }
-  " Plug 'tpope/vim-sexp-mappings-for-regular-people', { 'for': ['clojure'] } Plug 'tpope/vim-classpath', { 'for': ['clojure'] }
+  Plug 'guns/vim-sexp', { 'for': ['clojure'] }
+  Plug 'tpope/vim-sexp-mappings-for-regular-people', { 'for': ['clojure'] } 
+  Plug 'tpope/vim-classpath', { 'for': ['clojure'] }
 
   " async jobs with vim, also used by clojure, otherwise use neomake
   Plug 'tpope/vim-dispatch', { 'for': ['clojure'] }
@@ -91,11 +99,6 @@ call plug#begin('~/dotfiles/.config/nvim/plugged')
   Plug 'vim-airline/vim-airline-themes'
   Plug 'edkolev/tmuxline.vim'
   Plug 'ntpeters/vim-better-whitespace'
-
-  " linting vim
-  if !has('nvim')
-    Plug 'scrooloose/syntastic', { 'for': ['javascript'] }
-  endif
 
   " linting nvim
   if has('nvim')

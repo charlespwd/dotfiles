@@ -93,10 +93,12 @@ call SetupCommandAlias('NSH', 'NeomakeSh')
 call SetupCommandAlias('ZON', 'ZenModeOn')
 call SetupCommandAlias('ZOFF', 'ZenModeOff')
 call SetupCommandAlias('eod', 'e ~/summary.md')
+call SetupCommandAlias('wf', 'w !sudo tee %')
 
 " MACROS
 " map <leader>ww :!wc -w %<cr>
 " nmap <leader>== 70i=<esc>o<esc>
+" tmap <Esc> <C-\><C-n>
 imap <c-e>0 <esc>:let @d=system('date +"%Y/%m/%d"')<cr>a<c-r>d<esc>kJA
 imap <c-e>1 <esc>:let @d=system('date -v+1d +"%B %d, %Y"')<cr>"dpkJA
 imap <c-e>2 <esc>:let @d=system('date -v+2d +"%B %d, %Y"')<cr>"dpkJA
@@ -141,6 +143,7 @@ map <leader>am :e ~/.vim/config/macros.vim<cr>gg/" MACROS<cr>zz:nohl<cr>o<esc>^S
 map <leader>aw :Grepper -tool ag -cword -noprompt<cr>
 map <leader>b :Buffers<cr>
 map <leader>c :Commands<cr>
+map <leader>cds :%s/d06/testcds/g<bar>w<cr>
 map <leader>dd !!today<cr>I#<space><esc>o
 map <leader>extract ?function<cr>vf{%"fdiplaceholder<esc><cr><cr>"fpf(i<space>placeholder<esc>*
 map <leader>f :Files<cr>
@@ -218,7 +221,6 @@ vmap <leader>s "ky:%s/\v(<<C-R>k>)/
 vmap <leader>ss "ky<sid>SearchFromRegisterK()<Plug>QfreplaceFromRegisterK
 vmap <leader>sw "ky<sid>SearchFromRegisterKWithBounds()<Plug>QfreplaceFromRegisterK
 vmap <leader>vy <Plug>SendToTmux
-" tmap <Esc> <C-\><C-n>
 
 " arch keymap specific stuff...
 vmap <a-c> "+y
@@ -232,6 +234,9 @@ nmap <a-h> :h<space>
 
 " remap alt-l to nohl (arch)
 nnoremap <silent> <a-l> :nohl<cr>:normal! <c-l><cr>
+
+" remap ctrl+v in quickfix to vertical split
+autocmd! FileType qf nnoremap <buffer> <C-v> <C-w><Enter><C-w>L
 
 " remap alt-l to nohl (osx)
 " nnoremap <silent> ¬ :nohl<cr>:normal! <c-l><cr>
