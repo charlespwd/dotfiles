@@ -1,0 +1,44 @@
+#!/bin/bash
+## Dual screen config
+# main (eDP-2 = 2880x1800)
+# screen (DP-1 1920x1080)
+#
+# 1920*$scale = 3840
+# 1080*$scale = 2160
+# 3960 = 1080 * $scale + 1800
+# $offset = 1080*2160
+
+main=${MONITOR:-eDP1}
+main_w=2880
+main_h=1620
+main_mode="${main_w}x${main_h}"
+
+secondary="HDMI1"
+secondary_w=1600
+secondary_h=900
+secondary_mode="${secondary_w}x${secondary_h}"
+
+scale=1.85
+secondary_scale="${scale}x${scale}"
+
+# frame_buffer_w=$(node-calc "Math.floor($secondary_w * $scale)")
+# frame_buffer_h=$(node-calc "Math.floor($main_h + $secondary_h * $scale) + 1")
+# frame_buffer="${frame_buffer_w}x${frame_buffer_h}"
+
+y_offset=$(node-calc "Math.ceil($secondary_h * $scale) + 1")
+main_offset="0x$y_offset"
+
+xrandr --output $main \
+        --auto \
+        --primary \
+        --pos $main_offset \
+        --mode $main_mode \
+        --scale 1x1 \
+       --output $secondary \
+        --auto \
+        --scale $secondary_scale \
+        --pos 0x0 \
+        --mode $secondary_mode
+
+$HOME/bin/wallpaper
+$HOME/bin/restart-polybar
