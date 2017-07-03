@@ -1,0 +1,19 @@
+#!/bin/bash
+
+file=$($HOME/bin/rofi-file)
+
+# do nothing if escape was pressed
+[[ -z $file ]] && exit 0
+
+# is a directory, open that directory
+if [ -d "$file" ]; then
+  thunar "$file" &> /dev/null &
+  disown
+
+# is a file, open the containing directory
+else
+  thunar "$(dirname "$file")" &> /dev/null &
+  disown
+fi
+
+i3-msg 'workspace 9:9'

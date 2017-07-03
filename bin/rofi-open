@@ -1,0 +1,10 @@
+#!/bin/bash
+
+file=$($HOME/bin/rofi-file)
+
+# do nothing if escape was pressed
+[[ -z $file ]] && exit 0
+
+# open the file in question with default application
+xdg-open "$file" &> /dev/null &
+disown

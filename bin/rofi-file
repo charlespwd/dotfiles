@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# rofi-file - fuzzy find a file from your home with a few exceptions.
+#   author @charlespwd
+#
+# the output of this script is the full path of the file you chose
+
+menu='rofi -dmenu -matching fuzzy -i'
+
+find $HOME \
+  \( -type f -or -type d \) \
+  -and \
+    -user $(whoami) \
+  -and \
+    ! -path '**/dist/*' \
+    ! -path '**/ios/*' \
+    ! -path '**/es5/static/*' \
+    ! -path '**/es5-links/*' \
+    ! -path '**/node_modules/*' \
+    ! -path '**/android/*' \
+    ! -path '**/.*' \
+    ! -name '.*' \
+  | sed "s#$HOME/\?##" \
+  | grep -v '^$' \
+  | $menu \
+  | while read line; do ([[ -z "$line" ]] || echo "$HOME/$line"); done
