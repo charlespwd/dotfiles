@@ -55,7 +55,7 @@ map <Plug>ExpandHTML <Plug>SurroundTagsWithEnter()<Plug>IndentInTagAndRemoveBoun
 map <Plug>PrettyAttrs :s/[a-z\-0-9]\{-}="[^"]\{-}"/\r&/g<cr>=a>Jvi>:s/\v $//g<cr>
 map <Plug>MostRecentBuffer :e #<cr>
 map <Plug>NextDiff :Gstatus<cr>/not staged<cr>/modified<cr>WD:pclose<cr>
-map <Plug>QfreplaceFromRegisterK :Qfdo s/<c-r>k//gce<bar>w<left><left><left><left><left><left>
+map <Plug>QfreplaceFromRegisterK :Qfdo s@<c-r>k@@gce<bar>w<left><left><left><left><left><left>
 map <Plug>ToggleTextObjQuotes :ToggleEducate<cr>
 map <SID>SearchFromRegisterK :GrepperAg "<c-r>k"<cr>
 map <SID>SearchFromRegisterKWithBounds :GrepperAg "\b<c-r>k\b"<cr>
@@ -86,6 +86,7 @@ vnoremap <silent> # :<C-U>
   \gV:call setreg('"', old_reg, old_regtype)<CR>
 
 " ABBREVS
+call SetupCommandAlias('at', 'AirlineTheme')
 call SetupCommandAlias('T', 'Tabularize')
 call SetupCommandAlias('NM', 'NeomakeSh')
 call SetupCommandAlias('NMS', 'NeomakeSh')
@@ -143,7 +144,6 @@ map <leader>am :e ~/.vim/config/macros.vim<cr>gg/" MACROS<cr>zz:nohl<cr>o<esc>^S
 map <leader>aw :Grepper -tool ag -cword -noprompt<cr>
 map <leader>b :Buffers<cr>
 map <leader>c :Commands<cr>
-map <leader>cds :%s/d06/testcds/g<bar>w<cr>
 map <leader>dd !!today<cr>I#<space><esc>o
 map <leader>extract ?function<cr>vf{%"fdiplaceholder<esc><cr><cr>"fpf(i<space>placeholder<esc>*
 map <leader>f :Files<cr>
@@ -206,7 +206,7 @@ map <leader>t/ :Tabularize<space>/
 map <leader>wq :w<bar>bd<cr>
 map <leader>ws :StripWhitespace<cr>
 map <silent> <leader>Q :bn<bar>bd #<cr>
-map <silent> <leader>q :bd<cr>
+map <silent> <leader>q :bdelete<cr>
 map <silent> <leader>x :ccl<cr>:lcl<cr>
 map \\ <Plug>MostRecentBuffer
 nmap <leader>## 70i#<esc>o<esc>
@@ -232,8 +232,18 @@ nmap <a-h> :h<space>
 " nmap ˙ :h<space>
 " vmap ç "+y
 
-" remap alt-l to nohl (arch)
+" work specific keymaps
+map <leader>cds :vs src/core/common/envConfig/development.json<cr>:%s/d06/testcds/g<bar>w<cr>
+map <leader>sluz :vs css/skins/obt.scss<cr>:1s#^//#@import "luzia";#<cr>:2<cr>gcG:w<bar>nohl<cr>
+map <leader>sobt :vs css/skins/obt.scss<cr>:1s#^@import "luzia";#//#<cr>:2<cr>gcG:w<bar>nohl<cr>
+
+call SchemaCommands('cds', 'bfox.test.cds')
+call SchemaCommands('d06', 'bfox.prod.d06')
+call SchemaCommands('adc', 'bfox.test.adc')
+
+" remap nohl (arch)
 nnoremap <silent> <a-l> :nohl<cr>:normal! <c-l><cr>
+nnoremap <silent> <a-o> :nohl<cr>:normal! <c-l><cr>
 
 " remap ctrl+v in quickfix to vertical split
 autocmd! FileType qf nnoremap <buffer> <C-v> <C-w><Enter><C-w>L

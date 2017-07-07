@@ -7,7 +7,8 @@ let g:clojure_align_multiline_strings = 1
 " Add some words which should be indented like defn etc: Compojure/compojure-api, midje and schema stuff mostly.
 let g:clojure_fuzzy_indent_patterns=['^GET', '^POST', '^PUT', '^DELETE', '^ANY', '^HEAD', '^PATCH', '^OPTIONS',
       \ '^def', '^apply', '^add-watch', '^context', '^try', '^catch',
-      \ '^is', '^thrown?', '^thrown-with-msg?', '^->', '^->>', '^some->', '^some->>']
+      \ '^is', '^thrown?', '^thrown-with-msg?', '^->', '^->>', '^some->', '^some->>',
+      \ '^explain', '^conform']
 let g:niji_light_colors =  [['brown', 'RoyalBlue3'],
                           \ ['Darkblue', 'SeaGreen3'],
                           \ ['darkgray', 'DarkOrchid3'],
@@ -16,7 +17,7 @@ let g:niji_light_colors =  [['brown', 'RoyalBlue3'],
 autocmd filetype clojure call SetClojureCommonOptions()
 function! SetClojureCommonOptions()
   set conceallevel=0
-  setlocal textwidth=80
+  setlocal textwidth=1000
   let b:AutoPairs={'"':'"','[':']','{':'}','(':')'}
   nnoremap <buffer> w w
   noremap <buffer> <c-c> <esc>
@@ -58,8 +59,6 @@ endfunction
 
 autocmd BufRead,BufNewFile *.cljs call SetClojureScriptOptions()
 function! SetClojureScriptOptions()
-  map <Plug>ConnectToFigwheel :Connect nrepl://localhost:7002<cr><cr>
-  map <Plug>PiggiebackFigwheel
-        \ :Piggieback (do (require '[figwheel-sidecar.repl-api :as fw]) (fw/cljs-repl))<cr>
-  map <leader>C <Plug>ConnectToFigwheel<Plug>PiggiebackFigwheel
+  map <buffer> <leader>C :Figgie<cr>
+  command! Figgie :Piggieback (figwheel-sidecar.repl-api/repl-env)
 endfunction

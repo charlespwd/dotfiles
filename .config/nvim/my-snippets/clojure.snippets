@@ -87,3 +87,11 @@ snippet p
 [taoensso.timbre.profiling :as profiling
  :refer (p profile)]
 endsnippet
+
+snippet bt "barbell thunder" i
+barbell-thunder.$1
+endsnippet
+
+snippet nb "Native component"
+(def ${1:PLACEHOLDER} (r/adapt-react-class (.-$4${2:$1} ${3:NativeBase})))
+endsnippet

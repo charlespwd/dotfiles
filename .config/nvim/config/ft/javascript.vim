@@ -14,6 +14,8 @@ let g:angular_skip_alternate_mappings = 1
 "       \ '%W%f: line %l\, col %c\, Warning - %m'
 "       \ }
 let g:neomake_javascript_enabled_markers = ['eslint']
+let g:tsuquyomi_completion_detail=1
+let g:tsuquyomi_single_quote_import=1
 let g:do_lint_js=1
 " let g:neomake_typescript_tsc_maker = {
 "       \ 'args': ['-m', 'commonjs', '--target', 'es5', '--strictNullChecks', '--noEmit'],
@@ -25,6 +27,7 @@ let g:do_lint_js=1
 "       \ }
 
 function! SetTypescriptOptions()
+  call SetJavascriptOptions()
   map <buffer> <leader>rj :TsuRenameSymbol<cr>
   map <buffer> <leader>rf :TsuRenameSymbol<cr>
 endfunction
@@ -88,6 +91,7 @@ endfunction
 
 " Set js options for all js files
 autocmd BufReadPre,FileReadPre *.es6,*.jsx set filetype=javascript
+autocmd BufReadPre,FileReadPre *.tsx set filetype=typescript
 autocmd Filetype javascript call SetJavascriptOptions()
 autocmd Filetype typescript call SetTypescriptOptions()
 

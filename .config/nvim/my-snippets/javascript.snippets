@@ -351,7 +351,8 @@ export default $1;
 endsnippet
 
 snippet recomponent
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class ${1:Class} extends Component {
 	static propTypes = {}
@@ -367,7 +368,8 @@ export default $1;
 endsnippet
 
 snippet recomponent;
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 export default class ${1:Class} extends Component {
 	static propTypes = {}
@@ -887,4 +889,51 @@ snippet Given
 this.Given(/${1:myregex}/, () => {
 	${2}
 });
+endsnippet
+
+snippet ipt
+import PropTypes from 'prop-types';
+endsnippet
+
+snippet props "React.Component prop-types"
+${1:MyComponent}.propTypes = {
+	$2
+};
+endsnippet
+
+snippet modal
+import React from 'react';
+import ModalManagerActions from '../../common/actions/ModalManagerActions';
+
+const ${1:MODAL_ID} = '$1';
+
+export function create() {
+	const modal = {
+		id: $1,
+		body: <div />,
+		buttons: [],
+
+		// title: Node | String,
+		// extraFooter: Node,
+		// containerClassName: String,
+		// priority: Number,
+		// closeButton: Boolean,
+		// form: Boolean,
+		// noButtons: Boolean,
+		// onSubmit: (event) => void,
+		// onClose: () => void,
+		// onShown: () => void,
+		// loseFocusEnabled: Boolean,
+
+		// This means no modal, no buttons, no header, no backdrop, no nothin'!
+		// You should probably render a node with `position: fixed`!
+		// renderToEmptyDiv: Boolean,
+	};
+
+	ModalManagerActions.addModal(modal);
+}
+
+export function close() {
+	ModalManagerActions.removeModal($1);
+}
 endsnippet

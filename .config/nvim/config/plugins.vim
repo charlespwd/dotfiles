@@ -48,9 +48,10 @@ call plug#begin('~/dotfiles/.config/nvim/plugged')
   Plug 'moll/vim-node', { 'for': 'javascript' }
   Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
   Plug 'mxw/vim-jsx', { 'for': 'javascript' }
-  " Plug 'leafgarland/typescript-vim', { 'for': 'typescript' }
-  " Plug 'Shougo/vimproc.vim', { 'for': 'typescript', 'do': 'make -f make_mac.mak' }
-  " Plug 'Quramy/tsuquyomi', { 'for': 'typescript' }
+  Plug 'leafgarland/typescript-vim', { 'for': 'typescript' }
+  Plug 'Shougo/vimproc.vim', { 'for': 'typescript', 'do': 'make' }
+  Plug 'Quramy/tsuquyomi', { 'for': 'typescript' }
+  Plug 'heavenshell/vim-jsdoc', { 'for': 'javascript' }
 
   " Clojure
   " Plug 'venantius/vim-cljfmt', { 'for': 'clojure' }
@@ -62,8 +63,12 @@ call plug#begin('~/dotfiles/.config/nvim/plugged')
   Plug 'raymond-w-ko/vim-niji', { 'for': 'clojure' }
   Plug 'tpope/vim-leiningen', { 'for': 'clojure' }
   Plug 'guns/vim-sexp', { 'for': ['clojure'] }
-  Plug 'tpope/vim-sexp-mappings-for-regular-people', { 'for': ['clojure'] } 
+  Plug 'tpope/vim-sexp-mappings-for-regular-people', { 'for': ['clojure'] }
   Plug 'tpope/vim-classpath', { 'for': ['clojure'] }
+  Plug 'vim-scripts/paredit.vim', { 'for': ['clojure'] }
+
+  " for clojurescript doc I needed this and the cider nrepl plugin
+  Plug 'tpope/vim-salve'
 
   " async jobs with vim, also used by clojure, otherwise use neomake
   Plug 'tpope/vim-dispatch', { 'for': ['clojure'] }
@@ -91,6 +96,7 @@ call plug#begin('~/dotfiles/.config/nvim/plugged')
   Plug 'editorconfig/editorconfig-vim'
 
   " Git
+  " Plug 'idanarye/vim-merginal'
   Plug 'tpope/vim-fugitive'
   Plug 'AndrewRadev/linediff.vim'
 

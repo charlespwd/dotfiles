@@ -1,7 +1,8 @@
 set background=dark
 let g:gruvbox_termcolors=16
+let g:gruvbox_contrast_dark='hard'
 let g:gruvbox_hls_cursor="green"
-let g:gruvbox_sign_column="bg0"
+" let g:gruvbox_sign_column="bg0"
 let g:gruvbox_invert_selection=0
 let g:gruvbox_invert_tabline=1
 let g:gruvbox_invert_signs=1
@@ -120,10 +121,13 @@ let g:netrw_chgwin=1 " open netrw on different window
 let g:netrw_browsex_viewer = "open"
 
 " enable airline powerline fonts
+" let g:onedark_termcolors = 16
 let g:airline_powerline_fonts = 1
-let g:airline_left_sep=''
-let g:airline_right_sep=''
-let g:airline_theme='base16color'
+" let g:airline_left_sep=''
+" let g:airline_right_sep=''
+" let g:airline_base16_improved_contrast = 1
+" let g:airline_theme='base16color'
+" let g:airline_theme='onedark'
 let g:airline_symbols = {
       \  'linenr': '',
       \  'paste': 'PASTE',
@@ -142,6 +146,7 @@ let g:airline_section_y = ''
 let g:airline_section_z = '%{g:airline_symbols.linenr}%4l/%L %{g:airline_symbols.colnr}%4v'
 " let g:airline_section_z = '%#__accent_bold#%{g:airline_symbols.linenr}%4l%#__restore__#%#__accent_bold#/%L#__restore__# :%3v'
 let g:tmuxline_powerline_separators = 0
+" let airline#extensions#tmuxline#color_template = 'visual'
 
 " deoplete config
 let g:deoplete#enable_at_startup = 1
@@ -188,6 +193,9 @@ let g:EditorConfig_exclude_patterns = ['fugitive://.*']
 " vim-jsx
 let g:jsx_ext_required = 0
 
+" vim-javascript
+let g:javascript_plugin_jsdoc = 1
+
 " tsuquyomi (typescript)
 let g:tsuquyomi_disable_quickfix=0
 
@@ -205,3 +213,7 @@ vmap <c-d><c-d> JV<Plug>SlimeRegionSendu
 " delimitMate
 let g:delimitMate_expand_cr = 1
 let g:delimitMate_expand_space = 1
+
+" paredit
+let g:paredit_shortmaps = 0
+let g:paredit_leader = "<Leader><Leader>"
