@@ -339,19 +339,19 @@ rofi.window-format:                  {c}   {t}
 ! rofi.kb-custom-19:                   Alt+Shift+9
 
 ! "The display name of this browser" Set from: Default
-! rofi.display-ssh:                    
+! rofi.display-ssh:
 
 ! "The display name of this browser" Set from: Default
-rofi.display-run:                    
+rofi.display-run: $
 
 ! "The display name of this browser" Set from: Default
-rofi.display-drun:                   
+rofi.display-drun: drun
 
 ! "The display name of this browser" Set from: Default
-rofi.display-window:                 
+rofi.display-window:
 
 ! "The display name of this browser" Set from: Default
-! rofi.display-windowcd:               
+! rofi.display-windowcd:
 
 ! "The display name of this browser" Set from: Default
 rofi.display-combi: $
