@@ -22,7 +22,13 @@ xterm*termName: xterm-256color
 xterm*locale: true
 
 ! font description
-xterm*faceName: DejaVuSansMono Nerd Font:style=Book
+xterm*faceName: LiterationMonoPowerline Nerd Font:style=Book
+
+! font
+URxvt.font: xft:LiterationMonoPowerline Nerd Font:style=Book:size=12
+! change the letter spacing
+URxvt.letterSpace: -2
+
 ! xterm*faceName: MesloLGSDZ Nerd Font:style=RegularForPowerline
 ! xterm*faceName: FantasqueSansMono Nerd Font:style=Regular
 ! xterm*faceName: LiterationMonoPowerline Nerd Font
@@ -44,12 +50,6 @@ URxvt*matcher.button: 1
 
 ! underline and change the color of urls
 URxvt.matcher.rend.0: Uline Bold fg5
-
-! change the letter spacing
-URxvt.letterSpace: -1
-
-! font
-URxvt.font: xft:DejaVuSansMono Nerd Font:style=Book:size=14
 
 ! cursor blinking
 URxvt*cursorBlink: false
