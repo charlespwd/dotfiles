@@ -1,4 +1,4 @@
-; Thunar GtkAccelMap rc-file         -*- scheme -*-
+; thunar GtkAccelMap rc-file         -*- scheme -*-
 ; this file is an automated accelerator map dump
 ;
 ; (gtk_accel_path "<Actions>/ThunarLauncher/sendto-desktop" "")
@@ -26,8 +26,11 @@
 ; (gtk_accel_path "<Actions>/ThunarWindow/close-tab" "<Primary>w")
 ; (gtk_accel_path "<Actions>/ThunarWindow/view-as-compact-list" "<Primary>3")
 ; (gtk_accel_path "<Actions>/ThunarWindow/view-side-pane-tree" "<Primary>e")
+; (gtk_accel_path "<Actions>/ThunarBookmarks/2bf1c8c6fcb221f40f6c50640c834e01" "")
 ; (gtk_accel_path "<Actions>/ThunarStandardView/restore" "")
 ; (gtk_accel_path "<Actions>/ThunarWindow/open-network" "")
+; (gtk_accel_path "<Actions>/ThunarBookmarks/82de8ffe3369a2cdeae80fedf884b1e7" "")
+; (gtk_accel_path "<Actions>/ThunarActions/Tap::create-archive" "")
 ; (gtk_accel_path "<Actions>/ThunarWindow/new-tab" "<Primary>t")
 ; (gtk_accel_path "<Actions>/ThunarWindow/preferences" "")
 ; (gtk_accel_path "<Actions>/ThunarStandardView/rename" "F2")
@@ -35,7 +38,9 @@
 ; (gtk_accel_path "<Actions>/ThunarWindow/sendto-menu" "")
 ; (gtk_accel_path "<Actions>/ThunarWindow/edit-menu" "")
 ; (gtk_accel_path "<Actions>/ThunarLauncher/open-with-other" "")
+; (gtk_accel_path "<Actions>/ThunarBookmarks/dfc30734568b347c575c177d39b8b82e" "")
 ; (gtk_accel_path "<Actions>/ThunarActions/uca-action-1478663922257285-1" "")
+; (gtk_accel_path "<Actions>/ThunarBookmarks/afa3c3d6a0831d1b858036dee5022abc" "")
 ; (gtk_accel_path "<Actions>/ThunarWindow/view-location-selector-toolbar" "")
 ; (gtk_accel_path "<Actions>/ThunarStandardView/invert-selection" "")
 ; (gtk_accel_path "<Actions>/ThunarStandardView/make-link" "")
