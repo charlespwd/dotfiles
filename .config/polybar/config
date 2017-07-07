@@ -18,6 +18,8 @@ primary = #ffb52a
 secondary = #cc241d
 alert = #fabd2f
 foreground-dim = #928374
+blue-light= #83a598
+blue-dark= #458588
 
 [bar/base]
 width = 100%
@@ -50,12 +52,13 @@ font-2 = FontAwesome:pixelsize=24;1
 modules-left = i3
 modules-center =
 ; modules-right = filesystem xbacklight volume xkeyboard memory cpu wifi eth battery temperature date powermenu
-modules-right = ip root home volume xkeyboard wifi battery date powermenu
+modules-right = ip memory root home volume xkeyboard wifi battery date powermenu
 
 tray-position = right
 tray-padding = 0
 tray-transparent = false
 tray-background = ${colors.background}
+tray-maxsize = 24
 
 ;wm-restack = bspwm
 ;wm-restack = i3
@@ -232,11 +235,11 @@ label = %percentage%%
 
 [module/memory]
 type = internal/memory
-interval = 2
-format-prefix = " "
-format-prefix-foreground = ${colors.foreground-alt}
-format-underline = #4bffdc
-label = %percentage_used%%
+interval = 3
+format-prefix = " "
+; format-prefix-foreground = ${colors.foreground-alt}
+format-underline = ${colors.blue-light}
+label = %gb_used%
 
 [module/wifi]
 type = internal/network
