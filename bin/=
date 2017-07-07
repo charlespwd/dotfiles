@@ -36,7 +36,6 @@ else
 fi
 
 answer=$(echo "$@" | bc -l | sed '/\./ s/\.\{0,1\}0\{1,\}$//')
-
 action=$(echo -e "Copy to clipboard\nClear\nClose" | $menu -p "= $answer")
 
 case $action in
