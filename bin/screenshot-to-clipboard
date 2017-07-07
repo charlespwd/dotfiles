@@ -1,4 +1,5 @@
 #!/bin/bash
 set -e
-maim -s > /tmp/screenshot.png
-xclip -selection clipboard -t image/png < /tmp/screenshot.png;
+mkdir -p /tmp/screengrab
+maim -s > /tmp/screengrab/screenshot.png
+xclip -selection clipboard -t image/png < /tmp/screengrab/screenshot.png;

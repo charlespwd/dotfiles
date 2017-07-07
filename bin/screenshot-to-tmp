@@ -1,5 +1,6 @@
 #!/bin/bash
 set -e
-fn=$(mktemp /tmp/screenshot-XXXXXXXX.png)
+mkdir -p /tmp/screengrab
+fn=$(mktemp /tmp/screengrab/screenshot-XXXXXXXX.png)
 maim --select $fn
 echo $fn | xclip -i -selection clipboard
