@@ -10,10 +10,10 @@ if [ "$OS" = "Linux" ]; then
 
   function set_default {
     if [[ "$#" -ne 2 ]]; then
-      echo "Usage: set-default entry.desktop mimetype"
+      echo "Usage: set-default filetype entry.desktop"
       return 1;
     fi
-    xdg-mime default $1 $2
+    xdg-mime default $2 $1
   }
 
   alias ".."="cd .."
@@ -21,14 +21,19 @@ if [ "$OS" = "Linux" ]; then
   alias ".i3"="vim ~/.config/i3/config"
   alias ".i3status"="vim ~/.config/i3status/config"
   alias ".p"="vim ~/.config/polybar/config"
+
+  # default application related
   alias "filetype?"="xdg-mime query filetype"
   alias "default?"='default_and_mime'
   alias "set-default"="set_default"
+  alias "list-desktop-entries"="ls /usr/share/applications"
+
   alias chrome="chromium &> /dev/null &"
   alias mountmc="sudo mount -t cifs //raspi.local/mediacenter /mnt/mediacenter -o username=pi"
   alias mountnd="sudo mount -t cifs //raspi.local/networkdrive /mnt/networkdrive"
   alias open="xdg-open"
   alias pbcopy="xclip -sel clipboard"
+  alias pbpaste="xclip -o"
   alias gtypist="gtypist -w"
 elif [ "$OS" = "Darwin" ]; then
   alias chrome="/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome"
@@ -88,7 +93,6 @@ alias n="npm run"
 alias npmc="npm --cache-min=1000000"
 alias npr="npm run"
 alias nwjs="/Applications/nwjs.app/Contents/MacOS/nwjs"
-alias o="open"
 alias onsight="cd ~/ws/onsight/webapp"
 alias plan="v -c ':execute \"normal \<Plug>EvervimPlan\"'"
 alias pmd="pandoc -s -f markdown_github -t html --css ~/.mutt/markdown.css"
@@ -123,10 +127,14 @@ alias ws="cd ~/ws"
 alias xrdbr="xrdb ~/.Xresources"
 alias selenium="java -jar /usr/share/selenium-server/selenium-server-standalone.jar"
 
+# security
+alias passid="lpass ls --format '%an - %au - %ai' | fzf | awk -F' - ' '{ print \$3 }'"
+alias getpass='lpass show -cp $(passid)'
+
 # client specific
-alias fetchupstream="gwip; [[ $(basename $(pwd)) = 'es5' ]] && git checkout master && git fetch upstream && git reset --hard upstream/master && git push -f origin master"
+alias fetchupstream='gwip; [[ $(basename $(pwd)) = "es5" ]] && git checkout master && git fetch upstream && git reset --hard upstream/master && git push -f origin master'
 alias outbox-start="work-setup && outbox-setup"
 alias outbox-vpn="sudo openconnect -u cpclermont --authgroup=Anyconnect connect.outboxenterprises.com"
 alias weather="curl wttr.in/Montreal"
-alias passid='lpass ls --format "%an [id: %ai]" | fzf | egrep -o "\[id: .*\]" | egrep -o "[0-9]+"'
-alias getpass='lpass show -cp $(passid)'
+alias update="sudo yaourt -Syu"
+alias update-aur="yaourt -Syu --aur --noconfirm"
