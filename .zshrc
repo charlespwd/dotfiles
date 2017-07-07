@@ -28,7 +28,7 @@ setopt HIST_BEEP                 # Beep when accessing nonexistent history.
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
-ZSH_THEME="avit"
+ZSH_THEME="cp"
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -141,3 +141,6 @@ pr() {
     hub compare ${2:-outbox}:${1}...${3:-cpclermont}:$curbranch
 }
 alias gpr=pr
+
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:$HOME/.rvm/bin"
