@@ -40,7 +40,7 @@ set $color15 #ebdbb2
 # Theme colors
 set $focused-border      #98971a
 set $bg-color 	         #282828
-set $border-color        #504945
+set $border-color        #689d6a
 set $inactive-bg-color   #282828
 set $text-color          #ebdbb2
 set $inactive-text-color #a89984
@@ -70,8 +70,8 @@ set $w10 10:10
 font pango:SFNS Display:style=Regular 24
 # font pango:DejaVuSansMonoForPowerline Nerd Font:style=Book
 
-# remove the title bar completely.
-new_window none
+# border style
+new_window pixel 7
 
 # add the title bar to new floating windows
 new_float normal
@@ -86,41 +86,48 @@ focus_follows_mouse no
 # RULES
 
 # remove borders
-for_window [class="^.*"] border pixel 0
+# for_window [class="^.*"] border pixel 0
+# for_window [class="^.*"] border pixel 7
 for_window [floating] border normal 7
 for_window [floating] title_format "<span size='smaller'> %title</span>"
 
 # Chrome rule
 # assign [instance="chromium"] $w2
-assign [instance="chromium"] $w1
-assign [instance="google-chrome"] $w1
+for_window [instance="chromium"] move to workspace $w1, workspace $w1
+for_window [instance="google-chrome"] move to workspace $w1, workspace $1
+
+# chrome driver rules
 for_window [instance="google-chrome.*org.chromium.Chromium"] floating enable
 for_window [instance="google-chrome.*org.chromium.Chromium"] resize set 2000 1500
 for_window [instance="chromium.*org.chromium.Chromium"] floating enable
 for_window [instance="chromium.*org.chromium.Chromium"] resize set 2000 1500
+
+# popup rules
 for_window [instance="chromium" window_role="pop-up"] floating enable, border normal 7
 for_window [instance="google-chrome" window_role="pop-up"] floating enable, border normal 7
-for_window [title="Developer Tools - .*"] floating disable, border pixel 0, move to workspace $w8, workspace $w8
+
+# dev tools rules
+for_window [title="Developer Tools - .*"] floating disable, border pixel 7, move to workspace $w8, workspace $w8
 
 # Spotify rule
-for_window [class="Spotify"] move to workspace $w3
+for_window [class="Spotify"] move to workspace $w3, workspace $w3
 
 # Slack rule
 assign [instance="slack"] $w4
 assign [instance="Messenger"] $w4
 
 # Thunderbird rule
-assign [instance="Mail"] $w6
+for_window [instance="Mail"] move to workspace $w6, workspace $w6
 
 # vlc rule
-assign [instance="vlc"] $w10
+for_window [instance="vlc"] move to workspace $w10, workspace $w10
 
 # thunar rule
-for_window [class="Thunar"] move to workspace $w9
+for_window [class="Thunar"] move to workspace $w9, workspace $w9
 
 # zeal rule
-for_window [instance="zeal"] move to workspace $w5
-for_window [class="zeal"] move to workspace $w5
+for_window [instance="zeal"] move to workspace $w5, workspace $w5
+for_window [class="zeal"] move to workspace $w5, workspace $w5
 
 # worspace ordering
 workspace "$w1" output $m2
@@ -143,18 +150,17 @@ bindsym $mod+Shift+Return exec urxvt
 # kill focused window
 bindsym $mod+q kill
 
-# close tab :)
-bindsym --release $mod+w exec --no-startup-id xdotool key --clearmodifiers ctrl+w
-
 # zoom in/out
 bindsym --release $mod+equal exec --no-startup-id xdotool key --clearmodifiers ctrl+equal
 bindsym --release $mod+minus exec --no-startup-id xdotool key --clearmodifiers ctrl+minus
 
 # start rofi (a program launcher)
-bindsym $alt+space exec rofi -show combi -matching fuzzy
+bindsym $alt+space exec rofi -show run -matching fuzzy -levenshtein-sort
+bindsym $mod+$ctrl+space exec $scripts/rofi-find
+bindsym $mod+space exec rofi -show drun -matching fuzzy -levenshtein-sort
 
 # dash
-bindsym $mod+d exec zeal; workspace $w5
+bindsym $mod+d exec --no-startup-id zeal; workspace $w5
 
 # debug mode!
 bindsym $mod+Shift+d workspace 1:1; workspace 8:8
@@ -257,7 +263,7 @@ bindsym XF86AudioNext exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer
 
 # monitor brightness settings
 bindsym XF86MonBrightnessUp exec xbacklight -inc 10
-bindsym XF86MonBrightnessDown exec xbacklight -dec 10 
+bindsym XF86MonBrightnessDown exec xbacklight -dec 10
 # keyboard brightness settings
 bindsym XF86KbdBrightnessUp exec kbdlight up 10
 bindsym XF86KbdBrightnessDown exec kbdlight down 10
@@ -312,7 +318,7 @@ bindsym $mod+grave mode "$mode_system"
 bindsym $mod+$alt+space exec --no-startup-id $scripts/toggle-keymap
 
 # window colors          border              background          text                  indicator
-client.focused           $border-color       $border-color       $text-color           $bg-color
+client.focused           $border-color       $border-color       $text-color           $border-color
 client.unfocused         $border-color       $inactive-bg-color  $inactive-text-color  $bg-color
 client.focused_inactive  $border-color       $inactive-bg-color  $inactive-text-color  $bg-color
 client.urgent            $urgent-bg-color    $urgent-bg-color    $text-color           $bg-color
@@ -354,3 +360,9 @@ exec --no-startup-id chromium
 exec --no-startup-id slack
 exec --no-startup-id thunderbird
 # exec --no-startup-id exec i3-msg 'workspace $w4; exec spotify; exec sleep 1; workspace $w1'
+
+## quick terminal
+exec_always --no-startup-id urxvt -name metask
+for_window [instance="metask"] floating enable;
+for_window [instance="metask"] move scratchpad; [instance="metask"] scratchpad show; move position 0 60; resize set 2960 500; [instance="metask"] move scratchpad
+bindsym $mod+g [instance="metask"] scratchpad show
