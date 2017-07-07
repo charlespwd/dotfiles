@@ -174,6 +174,12 @@ function! SetupCommandAlias(from, to)
         \ .'? ("'.a:to.'") : ("'.a:from.'"))'
 endfun
 
+function! SchemaCommands(host, hostname)
+  call SetupCommandAlias(a:host, '!rm -f /tmp/' . a:host . '.schema.json && scp ' . a:hostname . ':schema.json /tmp/' . a:host . '.schema.json')
+  call SetupCommandAlias('e'.a:host, 'e /tmp/' . a:host . '.schema.json')
+  call SetupCommandAlias('w'.a:host, '!scp /tmp/'.a:host.'.schema.json '.a:hostname.':~/'.a:host.'.schema.json')
+endfun
+
 function! OpenJsx()
   let str = getline('.')
   let output = s:OpenJsxStr(str)
