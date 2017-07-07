@@ -5,22 +5,37 @@
 #
 # the output of this script is the full path of the file you chose
 
-menu='rofi -dmenu -matching fuzzy -i'
+menu="rofi -dmenu -p $1 -matching fuzzy -i -levenshtein-sort"
 
-find $HOME \
-  \( -type f -or -type d \) \
-  -and \
-    -user $(whoami) \
-  -and \
-    ! -path '**/dist/*' \
-    ! -path '**/ios/*' \
-    ! -path '**/es5/static/*' \
-    ! -path '**/es5-links/*' \
-    ! -path '**/node_modules/*' \
-    ! -path '**/android/*' \
-    ! -path '**/.*' \
-    ! -name '.*' \
-  | sed "s#$HOME/\?##" \
-  | grep -v '^$' \
-  | $menu \
-  | while read line; do ([[ -z "$line" ]] || echo "$HOME/$line"); done
+found=$(
+  find "/tmp/screengrab" $HOME \
+    \( -type f -or -type d \) \
+    -and \
+      -user $(whoami) \
+    -and \
+      ! -path '**/dist/*' \
+      ! -path '**/ios/*' \
+      ! -path '**/es5-links/*' \
+      ! -path '**/node_modules/*' \
+      ! -path '**/android/*' \
+      ! -path '**/.*' \
+      ! -name '.*' \
+    | sed "s#$HOME/\?##" \
+    | grep -v '^$' \
+    | $menu
+)
+
+# if you found something
+if ! [[ -z $found ]]; then
+
+  # and it exists as is
+  if [[ -e "$found" ]]; then
+
+     # echo it to stdout
+    echo "$found";
+  else
+
+    # or echo $HOME/$found
+    echo "$HOME/$found";
+  fi
+fi
