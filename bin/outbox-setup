@@ -1,4 +1,5 @@
 #!/bin/bash
+sudo netctl switch-to "wlp1s0-Outbox Technology Secure"
 
 cd /home/charles/ws/outbox/es5;
 
@@ -9,7 +10,7 @@ tmux has-session -t ${SESSION_NAME}
 if [ $? != 0 ]; then
 
   # start nginx
-  systemctl start nginx
+  sudo systemctl start nginx
 
   # create the session
   tmux new-session -s ${SESSION_NAME} -n vim -d
@@ -19,7 +20,7 @@ if [ $? != 0 ]; then
 
   # build window
   tmux new-window -n 'build' -t ${SESSION_NAME}
-  tmux send-keys -t ${SESSION_NAME}:2 'swd' C-m
+  tmux send-keys -t ${SESSION_NAME}:2 'nvm use 8 && swd' C-m
 
   # test window
   tmux new-window -n 'tests' -t ${SESSION_NAME}

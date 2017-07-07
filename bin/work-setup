@@ -1,33 +1,3 @@
 #!/bin/bash
 
-## Dual screen config
-# laptop (eDP-2 = 2880x1800)
-# screen (DP-1 1920x1080)
-#
-# 1920*$scale = 3840
-# 1080*$scale = 2160
-# 3960 = 1080 * $scale + 1800
-# $offset = 1080*2160
-
-SCALE=1.85
-MONITOR_MAIN=${MONITOR:-eDP1}
-MONITOR_SEC="HDMI1"
-MONITOR_W=1600
-MONITOR_H=900
-MONITOR_MODE="${MONITOR_W}x${MONITOR_H}"
-LAPTOP_W=2880
-LAPTOP_H=1620
-LAPTOP_MODE="${LAPTOP_W}x${LAPTOP_H}"
-FULL_SCALE="${SCALE}x${SCALE}"
-FRAME_BUFFER_W=$(node-calc "Math.floor($MONITOR_W * $SCALE)")
-FRAME_BUFFER_H=$(node-calc "Math.floor($LAPTOP_H + $MONITOR_H * $SCALE) + 1")
-FRAME_BUFFER="${FRAME_BUFFER_W}x${FRAME_BUFFER_H}"
-Y_OFFSET=$(node-calc "Math.ceil($MONITOR_H * $SCALE) + 1")
-LAPTOP_OFFSET="0x$Y_OFFSET"
-
-xrandr --output $MONITOR_MAIN --auto --primary --pos $LAPTOP_OFFSET --mode $LAPTOP_MODE --scale 1x1 \
-       --output $MONITOR_SEC --auto --scale $FULL_SCALE --pos 0x0 --mode $MONITOR_MODE
-
-$HOME/bin/wallpaper
-
-$HOME/bin/restart-polybar
+$HOME/bin/two-screens
