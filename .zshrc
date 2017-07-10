@@ -93,7 +93,7 @@ export PATH="$HOME/bin:$PATH"
 export EDITOR='nvim'
 
 # CONFIG HOME (neovim)
-export XDG_CONFIG_HOME="$HOME/dotfiles/.config"
+export XDG_CONFIG_HOME="$HOME/dotfiles/config"
 
 # Enable c-x,c-e command line editing
 autoload -U edit-command-line
