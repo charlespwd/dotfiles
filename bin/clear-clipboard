@@ -1,0 +1,9 @@
+#!/bin/bash
+
+sleep 10
+echo "clearing clipboard!"
+touch /tmp/blank
+xclip -selection clipboard /tmp/blank
+xclip -selection primary /tmp/blank
+xclip -selection secondary /tmp/blank
+xclip -i /dev/null
