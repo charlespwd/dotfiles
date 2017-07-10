@@ -1,0 +1,11 @@
+config/chromium
+config/gtk-2.0
+config/gtk-3.0
+config/google-chrome
+config/google-chrome-beta
+config/Thunar
+config/Zeal
+config/xarchiver
+config/xfce4
+config/nvim/spell
+config/nvim/undo-dir
