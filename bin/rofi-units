@@ -1,0 +1,16 @@
+#!/bin/bash
+rofi_units="$0"
+menu="rofi -dmenu"
+answer=$(units "$1 $2" "$3" --one-line --compact)
+action=$(
+  echo -e "Copy to clipboard\nClear\nClose" \
+    | $menu -p "units: $answer $3"
+)
+
+case $action in
+    "Clear") $rofi_units ;;
+    "Copy to clipboard") echo -n "$answer" | xclip -sel clipboard;;
+    "Close") ;;
+    "") ;;
+    *) $rofi_units $answer $3 $action ;;
+esac
