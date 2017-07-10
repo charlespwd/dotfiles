@@ -5,7 +5,7 @@ let g:vimwiki_list = [
  \ ]
 let g:vimwiki_folding = 'syntax'
 " load plugins
-call plug#begin('~/dotfiles/.config/nvim/plugged')
+call plug#begin($XDG_CONFIG_HOME . '/nvim/plugged')
   " html stuff
   Plug 'cakebaker/scss-syntax.vim', { 'for': 'scss' }
   Plug 'hail2u/vim-css3-syntax', { 'for': 'css' }

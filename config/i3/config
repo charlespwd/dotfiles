@@ -94,7 +94,7 @@ for_window [floating] title_format "<span size='smaller'> %title</span>"
 # Chrome rule
 # assign [instance="chromium"] $w2
 for_window [instance="chromium"] move to workspace $w1, workspace $w1
-for_window [instance="google-chrome"] move to workspace $w1, workspace $1
+for_window [instance="google-chrome"] move to workspace $w1, workspace $w1
 
 # chrome driver rules
 for_window [instance="google-chrome.*org.chromium.Chromium"] floating enable
