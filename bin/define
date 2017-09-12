@@ -1,0 +1,11 @@
+#!/bin/bash
+
+english="/usr/share/dict/american-english"
+thesaurus="www.thesaurus.com/browse/"
+dict="${1:-$english}"
+dicturl="${2:-$thesaurus}"
+prompt="define: "
+menu="rofi -dmenu -p $prompt -matching fuzzy -i -levenshtein-sort"
+word=$(cat $dict | $menu)
+url="$dicturl$word"
+chromium $url

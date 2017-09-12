@@ -32,7 +32,19 @@ tmpbg='"$tmpbg"'
 #     done
 # fi
 
-dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Stop
+function play {
+  dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Play
+}
+
+function pause {
+  dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Stop
+}
+
+pause
+trap play SIGINT SIGHUP SIGTERM
 # i3lock -i "$tmpbg"
-i3lock -f -c 000000 -e
+
+i3lock -f -c 000000 -e -n
+
 # rm "$tmpbg"
+play

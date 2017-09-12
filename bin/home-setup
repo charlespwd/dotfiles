@@ -2,4 +2,3 @@
 
 $HOME/bin/one-screen
 $HOME/bin/restart-compton
-sudo netctl switch-to "Specter"
