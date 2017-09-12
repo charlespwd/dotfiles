@@ -1,0 +1,11 @@
+#!/bin/bash
+
+today=$(date -d $(date +%F) +%s000)
+db="$HOME/ws/counts.sqlite"
+sqlite3 $db "
+SELECT MAX(perday) AS int
+FROM (
+  SELECT COUNT(*) AS perday
+  FROM savecount
+  GROUP BY day
+);"

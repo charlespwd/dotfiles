@@ -52,7 +52,7 @@ font-2 = FontAwesome:pixelsize=24;1
 modules-left = i3
 modules-center =
 ; modules-right = filesystem xbacklight volume xkeyboard memory cpu wifi eth battery temperature date powermenu
-modules-right = ip memory root home volume xkeyboard wifi battery date powermenu
+modules-right = save-count save-count-pr ip memory root home volume xkeyboard wifi battery date powermenu
 
 tray-position = right
 tray-padding = 0
@@ -93,6 +93,27 @@ label-indicator-margin = 1
 label-indicator-background = ${colors.secondary}
 label-indicator-underline = ${colors.secondary}
 
+[module/save-count-pr]
+type = custom/script
+exec = /home/charles/.config/polybar/save-count-pr
+interval = 60
+
+format-prefix = 
+format-prefix-foreground = ${colors.foreground-dim}
+format-prefix-padding-right = 2
+format-underline = #458588
+format-padding = 1
+
+[module/save-count]
+type = custom/script
+exec = /home/charles/.config/polybar/save-count
+interval = 60
+
+format-prefix = 
+format-prefix-foreground = ${colors.foreground-dim}
+format-prefix-padding-right = 2
+format-underline = ${colors.secondary}
+format-padding = 1
 
 [module/home]
 type = internal/fs
@@ -185,7 +206,7 @@ ws-icon-2 = "3:3;  "
 ws-icon-3 = "4:4;  "
 ws-icon-4 = "5:5;  "
 ws-icon-5 = "6:6;  "
-ws-icon-6 = "7:7;"
+ws-icon-6 = "7:7;  "
 ws-icon-7 = "8:8; "
 ws-icon-8 = "9:9; "
 ws-icon-9 = "10:10; "
@@ -238,7 +259,7 @@ type = internal/memory
 interval = 3
 format-prefix = " "
 ; format-prefix-foreground = ${colors.foreground-alt}
-format-underline = ${colors.blue-light}
+format-underline = #d79921
 label = %gb_used%
 
 [module/wifi]

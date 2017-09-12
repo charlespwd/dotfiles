@@ -1,0 +1,16 @@
+#!/bin/bash
+
+today=$(date -d $(date +%F) +%s)
+db="$HOME/ws/counts.sqlite"
+now=$(sqlite3 $db "select * from saveCount where timestamp > $today" | wc -l)
+avg=$(sqlite3 $db "
+SELECT CAST(AVG(perday) AS int)
+FROM (
+  SELECT COUNT(*) AS perday
+  FROM savecount
+  WHERE day != date('now')
+  GROUP BY day
+);"
+)
+
+echo "$now / $avg"
