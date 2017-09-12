@@ -1,6 +1,6 @@
 [global]
     # font = xft:Ubuntu:bold:size=8
-    font = DejaVu Sans 20
+    font = DejaVu Sans 10
 
     # allow a small subset of html markup:
     # <b>bold</b>
