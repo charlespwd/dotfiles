@@ -1,3 +1,6 @@
+# load secrets
+[ -s "$HOME/dotfiles/env" ] && source "$HOME/dotfiles/env"
+
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
@@ -106,9 +109,9 @@ fi
 
 source /Library/Developer/CommandLineTools/usr/share/git-core/git-prompt.sh
 
-export PS1="\[\e[2;38m\][\A] \[\e[32m\]\w\[\e[34m\]\$(__git_ps1) \[\e[31m\]\$\[\e[0m\] "
+# export PS1="\[\e[2;38m\][\A] \[\e[32m\]\w\[\e[34m\]\$(__git_ps1) \[\e[31m\]\$\[\e[0m\] "
 export GREP_OPTIONS="-n --color"
-export PATH="/Users/charlespclermont/bin:/Users/charlespclermont/npm/bin:/usr/local/heroku/bin:$PATH"
+# export PATH="/Users/charlespclermont/bin:/Users/charlespclermont/npm/bin:/usr/local/heroku/bin:$PATH"
 
 ##
 # Your previous /Users/charlespclermont/.bash_profile file was backed up as /Users/charlespclermont/.bash_profile.macports-saved_2014-06-19_at_16:29:58

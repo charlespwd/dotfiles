@@ -1,3 +1,6 @@
+# Load secret environment variables
+[ -s "$HOME/dotfiles/env" ] && source "$HOME/dotfiles/env";
+
 # For switching configs
 OS=$(uname -s)
 

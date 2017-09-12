@@ -30,6 +30,7 @@ if [ "$OS" = "Linux" ]; then
 
   alias chrome="chromium &> /dev/null &"
   alias mountmc="sudo mount -t cifs //raspi.local/mediacenter /mnt/mediacenter -o username=pi"
+  alias unmountmc="sudo umount /mnt/mediacenter"
   alias mountnd="sudo mount -t cifs //raspi.local/networkdrive /mnt/networkdrive"
   alias open="xdg-open"
   alias pbcopy="xclip -sel clipboard"
@@ -134,7 +135,7 @@ alias getpass='lpass show -cp $(passid)'
 # client specific
 alias fetchupstream='gwip; [[ $(basename $(pwd)) = "es5" ]] && git checkout master && git fetch upstream && git reset --hard upstream/master && git push -f origin master'
 alias outbox-start="work-setup && outbox-setup"
-alias outbox-vpn="sudo openconnect -u cpclermont --authgroup=Anyconnect connect.outboxenterprises.com"
+alias outbox-vpn="sudo openconnect -u cpclermont --authgroup=Anyconnect connect.outbox.com"
 alias weather="curl wttr.in/Montreal"
 alias update="sudo yaourt -Syu"
 alias update-aur="yaourt -Syu --aur --noconfirm"

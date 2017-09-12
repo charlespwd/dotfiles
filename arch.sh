@@ -21,6 +21,9 @@ export ANDROID_HOME=/opt/android-sdk
 export PATH=${PATH}:${ANDROID_HOME}/tools/bin
 export PATH=${PATH}:${ANDROID_HOME}/platform-tools
 
+# python user bin
+export PATH=${PATH}:$HOME/.local/bin
+
 # ssh key chain (see .xinitrc)
 if [ -n "$DESKTOP_SESSION" ]; then
     eval $(gnome-keyring-daemon --start)
@@ -32,8 +35,25 @@ fi
   && source /usr/share/autoenv/activate.sh \
   || echo "'autoenv' not installed"
 
-# load ruby
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
-
 # default browser
 export BROWSER='chromium'
+
+# rbenv
+export PATH="$HOME/.rbenv/shims:${PATH}"
+export RBENV_SHELL=zsh
+source '/usr/lib/rbenv/libexec/../completions/rbenv.zsh'
+command rbenv rehash 2>/dev/null
+rbenv() {
+  local command
+  command="$1"
+  if [ "$#" -gt 0 ]; then
+    shift
+  fi
+
+  case "$command" in
+  rehash|shell)
+    eval "$(rbenv "sh-$command" "$@")";;
+  *)
+    command rbenv "$command" "$@";;
+  esac
+}

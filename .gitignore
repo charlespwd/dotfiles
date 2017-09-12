@@ -36,3 +36,14 @@ config/eog
 config/google-chrome-beta
 config/xarchiver
 config/yarn
+env
+../config/okularrc
+../config/artha.conf
+../config/artha.log
+../config/sqlitebrowser
+config/sqlitebrowser
+config/okularrc
+config/artha.conf
+config/artha.log
+config/habitica
+inkscape
