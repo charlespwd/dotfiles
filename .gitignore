@@ -47,3 +47,5 @@ config/artha.conf
 config/artha.log
 config/habitica
 inkscape
+bin/prime
+config/Code
