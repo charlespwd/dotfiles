@@ -1,0 +1,9 @@
+#!/bin/bash
+
+since='8am'
+author='Charles'
+git log \
+  --since="$since" \
+  --author="$author" \
+  --format=%s \
+  --all
