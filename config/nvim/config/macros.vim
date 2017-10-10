@@ -236,6 +236,7 @@ nmap <a-h> :h<space>
 map <leader>cds :vs src/core/common/envConfig/development.json<cr>:%s/d06/testcds/g<bar>w<bar>bd<cr>
 map <leader>sluz :vs css/skins/obt.scss<cr>:1s#^//#@import "luzia_v2";#<cr>:2<cr>gcG:w<bar>nohl<bar>bd<cr>
 map <leader>sobt :vs css/skins/obt.scss<cr>:1s#^@import "luzia_v2";#//#<cr>:2<cr>gcG:w<bar>nohl<bar>bd<cr>
+map <leader>mct OCompleted:<esc>:read !my-commits-today<cr><c-v>?Completed:<cr>jI- <esc>
 
 call SchemaCommands('cds', 'bfox.test.cds')
 call SchemaCommands('d06', 'bfox.prod.d06')
