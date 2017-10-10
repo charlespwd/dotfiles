@@ -7,5 +7,7 @@ dicturl="${2:-$thesaurus}"
 prompt="define: "
 menu="rofi -dmenu -p $prompt -matching fuzzy -i -levenshtein-sort"
 word=$(cat $dict | $menu)
-url="$dicturl$word"
-chromium $url
+if [[ $word != '' ]]; then
+  url="$dicturl$word"
+  chromium $url
+fi

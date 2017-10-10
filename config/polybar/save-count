@@ -1,16 +1,8 @@
 #!/bin/bash
 
-today=$(date -d $(date +%F) +%s)
+today=$(date -d $(date +%F) +%Y-%m-%d)
 db="$HOME/ws/counts.sqlite"
-now=$(sqlite3 $db "select * from saveCount where timestamp > $today" | wc -l)
-avg=$(sqlite3 $db "
-SELECT CAST(AVG(perday) AS int)
-FROM (
-  SELECT COUNT(*) AS perday
-  FROM savecount
-  WHERE day != date('now')
-  GROUP BY day
-);"
-)
+now=$(sqlite3 $db "select count(*) from saveCount where day = '$today'")
+avg=$(sqlite3 $db "$(cat $HOME/.config/polybar/average.sql)")
 
 echo "$now / $avg"

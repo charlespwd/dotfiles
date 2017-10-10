@@ -14,6 +14,9 @@ source ~/.vim/config/ft/javascript.vim
 " Others
 autocmd FileType ruby,tex,clojure,md,html,javascript,css,scss,vim,unix autocmd BufWritePre <buffer> StripWhitespace
 autocmd BufReadPre,FileReadPre help set relativenumber
+
+" wrap in quickfix
+autocmd FileType qf setlocal wrap
 " autocmd BufNewFile,BufRead *.raml setlocal filetype=yaml
 " autocmd Filetype mail setlocal ft=markdown.mail
 

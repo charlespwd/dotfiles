@@ -40,5 +40,6 @@ xrandr --output $main \
         --pos 0x0 \
         --mode $secondary_mode
 
+$HOME/bin/kill-compton
 $HOME/bin/wallpaper
 $HOME/bin/restart-polybar

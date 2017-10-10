@@ -96,6 +96,9 @@ for_window [floating] title_format "<span size='smaller'> %title</span>"
 for_window [instance="chromium"] move to workspace $w1, workspace $w1
 for_window [instance="google-chrome"] move to workspace $w1, workspace $w1
 
+# Devdocs
+for_window [instance="google-chrome-beta" title="DevDocs API Documentation.*"] move to workspace $w5, workspace $w5
+
 # chrome driver rules
 for_window [instance="google-chrome.*org.chromium.Chromium"] floating enable
 for_window [instance="google-chrome.*org.chromium.Chromium"] resize set 2000 1500
@@ -111,6 +114,9 @@ for_window [title="Developer Tools - .*"] floating disable, border pixel 7, move
 
 # Spotify rule
 for_window [class="Spotify"] move to workspace $w3, workspace $w3
+
+# gimp
+for_window [class="gimp.*"] move to workspace $w7, workspace $w7
 
 # Slack rule
 assign [instance="slack"] $w4
@@ -145,7 +151,7 @@ workspace "$w10" output $m1
 # KEY BINDINGS
 
 # start a terminal
-bindsym $mod+Shift+Return exec urxvt
+bindsym $mod+Shift+Return exec termite
 
 # kill focused window
 bindsym $mod+q kill
@@ -164,7 +170,8 @@ bindsym $mod+m exec $scripts/=
 bindsym $mod+c exec --no-startup-id chromium
 
 # dash
-bindsym $mod+d exec --no-startup-id zeal; workspace $w5
+bindsym $mod+d workspace $w5
+bindsym $mod+z exec --no-startup-id zeal; workspace $w5
 
 # debug mode!
 bindsym $mod+Shift+d workspace 1:1; workspace 8:8
@@ -349,7 +356,7 @@ client.urgent            $urgent-bg-color    $urgent-bg-color    $text-color    
 
 # polybar!
 exec --no-startup-id polybar main
-exec urxvt
+exec termite
 
 exec_always --no-startup-id $scripts/trackpad_config.sh
 exec_always --no-startup-id $scripts/wallpaper
@@ -357,10 +364,13 @@ exec_always --no-startup-id $scripts/wallpaper
 # boot the dictionary
 exec --no-startup-id artha
 exec --no-startup-id dropbox
+
+# f.lux like app
+exec --no-startup-id redshift
 exec --no-startup-id $scripts/i3-start
 exec --no-startup-id libinput-gestures-setup start
 exec --no-startup-id dunst
-# exec --no-startup-id urxvt
+# exec --no-startup-id termite
 exec --no-startup-id chromium
 # exec --no-startup-id google-chrome-stable --profile-directory="Profile 1"
 exec --no-startup-id slack

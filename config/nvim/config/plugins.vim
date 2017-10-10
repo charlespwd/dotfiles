@@ -11,6 +11,8 @@ call plug#begin($XDG_CONFIG_HOME . '/nvim/plugged')
   Plug 'hail2u/vim-css3-syntax', { 'for': 'css' }
   Plug 'mattn/emmet-vim', { 'for': ['html','htmldjango','css','eruby','scss','sass'] }
   Plug 'othree/html5.vim', { 'for': 'html' }
+  Plug 'tpope/vim-liquid'
+  Plug 'AndrewRadev/splitjoin.vim'
 
   "" Autocomplete engine
   if !has('gui_running')
@@ -44,6 +46,10 @@ call plug#begin($XDG_CONFIG_HOME . '/nvim/plugged')
   Plug 'danro/rename.vim'
   Plug 'sjl/gundo.vim'
 
+  " golang
+  Plug 'nsf/gocode', { 'rtp': 'nvim', 'do': '~/.config/nvim/plugged/gocode/nvim/symlink.sh' }
+  Plug 'fatih/vim-go'
+
   " Javascript
   Plug 'moll/vim-node', { 'for': 'javascript' }
   Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
@@ -71,7 +77,7 @@ call plug#begin($XDG_CONFIG_HOME . '/nvim/plugged')
   Plug 'tpope/vim-salve'
 
   " async jobs with vim, also used by clojure, otherwise use neomake
-  Plug 'tpope/vim-dispatch', { 'for': ['clojure'] }
+  Plug 'tpope/vim-dispatch', { 'for': ['clojure', 'go', 'javascript', 'typescript'] }
 
   " Misc
   Plug 'tpope/vim-projectionist'

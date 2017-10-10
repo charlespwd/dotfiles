@@ -26,7 +26,7 @@ if [ $? != 0 ]; then
 
   # watchme window
   tmux new-window -n 'watchme' -t ${SESSION_NAME}
-  tmux send-keys -t ${SESSION_NAME}:4 'j ws; node oss/watchme/index.js "outbox/es5/{src,css}/**/*.{js,jsx,scss}"' C-m
+  tmux send-keys -t ${SESSION_NAME}:4 'j ws; watchme "outbox/es5/{src,css}/**/*.{js,jsx,scss}"' C-m
 
   # start in vim
   tmux select-window -t ${SESSION_NAME}:1

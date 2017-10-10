@@ -33,7 +33,8 @@ const errbug = require('../../common/utils/debug').error(__filename);
 endsnippet
 
 snippet idebug
-const debug = require('../../common/utils/debug')(__filename);
+import debugUtils from '../../common/utils/debug';
+const debug = debugUtils(__filename);
 endsnippet
 
 snippet imp_ "import properties"
@@ -682,6 +683,18 @@ describe('Module: $2', () => {
 		expect($1).to.exist
 	})
 })
+endsnippet
+
+snippet test;
+import { expect } from 'chai';
+import sinon from 'sinon';
+import ${1:Module} from '../${2:$1}';
+
+describe('Module: $2', () => {
+	it('should exist', () => {
+		expect($1).to.exist;
+	});
+});
 endsnippet
 
 snippet creq

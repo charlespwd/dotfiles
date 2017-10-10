@@ -7,24 +7,23 @@ let g:javascript_conceal_prototype  = "¶"
 let g:javascript_conceal_static     = "•"
 let g:javascript_conceal_super      = "Ω"
 let g:angular_skip_alternate_mappings = 1
-" let g:neomake_javascript_fastlint_maker = {
-"       \ 'exe': 'eslint_d',
-"       \ 'args': ['--quiet', '-f', 'compact'],
-"       \ 'errorformat': '%E%f: line %l\, col %c\, Error - %m,' .
-"       \ '%W%f: line %l\, col %c\, Warning - %m'
-"       \ }
-let g:neomake_javascript_enabled_markers = ['eslint']
+let g:neomake_javascript_eslint_d_maker = {
+      \ 'exe': 'eslint',
+      \ 'args': ['--quiet', '-f', 'compact', '--no-ignore'],
+      \ 'errorformat': '%E%f: line %l\, col %c\, Error - %m,' .
+      \   '%W%f: line %l\, col %c\, Warning - %m,%-G,%-G%*\d problems%#'
+      \ }
+let g:neomake_javascript_enabled_makers = ['eslint_d']
+
+let g:neomake_typescript_tslint_d_maker = {
+      \ 'exe': 'tslint',
+      \ 'args': ['-t', 'prose'],
+      \ 'errorformat': '%EERROR: %f[%l\, %c]: %m'
+      \ }
+let g:neomake_typescript_enabled_makers = ['tslint_d']
 let g:tsuquyomi_completion_detail=1
 let g:tsuquyomi_single_quote_import=1
-let g:do_lint_js=1
-" let g:neomake_typescript_tsc_maker = {
-"       \ 'args': ['-m', 'commonjs', '--target', 'es5', '--strictNullChecks', '--noEmit'],
-"       \ 'errorformat':
-"           \ '%E%f %#(%l\,%c): error %m,' .
-"           \ '%E%f %#(%l\,%c): %m,' .
-"           \ '%Eerror %m,' .
-"           \ '%C%\s%\+%m'
-"       \ }
+let g:tsuquyomi_save_onrename=1
 
 function! SetTypescriptOptions()
   call SetJavascriptOptions()
@@ -33,10 +32,7 @@ function! SetTypescriptOptions()
 endfunction
 
 function! SetJavascriptOptions()
-  setlocal textwidth=80
-  let b:surround_{char2nr('p')} = "(\n\t\r\n)"
-  let b:surround_{char2nr('P')} = "{\n\t\r\n}"
-  let b:surround_{char2nr('S')} = "[\n\t\r\n]"
+  setlocal textwidth=75
   let b:surround_{char2nr('c')} = "console.log(\r)"
   let b:surround_{char2nr('e')} = "expect(\r)"
   let b:surround_{char2nr('a')} = "const PLACEHOLDER = () => {\n\r\n};"
@@ -92,15 +88,18 @@ endfunction
 " Set js options for all js files
 autocmd BufReadPre,FileReadPre *.es6,*.jsx set filetype=javascript
 autocmd BufReadPre,FileReadPre *.tsx set filetype=typescript
+autocmd BufReadPre,FileReadPre,BufEnter *.js.liquid set filetype=javascript.jsx.liquid
 autocmd Filetype javascript call SetJavascriptOptions()
 autocmd Filetype typescript call SetTypescriptOptions()
 
 " run lint on save
-autocmd BufRead,BufWrite *.js,*.jsx if exists('g:do_lint_js') && g:do_lint_js | Neomake eslint | endif
-" autocmd BufRead,BufWrite *.ts if exists('g:do_lint_js') && g:do_lint_js | Neomake | endif
+autocmd BufRead,BufWrite *.js,*.jsx Neomake eslint_d
+autocmd BufRead,BufWrite *.ts,*.tsx Neomake
+autocmd BufRead,BufWrite *.ts TsuGeterr
 
 " disable the annoying vim-node doc preview
-autocmd BufEnter *.js,*.jsx set completeopt-=preview
+autocmd BufEnter *.js,*.jsx setlocal completeopt-=preview
+autocmd FileType typescript setlocal completeopt+=preview
 
 autocmd User Node
   \ if &filetype == "javascript.jsx" |

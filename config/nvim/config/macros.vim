@@ -3,8 +3,8 @@ map <Space> <nop>
 let mapleader = "\<Space>"
 
 " toggle spell check
-map <F7> :setlocal spell! spelllang=en_us<cr>
-imap <F7> <ESC>:setlocal spell! spelllang=en_us<cr>
+map <F5> :setlocal spell! spelllang=en_us<cr>
+imap <F5> <ESC>:setlocal spell! spelllang=en_us<cr>
 
 map <F6> :setlocal spell! spelllang=fr<cr>
 imap <F6> <ESC>:setlocal spell! spelllang=fr<cr>
@@ -233,9 +233,9 @@ nmap <a-h> :h<space>
 " vmap ç "+y
 
 " work specific keymaps
-map <leader>cds :vs src/core/common/envConfig/development.json<cr>:%s/d06/testcds/g<bar>w<cr>
-map <leader>sluz :vs css/skins/obt.scss<cr>:1s#^//#@import "luzia";#<cr>:2<cr>gcG:w<bar>nohl<cr>
-map <leader>sobt :vs css/skins/obt.scss<cr>:1s#^@import "luzia";#//#<cr>:2<cr>gcG:w<bar>nohl<cr>
+map <leader>cds :vs src/core/common/envConfig/development.json<cr>:%s/d06/testcds/g<bar>w<bar>bd<cr>
+map <leader>sluz :vs css/skins/obt.scss<cr>:1s#^//#@import "luzia_v2";#<cr>:2<cr>gcG:w<bar>nohl<bar>bd<cr>
+map <leader>sobt :vs css/skins/obt.scss<cr>:1s#^@import "luzia_v2";#//#<cr>:2<cr>gcG:w<bar>nohl<bar>bd<cr>
 
 call SchemaCommands('cds', 'bfox.test.cds')
 call SchemaCommands('d06', 'bfox.prod.d06')

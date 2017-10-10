@@ -186,6 +186,10 @@ let NERDTreeAutoDeleteBuffer = 1
 let NERDTreeWinSize = 41
 let NERDTreeQuitOnOpen = 1
 
+let g:surround_{char2nr('p')} = "(\n\t\r\n)"
+let g:surround_{char2nr('P')} = "{\n\t\r\n}"
+let g:surround_{char2nr('S')} = "[\n\t\r\n]"
+
 " editorconfig
 let g:EditorConfig_core_mode = 'external_command'
 let g:EditorConfig_exclude_patterns = ['fugitive://.*']
@@ -217,3 +221,7 @@ let g:delimitMate_expand_space = 1
 " paredit
 let g:paredit_shortmaps = 0
 let g:paredit_leader = "<Leader><Leader>"
+
+" grepper
+let g:grepper = {}
+let g:grepper.quickfix = 1
