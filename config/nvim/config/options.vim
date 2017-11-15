@@ -166,6 +166,15 @@ let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 let g:UltiSnipsSnippetsDir="~/.config/nvim/my-snippets"
 let g:UltiSnipsSnippetDirectories=["UltiSnips", "my-snippets"]
 
+" Linting
+" ale
+let g:ale_sign_error = '✗'
+let g:ale_sign_warning = '⚠'
+" let g:ale_javascript_eslint_executable = 'eslint_d'
+let g:ale_javascript_eslint_use_global = 1
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_lint_on_insert_leave = 1
+
 " neomake
 let g:neomake_highlight_columns=0
 let g:neomake_serialize=0
@@ -225,3 +234,7 @@ let g:paredit_leader = "<Leader><Leader>"
 " grepper
 let g:grepper = {}
 let g:grepper.quickfix = 1
+let g:grepper.tools = ['rg', 'ag', 'grep']
+
+" work stuff
+let g:github_enterprise_urls = ['https://github.outboxtechnology.com']

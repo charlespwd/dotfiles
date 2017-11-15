@@ -49,3 +49,5 @@ config/habitica
 inkscape
 bin/prime
 config/Code
+bin/ldap-pass
+config/heroku

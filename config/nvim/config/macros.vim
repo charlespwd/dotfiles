@@ -139,9 +139,9 @@ map <leader>G :G
 map <leader>R :redraw!<cr>
 map <leader>U :GundoToggle<cr>
 map <leader>V "+p
-map <leader>aa :Grepper -tool ag<cr>
+map <leader>aa :Grepper -tool rg<cr>
 map <leader>am :e ~/.vim/config/macros.vim<cr>gg/" MACROS<cr>zz:nohl<cr>o<esc>^S
-map <leader>aw :Grepper -tool ag -cword -noprompt<cr>
+map <leader>aw :Grepper -tool rg -cword -noprompt<cr>
 map <leader>b :Buffers<cr>
 map <leader>c :Commands<cr>
 map <leader>dd !!today<cr>I#<space><esc>o
@@ -233,10 +233,10 @@ nmap <a-h> :h<space>
 " vmap ç "+y
 
 " work specific keymaps
-map <leader>cds :vs src/core/common/envConfig/development.json<cr>:%s/d06/testcds/g<bar>w<bar>bd<cr>
+map <leader>scds :vs src/core/common/envConfig/development.json<cr>:%s/d06/testcds/g<bar>w<bar>bd<cr>
 map <leader>sluz :vs css/skins/obt.scss<cr>:1s#^//#@import "luzia_v2";#<cr>:2<cr>gcG:w<bar>nohl<bar>bd<cr>
 map <leader>sobt :vs css/skins/obt.scss<cr>:1s#^@import "luzia_v2";#//#<cr>:2<cr>gcG:w<bar>nohl<bar>bd<cr>
-map <leader>mct OCompleted:<esc>:read !my-commits-today<cr><c-v>?Completed:<cr>jI- <esc>
+map <leader>mct OCompleted:<esc>:read !my-commits-today<cr><c-v>?Completed:<cr>jI- <esc>:g/--wip--/d<cr>
 
 call SchemaCommands('cds', 'bfox.test.cds')
 call SchemaCommands('d06', 'bfox.prod.d06')

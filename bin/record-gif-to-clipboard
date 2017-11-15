@@ -16,3 +16,4 @@ ffcast -s % ffmpeg -y -f x11grab \
 xclip -selection clipboard < $TMP_GIF
 
 echo "Output saved to $TMP_GIF"
+ls $TMP_GIF

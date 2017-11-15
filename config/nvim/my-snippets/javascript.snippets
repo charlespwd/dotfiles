@@ -29,11 +29,12 @@ import sinon from 'sinon';
 endsnippet
 
 snippet ierrbug
-const errbug = require('../../common/utils/debug').error(__filename);
+import debugUtils from 'core/common/utils/debug';
+const errbug = debugUtils.error(__filename);
 endsnippet
 
 snippet idebug
-import debugUtils from '../../common/utils/debug';
+import debugUtils from 'core/common/utils/debug';
 const debug = debugUtils(__filename);
 endsnippet
 
@@ -670,7 +671,7 @@ snippet sass-loader
 endsnippet
 
 snippet req
-var ${1:module} = require('${2:$1}');
+const ${1:module} = require('${2:$1}');
 endsnippet
 
 snippet test
@@ -949,4 +950,8 @@ export function create() {
 export function close() {
 	ModalManagerActions.removeModal($1);
 }
+endsnippet
+
+snippet cll
+${2:console.log}('${1:foo}', $1);
 endsnippet

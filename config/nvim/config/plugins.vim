@@ -104,6 +104,7 @@ call plug#begin($XDG_CONFIG_HOME . '/nvim/plugged')
   " Git
   " Plug 'idanarye/vim-merginal'
   Plug 'tpope/vim-fugitive'
+  Plug 'tpope/vim-rhubarb'
   Plug 'AndrewRadev/linediff.vim'
 
   " Style
@@ -114,8 +115,10 @@ call plug#begin($XDG_CONFIG_HOME . '/nvim/plugged')
 
   " linting nvim
   if has('nvim')
-    Plug 'neomake/neomake'
+    " Plug 'neomake/neomake'
   endif
+
+  Plug 'w0rp/ale'
 
   " Plug 'nathanaelkane/vim-indent-guides'
   Plug 'morhetz/gruvbox'

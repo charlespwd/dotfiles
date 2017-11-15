@@ -23,19 +23,21 @@ if [ "$OS" = "Linux" ]; then
   alias ".p"="vim ~/.config/polybar/config"
 
   # default application related
-  alias "filetype?"="xdg-mime query filetype"
   alias "default?"='default_and_mime'
-  alias "set-default"="set_default"
+  alias "filetype?"="xdg-mime query filetype"
   alias "list-desktop-entries"="ls /usr/share/applications"
-
+  alias "set-default"="set_default"
   alias chrome="chromium &> /dev/null &"
+  alias clean-pacman-cache="paccache -rk 2"
+  alias decrypt="gpg"
+  alias encrypt="gpg -c"
+  alias gtypist="gtypist -w"
   alias mountmc="sudo mount -t cifs //raspi.local/mediacenter /mnt/mediacenter -o username=pi"
-  alias unmountmc="sudo umount /mnt/mediacenter"
   alias mountnd="sudo mount -t cifs //raspi.local/networkdrive /mnt/networkdrive"
   alias open="xdg-open"
   alias pbcopy="xclip -sel clipboard"
   alias pbpaste="xclip -o"
-  alias gtypist="gtypist -w"
+  alias unmountmc="sudo umount /mnt/mediacenter"
 elif [ "$OS" = "Darwin" ]; then
   alias chrome="/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome"
   alias firefox="/Applications/Firefox.app/Contents/MacOS/firefox"

@@ -45,14 +45,15 @@ rofi.columns:                        1
 rofi.font:                           DejaVu Sans Mono 40
 
 ! ------------------------------------------------------------------------------
-! ROFI Gruvbox/Solarized mix
-! ------------------------------------------------------------------------------
-! State:                     'bg',           'fg',        'bgalt',         'hlbg',         'hlfg'
 rofi.color-enabled: true
-rofi.color-window: argb: ee1d2021,        #1d2021, argb: BB1d2021
-rofi.color-normal: argb: 001d2021,        #819396, argb: 001d2021, argb: 8832302f, argb: FF819396
-rofi.color-active: argb: 001d2021,        #008ed4, argb: 001d2021, argb: 8832302f, argb: FF008ed4
-rofi.color-urgent: argb: 001d2021,        #da4281, argb: 001d2021, argb: 8832302f, argb: FFda4281
+
+!                             bg,  border,    separator,
+rofi.color-window: argb:ee282828, #a89984, argb:bba89984
+
+!                             bg,      fg,        bg-alt,         hl-bg,         hl-fg
+rofi.color-normal: argb:00282828, #ebdbb2, argb:0032302f, argb:88665c54, argb:fffbf1c7
+rofi.color-active: argb:00d79921, #282828, argb:00d79921, argb:88fabd2f, argb:ff282828
+rofi.color-urgent: argb:00cc241d, #282828, argb:00cc241d, argb:88fb4934, argb:ff282828
 
 ! "Border width" Set from: Default
 rofi.bw:                             0
@@ -85,7 +86,7 @@ rofi.padding:                        600
 ! rofi.run-command:                    {cmd}
 
 ! "Command to get extra run targets" Set from: Default
-! rofi.run-list-command:               
+! rofi.run-list-command:
 
 ! "Run command to execute that runs in shell" Set from: Default
 ! rofi.run-shell-command:              {terminal} -e {cmd}
@@ -97,7 +98,7 @@ rofi.padding:                        600
 ! rofi.disable-history:                false
 
 ! "Use levenshtein sorting" Set from: Default
-! rofi.levenshtein-sort:               false
+rofi.levenshtein-sort:               true
 
 ! "Set case-sensitivity" Set from: Default
 ! rofi.case-sensitive:                 false

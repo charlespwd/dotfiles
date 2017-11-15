@@ -13,20 +13,12 @@ if [ $? != 0 ]; then
   # create the session
   tmux new-session -s ${SESSION_NAME} -n vim -d
 
-  # first window, vim.
-  tmux send-keys -t ${SESSION_NAME}:1 'vim' C-m
-
   # build window
   tmux new-window -n 'build' -t ${SESSION_NAME}
   tmux send-keys -t ${SESSION_NAME}:2 'swd' C-m
-
-  # test window
-  tmux new-window -n 'tests' -t ${SESSION_NAME}
-  tmux send-keys -t ${SESSION_NAME}:3 'npm run test-watch' C-m
-
-  # watchme window
-  tmux new-window -n 'watchme' -t ${SESSION_NAME}
-  tmux send-keys -t ${SESSION_NAME}:4 'j ws; watchme "outbox/es5/{src,css}/**/*.{js,jsx,scss}"' C-m
+  tmux split-window -v -t ${SESSION_NAME}:2 'npm run test-watch'
+  tmux split-window -h -t ${SESSION_NAME}:2
+  tmux send-keys -t ${SESSION_NAME}:2.3 'j ws; watchme "outbox/es5/{src,css}/**/*.{js,jsx,scss}"' C-m
 
   # start in vim
   tmux select-window -t ${SESSION_NAME}:1

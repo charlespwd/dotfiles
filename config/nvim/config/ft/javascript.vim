@@ -7,26 +7,27 @@ let g:javascript_conceal_prototype  = "¶"
 let g:javascript_conceal_static     = "•"
 let g:javascript_conceal_super      = "Ω"
 let g:angular_skip_alternate_mappings = 1
-let g:neomake_javascript_eslint_d_maker = {
-      \ 'exe': 'eslint',
-      \ 'args': ['--quiet', '-f', 'compact', '--no-ignore'],
-      \ 'errorformat': '%E%f: line %l\, col %c\, Error - %m,' .
-      \   '%W%f: line %l\, col %c\, Warning - %m,%-G,%-G%*\d problems%#'
-      \ }
-let g:neomake_javascript_enabled_makers = ['eslint_d']
+" let g:neomake_javascript_eslint_d_maker = {
+"       \ 'exe': 'eslint',
+"       \ 'args': ['--quiet', '-f', 'compact', '--no-ignore'],
+"       \ 'errorformat': '%E%f: line %l\, col %c\, Error - %m,' .
+"       \   '%W%f: line %l\, col %c\, Warning - %m,%-G,%-G%*\d problems%#'
+"       \ }
+" let g:neomake_javascript_enabled_makers = ['eslint_d']
 
-let g:neomake_typescript_tslint_d_maker = {
-      \ 'exe': 'tslint',
-      \ 'args': ['-t', 'prose'],
-      \ 'errorformat': '%EERROR: %f[%l\, %c]: %m'
-      \ }
-let g:neomake_typescript_enabled_makers = ['tslint_d']
+" let g:neomake_typescript_tslint_d_maker = {
+"       \ 'exe': 'tslint',
+"       \ 'args': ['-t', 'prose'],
+"       \ 'errorformat': '%EERROR: %f[%l\, %c]: %m'
+"       \ }
+" let g:neomake_typescript_enabled_makers = ['tslint_d']
 let g:tsuquyomi_completion_detail=1
 let g:tsuquyomi_single_quote_import=1
 let g:tsuquyomi_save_onrename=1
 
 function! SetTypescriptOptions()
   call SetJavascriptOptions()
+  let b:ale_enabled = 0
   map <buffer> <leader>rj :TsuRenameSymbol<cr>
   map <buffer> <leader>rf :TsuRenameSymbol<cr>
 endfunction
@@ -93,8 +94,8 @@ autocmd Filetype javascript call SetJavascriptOptions()
 autocmd Filetype typescript call SetTypescriptOptions()
 
 " run lint on save
-autocmd BufRead,BufWrite *.js,*.jsx Neomake eslint_d
-autocmd BufRead,BufWrite *.ts,*.tsx Neomake
+" autocmd BufRead,BufWrite *.js,*.jsx Neomake eslint
+" autocmd BufRead,BufWrite *.ts,*.tsx Neomake
 autocmd BufRead,BufWrite *.ts TsuGeterr
 
 " disable the annoying vim-node doc preview
