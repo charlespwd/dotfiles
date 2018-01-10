@@ -1,0 +1,44 @@
+snippet gi "getIntlMessage" i
+getIntlMessage('$1')$2
+endsnippet
+
+snippet ii
+import { getIntlMessage } from 'src/common/i18n';
+endsnippet
+
+snippet i*
+import * as $1 from '${2:$1}';
+endsnippet
+
+snippet ir
+import * as React from 'react';
+endsnippet
+
+snippet iR
+import * as R from 'ramda';
+endsnippet
+
+snippet recomponentcontainer
+import * as React from 'react';
+import { connect } from 'react-redux';
+
+class ${1:MyComponent} extends React.Component<$2> {
+	public render() {
+		return (
+			<div />
+		);
+	}
+}
+
+interface ${2:I$1Props} {
+
+}
+
+function mapStateToProps(state) {
+	return {
+
+	};
+}
+
+export default connect(mapStateToProps)($1);
+endsnippet
