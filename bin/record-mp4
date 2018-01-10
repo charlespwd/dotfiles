@@ -1,0 +1,18 @@
+#!/bin/bash
+mkdir -p /tmp/screengrab
+tmp_avi=$(mktemp /tmp/screengrab/outXXXXXXXXXX.avi)
+output='/tmp/screengrab/screencast.mp4'
+framerate=${1:-10}
+
+# lossless option:
+ffcast -s % ffmpeg -y -f x11grab \
+  -framerate $framerate \
+  -video_size %s \
+  -i %D+%c \
+  -vcodec huffyuv \
+  $tmp_avi \
+&& ffmpeg -i $tmp_avi $output
+
+echo $output | xclip -sel clipboard
+echo "Output saved to $output"
+ls -h $output

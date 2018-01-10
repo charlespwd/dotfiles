@@ -51,3 +51,15 @@ bin/prime
 config/Code
 bin/ldap-pass
 config/heroku
+bin/graphiql
+config/GraphiQL
+config/Mutate
+config/Neon
+config/Unknown Organization
+config/okularpartrc
+config/pulse
+config/pavucontrol.ini
+config/rtv
+config/zoomus.conf
+config/pgadmin
+config/xfce4

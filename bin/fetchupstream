@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# gwip
+git add -A
+git rm $(git ls-files --deleted) 2> /dev/null
+git commit --no-verify -m "--wip-- [skip ci]"
+
+upstream=$(git remote | grep upstream | head -n 1)
+remote="${upstream:-origin}"
+
+set -e
+
+if [[ $(basename $(pwd)) = "es5" ]] || [[ $(basename $(pwd)) = "frontstage" ]] || [[ $(basename $(pwd)) = "crypto-trader" ]]; then 
+  git checkout master
+  git fetch $remote
+  git reset --hard $remote/master
+  if [[ $remote != 'origin' ]]; then
+    git push -f $remote master
+  fi;
+fi
