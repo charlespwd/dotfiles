@@ -1,2 +1,2 @@
 #!/bin/bash
-GTK_THEME=Adwaita:light firefox
+GTK_THEME=Adwaita:light /usr/bin/firefox-developer-edition

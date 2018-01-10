@@ -116,12 +116,12 @@ bindkey '^N' history-search-forward
 
 # FZF config
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-export FZF_DEFAULT_COMMAND='ag -l -g ""' # follow .git_ignore
+export FZF_DEFAULT_COMMAND='rg --files --follow --glob "!.git/*"'
 export FZF_TMUX=1
 export FZF_TMUX_HEIGHT="50%"
 
 # Prioritize utilization of locally installed scripts
-export PATH="node_modules/.bin:$PATH"
+export PATH="node_modules/.bin:../../node_modules/.bin:$PATH"
 
 # push new branch
 gpn(){
@@ -137,13 +137,13 @@ pr() {
     fi
     local curbranch=`git rev-parse --abbrev-ref HEAD`
     gpn && sleep 4
-    url=`hub compare -u ${2:-outbox}:${1}...${3:-cpclermont}:$curbranch`
+    url=`hub compare -u ${2:-charlespwd}:${1}...${3:-charlespwd}:$curbranch`
     echo "$url"
     echo "$url" | xclip -i -sel clipboard
     echo "Compare url copied to clipboard"
-    hub compare ${2:-outbox}:${1}...${3:-cpclermont}:$curbranch
+    hub compare ${2:-charlespwd}:${1}...${3:-charlespwd}:$curbranch
 }
-alias gpr=pr
+alias gpr="BROWSER=/usr/bin/firefox-developer-edition pr"
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"

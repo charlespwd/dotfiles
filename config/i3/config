@@ -91,8 +91,8 @@ focus_follows_mouse no
 for_window [floating] border normal 7
 for_window [floating] title_format "<span size='smaller'> %title</span>"
 
-# Chrome rule
-# assign [instance="chromium"] $w2
+# Browser rules
+for_window [class="Firefox"] move to workspace $w1, workspace $w1
 for_window [instance="chromium"] move to workspace $w1, workspace $w1
 for_window [instance="google-chrome"] move to workspace $w1, workspace $w1
 
@@ -108,6 +108,8 @@ for_window [instance="chromium.*org.chromium.Chromium"] resize set 2000 1500
 # popup rules
 for_window [instance="chromium" window_role="pop-up"] floating enable, border normal 7
 for_window [instance="google-chrome" window_role="pop-up"] floating enable, border normal 7
+for_window [class="Firefox" window_role="pop-up"] floating enable, border normal 7
+for_window [title="bnc - Mozilla Firefox"] floating enable, border normal 7
 
 # dev tools rules
 for_window [title="Developer Tools - .*"] floating disable, border pixel 7, move to workspace $w8, workspace $w8
@@ -224,8 +226,8 @@ bindsym $mod+e layout splith
 bindsym $mod+p focus parent
 bindsym $mod+semicolon focus child
 
-# copy and paste with meta, 'cause muscle memory...
-bindsym --release $mod+v exec --no-startup-id xdotool key --clearmodifiers ctrl+v
+# sound
+bindsym $mod+Shift+p exec pavucontrol
 
 # switch to workspace
 bindsym $mod+1 workspace $w1
@@ -262,9 +264,14 @@ bindsym --release $mod+Control+4 exec --no-startup-id $scripts/screenshot-to-cli
 bindsym --release $mod+Control+Shift+4 exec --no-startup-id $scripts/screenshot-to-tmp
 
 # volume settings
-bindsym XF86AudioRaiseVolume exec --no-startup-id amixer sset Master 5%+
-bindsym XF86AudioLowerVolume exec --no-startup-id amixer sset Master 5%-
-bindsym XF86AudioMute exec --no-startup-id $scripts/toggle-mute
+# bindsym XF86AudioRaiseVolume exec --no-startup-id amixer sset Master 5%+
+# bindsym XF86AudioLowerVolume exec --no-startup-id amixer sset Master 5%-
+# bindsym XF86AudioMute exec --no-startup-id $scripts/toggle-mute
+
+# Pulse Audio controls
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% #increase sound volume
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% #decrease sound volume
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute sound
 
 # song settings
 bindsym XF86AudioPrev exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous"
@@ -366,19 +373,20 @@ exec --no-startup-id artha
 exec --no-startup-id dropbox
 
 # f.lux like app
+exec --no-startup-id pulseaudio --start
 exec --no-startup-id redshift
 exec --no-startup-id $scripts/i3-start
 exec --no-startup-id libinput-gestures-setup start
 exec --no-startup-id dunst
 # exec --no-startup-id termite
-exec --no-startup-id chromium
+exec --no-startup-id firefox
 # exec --no-startup-id google-chrome-stable --profile-directory="Profile 1"
-exec --no-startup-id slack
+exec --no-startup-id BROWSER=/usr/bin/firefox-developer-edition slack
 exec --no-startup-id thunderbird
 # exec --no-startup-id exec i3-msg 'workspace $w4; exec spotify; exec sleep 1; workspace $w1'
 
 ## quick terminal
 exec_always --no-startup-id urxvt -name metask
 for_window [instance="metask"] floating enable;
-for_window [instance="metask"] move scratchpad; [instance="metask"] scratchpad show; move position 0 60; resize set 2960 500; [instance="metask"] move scratchpad
+for_window [instance="metask"] move scratchpad; [instance="metask"] scratchpad show; move position 400 60; resize set 2000 500; [instance="metask"] move scratchpad
 bindsym $mod+g [instance="metask"] scratchpad show

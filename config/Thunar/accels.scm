@@ -1,4 +1,4 @@
-; thunar GtkAccelMap rc-file         -*- scheme -*-
+; Thunar GtkAccelMap rc-file         -*- scheme -*-
 ; this file is an automated accelerator map dump
 ;
 ; (gtk_accel_path "<Actions>/ThunarLauncher/sendto-desktop" "")
@@ -33,6 +33,7 @@
 ; (gtk_accel_path "<Actions>/ThunarWindow/new-tab" "<Primary>t")
 ; (gtk_accel_path "<Actions>/ThunarWindow/preferences" "")
 ; (gtk_accel_path "<Actions>/ThunarStandardView/rename" "F2")
+; (gtk_accel_path "<Actions>/ThunarBookmarks/c23576b91c725561a3f7d58ef0961c9c" "")
 ; (gtk_accel_path "<Actions>/ThunarWindow/sendto-menu" "")
 ; (gtk_accel_path "<Actions>/ThunarWindow/edit-menu" "")
 ; (gtk_accel_path "<Actions>/ThunarBookmarks/59554975d03cd1794c0c016cf834364d" "")
@@ -65,7 +66,6 @@
 ; (gtk_accel_path "<Actions>/ThunarStandardView/copy" "<Primary>c")
 ; (gtk_accel_path "<Actions>/ThunarWindow/view-location-selector-pathbar" "")
 ; (gtk_accel_path "<Actions>/ThunarWindow/open-trash" "")
-; (gtk_accel_path "<Actions>/ThunarActions/Tap::extract-to" "")
 ; (gtk_accel_path "<Actions>/ThunarStandardView/properties" "<Alt>Return")
 ; (gtk_accel_path "<Actions>/ThunarStandardView/delete" "")
 ; (gtk_accel_path "<Actions>/ThunarBookmarks/aa7cb2c510ce15063dcedd648fc407c0" "")
@@ -78,9 +78,9 @@
 ; (gtk_accel_path "<Actions>/ThunarWindow/close-window" "<Primary>q")
 ; (gtk_accel_path "<Actions>/ThunarStandardView/select-all-files" "")
 ; (gtk_accel_path "<Actions>/ThunarWindow/open-location" "<Primary>l")
-; (gtk_accel_path "<Actions>/ThunarActions/Tap::extract-here" "")
+; (gtk_accel_path "<Actions>/ThunarBookmarks/3425eaec1c0069ce6d9df8566bcd4d72" "")
 ; (gtk_accel_path "<Actions>/ThunarWindow/zoom-reset" "<Primary>0")
 ; (gtk_accel_path "<Actions>/ThunarWindow/view-statusbar" "")
 ; (gtk_accel_path "<Actions>/ThunarWindow/show-hidden" "<Primary>h")
 ; (gtk_accel_path "<Actions>/ThunarWindow/view-as-detailed-list" "<Primary>2")
-; (gtk_accel_path "<Actions>/ThunarBookmarks/3425eaec1c0069ce6d9df8566bcd4d72" "")
+; (gtk_accel_path "<Actions>/ThunarBookmarks/444572371f8e5eab9637dcfb907f0cde" "")
