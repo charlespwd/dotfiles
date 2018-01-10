@@ -55,7 +55,7 @@ map <Plug>ExpandHTML <Plug>SurroundTagsWithEnter()<Plug>IndentInTagAndRemoveBoun
 map <Plug>PrettyAttrs :s/[a-z\-0-9]\{-}="[^"]\{-}"/\r&/g<cr>=a>Jvi>:s/\v $//g<cr>
 map <Plug>MostRecentBuffer :e #<cr>
 map <Plug>NextDiff :Gstatus<cr>/not staged<cr>/modified<cr>WD:pclose<cr>
-map <Plug>QfreplaceFromRegisterK :Qfdo s@<c-r>k@@gce<bar>w<left><left><left><left><left><left>
+map <Plug>QfreplaceFromRegisterK :ldo s#<c-r>k##ge<bar>w<left><left><left><left><left>
 map <Plug>ToggleTextObjQuotes :ToggleEducate<cr>
 map <SID>SearchFromRegisterK :GrepperAg "<c-r>k"<cr>
 map <SID>SearchFromRegisterKWithBounds :GrepperAg "\b<c-r>k\b"<cr>
@@ -110,7 +110,6 @@ imap <c-e>6 <esc>:let @d=system('date -v+6d +"%B %d, %Y"')<cr>"dpkJA
 imap <c-e>7 <esc>:let @d=system('date -v+7d +"%B %d, %Y"')<cr>"dpkJA
 map <leader>"" <Plug>ToggleTextObjQuotes
 map <leader>% :let @+=expand("%")<CR>
-map <leader>,, :Neomake<cr>
 map <leader>,. :lopen<cr>
 map <leader>,t :if exists('g:do_lint_js') && g:do_lint_js <bar> let g:do_lint_js=0 <bar> else <bar> let g:do_lint_js=1 <bar> endif <bar> echo g:do_lint_js<cr>
 map <leader>.P :e ~/.config/polybar/config<cr>

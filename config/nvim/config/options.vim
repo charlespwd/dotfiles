@@ -62,6 +62,7 @@ set wildmode=list:longest,full
 set nosmarttab
 set formatoptions+=t " make sure lines are wrapped with textwidth
 set formatoptions+=l " make sure lines don't get wrapped if they are already long
+set noshowmode " hide the --insert-- message in menu bar
 
 " Persistent undo tree (even after you trash the buffer)
 " You can also setup a cron job that deletes files unused for 90 days
@@ -155,6 +156,10 @@ let g:deoplete#file#enable_buffer_path = 1
 " call deoplete#custom#set('file', 'min_pattern_length', 0)
 let g:deoplete#auto_complete_delay = 150
 
+" FUCK YOU NCM.
+let g:cm_completeopt="menu,menuone,noinsert,noselect"
+" let g:cm_completeopt="menu,menuone,noinsert,noselect"
+
 " supertab options
 let g:SuperTabDefaultCompletionType = '<c-n>'
 let g:SuperTabContextDefaultCompletionType = '<c-n>'
@@ -170,10 +175,12 @@ let g:UltiSnipsSnippetDirectories=["UltiSnips", "my-snippets"]
 " ale
 let g:ale_sign_error = '✗'
 let g:ale_sign_warning = '⚠'
-" let g:ale_javascript_eslint_executable = 'eslint_d'
+let g:ale_javascript_eslint_executable = 'eslint_d'
 let g:ale_javascript_eslint_use_global = 1
 let g:ale_lint_on_text_changed = 'never'
-let g:ale_lint_on_insert_leave = 1
+let g:ale_lint_on_insert_leave = 0
+let g:ale_linters = {'javascript': ['eslint'], 'typescript': ['tslint', 'tsserver']}
+let g:ale_set_quickfix = 1
 
 " neomake
 let g:neomake_highlight_columns=0
@@ -188,7 +195,7 @@ let g:neomake_error_sign = {
   \ }
 
 " NERDTree config
-let NERDTreeIgnore = ['\.pyc$']
+let NERDTreeIgnore = ['\.pyc$', 'lib', 'node_modules', 'influx-data']
 let NERDTreeCaseSensitiveSort = 1
 let NERDTreeMinimalUI = 1
 let NERDTreeAutoDeleteBuffer = 1
@@ -210,7 +217,7 @@ let g:jsx_ext_required = 0
 let g:javascript_plugin_jsdoc = 1
 
 " tsuquyomi (typescript)
-let g:tsuquyomi_disable_quickfix=0
+let g:tsuquyomi_disable_quickfix=1
 
 " neovim + python
 let g:python_host_skip_check=1

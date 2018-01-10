@@ -15,19 +15,43 @@ let g:angular_skip_alternate_mappings = 1
 "       \ }
 " let g:neomake_javascript_enabled_makers = ['eslint_d']
 
-" let g:neomake_typescript_tslint_d_maker = {
-"       \ 'exe': 'tslint',
-"       \ 'args': ['-t', 'prose'],
-"       \ 'errorformat': '%EERROR: %f[%l\, %c]: %m'
-"       \ }
-" let g:neomake_typescript_enabled_makers = ['tslint_d']
 let g:tsuquyomi_completion_detail=1
-let g:tsuquyomi_single_quote_import=1
+let g:tsuquyomi_completion_preview=1
+let g:tsuquyomi_definition_split=2
+let g:tsuquyomi_disable_default_mappings=0
+let g:tsuquyomi_disable_quickfix=1
 let g:tsuquyomi_save_onrename=1
+let g:tsuquyomi_single_quote_import=1
+let g:nvim_typescript#type_info_on_hold=1
+let g:nvim_typescript#signature_complete=1
+let g:nvim_typescript#default_mappings=0
+let g:grepper.quickfix = 0
 
 function! SetTypescriptOptions()
   call SetJavascriptOptions()
-  let b:ale_enabled = 0
+  let b:grepper = {}
+  let b:grepper.quickfix = 0
+  let b:ale_lint_on_enter = 1
+  let b:ale_lint_on_save = 1
+  let b:ale_lint_on_insert_leave = 0
+  set ft=typescript.jsx
+  map <buffer> <leader>,, :copen<cr>
+  " set omnifunc=''
+
+  "" nvim-ts bindings
+  " nmap <buffer> K :TSType<cr>
+  " map <buffer> <c-]> :TSDef<cr>
+  " map <buffer> <c-t> :TSTypeDef<cr>
+  " map <buffer> <c-w><c-]> :vs<cr>:TSDef<cr>
+  " map <buffer> <c-w><c-t> :vs<cr>:TSTypeDef<cr>
+  " map <buffer> <leader>rj :TSRename<cr>
+  " map <buffer> <leader>rf :TSRename<cr>
+  map <buffer> <leader>I :TSImport<cr>
+  map <buffer> <c-]> :TsuDefinition<cr>
+
+  "" tsuquyomi bindings
+  " type hint
+  nmap <buffer> K :<C-u>echo tsuquyomi#hint()<CR>:<C-u>echo tsuquyomi#hint()<CR>
   map <buffer> <leader>rj :TsuRenameSymbol<cr>
   map <buffer> <leader>rf :TsuRenameSymbol<cr>
 endfunction
@@ -59,8 +83,7 @@ function! SetJavascriptOptions()
   " open/close object, open means on multiple lines, close means one line
   map <buffer> <leader>{ ^f{f}bea,<esc>:s/,/,\r/g<cr>%a<cr><esc>=a}:nohl<cr>
   map <buffer> <leader>} ]}k$xva}J
-
-  " turn function into an arrow function
+" turn function into an arrow function
   map <buffer> <leader>ta :s/function/const<cr>f(i = <esc>f(%a =><esc>
   map <buffer> <leader>tf :s/const/function<cr>:s/ = (/(<cr>:s/=> //<cr>
   vmap <buffer> == :EsformatterVisual<cr>
@@ -87,8 +110,8 @@ function! SetJavascriptOptions()
 endfunction
 
 " Set js options for all js files
-autocmd BufReadPre,FileReadPre *.es6,*.jsx set filetype=javascript
-autocmd BufReadPre,FileReadPre *.tsx set filetype=typescript
+" autocmd BufReadPre,FileReadPre *.es6,*.jsx set filetype=javascript
+autocmd BufReadPre,FileReadPre *.tsx set filetype=typescript.jsx
 autocmd BufReadPre,FileReadPre,BufEnter *.js.liquid set filetype=javascript.jsx.liquid
 autocmd Filetype javascript call SetJavascriptOptions()
 autocmd Filetype typescript call SetTypescriptOptions()
@@ -96,11 +119,10 @@ autocmd Filetype typescript call SetTypescriptOptions()
 " run lint on save
 " autocmd BufRead,BufWrite *.js,*.jsx Neomake eslint
 " autocmd BufRead,BufWrite *.ts,*.tsx Neomake
-autocmd BufRead,BufWrite *.ts TsuGeterr
+" autocmd BufRead,BufWrite *.ts TsuGeterr
 
 " disable the annoying vim-node doc preview
 autocmd BufEnter *.js,*.jsx setlocal completeopt-=preview
-autocmd FileType typescript setlocal completeopt+=preview
 
 autocmd User Node
   \ if &filetype == "javascript.jsx" |

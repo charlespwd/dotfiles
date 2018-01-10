@@ -53,11 +53,15 @@ call plug#begin($XDG_CONFIG_HOME . '/nvim/plugged')
   " Javascript
   Plug 'moll/vim-node', { 'for': 'javascript' }
   Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
-  Plug 'mxw/vim-jsx', { 'for': 'javascript' }
+  Plug 'mxw/vim-jsx', { 'for': ['javascript', 'typescript'] }
+  " Plug 'HerringtonDarkholme/yats.vim'
+  Plug 'mhartington/nvim-typescript'
+
+  " Plug 'peitalin/vim-jsx-typescript', { 'for': 'typescript' }
   Plug 'leafgarland/typescript-vim', { 'for': 'typescript' }
-  Plug 'Shougo/vimproc.vim', { 'for': 'typescript', 'do': 'make' }
-  Plug 'Quramy/tsuquyomi', { 'for': 'typescript' }
-  Plug 'heavenshell/vim-jsdoc', { 'for': 'javascript' }
+  Plug 'Shougo/vimproc.vim'
+  Plug 'Quramy/tsuquyomi'
+  Plug 'heavenshell/vim-jsdoc', { 'for': ['javascript', 'typescript'] }
 
   " Clojure
   " Plug 'venantius/vim-cljfmt', { 'for': 'clojure' }
@@ -122,4 +126,7 @@ call plug#begin($XDG_CONFIG_HOME . '/nvim/plugged')
 
   " Plug 'nathanaelkane/vim-indent-guides'
   Plug 'morhetz/gruvbox'
+
+  " Kapacitor syntax
+  Plug 'nathanielc/vim-tickscript'
 call plug#end()
