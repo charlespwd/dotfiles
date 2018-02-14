@@ -293,16 +293,16 @@ mode "resize" {
         # Pressing right will grow the window’s width.
         # Pressing up will shrink the window’s height.
         # Pressing down will grow the window’s height.
-        bindsym j resize shrink width 10 px or 10 ppt
-        bindsym k resize grow height 10 px or 10 ppt
-        bindsym l resize shrink height 10 px or 10 ppt
-        bindsym semicolon resize grow width 10 px or 10 ppt
+        bindsym j resize shrink width 40 px or 40 ppt
+        bindsym k resize grow height 40 px or 40 ppt
+        bindsym l resize shrink height 40 px or 40 ppt
+        bindsym semicolon resize grow width 40 px or 40 ppt
 
         # same bindings, but for the arrow keys
-        bindsym Left resize shrink width 10 px or 10 ppt
-        bindsym Down resize grow height 10 px or 10 ppt
-        bindsym Up resize shrink height 10 px or 10 ppt
-        bindsym Right resize grow width 10 px or 10 ppt
+        bindsym Left resize shrink width 40 px or 40 ppt
+        bindsym Down resize grow height 40 px or 40 ppt
+        bindsym Up resize shrink height 40 px or 40 ppt
+        bindsym Right resize grow width 40 px or 40 ppt
 
         # back to normal: Enter or Escape
         bindsym Return mode "default"
@@ -368,9 +368,9 @@ exec termite
 exec_always --no-startup-id $scripts/trackpad_config.sh
 exec_always --no-startup-id $scripts/wallpaper
 
-# boot the dictionary
-exec --no-startup-id artha
+# boot stuff
 exec --no-startup-id dropbox
+exec --no-startup-id nm-applet
 
 # f.lux like app
 exec --no-startup-id pulseaudio --start

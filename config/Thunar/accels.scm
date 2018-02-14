@@ -1,4 +1,4 @@
-; Thunar GtkAccelMap rc-file         -*- scheme -*-
+; thunar GtkAccelMap rc-file         -*- scheme -*-
 ; this file is an automated accelerator map dump
 ;
 ; (gtk_accel_path "<Actions>/ThunarLauncher/sendto-desktop" "")
@@ -51,6 +51,7 @@
 ; (gtk_accel_path "<Actions>/ThunarBookmarks/0d844575e65e00696b25ed77d3be08ad" "")
 ; (gtk_accel_path "<Actions>/ThunarStandardView/move-to-trash" "")
 ; (gtk_accel_path "<Actions>/ThunarStandardView/select-by-pattern" "<Primary>s")
+; (gtk_accel_path "<Actions>/ThunarBookmarks/87af078758ab395cc36806de98f6e54d" "")
 ; (gtk_accel_path "<Actions>/ThunarWindow/about" "")
 ; (gtk_accel_path "<Actions>/ThunarStandardView/setup-columns" "")
 ; (gtk_accel_path "<Actions>/ThunarWindow/contents" "F1")
@@ -66,6 +67,8 @@
 ; (gtk_accel_path "<Actions>/ThunarStandardView/copy" "<Primary>c")
 ; (gtk_accel_path "<Actions>/ThunarWindow/view-location-selector-pathbar" "")
 ; (gtk_accel_path "<Actions>/ThunarWindow/open-trash" "")
+; (gtk_accel_path "<Actions>/ThunarActions/Tap::extract-to" "")
+; (gtk_accel_path "<Actions>/ThunarBookmarks/bfed196b08cdf5e064dd69e8271babbe" "")
 ; (gtk_accel_path "<Actions>/ThunarStandardView/properties" "<Alt>Return")
 ; (gtk_accel_path "<Actions>/ThunarStandardView/delete" "")
 ; (gtk_accel_path "<Actions>/ThunarBookmarks/aa7cb2c510ce15063dcedd648fc407c0" "")
@@ -78,9 +81,9 @@
 ; (gtk_accel_path "<Actions>/ThunarWindow/close-window" "<Primary>q")
 ; (gtk_accel_path "<Actions>/ThunarStandardView/select-all-files" "")
 ; (gtk_accel_path "<Actions>/ThunarWindow/open-location" "<Primary>l")
-; (gtk_accel_path "<Actions>/ThunarBookmarks/3425eaec1c0069ce6d9df8566bcd4d72" "")
+; (gtk_accel_path "<Actions>/ThunarActions/Tap::extract-here" "")
 ; (gtk_accel_path "<Actions>/ThunarWindow/zoom-reset" "<Primary>0")
 ; (gtk_accel_path "<Actions>/ThunarWindow/view-statusbar" "")
 ; (gtk_accel_path "<Actions>/ThunarWindow/show-hidden" "<Primary>h")
 ; (gtk_accel_path "<Actions>/ThunarWindow/view-as-detailed-list" "<Primary>2")
-; (gtk_accel_path "<Actions>/ThunarBookmarks/444572371f8e5eab9637dcfb907f0cde" "")
+; (gtk_accel_path "<Actions>/ThunarBookmarks/3425eaec1c0069ce6d9df8566bcd4d72" "")

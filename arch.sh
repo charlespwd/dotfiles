@@ -3,8 +3,17 @@
   && source /usr/share/nvm/init-nvm.sh \
   || echo "'nvm' not installed"
 
+# /usr/local/bin
+export PATH=${PATH}:/usr/local/bin
+
+# local bin
+export PATH=${PATH}:bin
+
 # yarn / nvm
 export PATH=${PATH}:$(yarn global bin)
+
+# ruby gems
+export PATH=${PATH}:$HOME/.gem/ruby/2.5.0/bin
 
 # Startx on boot
 if [ -z "$DISPLAY" ] && [ -n "$XDG_VTNR" ] && [ "$XDG_VTNR" -eq 1 ]; then

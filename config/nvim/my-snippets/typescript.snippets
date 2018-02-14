@@ -6,6 +6,10 @@ snippet ii
 import { getIntlMessage } from 'src/common/i18n';
 endsnippet
 
+snippet i=
+import ${1:module} = require('${2:$1}');
+endsnippet
+
 snippet i*
 import * as $1 from '${2:$1}';
 endsnippet
@@ -16,6 +20,12 @@ endsnippet
 
 snippet iR
 import * as R from 'ramda';
+endsnippet
+
+snippet iS
+import {
+	${1:Form},
+} from 'semantic-ui-react';
 endsnippet
 
 snippet recomponentcontainer

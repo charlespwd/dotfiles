@@ -9,3 +9,9 @@ case "${1:\$1}" in
 		;;
 esac
 endsnippet
+
+snippet usage
+if [[ $# -lt ${1:2} ]]; then
+	echo "Usage: ${2: command <arg1> <arg2>}"
+fi
+endsnippet

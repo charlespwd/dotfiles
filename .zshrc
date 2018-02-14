@@ -128,22 +128,10 @@ gpn(){
 	git push --set-upstream origin "$(git rev-parse --abbrev-ref HEAD)" $@
 }
 
-### make PRs like a boss
-# push and open a page compare on GitHub
-pr() {
-    if [ $# -lt 1 ]; then
-        echo "Usage: pr [target branch name] [target repo, default to outbox]"
-        return
-    fi
-    local curbranch=`git rev-parse --abbrev-ref HEAD`
-    gpn && sleep 4
-    url=`hub compare -u ${2:-charlespwd}:${1}...${3:-charlespwd}:$curbranch`
-    echo "$url"
-    echo "$url" | xclip -i -sel clipboard
-    echo "Compare url copied to clipboard"
-    hub compare ${2:-charlespwd}:${1}...${3:-charlespwd}:$curbranch
-}
-alias gpr="BROWSER=/usr/bin/firefox-developer-edition pr"
+alias gpr="BROWSER=/usr/bin/firefox-developer-edition pull-request"
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
+
+export NVM_DIR="/home/charles/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm

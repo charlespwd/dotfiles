@@ -13,6 +13,7 @@ call plug#begin($XDG_CONFIG_HOME . '/nvim/plugged')
   Plug 'othree/html5.vim', { 'for': 'html' }
   Plug 'tpope/vim-liquid'
   Plug 'AndrewRadev/splitjoin.vim'
+  " Plug 'othree/xml.vim'
 
   "" Autocomplete engine
   if !has('gui_running')
@@ -50,18 +51,21 @@ call plug#begin($XDG_CONFIG_HOME . '/nvim/plugged')
   Plug 'nsf/gocode', { 'rtp': 'nvim', 'do': '~/.config/nvim/plugged/gocode/nvim/symlink.sh' }
   Plug 'fatih/vim-go'
 
-  " Javascript
+  " Javascript & typescript
   Plug 'moll/vim-node', { 'for': 'javascript' }
-  Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
-  Plug 'mxw/vim-jsx', { 'for': ['javascript', 'typescript'] }
-  " Plug 'HerringtonDarkholme/yats.vim'
-  Plug 'mhartington/nvim-typescript'
+  Plug 'heavenshell/vim-jsdoc', { 'for': ['javascript', 'typescript'] }
 
-  " Plug 'peitalin/vim-jsx-typescript', { 'for': 'typescript' }
-  Plug 'leafgarland/typescript-vim', { 'for': 'typescript' }
+  " Javascript syntax
+  " Plug 'neoclide/vim-jsx-improve', { 'for': ['javascript'] }
+  Plug 'pangloss/vim-javascript', { 'for': ['javascript'] }
+
+  " typescript syntax
+  Plug 'leafgarland/typescript-vim', { 'for': ['typescript'] }
+  Plug 'MaxMEllon/vim-jsx-pretty', { 'for': ['typescript', 'javascript'] }
+
+  Plug 'mhartington/nvim-typescript'
   Plug 'Shougo/vimproc.vim'
   Plug 'Quramy/tsuquyomi'
-  Plug 'heavenshell/vim-jsdoc', { 'for': ['javascript', 'typescript'] }
 
   " Clojure
   " Plug 'venantius/vim-cljfmt', { 'for': 'clojure' }
@@ -94,9 +98,9 @@ call plug#begin($XDG_CONFIG_HOME . '/nvim/plugged')
   Plug 'tomtom/tcomment_vim'
   Plug 'tpope/vim-surround'
   Plug 'vim-scripts/matchit.zip'
-  Plug 'jpalardy/vim-slime'
+  " Plug 'jpalardy/vim-slime'
   Plug 'godlygeek/tabular'
-  Plug 'tpope/vim-cucumber'
+  " Plug 'tpope/vim-cucumber'
 
   " grepping
   Plug 'rking/ag.vim'
@@ -124,7 +128,7 @@ call plug#begin($XDG_CONFIG_HOME . '/nvim/plugged')
 
   Plug 'w0rp/ale'
 
-  " Plug 'nathanaelkane/vim-indent-guides'
+  Plug 'nathanaelkane/vim-indent-guides'
   Plug 'morhetz/gruvbox'
 
   " Kapacitor syntax

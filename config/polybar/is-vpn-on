@@ -1,0 +1,9 @@
+#!/bin/bash
+
+result=$(ip tuntap show 2> /dev/null)
+
+if [[ $result = '' ]]; then
+  echo ""
+else
+  echo "VPN: ON"
+fi

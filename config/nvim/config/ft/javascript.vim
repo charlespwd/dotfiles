@@ -22,8 +22,8 @@ let g:tsuquyomi_disable_default_mappings=0
 let g:tsuquyomi_disable_quickfix=1
 let g:tsuquyomi_save_onrename=1
 let g:tsuquyomi_single_quote_import=1
-let g:nvim_typescript#type_info_on_hold=1
-let g:nvim_typescript#signature_complete=1
+let g:nvim_typescript#type_info_on_hold=0
+let g:nvim_typescript#signature_complete=0
 let g:nvim_typescript#default_mappings=0
 let g:grepper.quickfix = 0
 
@@ -34,7 +34,7 @@ function! SetTypescriptOptions()
   let b:ale_lint_on_enter = 1
   let b:ale_lint_on_save = 1
   let b:ale_lint_on_insert_leave = 0
-  set ft=typescript.jsx
+  " set ft=typescript.jsx
   map <buffer> <leader>,, :copen<cr>
   " set omnifunc=''
 
@@ -111,7 +111,7 @@ endfunction
 
 " Set js options for all js files
 " autocmd BufReadPre,FileReadPre *.es6,*.jsx set filetype=javascript
-autocmd BufReadPre,FileReadPre *.tsx set filetype=typescript.jsx
+autocmd BufReadPre,FileReadPre *.tsx set filetype=typescript
 autocmd BufReadPre,FileReadPre,BufEnter *.js.liquid set filetype=javascript.jsx.liquid
 autocmd Filetype javascript call SetJavascriptOptions()
 autocmd Filetype typescript call SetTypescriptOptions()

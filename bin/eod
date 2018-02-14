@@ -1,0 +1,19 @@
+#!/bin/env node
+
+const moment = require('moment');
+const path = require('path');
+const fs = require('fs');
+const filename = path.join(process.env.XDG_CONFIG_HOME, 'aldo-vpn.log');
+const filecontents = fs.readFileSync(filename, 'utf8');
+const today = moment().startOf('day');
+const entries = filecontents
+  .split('\n')
+  .map(entry => moment(entry))
+  .filter(entry => entry.isValid())
+  .filter(date => date.isAfter(today));
+const firstEntry = entries[0];
+const eod = firstEntry.add(8, 'h')
+if (eod.format('ddd') !== 'Fri') {
+  eod.add(50, 'm');
+}
+console.log(eod.format('hh:mm a'));

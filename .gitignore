@@ -63,3 +63,6 @@ config/rtv
 config/zoomus.conf
 config/pgadmin
 config/xfce4
+node_modules
+bin/.yarn_cache
+config/Ledger Wallet Ripple

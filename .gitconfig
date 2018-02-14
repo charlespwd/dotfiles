@@ -24,3 +24,5 @@
 	default = simple
 [hub]
 	host = github.outboxtechnology.com
+[web]
+	browser = firefox-developer-edition

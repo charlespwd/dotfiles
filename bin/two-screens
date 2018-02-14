@@ -18,7 +18,7 @@ secondary_w=1920
 secondary_h=1080
 secondary_mode="${secondary_w}x${secondary_h}"
 
-scale=1.50
+scale=1.60
 secondary_scale="${scale}x${scale}"
 
 # frame_buffer_w=$(node-calc "Math.floor($secondary_w * $scale)")

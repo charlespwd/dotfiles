@@ -10,4 +10,6 @@ function! SetProseOptions()
   catch ".*"
     " deal with it
   endtry
+
+  vmap <leader>K "ic[<c-r>i](<c-r>i)
 endfunction

@@ -112,6 +112,7 @@ map <leader>"" <Plug>ToggleTextObjQuotes
 map <leader>% :let @+=expand("%")<CR>
 map <leader>,. :lopen<cr>
 map <leader>,t :if exists('g:do_lint_js') && g:do_lint_js <bar> let g:do_lint_js=0 <bar> else <bar> let g:do_lint_js=1 <bar> endif <bar> echo g:do_lint_js<cr>
+map <leader>.. :Dispatch<cr>
 map <leader>.P :e ~/.config/polybar/config<cr>
 map <leader>.a :e ~/dotfiles/.zsh_custom/aliases.zsh<cr>Gzz
 map <leader>.c :e ~/.config/nvim/config/ft/clojure.vim<cr>
@@ -174,8 +175,9 @@ map <leader>ii <Plug>PrettyAttrs
 map <leader>il <Plug>ExpandHTML
 map <leader>jd :e ~/thoughts/debug.md<cr>
 map <leader>journal <Plug>Journal
-map <leader>mv :Gmove <c-r>%
+map <leader>mv :Rename<space>
 map <leader>nd <Plug>NextDiff
+map <leader>nf :vs <c-r>%<c-w><c-w>
 map <leader>pc :PlugClean!<cr>
 map <leader>pi :PlugInstall<cr>
 map <leader>po :PencilToggle<cr>
