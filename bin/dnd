@@ -1,0 +1,23 @@
+#!/bin/bash
+
+usage() {
+  echo "USAGE: dnd <on|off>"
+}
+
+if [[ $# -ne 1 ]]; then
+  usage
+fi
+
+case $1 in
+  on)
+    pkill dunst
+    pkill thunderbird
+    ;;
+  off)
+    dunst &> /dev/null &
+    thunderbird
+    ;;
+  *)
+    usage
+    ;;
+esac

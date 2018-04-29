@@ -38,13 +38,14 @@ set $color14 #8ec07c
 set $color15 #ebdbb2
 
 # Theme colors
-set $focused-border      #98971a
-set $bg-color 	         #282828
-set $border-color        #689d6a
-set $inactive-bg-color   #282828
-set $text-color          #ebdbb2
-set $inactive-text-color #a89984
-set $urgent-bg-color     #282828
+set $focused-border         #98971a
+set $bg-color               #282828
+set $border-color           #8ec07c
+set $inactive-bg-color      #282828
+set $inactive-border-color  #282828
+set $text-color             #ebdbb2
+set $inactive-text-color    #689d6a
+set $urgent-bg-color        #282828
 
 # monitors
 set $m1 eDP1
@@ -82,6 +83,9 @@ floating_modifier $mod
 # disable focus follows mouse
 focus_follows_mouse no
 
+# all window titles
+for_window [class=".*"] title_format "<b>  %title</b>"
+
 ##
 # RULES
 
@@ -109,16 +113,19 @@ for_window [instance="chromium.*org.chromium.Chromium"] resize set 2000 1500
 for_window [instance="chromium" window_role="pop-up"] floating enable, border normal 7
 for_window [instance="google-chrome" window_role="pop-up"] floating enable, border normal 7
 for_window [class="Firefox" window_role="pop-up"] floating enable, border normal 7
-for_window [title="bnc - Mozilla Firefox"] floating enable, border normal 7
+for_window [title="(?i).*bnc - mozilla firefox.*"] floating enable, border normal 7
+for_window [title="(?i)bnc -.*firefox.*"] floating enable, border normal 7
 
 # dev tools rules
 for_window [title="Developer Tools - .*"] floating disable, border pixel 7, move to workspace $w8, workspace $w8
+for_window [title="Redux DevTools.*"] floating disable, border pixel 7, move to workspace $w8, workspace $w8
 
 # Spotify rule
 for_window [class="Spotify"] move to workspace $w3, workspace $w3
 
 # gimp
 for_window [class="gimp.*"] move to workspace $w7, workspace $w7
+for_window [class="feh" floating] border none
 
 # Slack rule
 assign [instance="slack"] $w4
@@ -172,8 +179,7 @@ bindsym $mod+m exec $scripts/=
 bindsym $mod+c exec --no-startup-id chromium
 
 # dash
-bindsym $mod+d workspace $w5
-bindsym $mod+z exec --no-startup-id zeal; workspace $w5
+bindsym $mod+d exec --no-startup-id zeal; workspace $w5
 
 # debug mode!
 bindsym $mod+Shift+d workspace 1:1; workspace 8:8
@@ -293,16 +299,16 @@ mode "resize" {
         # Pressing right will grow the window’s width.
         # Pressing up will shrink the window’s height.
         # Pressing down will grow the window’s height.
-        bindsym j resize shrink width 40 px or 40 ppt
-        bindsym k resize grow height 40 px or 40 ppt
-        bindsym l resize shrink height 40 px or 40 ppt
-        bindsym semicolon resize grow width 40 px or 40 ppt
+        bindsym h resize shrink width 100 px or 100 ppt
+        bindsym j resize grow height 100 px or 100 ppt
+        bindsym k resize shrink height 100 px or 100 ppt
+        bindsym l resize grow width 100 px or 100 ppt
 
         # same bindings, but for the arrow keys
-        bindsym Left resize shrink width 40 px or 40 ppt
-        bindsym Down resize grow height 40 px or 40 ppt
-        bindsym Up resize shrink height 40 px or 40 ppt
-        bindsym Right resize grow width 40 px or 40 ppt
+        bindsym Left resize shrink width 10 px or 10 ppt
+        bindsym Down resize grow height 10 px or 10 ppt
+        bindsym Up resize shrink height 10 px or 10 ppt
+        bindsym Right resize grow width 10 px or 10 ppt
 
         # back to normal: Enter or Escape
         bindsym Return mode "default"
@@ -334,11 +340,11 @@ bindsym $mod+grave mode "$mode_system"
 # toggle locale
 bindsym $mod+$alt+space exec --no-startup-id $scripts/toggle-keymap
 
-# window colors          border              background          text                  indicator
-client.focused           $border-color       $border-color       $text-color           $border-color
-client.unfocused         $border-color       $inactive-bg-color  $inactive-text-color  $bg-color
-client.focused_inactive  $border-color       $inactive-bg-color  $inactive-text-color  $bg-color
-client.urgent            $urgent-bg-color    $urgent-bg-color    $text-color           $bg-color
+#.window.colors          border                  background              text                  indicator
+client.focused           $border-color           $border-color           $text-color           $border-color
+client.unfocused         $inactive-border-color  $inactive-border-color  $inactive-text-color  $bg-color
+client.focused_inactive  $inactive-border-color  $inactive-border-color  $inactive-text-color  $bg-color
+client.urgent            $urgent-bg-color        $urgent-bg-color        $text-color           $bg-color
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
@@ -379,9 +385,9 @@ exec --no-startup-id $scripts/i3-start
 exec --no-startup-id libinput-gestures-setup start
 exec --no-startup-id dunst
 # exec --no-startup-id termite
-exec --no-startup-id firefox
-# exec --no-startup-id google-chrome-stable --profile-directory="Profile 1"
-exec --no-startup-id BROWSER=/usr/bin/firefox-developer-edition slack
+# exec --no-startup-id $scripts/firefox-developer-edition
+exec --no-startup-id chromium
+exec --no-startup-id slack
 exec --no-startup-id thunderbird
 # exec --no-startup-id exec i3-msg 'workspace $w4; exec spotify; exec sleep 1; workspace $w1'
 

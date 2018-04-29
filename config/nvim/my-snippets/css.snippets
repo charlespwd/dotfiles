@@ -1,0 +1,42 @@
+snippet resp
+@include respond-to('${1}') {
+	${2}
+}
+endsnippet
+
+snippet flex-container
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+align-content: center;
+flex-wrap: nowrap;
+endsnippet
+
+snippet flex-child
+order: 1;
+flex-grow: 1;
+flex-shrink: 1;
+flex-basis: auto;
+align-self: auto;
+endsnippet
+
+snippet underline
+text-decoration: underline;
+endsnippet
+
+snippet italic
+font-style: italic;
+endsnippet
+
+snippet media-max
+@media (max-width: $${1:screen-sm}) {
+	$2
+}
+endsnippet
+
+snippet media-min
+@media (min-width: $${1:screen-sm}) {
+	$2
+}
+endsnippet

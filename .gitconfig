@@ -22,7 +22,7 @@
 	smudge = git-media-smudge %f
 [push]
 	default = simple
-[hub]
-	host = github.outboxtechnology.com
 [web]
 	browser = firefox-developer-edition
+[browser "firefox-developer-edition"]
+	cmd = /usr/bin/firefox-developer-edition

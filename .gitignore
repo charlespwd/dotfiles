@@ -66,3 +66,16 @@ config/xfce4
 node_modules
 bin/.yarn_cache
 config/Ledger Wallet Ripple
+config/Delta
+config/Postman
+config/aldo-vpn.log
+config/evince
+config/kst
+bin/wod
+bin/start-aldo
+bin/start-aldo-iso
+bin/start-all
+config/nvim/autoload/gocomplete.vim
+config/nvim/ftplugin/go
+config/nvim/swap
+config/wod

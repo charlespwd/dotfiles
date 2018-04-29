@@ -8,8 +8,8 @@ let g:vimwiki_folding = 'syntax'
 call plug#begin($XDG_CONFIG_HOME . '/nvim/plugged')
   " html stuff
   Plug 'cakebaker/scss-syntax.vim', { 'for': 'scss' }
-  Plug 'hail2u/vim-css3-syntax', { 'for': 'css' }
-  Plug 'mattn/emmet-vim', { 'for': ['html','htmldjango','css','eruby','scss','sass'] }
+  Plug 'hail2u/vim-css3-syntax'
+  Plug 'mattn/emmet-vim'
   Plug 'othree/html5.vim', { 'for': 'html' }
   Plug 'tpope/vim-liquid'
   Plug 'AndrewRadev/splitjoin.vim'
@@ -52,16 +52,19 @@ call plug#begin($XDG_CONFIG_HOME . '/nvim/plugged')
   Plug 'fatih/vim-go'
 
   " Javascript & typescript
-  Plug 'moll/vim-node', { 'for': 'javascript' }
+  Plug 'charlespwd/vim-node'
   Plug 'heavenshell/vim-jsdoc', { 'for': ['javascript', 'typescript'] }
+  Plug 'flowtype/vim-flow', { 'for': ['javascript'] }
 
   " Javascript syntax
   " Plug 'neoclide/vim-jsx-improve', { 'for': ['javascript'] }
   Plug 'pangloss/vim-javascript', { 'for': ['javascript'] }
+  Plug 'mxw/vim-jsx', { 'for': ['javascript'] }
+  Plug 'flowtype/vim-flow', { 'for': ['javascript'] }
 
   " typescript syntax
   Plug 'leafgarland/typescript-vim', { 'for': ['typescript'] }
-  Plug 'MaxMEllon/vim-jsx-pretty', { 'for': ['typescript', 'javascript'] }
+  Plug 'MaxMEllon/vim-jsx-pretty', { 'for': ['typescript'] }
 
   Plug 'mhartington/nvim-typescript'
   Plug 'Shougo/vimproc.vim'
@@ -82,7 +85,7 @@ call plug#begin($XDG_CONFIG_HOME . '/nvim/plugged')
   Plug 'vim-scripts/paredit.vim', { 'for': ['clojure'] }
 
   " for clojurescript doc I needed this and the cider nrepl plugin
-  Plug 'tpope/vim-salve'
+  Plug 'tpope/vim-salve', { 'for': ['clojure'] }
 
   " async jobs with vim, also used by clojure, otherwise use neomake
   Plug 'tpope/vim-dispatch', { 'for': ['clojure', 'go', 'javascript', 'typescript'] }
@@ -92,7 +95,6 @@ call plug#begin($XDG_CONFIG_HOME . '/nvim/plugged')
   Plug 'tpope/vim-repeat'
   Plug 'tpope/vim-unimpaired'
   Plug 'christoomey/vim-sort-motion'
-  Plug 'Raimondi/delimitMate'
   Plug 'kana/vim-textobj-user'
   Plug 'tommcdo/vim-exchange'
   Plug 'tomtom/tcomment_vim'
@@ -102,8 +104,12 @@ call plug#begin($XDG_CONFIG_HOME . '/nvim/plugged')
   Plug 'godlygeek/tabular'
   " Plug 'tpope/vim-cucumber'
 
+  "" Autoclosing parens
+  " Plug 'Raimondi/delimitMate'
+  Plug 'jiangmiao/auto-pairs'
+
   " grepping
-  Plug 'rking/ag.vim'
+  " Plug 'rking/ag.vim'
   Plug 'mhinz/vim-grepper'
 
   " requires python (and python-editorconfig on arch)

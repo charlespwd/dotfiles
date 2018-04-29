@@ -8,6 +8,7 @@ export PATH=${PATH}:/usr/local/bin
 
 # local bin
 export PATH=${PATH}:bin
+export BIN=$HOME/bin
 
 # yarn / nvm
 export PATH=${PATH}:$(yarn global bin)
@@ -48,7 +49,7 @@ fi
   || echo "'autoenv' not installed"
 
 # default browser
-export BROWSER="$HOME/bin/firefox-developer-edition"
+export BROWSER="chromium"
 
 # rbenv
 export PATH="$HOME/.rbenv/shims:${PATH}"

@@ -119,7 +119,7 @@ let g:netrw_list_hide='.*\.swp$' " hide files via regex
 let g:netrw_chgwin=1 " open netrw on different window
 
 " open url in browser
-let g:netrw_browsex_viewer = "open"
+let g:netrw_browsex_viewer = "/usr/bin/chromium"
 
 " enable airline powerline fonts
 " let g:onedark_termcolors = 16
@@ -173,14 +173,16 @@ let g:UltiSnipsSnippetDirectories=["UltiSnips", "my-snippets"]
 
 " Linting
 " ale
-let g:ale_sign_error = '✗'
-let g:ale_sign_warning = '⚠'
 " let g:ale_javascript_eslint_executable = 'eslint_d'
 " let g:ale_javascript_eslint_use_global = 1
-let g:ale_lint_on_text_changed = 'never'
+let g:ale_javascript_eslint_suppress_missing_config = 1
+let g:ale_lint_on_enter = 0
 let g:ale_lint_on_insert_leave = 0
+let g:ale_lint_on_text_changed = 'never'
 let g:ale_linters = {'javascript': ['eslint'], 'typescript': ['tslint', 'tsserver']}
-let g:ale_set_quickfix = 1
+let g:ale_set_quickfix = 0
+let g:ale_sign_error = '✗'
+let g:ale_sign_warning = '⚠'
 
 " neomake
 let g:neomake_highlight_columns=0
@@ -195,7 +197,7 @@ let g:neomake_error_sign = {
   \ }
 
 " NERDTree config
-let NERDTreeIgnore = ['\.pyc$', 'lib', 'node_modules', 'influx-data']
+let NERDTreeIgnore = ['\.pyc$', 'lib/', 'node_modules/', 'influx-data']
 let NERDTreeCaseSensitiveSort = 1
 let NERDTreeMinimalUI = 1
 let NERDTreeAutoDeleteBuffer = 1
@@ -216,6 +218,9 @@ let g:jsx_ext_required = 0
 " vim-javascript
 let g:javascript_plugin_jsdoc = 1
 
+" vim-node
+let g:vim_node#node_path = [$HOME.'/ws/aldo/shoebox/packages']
+
 " tsuquyomi (typescript)
 let g:tsuquyomi_disable_quickfix=1
 
@@ -231,7 +236,7 @@ vmap <c-d><c-d> JV<Plug>SlimeRegionSendu
 " nmap <c-d><c-d> V<Plug>SlimeRegionSend
 
 " delimitMate
-let g:delimitMate_expand_cr = 1
+let g:delimitMate_expand_cr = 0
 let g:delimitMate_expand_space = 1
 
 " paredit
@@ -242,6 +247,3 @@ let g:paredit_leader = "<Leader><Leader>"
 let g:grepper = {}
 let g:grepper.quickfix = 1
 let g:grepper.tools = ['rg', 'ag', 'grep']
-
-" work stuff
-let g:github_enterprise_urls = ['https://github.outboxtechnology.com']

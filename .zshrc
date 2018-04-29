@@ -128,10 +128,13 @@ gpn(){
 	git push --set-upstream origin "$(git rev-parse --abbrev-ref HEAD)" $@
 }
 
-alias gpr="BROWSER=/usr/bin/firefox-developer-edition pull-request"
+alias gpr="pull-request"
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
 
 export NVM_DIR="/home/charles/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+export CONFIG="$XDG_CONFIG_HOME"

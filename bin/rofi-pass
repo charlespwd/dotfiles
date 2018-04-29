@@ -13,7 +13,7 @@ fi
 
 set +e
 
-menu="rofi -dmenu -i -matching fuzzy -levenshtein-sort -p lpass:"
+menu="rofi -dmenu -i -matching fuzzy -levenshtein-sort -p lpass"
 passinfo=$(lpass ls --format '%an - %au - %ai' | $menu)
 passid=$(echo "$passinfo" | awk -F' - ' '{ print $3 }')
 echo -n $(lpass show -p $passid) | xclip -i -selection clipboard

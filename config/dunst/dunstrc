@@ -1,6 +1,7 @@
 [global]
     # font = xft:Ubuntu:bold:size=8
-    font = DejaVu Sans 10
+    # font = DejaVu Sans 10
+    font = LiterationMonoPowerline Nerd Font 10
 
     # allow a small subset of html markup:
     # <b>bold</b>
@@ -10,7 +11,7 @@
     #
     # for a complete reference see http://developer.gnome.org/pango/stable/PangoMarkupFormat.html
     # If markup is not allowed, those tags will be stripped out of the message.
-    allow_markup = yes
+    markup = yes
 
     # The format of the message. Possible variables are:
     #   %a  appname
@@ -22,7 +23,8 @@
     # format = "☼ %a ☼\n\n%s\n%b"
     format = "<b>%s</b>\n\n%b"
 
-	  icon_position = right
+	  icon_position = left
+    max_icon_size = 32
 
     # Sort messages by urgency
     sort = yes
@@ -126,9 +128,8 @@
     # browser for opening urls in context menu
     browser = /usr/bin/chromium -new-tab
 
-[frame]
-    width = 1
-    color = "#373b41"
+    frame_width = 20
+    frame_color = "#32302f"
 
 [shortcuts]
     # shortcuts are specified as [modifier+][modifier+]...key
@@ -152,18 +153,23 @@
 [urgency_low]
     # IMPORTANT: colors have to be defined in quotation marks.
     # Otherwise the '#' and following  would be interpreted as a comment.
-    background = "#1d1f21"
-    foreground = "#707880"
+    background = "#282828"
+    foreground = "#ebdbb2"
     timeout = 5
+    icon = ""
 
 [urgency_normal]
-    background = "#1d1f21"
-    foreground = "#ffffff"
+    background = "#282828"
+    foreground = "#ebdbb2"
+    frame_color = "#689d6a"
+    icon = ""
     timeout = 5
 
 [urgency_critical]
-    background = "#900000"
-    foreground = "#cc6666"
+    background = "#282828"
+    foreground = "#ebdbb2"
+    frame_color = "#900000"
+    icon = "/usr/share/icons/Arc/status/128@2x/dialog-warning.png"
     timeout = 0
 
 

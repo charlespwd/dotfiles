@@ -1,5 +1,8 @@
 {
   "dependencies": {
-    "moment": "^2.20.1"
+    "commander": "^2.14.1",
+    "inquirer": "^5.2.0",
+    "moment": "^2.21.0",
+    "ramda": "^0.25.0"
   }
 }

@@ -955,3 +955,19 @@ endsnippet
 snippet cll
 ${2:console.log}('${1:foo}', $1);
 endsnippet
+
+snippet commander
+const program = require('commander');
+
+program
+	.version('0.1.0')
+	.option('-p, --peppers', 'Add peppers')
+	.parse(process.argv);
+
+function main() {
+	if (program.peppers) console.log('	- peppers');
+	console.log('	- %s cheese', program.cheese);
+}
+
+main();
+endsnippet

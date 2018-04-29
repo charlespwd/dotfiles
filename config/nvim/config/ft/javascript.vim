@@ -25,12 +25,9 @@ let g:tsuquyomi_single_quote_import=1
 let g:nvim_typescript#type_info_on_hold=0
 let g:nvim_typescript#signature_complete=0
 let g:nvim_typescript#default_mappings=0
-let g:grepper.quickfix = 0
 
 function! SetTypescriptOptions()
   call SetJavascriptOptions()
-  let b:grepper = {}
-  let b:grepper.quickfix = 0
   let b:ale_lint_on_enter = 1
   let b:ale_lint_on_save = 1
   let b:ale_lint_on_insert_leave = 0

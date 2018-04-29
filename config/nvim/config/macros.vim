@@ -55,10 +55,16 @@ map <Plug>ExpandHTML <Plug>SurroundTagsWithEnter()<Plug>IndentInTagAndRemoveBoun
 map <Plug>PrettyAttrs :s/[a-z\-0-9]\{-}="[^"]\{-}"/\r&/g<cr>=a>Jvi>:s/\v $//g<cr>
 map <Plug>MostRecentBuffer :e #<cr>
 map <Plug>NextDiff :Gstatus<cr>/not staged<cr>/modified<cr>WD:pclose<cr>
-map <Plug>QfreplaceFromRegisterK :ldo s#<c-r>k##ge<bar>w<left><left><left><left><left>
+map <Plug>QfreplaceFromRegisterK :cdo s#<c-r>k##ge<bar>w<left><left><left><left><left>
 map <Plug>ToggleTextObjQuotes :ToggleEducate<cr>
 map <SID>SearchFromRegisterK :GrepperAg "<c-r>k"<cr>
 map <SID>SearchFromRegisterKWithBounds :GrepperAg "\b<c-r>k\b"<cr>
+
+" Scratchpads
+map <Plug>GetTmpFile() :let @t=system('mktemp /tmp/XXXXX.js')<cr>
+map <Plug>EditTmpFile() <Plug>GetTmpFile():e <c-r>t<cr>
+map <Plug>SplitTmpFile() <Plug>GetTmpFile():sp <c-r>t<cr>
+map <Plug>VSplitTmpFile() <Plug>GetTmpFile():vs <c-r>t<cr>
 
 " `:SS some/text` will search for `some/text` in the file (escapes all special characters)
 command! -nargs=1 SS let @/ = '\V'.escape(<q-args>, '/\')|normal! /<C-R>/<CR>
@@ -73,7 +79,7 @@ function! ChangePaste(type, ...)
     silent exe "normal! p"
 endfunction
 
-" Search for selected text, forwards or backwards.
+" Search for slected text, forwards or backwards.
 vnoremap <silent> * :<C-U>
   \let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
   \gvy/<C-R><C-R>=substitute(
@@ -177,7 +183,7 @@ map <leader>jd :e ~/thoughts/debug.md<cr>
 map <leader>journal <Plug>Journal
 map <leader>mv :Rename<space>
 map <leader>nd <Plug>NextDiff
-map <leader>nf :vs <c-r>%<c-w><c-w>
+map <leader>nf :NERDTreeFind<cr>
 map <leader>pc :PlugClean!<cr>
 map <leader>pi :PlugInstall<cr>
 map <leader>po :PencilToggle<cr>
@@ -204,6 +210,10 @@ map <leader>sv :source ~/.vimrc<cr>
 map <leader>sw :set tw=1000<cr>
 map <leader>t- i- [ ]<space>
 map <leader>t/ :Tabularize<space>/
+map <leader>te <Plug>EditTmpFile()
+map <leader>tsp <Plug>SplitTmpFile()
+map <leader>tvs <Plug>VSplitEditTmpFile()
+map <leader>vs :vs <c-r>%<c-w><c-w>
 map <leader>wq :w<bar>bd<cr>
 map <leader>ws :StripWhitespace<cr>
 map <silent> <leader>Q :bn<bar>bd #<cr>
@@ -222,6 +232,7 @@ vmap <leader>s "ky:%s/\v(<<C-R>k>)/
 vmap <leader>ss "ky<sid>SearchFromRegisterK()<Plug>QfreplaceFromRegisterK
 vmap <leader>sw "ky<sid>SearchFromRegisterKWithBounds()<Plug>QfreplaceFromRegisterK
 vmap <leader>vy <Plug>SendToTmux
+
 
 " arch keymap specific stuff...
 vmap <a-c> "+y

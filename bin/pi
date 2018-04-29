@@ -4,13 +4,15 @@ pi="${2-raspi}.local"
 
 case "$1" in
   mount)
-    echo "Mounting $pi on ~/ws/pi"
-    sshfs $pi: ~/ws/pi
+    dest="$HOME/ws/pi"
+    echo "Mounting $pi on $dest"
+    mkdir -p $dest
+    sshfs $pi: $dest
     ;;
 
   unmount)
     echo "Unmounting $pi from ~/ws/pi"
-    umount ~/ws/pi
+    sudo umount ~/ws/pi
     ;;
 
   connect)
@@ -37,7 +39,7 @@ case "$1" in
     ;;
 
   *)
-   echo "Usage: pi {connect|desktop|shutdown|reboot} [hostname]"
+   echo "Usage: pi {connect|desktop|shutdown|reboot|mount|unmount} [hostname]"
    exit 1
    ;;
 esac

@@ -1,6 +1,6 @@
 [options]
 clickable_url = true
-browser = /usr/bin/firefox-developer-edition
+browser = /usr/bin/chromium
 font = LiterationMonoPowerline Nerd Font 12
 
 [colors]

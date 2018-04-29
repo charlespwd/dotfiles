@@ -1,5 +1,6 @@
 #!/bin/env node
 
+const program = require('commander');
 const moment = require('moment');
 const path = require('path');
 const fs = require('fs');
@@ -13,7 +14,12 @@ const entries = filecontents
   .filter(date => date.isAfter(today));
 const firstEntry = entries[0];
 const eod = firstEntry.add(8, 'h')
-if (eod.format('ddd') !== 'Fri') {
-  eod.add(50, 'm');
-}
+
+program
+  .version('1.0.0')
+  .option('-r, --remote', 'Working remotely')
+  .parse(process.argv);
+
+if (!program.remote) eod.add(50, 'm');
+
 console.log(eod.format('hh:mm a'));

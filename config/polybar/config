@@ -25,34 +25,34 @@ blue-dark= #458588
 width = 100%
 height = 60
 ;offset-x = 1%
-;offset-y = 1%
+; offset-y = 50%
 ; radius = 6.0
 fixed-center = false
 
 background = ${colors.background}
 foreground = ${colors.foreground}
 
-line-size = 3
+line-size = 1
 line-color = #f00
 
 ; border-size = 4
 ; border-color = #00000000
 
 padding-left = 0
-padding-right = 0
+padding-right = 3
 
 module-margin-left = 2
 module-margin-right = 2
 
-font-0 = SFNS Display:style=Regular:pixelsize=24;1
+font-0 = SFNS Display:style=Regular:pixelsize=22;4
 ; font-0 = xft:DejaVuSansMonoForPowerline Nerd Font:style=Book:size=14:pixelsize=18;1
-font-1 = unifont:fontformat=truetype:size=22:antialias=false;0
-font-2 = FontAwesome:pixelsize=24;1
+font-1 = unifont:fontformat=truetype:size=20:antialias=false;0
+font-2 = FontAwesome:pixelsize=23;4
 
 modules-left = i3
 modules-center =
 ; modules-right = filesystem xbacklight volume xkeyboard memory cpu wifi eth battery temperature date powermenu
-modules-right = vpn ip memory root home volume xkeyboard wifi battery date powermenu
+modules-right = vpn ip memory root home volume xkeyboard wifi battery date
 
 tray-position = right
 tray-padding = 0
@@ -86,12 +86,12 @@ blacklist-0 = num lock
 ; format-prefix-underline = ${colors.secondary}
 
 label-layout = %layout%
-label-layout-underline = ${colors.secondary}
+; label-layout-underline = ${colors.secondary}
 
 label-indicator-padding = 2
 label-indicator-margin = 1
 label-indicator-background = ${colors.secondary}
-label-indicator-underline = ${colors.secondary}
+; label-indicator-underline = ${colors.secondary}
 
 [module/vpn]
 type = custom/script
@@ -101,7 +101,7 @@ interval = 5
 ; format-prefix = 
 format-prefix-foreground = ${colors.foreground-dim}
 format-prefix-padding-right = 2
-format-underline = #458588
+; format-underline = #458588
 format-padding = 1
 
 [module/save-count-pr]
@@ -112,7 +112,7 @@ interval = 60
 format-prefix = 
 format-prefix-foreground = ${colors.foreground-dim}
 format-prefix-padding-right = 2
-format-underline = #458588
+; format-underline = #458588
 format-padding = 1
 
 [module/save-count]
@@ -123,7 +123,7 @@ interval = 60
 format-prefix = 
 format-prefix-foreground = ${colors.foreground-dim}
 format-prefix-padding-right = 2
-format-underline = ${colors.secondary}
+; format-underline = ${colors.secondary}
 format-padding = 1
 
 [module/home]
@@ -134,7 +134,7 @@ mount-0 = /home
 format-mounted-prefix = 
 format-mounted-prefix-foreground = ${colors.foreground-dim}
 format-mounted-prefix-padding-right = 1
-format-mounted-underline = #8ec07c
+; format-mounted-underline = #8ec07c
 format-mounted-padding = 1
 
 label-mounted = %free%
@@ -149,7 +149,7 @@ mount-0 = /
 format-mounted-prefix = 
 format-mounted-prefix-foreground = ${colors.foreground-dim}
 format-mounted-prefix-padding-right = 1
-format-mounted-underline = #fe8019
+; format-mounted-underline = #fe8019
 format-mounted-padding = 1
 
 label-mounted = %free%
@@ -190,34 +190,34 @@ label-mode-foreground = #000
 label-mode-background = ${colors.primary}
 
 ; focused = Active workspace on focused monitor
-label-focused = %icon%%index%
+label-focused = %icon% %index%
 label-focused-background = ${module/bspwm.label-focused-background}
-label-focused-underline = ${module/bspwm.label-focused-underline}
+; label-focused-underline = ${module/bspwm.label-focused-underline}
 label-focused-padding = ${module/bspwm.label-focused-padding}
 
 ; unfocused = Inactive workspace on any monitor
-label-unfocused = %icon%%index%
+label-unfocused = %icon% %index%
 label-unfocused-padding = ${module/bspwm.label-occupied-padding}
 
 ; visible = Active workspace on unfocused monitor
-label-visible = %icon%%index%
+label-visible = %icon% %index%
 label-visible-background = ${self.label-focused-background}
-label-visible-underline = ${self.label-focused-underline}
+; label-visible-underline = ${self.label-focused-underline}
 label-visible-padding = ${self.label-focused-padding}
 
 ; urgent = Workspace with urgency hint set
-label-urgent = %icon%%index%
+label-urgent = %icon% %index%
 label-urgent-background = ${module/bspwm.label-urgent-background}
 label-urgent-padding = ${module/bspwm.label-urgent-padding}
 label-urgent-foreground = ${colors.background}
 
-ws-icon-0 = "1:1;  "
-ws-icon-1 = "2:2;  "
-ws-icon-2 = "3:3;  "
-ws-icon-3 = "4:4;  "
-ws-icon-4 = "5:5;  "
-ws-icon-5 = "6:6;  "
-ws-icon-6 = "7:7;  "
+ws-icon-0 = "1:1; "
+ws-icon-1 = "2:2; "
+ws-icon-2 = "3:3; "
+ws-icon-3 = "4:4; "
+ws-icon-4 = "5:5; "
+ws-icon-5 = "6:6; "
+ws-icon-6 = "7:7; "
 ws-icon-7 = "8:8; "
 ws-icon-8 = "9:9; "
 ws-icon-9 = "10:10; "
@@ -262,7 +262,7 @@ type = internal/cpu
 interval = 2
 format-prefix = " "
 format-prefix-foreground = ${colors.foreground-alt}
-format-underline = #f90000
+; format-underline = #f90000
 label = %percentage%%
 
 [module/memory]
@@ -270,7 +270,7 @@ type = internal/memory
 interval = 3
 format-prefix = " "
 ; format-prefix-foreground = ${colors.foreground-alt}
-format-underline = #d79921
+; format-underline = #d79921
 label = %gb_used%
 
 [module/wifi]
@@ -279,12 +279,12 @@ interface = ${env:WIFI_INTERFACE:wlp4s0}
 interval = 3.0
 
 format-connected = <ramp-signal> <label-connected>
-format-connected-underline = #689d6a
+; format-connected-underline = #689d6a
 label-connected = %essid%
 
 ; format-disconnected =
 format-disconnected = <label-disconnected>
-format-disconnected-underline = ${self.format-connected-underline}
+; format-disconnected-underline = ${self.format-connected-underline}
 ; label-disconnected = %ifname% disconnected
 ;label-disconnected-foreground = ${colors.foreground-alt}
 
@@ -300,7 +300,7 @@ type = internal/network
 interface = ${env:WIFI_INTERFACE:wlp4s0}
 interval = 3.0
 
-format-connected-underline = #55aa55
+; format-connected-underline = #55aa55
 ; format-connected-prefix = " "
 format-connected-prefix-foreground = ${colors.foreground-alt}
 label-connected = %local_ip%
@@ -321,9 +321,9 @@ date-alt = " %Y-%m-%d"
 time = %H:%M
 time-alt = %H:%M
 
-; format-prefix = 
+; format-prefix =
 ; format-prefix-foreground = ${colors.foreground-alt}
-format-underline = #076678
+; format-underline = #076678
 
 label = %date%  %time%
 
@@ -373,21 +373,21 @@ time-format = %H:%M
 ;   <ramp-capacity>
 ;   <animation-charging>
 format-charging = <animation-charging> <label-charging>
-format-charging-underline = ${colors.alert}
+; format-charging-underline = ${colors.alert}
 
 ; Available tags:
 ;   <label-discharging> (default)
 ;   <bar-capacity>
 ;   <ramp-capacity>
 format-discharging = <ramp-capacity> <label-discharging>
-format-discharging-underline = ${colors.alert}
+; format-discharging-underline = ${colors.alert}
 
 ; Available tags:
 ;   <label-full> (default)
 ;   <bar-capacity>
 ;   <ramp-capacity>
 format-full = <ramp-capacity> <label-full>
-format-full-underline = ${colors.alert}
+; format-full-underline = ${colors.alert}
 
 ; Available tokens:
 ;   %percentage% (default)
@@ -429,9 +429,9 @@ thermal-zone = 0
 warn-temperature = 60
 
 format = <ramp> <label>
-format-underline = ${colors.secondary}
+; format-underline = ${colors.secondary}
 format-warn = <ramp> <label-warn>
-format-warn-underline = ${self.format-underline}
+; format-warn-underline = ${self.format-underline}
 
 label = %temperature%
 label-warn = %temperature%
@@ -458,8 +458,8 @@ label-close-foreground = ${colors.secondary}
 ; label-close-margin-right = 2
 label-separator = |
 label-separator-foreground = ${colors.foreground-alt}
-label-separator-padding-left = 2
-label-separator-padding-right = 2
+label-separator-padding-left = 1
+label-separator-padding-right = 1
 
 menu-0-0 = reboot
 menu-0-0-exec = menu-open-1
@@ -484,7 +484,7 @@ screenchange-reload = true
 ;compositing-border = over
 
 [global/wm]
-margin-top = 5
-margin-bottom = 5
+; margin-top = 5
+; margin-bottom = 5
 
 ; vim:ft=dosini

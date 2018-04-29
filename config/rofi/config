@@ -29,6 +29,8 @@
 !#define S_color7  #a89984
 !#define S_color15 #ebdbb2
 
+!rofi.theme: ~/.config/rofi/theme.rasi
+
 ! "Enabled modi" Set from: Default
 rofi.modi:                           run,window
 
@@ -140,7 +142,7 @@ rofi.combi-modi:                     window,run
 ! rofi.line-margin:                    2
 
 ! "Pre-set filter" Set from: Default
-! rofi.filter:                         
+! rofi.filter:
 
 ! "Separator style (none, dash, solid)" Set from: Default
 rofi.separator-style:                none
@@ -355,4 +357,3 @@ rofi.display-window:
 ! rofi.display-windowcd:
 
 ! "The display name of this browser" Set from: Default
-rofi.display-combi: $
