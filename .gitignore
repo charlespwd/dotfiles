@@ -79,3 +79,7 @@ config/nvim/autoload/gocomplete.vim
 config/nvim/ftplugin/go
 config/nvim/swap
 config/wod
+config/Franz
+config/vocal
+config/aurman
+config/hub
