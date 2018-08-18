@@ -1,0 +1,14 @@
+#!/bin/bash
+
+if [[ $# -ne 1 ]]; then
+  /usr/bin/task $@
+  exit $?
+fi
+
+if [[ "delete" == $1 ]]; then
+  $BIN/task-delete
+elif [[ "done" == $1 ]]; then
+  $BIN/task-done
+else
+  /usr/bin/task $@
+fi

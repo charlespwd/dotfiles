@@ -1,0 +1,15 @@
+#!/bin/bash
+
+case "$1" in
+  "on")
+    sudo systemctl start bluetooth.service
+    ;;
+
+  "off")
+    sudo systemctl stop bluetooth.service
+    ;;
+
+  *)
+    exit 1
+    ;;
+esac

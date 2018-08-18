@@ -1,0 +1,5 @@
+#!/bin/bash
+
+date=$(date +'%B %d, %Y')
+to='kvallipuram@aldogroup.com'
+mailx -A gmail -s "Summary - $date" $to

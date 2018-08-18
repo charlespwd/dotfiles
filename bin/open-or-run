@@ -1,0 +1,9 @@
+#!/bin/bash
+
+if [[ $1 =~ \.sh$ ]]; then
+  $1
+elif [[ $1 =~ \.md$ ]]; then
+  nvim $1
+else
+  xdg-open $1
+fi

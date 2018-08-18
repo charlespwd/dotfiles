@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# https://github.com/chubin/cheat.sh
+
+if [ $# -eq 0 ]; then
+    echo "usage: cht <command>"
+    echo "e.g: cht js/map"
+    exit 1
+fi
+
+curl cht.sh/$1

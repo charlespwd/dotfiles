@@ -1,0 +1,3 @@
+#!/bin/bash
+tmux new-session -d -s build
+tmux attach-session -t aldo || tmux new-session -s aldo

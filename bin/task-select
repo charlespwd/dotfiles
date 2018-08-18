@@ -1,0 +1,14 @@
+#!/bin/bash
+format='(.id | tostring ) + ";" + .description'
+not_deleted='select(.status != "deleted")'
+not_completed='select(.status != "completed")'
+filter=".[] | $not_deleted | $not_completed | $format"
+task export \
+  | jq "$filter" \
+  | sed -e 's/^"//' -e 's/"$//' \
+  | column -t -s';' \
+  | fzf --multi --tac \
+  | cut -d' ' -f1 \
+  | tr '\n' ' '
+
+echo ''

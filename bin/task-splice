@@ -1,0 +1,5 @@
+#!/bin/bash
+cmd=$1
+id=$2
+shift 2
+/usr/bin/task $id $cmd $@

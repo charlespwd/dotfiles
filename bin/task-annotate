@@ -1,0 +1,2 @@
+#!/bin/bash
+$BIN/task-splice modify $@

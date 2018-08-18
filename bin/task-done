@@ -1,0 +1,4 @@
+#!/bin/bash
+
+taskids=$($BIN/task-select)
+/usr/bin/task done $taskids
