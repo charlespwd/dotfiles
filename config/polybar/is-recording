@@ -1,0 +1,9 @@
+#!/bin/bash
+
+if [[ -e /tmp/screengrab/processing ]]; then
+  echo "Processing..."
+elif [[ -e /tmp/screengrab/ctl ]]; then
+  echo "Recording"
+else
+  echo ""
+fi
