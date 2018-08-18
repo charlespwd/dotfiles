@@ -66,10 +66,6 @@ snippet cc "Components"
 /* Components */
 endsnippet
 
-snippet impi "intlMessage"
-import { getIntlMessage } from '../../intl/stores/IntlStore';
-endsnippet
-
 snippet imps "Store"
 import ${1:Store} from '../../${2:common}/stores/${3:$1}';
 endsnippet
@@ -88,6 +84,14 @@ endsnippet
 
 snippet impc "Component"
 import ${1:Component} from '../../${2:common}/components/${3:$1}';
+endsnippet
+
+snippet impr "React"
+import React$1 from 'react';
+endsnippet
+
+snippet impR "Ramda"
+import R from 'ramda';
 endsnippet
 
 snippet reaction
@@ -336,8 +340,9 @@ snippet remodule
  */
 endsnippet
 
-snippet reslcomponent
-import React, { PropTypes } from 'react';
+snippet recomponentsl
+import React from 'react';
+import PropTypes from 'prop-types';
 
 const ${1:Class} = (props) => {
 	return (
@@ -385,27 +390,10 @@ export default class ${1:Class} extends Component {
 endsnippet
 
 snippet recomponentcontainer
-import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import $1 from '$2';
 
-function select(state) {
-	return {
-		state
-	};
-}
-
-@connect(select)
-class ${1:Class} extends Component {
-	static propTypes = {}
-
-	render() {
-		return (
-			${2}
-		);
-	}
-}
-
-export default $1;
+export default connect(storeSelector)($1);
 endsnippet
 
 snippet component

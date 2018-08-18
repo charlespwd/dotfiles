@@ -14,11 +14,19 @@ source ~/.vim/config/ft/javascript.vim
 " Others
 autocmd FileType ruby,tex,clojure,md,html,javascript,css,scss,vim,unix,typescript autocmd BufWritePre <buffer> StripWhitespace
 autocmd BufReadPre,FileReadPre help set relativenumber
+autocmd FileType json let b:ale_lint_on_enter = 1
 
 autocmd Filetype liquid set filetype=liquid.html
 
 " wrap in quickfix
 autocmd FileType qf setlocal wrap
+
+" remap <c-i> to copy the import statement
+autocmd FileType qf nnoremap <buffer> <C-i> /import<cr>y$<c-k>
+
+" remap ctrl+v in quickfix to vertical split
+autocmd FileType qf nnoremap <buffer> <C-v> <C-w><cr><C-w>L
+
 " autocmd BufNewFile,BufRead *.raml setlocal filetype=yaml
 " autocmd Filetype mail setlocal ft=markdown.mail
 

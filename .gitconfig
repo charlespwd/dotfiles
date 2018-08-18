@@ -7,6 +7,7 @@
 	up = !git fetch && git rebase --autostash FETCH_HEAD
 [core]
 	editor = nvim
+	excludesfile = /home/charles/.gitignore
 [diff]
 	tool = vimdiff
 [difftool]

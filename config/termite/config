@@ -2,6 +2,7 @@
 clickable_url = true
 browser = /usr/bin/chromium
 font = LiterationMonoPowerline Nerd Font 12
+allow_bold = false
 
 [colors]
 # hard contrast: background = #1d2021

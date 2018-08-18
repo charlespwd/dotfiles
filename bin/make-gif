@@ -2,5 +2,6 @@
 
 in=$1
 out=$2
+framerate=${3:-10}
 
-convert -set delay 10 -layers Optimize $in $out
+convert -set delay $framerate -layers Optimize $in $out

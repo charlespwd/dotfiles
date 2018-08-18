@@ -5,7 +5,7 @@ export PATH="/Users/charlespclermont/npm/bin:/usr/local/heroku/bin:$PATH"
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
 
-source ~/dotfiles/arch.sh
+source /home/charles/dotfiles/arch.sh
 
 ### Load bash_profile
 source "$HOME/.bash_profile";

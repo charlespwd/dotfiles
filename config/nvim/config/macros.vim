@@ -100,6 +100,7 @@ call SetupCommandAlias('NSH', 'NeomakeSh')
 call SetupCommandAlias('ZON', 'ZenModeOn')
 call SetupCommandAlias('ZOFF', 'ZenModeOff')
 call SetupCommandAlias('eod', 'e ~/summary.md')
+call SetupCommandAlias('eods', 'w !send-summary')
 call SetupCommandAlias('wf', 'w !sudo tee %')
 
 " MACROS
@@ -115,7 +116,8 @@ imap <c-e>5 <esc>:let @d=system('date -v+5d +"%B %d, %Y"')<cr>"dpkJA
 imap <c-e>6 <esc>:let @d=system('date -v+6d +"%B %d, %Y"')<cr>"dpkJA
 imap <c-e>7 <esc>:let @d=system('date -v+7d +"%B %d, %Y"')<cr>"dpkJA
 map <leader>"" <Plug>ToggleTextObjQuotes
-map <leader>% :let @+=expand("%")<CR>
+map <leader>% :let @+=expand('%')<CR>
+map <leader># :let @+=system('sed -e "s#^[^/]*/##" -e "s#\(/index\)*.js\$##"', expand('%'))<CR>
 map <leader>,. :lopen<cr>
 map <leader>,t :if exists('g:do_lint_js') && g:do_lint_js <bar> let g:do_lint_js=0 <bar> else <bar> let g:do_lint_js=1 <bar> endif <bar> echo g:do_lint_js<cr>
 map <leader>.. :Dispatch<cr>
@@ -220,7 +222,6 @@ map <silent> <leader>Q :bn<bar>bd #<cr>
 map <silent> <leader>q :bdelete<cr>
 map <silent> <leader>x :ccl<cr>:lcl<cr>
 map \\ <Plug>MostRecentBuffer
-nmap <leader>## 70i#<esc>o<esc>
 nmap <leader>a/ 16a/<esc><cr>k==
 vmap <leader>C "+y
 vmap <leader>V "+p
@@ -233,6 +234,12 @@ vmap <leader>ss "ky<sid>SearchFromRegisterK()<Plug>QfreplaceFromRegisterK
 vmap <leader>sw "ky<sid>SearchFromRegisterKWithBounds()<Plug>QfreplaceFromRegisterK
 vmap <leader>vy <Plug>SendToTmux
 
+" terminal bindings
+tnoremap <c-c> <c-\><c-n>
+tnoremap <c-h> <C-\><C-N><C-w>h
+tnoremap <c-j> <C-\><C-N><C-w>j
+tnoremap <c-k> <C-\><C-N><C-w>k
+tnoremap <c-l> <C-\><C-N><C-w>l
 
 " arch keymap specific stuff...
 vmap <a-c> "+y
@@ -244,22 +251,11 @@ nmap <a-h> :h<space>
 " nmap ˙ :h<space>
 " vmap ç "+y
 
-" work specific keymaps
-map <leader>scds :vs src/core/common/envConfig/development.json<cr>:%s/d06/testcds/g<bar>w<bar>bd<cr>
-map <leader>sluz :vs css/skins/obt.scss<cr>:1s#^//#@import "luzia_v2";#<cr>:2<cr>gcG:w<bar>nohl<bar>bd<cr>
-map <leader>sobt :vs css/skins/obt.scss<cr>:1s#^@import "luzia_v2";#//#<cr>:2<cr>gcG:w<bar>nohl<bar>bd<cr>
 map <leader>mct OCompleted:<esc>:read !my-commits-today<cr><c-v>?Completed:<cr>jI- <esc>:g/--wip--/d<cr>
-
-call SchemaCommands('cds', 'bfox.test.cds')
-call SchemaCommands('d06', 'bfox.prod.d06')
-call SchemaCommands('adc', 'bfox.test.adc')
 
 " remap nohl (arch)
 nnoremap <silent> <a-l> :nohl<cr>:normal! <c-l><cr>
 nnoremap <silent> <a-o> :nohl<cr>:normal! <c-l><cr>
-
-" remap ctrl+v in quickfix to vertical split
-autocmd! FileType qf nnoremap <buffer> <C-v> <C-w><Enter><C-w>L
 
 " remap alt-l to nohl (osx)
 " nnoremap <silent> ¬ :nohl<cr>:normal! <c-l><cr>

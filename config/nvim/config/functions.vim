@@ -224,3 +224,9 @@ call s:OpenJsxStr('<SeatPickerPopover viewId={this.viewId} addToCart={this.addTo
 call s:OpenJsxStr('<SeatPickerPopover viewId={this.viewId} addToCart={this.addToCart} closePopover={this.onClosePopover}>')
 call s:OpenJsxStr('<SeatPickerPopover style={{ backgroundColor: 1 }} addToCart={this.addToCart} closePopover={this.onClosePopover}>')
 call s:OpenJsxStr('<iframe attr="some-key" />')
+
+function! s:FilterQuickfixList(bang, pattern)
+  let cmp = a:bang ? '!~#' : '=~#'
+  call setqflist(filter(getqflist(), "bufname(v:val['bufnr']) " . cmp . " a:pattern"))
+endfunction
+command! -bang -nargs=1 -complete=file QFilter call s:FilterQuickfixList(<bang>0, <q-args>)

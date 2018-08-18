@@ -40,7 +40,7 @@ set $color15 #ebdbb2
 # Theme colors
 set $focused-border         #98971a
 set $bg-color               #282828
-set $border-color           #8ec07c
+set $border-color           #fabd2f
 set $inactive-bg-color      #282828
 set $inactive-border-color  #282828
 set $text-color             #ebdbb2
@@ -117,7 +117,7 @@ for_window [title="(?i).*bnc - mozilla firefox.*"] floating enable, border norma
 for_window [title="(?i)bnc -.*firefox.*"] floating enable, border normal 7
 
 # dev tools rules
-for_window [title="Developer Tools - .*"] floating disable, border pixel 7, move to workspace $w8, workspace $w8
+for_window [title="DevTools - .*"] floating disable, border pixel 7, move to workspace $w8, workspace $w8
 for_window [title="Redux DevTools.*"] floating disable, border pixel 7, move to workspace $w8, workspace $w8
 
 # Spotify rule
@@ -129,6 +129,7 @@ for_window [class="feh" floating] border none
 
 # Slack rule
 assign [instance="slack"] $w4
+assign [instance="franz"] $w4
 assign [instance="Messenger"] $w4
 
 # Thunderbird rule
@@ -174,6 +175,7 @@ bindsym $alt+space exec rofi -show run -matching fuzzy -levenshtein-sort
 bindsym $mod+$ctrl+space exec $scripts/rofi-find
 bindsym $mod+space exec rofi -show drun -matching fuzzy -levenshtein-sort
 bindsym $mod+m exec $scripts/=
+bindsym $mod+braceright exec $scripts/rofi-pass
 
 # start chromium
 bindsym $mod+c exec --no-startup-id chromium
@@ -263,11 +265,12 @@ bindsym $mod+Shift+0 move container to workspace $w10; workspace $w10
 bindsym --release $mod+Shift+c reload
 
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
-bindsym $mod+Shift+r restart; exec $scripts/restart-polybar
+bindsym $mod+Shift+r restart
 
 # screenshot settings (a la osx)
 bindsym --release $mod+Control+4 exec --no-startup-id $scripts/screenshot-to-clipboard
 bindsym --release $mod+Control+Shift+4 exec --no-startup-id $scripts/screenshot-to-tmp
+bindsym --release $mod+Control+5 exec --no-startup-id $scripts/record-gif-to-clipboard
 
 # volume settings
 # bindsym XF86AudioRaiseVolume exec --no-startup-id amixer sset Master 5%+
@@ -275,9 +278,9 @@ bindsym --release $mod+Control+Shift+4 exec --no-startup-id $scripts/screenshot-
 # bindsym XF86AudioMute exec --no-startup-id $scripts/toggle-mute
 
 # Pulse Audio controls
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% #increase sound volume
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% #decrease sound volume
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute sound
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5% #increase sound volume
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5% #decrease sound volume
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle # mute sound
 
 # song settings
 bindsym XF86AudioPrev exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous"
@@ -367,27 +370,26 @@ client.urgent            $urgent-bg-color        $urgent-bg-color        $text-c
 #   }
 # }
 
-# polybar!
-exec --no-startup-id polybar main
 exec termite
 
 exec_always --no-startup-id $scripts/trackpad_config.sh
 exec_always --no-startup-id $scripts/wallpaper
+exec_always --no-startup-id $scripts/restart-polybar
 
 # boot stuff
 exec --no-startup-id dropbox
 exec --no-startup-id nm-applet
 
 # f.lux like app
-exec --no-startup-id pulseaudio --start
 exec --no-startup-id redshift
+
 exec --no-startup-id $scripts/i3-start
 exec --no-startup-id libinput-gestures-setup start
 exec --no-startup-id dunst
 # exec --no-startup-id termite
 # exec --no-startup-id $scripts/firefox-developer-edition
 exec --no-startup-id chromium
-exec --no-startup-id slack
+exec --no-startup-id franz
 exec --no-startup-id thunderbird
 # exec --no-startup-id exec i3-msg 'workspace $w4; exec spotify; exec sleep 1; workspace $w1'
 

@@ -1,8 +1,10 @@
 #!/bin/bash
 # xrandr --output DP-1 --off
+# mode=3200x1800
+mode=2880x1620
 xrandr \
   --output HDMI1 --off \
-  --output eDP1 --mode 3200x1800
+  --output eDP1 --mode $mode
 
 sleep 2
 $HOME/bin/wallpaper

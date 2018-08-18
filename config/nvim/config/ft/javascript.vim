@@ -65,6 +65,7 @@ function! SetJavascriptOptions()
   let b:surround_{char2nr('n')} = "{{/*\n\r\n*/}}"
   let b:surround_{char2nr('D')} = "describe('', function() {\n\r\n});"
   let b:surround_{char2nr('d')} = "describe('', () => {\n\r\n})"
+  let b:match_words = "(:),\[:\],{:},<:>,<\@<=\\([^/][^ \t>]*\\)[^>]*\\%(/\@<!>\\|$\\):<\@<=/\1>,':'"
   set conceallevel=0
 
   map <buffer> <leader>gf <Plug>JumpToModule()

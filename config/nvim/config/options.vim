@@ -179,7 +179,10 @@ let g:ale_javascript_eslint_suppress_missing_config = 1
 let g:ale_lint_on_enter = 0
 let g:ale_lint_on_insert_leave = 0
 let g:ale_lint_on_text_changed = 'never'
-let g:ale_linters = {'javascript': ['eslint'], 'typescript': ['tslint', 'tsserver']}
+let g:ale_linters = {}
+let g:ale_linters.javascript = ['eslint']
+let g:ale_linters.typescript = ['tslint', 'tsserver']
+let g:ale_linters.json = ['jsonlint']
 let g:ale_set_quickfix = 0
 let g:ale_sign_error = '✗'
 let g:ale_sign_warning = '⚠'
@@ -203,6 +206,11 @@ let NERDTreeMinimalUI = 1
 let NERDTreeAutoDeleteBuffer = 1
 let NERDTreeWinSize = 41
 let NERDTreeQuitOnOpen = 1
+let g:NERDTreeHijackNetrw = 0
+
+" ranger
+let g:ranger_map_keys = 0
+let g:ranger_replace_netrw = 1
 
 let g:surround_{char2nr('p')} = "(\n\t\r\n)"
 let g:surround_{char2nr('P')} = "{\n\t\r\n}"
@@ -247,3 +255,13 @@ let g:paredit_leader = "<Leader><Leader>"
 let g:grepper = {}
 let g:grepper.quickfix = 1
 let g:grepper.tools = ['rg', 'ag', 'grep']
+
+" bclose
+let g:no_plugin_maps=1
+
+" fzf
+let g:fzf_action = {
+  \ 'ctrl-n': 'NERDTreeFind',
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-x': 'split',
+  \ 'ctrl-v': 'vsplit' }

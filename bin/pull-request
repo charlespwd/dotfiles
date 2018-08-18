@@ -3,7 +3,7 @@
 set -e
 
 if [ $# -lt 1 ]; then
-  echo "Usage: pr [target branch name] [target repo, default to outbox]"
+  echo "Usage: pull-request [target branch name]"
   return
 fi
 
@@ -13,18 +13,19 @@ remote_to_branch () {
 
 basebranch=$1
 baseurl=$(git remote get-url upstream || git remote get-url origin)
-baseuser=$(remote_to_branch $baseurl)
+baseuser=$(remote_to_branch $baseurl) # aldo-dev
 
 echo "baseuser" $baseuser
 
 curbranch=`git rev-parse --abbrev-ref HEAD`
 cururl=$(git remote get-url origin)
-curuser=$(remote_to_branch $cururl)
+curuser=$(remote_to_branch $cururl) # cpclermont
 
 git push origin $curbranch
 sleep 4
 
 compare="$baseuser:$basebranch...$curuser:$curbranch"
+#aldo-dev/master...cpclermont/my-current-branch
 url=`hub compare -u $compare`
 echo "$url"
 echo "$url" | xclip -i -sel clipboard

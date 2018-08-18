@@ -13,13 +13,14 @@ background = #282828
 background-alt = #444
 ;foreground = ${xrdb:color7:#222}
 foreground = #ebdbb2
-foreground-alt = #555
+foreground-alt = #fabd2f
 primary = #ffb52a
 secondary = #cc241d
 alert = #fabd2f
 foreground-dim = #928374
 blue-light= #83a598
 blue-dark= #458588
+red = #cc241d
 
 [bar/base]
 width = 100%
@@ -52,7 +53,7 @@ font-2 = FontAwesome:pixelsize=23;4
 modules-left = i3
 modules-center =
 ; modules-right = filesystem xbacklight volume xkeyboard memory cpu wifi eth battery temperature date powermenu
-modules-right = vpn ip memory root home volume xkeyboard wifi battery date
+modules-right = recording vpn ip memory root home volume xkeyboard wifi bluetooth battery date
 
 tray-position = right
 tray-padding = 0
@@ -60,7 +61,6 @@ tray-transparent = false
 tray-background = ${colors.background}
 tray-maxsize = 24
 
-;wm-restack = bspwm
 ;wm-restack = i3
 
 ;override-redirect = true
@@ -92,6 +92,17 @@ label-indicator-padding = 2
 label-indicator-margin = 1
 label-indicator-background = ${colors.secondary}
 ; label-indicator-underline = ${colors.secondary}
+
+[module/recording]
+type = custom/script
+exec = /home/charles/.config/polybar/is-recording
+interval = 1
+
+format-prefix = 
+format-prefix-foreground = ${colors.red}
+format-prefix-padding-right = 2
+; format-underline = #458588
+format-padding = 1
 
 [module/vpn]
 type = custom/script
@@ -156,25 +167,6 @@ label-mounted = %free%
 ; label-mounted = %{A:termite -e "ranger /" &:}%free%%{A}
 label-mounted-padding-left = 1
 
-[module/bspwm]
-type = internal/bspwm
-
-label-focused = %index%
-label-focused-background = ${colors.background-alt}
-label-focused-underline= ${colors.primary}
-label-focused-padding = 1
-
-label-occupied = %index%
-label-occupied-padding = 1
-
-label-urgent = %index%!
-label-urgent-background = ${colors.alert}
-label-urgent-padding = 1
-
-label-empty = %index%
-label-empty-foreground = ${colors.foreground-alt}
-label-empty-padding = 1
-
 ; i3wm
 [module/i3]
 type = internal/i3
@@ -191,13 +183,13 @@ label-mode-background = ${colors.primary}
 
 ; focused = Active workspace on focused monitor
 label-focused = %icon% %index%
-label-focused-background = ${module/bspwm.label-focused-background}
-; label-focused-underline = ${module/bspwm.label-focused-underline}
-label-focused-padding = ${module/bspwm.label-focused-padding}
+label-focused-background = ${colors.background-alt}
+; label-focused-underline = ${colors.primary}
+label-focused-padding = 1
 
 ; unfocused = Inactive workspace on any monitor
 label-unfocused = %icon% %index%
-label-unfocused-padding = ${module/bspwm.label-occupied-padding}
+label-unfocused-padding = 1
 
 ; visible = Active workspace on unfocused monitor
 label-visible = %icon% %index%
@@ -207,8 +199,8 @@ label-visible-padding = ${self.label-focused-padding}
 
 ; urgent = Workspace with urgency hint set
 label-urgent = %icon% %index%
-label-urgent-background = ${module/bspwm.label-urgent-background}
-label-urgent-padding = ${module/bspwm.label-urgent-padding}
+label-urgent-background = ${colors.alert}
+label-urgent-padding = 1
 label-urgent-foreground = ${colors.background}
 
 ws-icon-0 = "1:1; "
@@ -269,9 +261,14 @@ label = %percentage%%
 type = internal/memory
 interval = 3
 format-prefix = " "
-; format-prefix-foreground = ${colors.foreground-alt}
+format-prefix-foreground = ${colors.foreground-dim}
 ; format-underline = #d79921
 label = %gb_used%
+
+[module/bluetooth]
+type = custom/script
+exec = ~/.config/polybar/isactive-bluetooth.sh
+interval = 10
 
 [module/wifi]
 type = internal/network

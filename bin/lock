@@ -2,10 +2,13 @@
 
 function play {
   dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Play
+  # slack &
+  disown
 }
 
 function pause {
   dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Stop
+  # pkill slack || true
 }
 
 pause

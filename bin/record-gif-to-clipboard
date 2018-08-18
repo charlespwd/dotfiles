@@ -1,20 +1,46 @@
 #!/bin/bash
 mkdir -p /tmp/screengrab
-TMP_AVI=$(mktemp /tmp/screengrab/outXXXXXXXXXX.avi)
-TMP_GIF='/tmp/screengrab/screencast.gif'
+tmp_avi=$(mktemp /tmp/screengrab/outXXXXXXXXXX.avi)
+tmp_gif='/tmp/screengrab/screencast.gif'
+tmp_ctl='/tmp/screengrab/ctl'
+tmp_processing='/tmp/screengrab/processing'
+
+cleanup() {
+  rm -f $tmp_ctl
+  rm -f $tmp_processing
+}
+trap cleanup 0 SIGHUP SIGINT SIGTERM SIGKILL
+
+# If the fifo exists, stop recording when running the script again.
+if [[ -e $tmp_ctl ]]; then
+  echo "q" >> $tmp_ctl
+  exit 0
+fi
+
+set -e
 
 # lossless option:
-ffcast -s % ffmpeg -y -f x11grab \
+rect=$(ffcast -s % echo "%s %D+%c")
+size=$(echo $rect | cut -d' ' -f1)
+loc=$(echo $rect | cut -d' ' -f2)
+framerate=10
+
+mkfifo $tmp_ctl
+cat $tmp_ctl | ffmpeg -y \
+  -f x11grab \
   -show_region 1 \
-  -framerate 10 \
-  -video_size %s -i %D+%c \
-  -vcodec huffyuv \
-  -vf crop="iw-mod(iw\\,2):ih-mod(ih\\,2)" \
-  $TMP_AVI \
-&& make-gif $TMP_AVI $TMP_GIF \
+  -framerate $framerate \
+  -video_size $size -i $loc \
+  -codec:v huffyuv \
+  -filter:v "crop=iw-mod(iw\\,2):ih-mod(ih\\,2)" \
+  $tmp_avi
+
+touch $tmp_processing
+make-gif $tmp_avi $tmp_gif $framerate
+rm -f $tmp_processing
 
 # copy to clipboard
-xclip -selection clipboard < $TMP_GIF
+xclip -selection clipboard -t image/gif < $tmp_gif
 
-echo "Output saved to $TMP_GIF"
-ls -h $TMP_GIF
+echo "Output saved to $tmp_gif"
+ls -h $tmp_gif

@@ -3,7 +3,7 @@
 autocmd BufNewFile,BufRead *.scss setlocal filetype=scss.css
 autocmd Filetype css,scss call SetCSSOptions()
 function! SetCSSOptions()
-  EmmetInstall
+  " EmmetInstall
   setlocal iskeyword+=-
   setlocal iskeyword+=$
   setlocal iskeyword+=@

@@ -8,24 +8,22 @@ let g:vimwiki_folding = 'syntax'
 call plug#begin($XDG_CONFIG_HOME . '/nvim/plugged')
   " html stuff
   Plug 'cakebaker/scss-syntax.vim', { 'for': 'scss' }
-  Plug 'hail2u/vim-css3-syntax'
-  Plug 'mattn/emmet-vim'
+  Plug 'hail2u/vim-css3-syntax', { 'for': 'css' }
+  " Plug 'mattn/emmet-vim'
   Plug 'othree/html5.vim', { 'for': 'html' }
-  Plug 'tpope/vim-liquid'
-  Plug 'AndrewRadev/splitjoin.vim'
+  " Plug 'tpope/vim-liquid'
+  " Plug 'AndrewRadev/splitjoin.vim'
   " Plug 'othree/xml.vim'
 
   "" Autocomplete engine
   if !has('gui_running')
-    " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-
     " nvim-completion-manager stuff
-    Plug 'roxma/nvim-completion-manager'
-    Plug 'roxma/python-support.nvim'
+    " Plug 'roxma/nvim-completion-manager'
+    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
     " this is for javascript tern completion
-    Plug 'roxma/nvim-cm-tern',  {'do': 'npm install'}
+    Plug 'roxma/nvim-cm-tern',  {'do': 'npm install' }
     " this is for typescript and stuff
-    Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
+    Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.sh' }
   endif
 
   " Autocomplete helper (use tab instead of <c-n> and <c-p>)
@@ -33,7 +31,7 @@ call plug#begin($XDG_CONFIG_HOME . '/nvim/plugged')
 
   " Writing
   Plug 'plasticboy/vim-markdown', { 'for': ['markdown'] }
-  Plug 'vimwiki/vimwiki'
+  " Plug 'vimwiki/vimwiki'
 
   "" snipmate (REQUIRES brew install python)
   Plug 'SirVer/ultisnips'
@@ -43,13 +41,17 @@ call plug#begin($XDG_CONFIG_HOME . '/nvim/plugged')
   Plug 'christoomey/vim-tmux-navigator'
   Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install'  }
   Plug 'junegunn/fzf.vim'
-  Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+  Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeFind'] }
   Plug 'danro/rename.vim'
   Plug 'sjl/gundo.vim'
 
+  "" Ranger
+  Plug 'francoiscabrol/ranger.vim'
+  Plug 'rbgrouleff/bclose.vim'
+
   " golang
-  Plug 'nsf/gocode', { 'rtp': 'nvim', 'do': '~/.config/nvim/plugged/gocode/nvim/symlink.sh' }
-  Plug 'fatih/vim-go'
+  " Plug 'nsf/gocode', { 'rtp': 'nvim', 'do': '~/.config/nvim/plugged/gocode/nvim/symlink.sh' }
+  " Plug 'fatih/vim-go'
 
   " Javascript & typescript
   Plug 'charlespwd/vim-node'
@@ -58,39 +60,40 @@ call plug#begin($XDG_CONFIG_HOME . '/nvim/plugged')
 
   " Javascript syntax
   " Plug 'neoclide/vim-jsx-improve', { 'for': ['javascript'] }
-  Plug 'pangloss/vim-javascript', { 'for': ['javascript'] }
-  Plug 'mxw/vim-jsx', { 'for': ['javascript'] }
-  Plug 'flowtype/vim-flow', { 'for': ['javascript'] }
+  Plug 'pangloss/vim-javascript'
+  Plug 'mxw/vim-jsx'
 
   " typescript syntax
   Plug 'leafgarland/typescript-vim', { 'for': ['typescript'] }
   Plug 'MaxMEllon/vim-jsx-pretty', { 'for': ['typescript'] }
-
-  Plug 'mhartington/nvim-typescript'
-  Plug 'Shougo/vimproc.vim'
-  Plug 'Quramy/tsuquyomi'
+  "
+  " Plug 'mhartington/nvim-typescript'
+  " Plug 'Shougo/vimproc.vim'
+  " Plug 'Quramy/tsuquyomi'
 
   " Clojure
-  " Plug 'venantius/vim-cljfmt', { 'for': 'clojure' }
-  Plug 'christoph-frick/vim-fireplace', { 'for': 'clojure' }
-  Plug 'guns/vim-clojure-highlight', { 'for': 'clojure' }
-  Plug 'guns/vim-clojure-static', { 'for': 'clojure' }
-  Plug 'guns/vim-slamhound', { 'for': 'clojure' }
-  " Plug 'honza/vim-clojure-conceal', { 'for': 'clojure' }
-  Plug 'raymond-w-ko/vim-niji', { 'for': 'clojure' }
-  Plug 'tpope/vim-leiningen', { 'for': 'clojure' }
-  Plug 'guns/vim-sexp', { 'for': ['clojure'] }
-  Plug 'tpope/vim-sexp-mappings-for-regular-people', { 'for': ['clojure'] }
-  Plug 'tpope/vim-classpath', { 'for': ['clojure'] }
-  Plug 'vim-scripts/paredit.vim', { 'for': ['clojure'] }
-
-  " for clojurescript doc I needed this and the cider nrepl plugin
-  Plug 'tpope/vim-salve', { 'for': ['clojure'] }
-
+  " " Plug 'venantius/vim-cljfmt', { 'for': 'clojure' }
+  " Plug 'christoph-frick/vim-fireplace', { 'for': 'clojure' }
+  " Plug 'guns/vim-clojure-highlight', { 'for': 'clojure' }
+  " Plug 'guns/vim-clojure-static', { 'for': 'clojure' }
+  " Plug 'guns/vim-slamhound', { 'for': 'clojure' }
+  " " Plug 'honza/vim-clojure-conceal', { 'for': 'clojure' }
+  " Plug 'raymond-w-ko/vim-niji', { 'for': 'clojure' }
+  " Plug 'tpope/vim-leiningen', { 'for': 'clojure' }
+  " Plug 'guns/vim-sexp', { 'for': ['clojure'] }
+  " Plug 'tpope/vim-sexp-mappings-for-regular-people', { 'for': ['clojure'] }
+  " Plug 'tpope/vim-classpath', { 'for': ['clojure'] }
+  " Plug 'vim-scripts/paredit.vim', { 'for': ['clojure'] }
+  "
+  " " for clojurescript doc I needed this and the cider nrepl plugin
+  " Plug 'tpope/vim-salve', { 'for': ['clojure'] }
+  "
   " async jobs with vim, also used by clojure, otherwise use neomake
   Plug 'tpope/vim-dispatch', { 'for': ['clojure', 'go', 'javascript', 'typescript'] }
 
   " Misc
+  Plug 'nathanaelkane/vim-indent-guides'
+  Plug 'morhetz/gruvbox'
   Plug 'tpope/vim-projectionist'
   Plug 'tpope/vim-repeat'
   Plug 'tpope/vim-unimpaired'
@@ -127,16 +130,6 @@ call plug#begin($XDG_CONFIG_HOME . '/nvim/plugged')
   Plug 'edkolev/tmuxline.vim'
   Plug 'ntpeters/vim-better-whitespace'
 
-  " linting nvim
-  if has('nvim')
-    " Plug 'neomake/neomake'
-  endif
-
+  " linting
   Plug 'w0rp/ale'
-
-  Plug 'nathanaelkane/vim-indent-guides'
-  Plug 'morhetz/gruvbox'
-
-  " Kapacitor syntax
-  Plug 'nathanielc/vim-tickscript'
 call plug#end()
