@@ -24,6 +24,7 @@ rect=$(ffcast -s % echo "%s %D+%c")
 size=$(echo $rect | cut -d' ' -f1)
 loc=$(echo $rect | cut -d' ' -f2)
 framerate=10
+scalefactor="iw/2.7"
 
 mkfifo $tmp_ctl
 cat $tmp_ctl | ffmpeg -y \
@@ -32,8 +33,10 @@ cat $tmp_ctl | ffmpeg -y \
   -framerate $framerate \
   -video_size $size -i $loc \
   -codec:v huffyuv \
-  -filter:v "crop=iw-mod(iw\\,2):ih-mod(ih\\,2)" \
+  -filter:v "crop=iw-mod(iw\\,2):ih-mod(ih\\,2),scale=$scalefactor:-1" \
   $tmp_avi
+
+echo $? >> /tmp/screengrab/logs
 
 touch $tmp_processing
 make-gif $tmp_avi $tmp_gif $framerate

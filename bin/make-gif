@@ -4,4 +4,8 @@ in=$1
 out=$2
 framerate=${3:-10}
 
+if [[ $# -lt 2 ]]; then
+  echo "Usage: make-gif <in> <out> [framerate]"
+fi
+
 convert -set delay $framerate -layers Optimize $in $out

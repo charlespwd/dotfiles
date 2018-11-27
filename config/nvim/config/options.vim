@@ -89,6 +89,9 @@ let g:user_emmet_install_global = 0
 let g:vim_markdown_folding_disabled=1
 let g:vim_markdown_frontmatter=1
 
+" vim-instant-markdown
+let g:instant_markdown_autostart = 0
+
 " sexp
 let g:sexp_filetypes = 'clojure,scheme,lisp,timl,javascript,vim'
 let g:sexp_enable_insert_mode_mappings = 0
@@ -218,7 +221,7 @@ let g:surround_{char2nr('S')} = "[\n\t\r\n]"
 
 " editorconfig
 let g:EditorConfig_core_mode = 'external_command'
-let g:EditorConfig_exclude_patterns = ['fugitive://.*']
+let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'term://.*']
 
 " vim-jsx
 let g:jsx_ext_required = 0
@@ -227,7 +230,7 @@ let g:jsx_ext_required = 0
 let g:javascript_plugin_jsdoc = 1
 
 " vim-node
-let g:vim_node#node_path = [$HOME.'/ws/aldo/shoebox/packages']
+let g:vim_node#node_path = []
 
 " tsuquyomi (typescript)
 let g:tsuquyomi_disable_quickfix=1
@@ -265,3 +268,9 @@ let g:fzf_action = {
   \ 'ctrl-t': 'tab split',
   \ 'ctrl-x': 'split',
   \ 'ctrl-v': 'vsplit' }
+
+" man page fix with projectionist
+" https://github.com/neovim/neovim/issues/8939
+let g:projectionist_ignore_man=1
+
+highlight jsFuncCall ctermfg=White

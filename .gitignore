@@ -83,3 +83,4 @@ config/Franz
 config/vocal
 config/aurman
 config/hub
+bin/tempo

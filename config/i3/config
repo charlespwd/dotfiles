@@ -127,6 +127,9 @@ for_window [class="Spotify"] move to workspace $w3, workspace $w3
 for_window [class="gimp.*"] move to workspace $w7, workspace $w7
 for_window [class="feh" floating] border none
 
+# octave
+for_window [class="GNU Octave"] floating enable
+
 # Slack rule
 assign [instance="slack"] $w4
 assign [instance="franz"] $w4
@@ -140,6 +143,7 @@ for_window [instance="vlc"] move to workspace $w10, workspace $w10
 
 # thunar rule
 for_window [class="Thunar"] move to workspace $w9, workspace $w9
+for_window [title="ranger"] move to workspace $w9, workspace $w9
 
 # zeal rule
 for_window [instance="zeal"] move to workspace $w5, workspace $w5
@@ -236,6 +240,11 @@ bindsym $mod+semicolon focus child
 
 # sound
 bindsym $mod+Shift+p exec pavucontrol
+
+# Finder
+bindsym $mod+Shift+t exec Thunar
+bindsym $mod+Shift+f exec termite -e 'zsh -i -c ranger'
+bindsym $mod+Shift+x exec termite -e 'zsh -i -c "ranger /home/charles/dnd"'
 
 # switch to workspace
 bindsym $mod+1 workspace $w1

@@ -10,5 +10,7 @@ source /home/charles/dotfiles/arch.sh
 ### Load bash_profile
 source "$HOME/.bash_profile";
 
+source "$HOME/.zsh_custom/aliases.zsh";
+
 export NVM_DIR="/home/charles/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm

@@ -107,7 +107,7 @@ if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
 
-source /Library/Developer/CommandLineTools/usr/share/git-core/git-prompt.sh
+# source /Library/Developer/CommandLineTools/usr/share/git-core/git-prompt.sh
 
 # export PS1="\[\e[2;38m\][\A] \[\e[32m\]\w\[\e[34m\]\$(__git_ps1) \[\e[31m\]\$\[\e[0m\] "
 export GREP_OPTIONS="-n --color"

@@ -1,9 +1,32 @@
-#!/bin/bash
+#!/bin/zsh
 
 set -e
 
+labels=''
+
+while getopts ":l:" opt; do
+  case $opt in
+    l )
+      labels=$OPTARG
+      shift 2;
+      ;;
+
+    \? )
+      echo "Invalid options: -$OPTARG"
+      exit 1
+      ;;
+  esac
+done
+
+dir=$(basename $PWD)
+if [[ $dir = 'shoebox' ]]; then
+  labels='Aldo code review'
+fi
+
+echo "Labels: $labels"
+
 if [ $# -lt 1 ]; then
-  echo "Usage: pull-request [target branch name]"
+  echo "Usage: pull-request [base]"
   return
 fi
 
@@ -16,16 +39,30 @@ baseurl=$(git remote get-url upstream || git remote get-url origin)
 baseuser=$(remote_to_branch $baseurl) # aldo-dev
 
 echo "baseuser" $baseuser
+echo "basebranch" $basebranch
 
 curbranch=`git rev-parse --abbrev-ref HEAD`
 cururl=$(git remote get-url origin)
-curuser=$(remote_to_branch $cururl) # cpclermont
+curuser=$(remote_to_branch $cururl || echo 'charlespwd') # charlespwd
 
 git push origin $curbranch
-sleep 4
 
-compare="$baseuser:$basebranch...$curuser:$curbranch"
+echo -n "Command line? [yn] "
+read reply
+
+if [[ $reply = 'y' ]]; then
+  if ! [[ $labels = '' ]]; then
+    echo $labels
+    echo $basebranch
+    hub pull-request --base="$basebranch" --head="$curuser:$curbranch" --labels="$labels"
+  else
+    hub pull-request --base="$basebranch" --head="$curuser:$curbranch"
+  fi
+  exit 0
+fi
+
 #aldo-dev/master...cpclermont/my-current-branch
+compare="$baseuser:$basebranch...$curuser:$curbranch"
 url=`hub compare -u $compare`
 echo "$url"
 echo "$url" | xclip -i -sel clipboard

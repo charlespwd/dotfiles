@@ -42,48 +42,8 @@ snippet imp_ "import properties"
 import { ${1:map} } from '${2:lodash}';
 endsnippet
 
-snippet cnm "Node Modules"
-/* Node Modules */
-endsnippet
-
-snippet ca "Actions"
-/* Actions */
-endsnippet
-
-snippet cs "Stores"
-/* Stores */
-endsnippet
-
-snippet cu "Utils"
-/* Utils */
-endsnippet
-
-snippet cC "Constants"
-/* Constants */
-endsnippet
-
-snippet cc "Components"
-/* Components */
-endsnippet
-
-snippet imps "Store"
-import ${1:Store} from '../../${2:common}/stores/${3:$1}';
-endsnippet
-
-snippet impa "Action"
-import ${1:Action} from '../../${2:common}/actions/${3:$1}';
-endsnippet
-
-snippet impu "Util"
-import ${1:Util} from '../../${2:common}/utils/${3:$1}';
-endsnippet
-
-snippet impC "Constant"
-import ${1:Constant} from '../../${2:common}/constants/${3:$1}';
-endsnippet
-
-snippet impc "Component"
-import ${1:Component} from '../../${2:common}/components/${3:$1}';
+snippet impc "redux connect"
+import { connect } from 'react-redux';
 endsnippet
 
 snippet impr "React"
@@ -92,6 +52,10 @@ endsnippet
 
 snippet impR "Ramda"
 import R from 'ramda';
+endsnippet
+
+snippet imppt "Prop types"
+import PropTypes from 'prop-types';
 endsnippet
 
 snippet reaction
@@ -392,8 +356,9 @@ endsnippet
 snippet recomponentcontainer
 import { connect } from 'react-redux';
 import $1 from '$2';
+import storeConnector from '$3';
 
-export default connect(storeSelector)($1);
+export default connect(storeConnector)($1);
 endsnippet
 
 snippet component
@@ -958,4 +923,21 @@ function main() {
 }
 
 main();
+endsnippet
+
+snippet sleep
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+endsnippet
+
+snippet shell
+import React from 'react';
+export default () => <${2:div}>${1:hello world}</$2>;
+endsnippet
+
+snippet selectors
+import { createStructuredSelector } from 'reselect';
+
+export default createStructuredSelector({
+	$1
+});
 endsnippet

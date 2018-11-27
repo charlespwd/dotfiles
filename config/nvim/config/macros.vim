@@ -17,6 +17,8 @@ imap <c-c> <esc>
 map <c-c> <esc>
 map [g :Gstatus<cr>
 map ]g :Gstatus<cr>q
+map [0 :GundoShow<cr>
+map ]0 :GundoHide<cr>
 map [h :highlight ExtraWhitespace ctermbg=darkred guibg=#382424<cr>
 map ]h :highlight clear ExtraWhiteSpace<cr>
 map [w :NERDTreeToggle<cr>:set relativenumber<cr>
@@ -101,23 +103,21 @@ call SetupCommandAlias('ZON', 'ZenModeOn')
 call SetupCommandAlias('ZOFF', 'ZenModeOff')
 call SetupCommandAlias('eod', 'e ~/summary.md')
 call SetupCommandAlias('eods', 'w !send-summary')
+call SetupCommandAlias('eodsy', 'w !send-summary 1')
 call SetupCommandAlias('wf', 'w !sudo tee %')
+call SetupCommandAlias('setx', '!chmod u+x %')
+call SetupCommandAlias('re!', 'Redir !')
+
+" to imgur image link
+map <leader>2i :let @a=system('imgur', expand('<cfile>'))<cr>^C<c-r>a<esc>-ys$)i![alt]<esc>+dd
 
 " MACROS
 " map <leader>ww :!wc -w %<cr>
 " nmap <leader>== 70i=<esc>o<esc>
 " tmap <Esc> <C-\><C-n>
-imap <c-e>0 <esc>:let @d=system('date +"%Y/%m/%d"')<cr>a<c-r>d<esc>kJA
-imap <c-e>1 <esc>:let @d=system('date -v+1d +"%B %d, %Y"')<cr>"dpkJA
-imap <c-e>2 <esc>:let @d=system('date -v+2d +"%B %d, %Y"')<cr>"dpkJA
-imap <c-e>3 <esc>:let @d=system('date -v+3d +"%B %d, %Y"')<cr>"dpkJA
-imap <c-e>4 <esc>:let @d=system('date -v+4d +"%B %d, %Y"')<cr>"dpkJA
-imap <c-e>5 <esc>:let @d=system('date -v+5d +"%B %d, %Y"')<cr>"dpkJA
-imap <c-e>6 <esc>:let @d=system('date -v+6d +"%B %d, %Y"')<cr>"dpkJA
-imap <c-e>7 <esc>:let @d=system('date -v+7d +"%B %d, %Y"')<cr>"dpkJA
 map <leader>"" <Plug>ToggleTextObjQuotes
+map <leader># :let @+=system('sed -e "s#^[^/]*/##" -e "s#\(/index\)*.js\$##" -e "s#/home/charles/ws/aldo/shoebox/##"', expand('%'))<CR>
 map <leader>% :let @+=expand('%')<CR>
-map <leader># :let @+=system('sed -e "s#^[^/]*/##" -e "s#\(/index\)*.js\$##"', expand('%'))<CR>
 map <leader>,. :lopen<cr>
 map <leader>,t :if exists('g:do_lint_js') && g:do_lint_js <bar> let g:do_lint_js=0 <bar> else <bar> let g:do_lint_js=1 <bar> endif <bar> echo g:do_lint_js<cr>
 map <leader>.. :Dispatch<cr>
@@ -183,6 +183,7 @@ map <leader>ii <Plug>PrettyAttrs
 map <leader>il <Plug>ExpandHTML
 map <leader>jd :e ~/thoughts/debug.md<cr>
 map <leader>journal <Plug>Journal
+map <leader>md :InstantMarkdownPreview<CR>
 map <leader>mv :Rename<space>
 map <leader>nd <Plug>NextDiff
 map <leader>nf :NERDTreeFind<cr>
@@ -209,15 +210,13 @@ map <leader>sr :let @k=expand('<cword>')<cr><leader>aw<Plug>QfreplaceFromRegiste
 map <leader>ss :let @k=Input("Search: ")<cr><sid>SearchFromRegisterK()<Plug>QfreplaceFromRegisterK
 map <leader>st 0v}b$:sort<cr>
 map <leader>sv :source ~/.vimrc<cr>
-map <leader>sw :set tw=1000<cr>
+map <leader>sw :StripWhitespace<cr>
 map <leader>t- i- [ ]<space>
 map <leader>t/ :Tabularize<space>/
 map <leader>te <Plug>EditTmpFile()
 map <leader>tsp <Plug>SplitTmpFile()
 map <leader>tvs <Plug>VSplitEditTmpFile()
 map <leader>vs :vs <c-r>%<c-w><c-w>
-map <leader>wq :w<bar>bd<cr>
-map <leader>ws :StripWhitespace<cr>
 map <silent> <leader>Q :bn<bar>bd #<cr>
 map <silent> <leader>q :bdelete<cr>
 map <silent> <leader>x :ccl<cr>:lcl<cr>

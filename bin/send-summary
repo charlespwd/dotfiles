@@ -1,5 +1,17 @@
 #!/bin/bash
 
-date=$(date +'%B %d, %Y')
+set -eou pipefail
+
+diff="${1:-0}"
+script="
+const moment = require('moment')
+const date = moment().subtract($diff, 'd')
+
+console.log(date.format('MMMM D, YYYY'));
+"
+
+date=$($BIN/node-eval "$script")
 to='kvallipuram@aldogroup.com'
 mailx -A gmail -s "Summary - $date" $to
+task rc:$HOME/.taskrc rc.context=none next &>/dev/null
+task rc:$HOME/.taskrc rc.context=none +summary +PENDING done

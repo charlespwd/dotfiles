@@ -123,13 +123,6 @@ export FZF_TMUX_HEIGHT="50%"
 # Prioritize utilization of locally installed scripts
 export PATH="node_modules/.bin:../../node_modules/.bin:$PATH"
 
-# push new branch
-gpn(){
-	git push --set-upstream origin "$(git rev-parse --abbrev-ref HEAD)" $@
-}
-
-alias gpr="pull-request"
-
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
 

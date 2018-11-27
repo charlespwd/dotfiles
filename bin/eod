@@ -4,6 +4,7 @@ const program = require('commander');
 const moment = require('moment');
 const path = require('path');
 const fs = require('fs');
+const R = require('ramda');
 const filename = path.join(process.env.XDG_CONFIG_HOME, 'aldo-vpn.log');
 const filecontents = fs.readFileSync(filename, 'utf8');
 const today = moment().startOf('day');
@@ -13,13 +14,42 @@ const entries = filecontents
   .filter(entry => entry.isValid())
   .filter(date => date.isAfter(today));
 const firstEntry = entries[0];
-const eod = firstEntry.add(8, 'h')
+const eod = firstEntry.clone().add(8, 'h')
 
 program
   .version('1.0.0')
   .option('-r, --remote', 'Working remotely')
+  .option('-e, --early', 'Might finish before 3')
+  .option('-w, --workout', 'Working remotely')
+  .option('-s, --sod', 'Start of day')
+  .option('-0, --since', 'Since Start of day')
+  .option('-p, --plus [value]', 'Add time')
+  .option('-m, --minus [value]', 'Sub time')
   .parse(process.argv);
 
+if (program.sod) {
+  console.log(firstEntry.format('hh:mm a'));
+  process.exit(0);
+}
+
 if (!program.remote) eod.add(50, 'm');
+if (program.early) eod.subtract(25, 'm');
+if (program.workout) eod.add(1, 'h');
+if (program.plus) {
+  const [, val, time] = R.match(/^([0-9.]+)(.*)$/, program.plus);
+  eod.add(val, time);
+}
+if (program.minus) {
+  const [, val, time] = R.match(/^([0-9.]+)(.*)$/, program.minus);
+  eod.subtract(val, time);
+}
+
+if (program.since) {
+  const now = moment();
+  const diff = moment.duration(now.diff(firstEntry));
+  if (!program.remote) diff.subtract(25, 'm');
+  console.log(Math.round(diff.asHours() * 4) / 4);
+  process.exit(0);
+}
 
 console.log(eod.format('hh:mm a'));

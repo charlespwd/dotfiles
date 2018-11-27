@@ -19,6 +19,7 @@ set -e
 
 git checkout master
 git fetch $remote
+git fetch --tags $remote
 git reset --hard $remote/master
 if [[ $remote != 'origin' ]]; then
   git push -f origin master

@@ -8,18 +8,10 @@
 menu="rofi -dmenu -p $1 -matching fuzzy -i -levenshtein-sort"
 
 found=$(
-  find "/tmp/screengrab" $HOME \
-    \( -type f -or -type d \) \
-    -and \
-      -user $(whoami) \
-    -and \
-      ! -path '**/dist/*' \
-      ! -path '**/ios/*' \
-      ! -path '**/es5-links/*' \
-      ! -path '**/node_modules/*' \
-      ! -path '**/android/*' \
-      ! -path '**/.*' \
-      ! -name '.*' \
+  fd \
+    -t file \
+    -t directory \
+    . $HOME \
     | sed "s#$HOME/\?##" \
     | grep -v '^$' \
     | $menu

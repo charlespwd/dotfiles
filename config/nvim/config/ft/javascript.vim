@@ -36,21 +36,22 @@ function! SetTypescriptOptions()
   " set omnifunc=''
 
   "" nvim-ts bindings
-  " nmap <buffer> K :TSType<cr>
-  " map <buffer> <c-]> :TSDef<cr>
-  " map <buffer> <c-t> :TSTypeDef<cr>
-  " map <buffer> <c-w><c-]> :vs<cr>:TSDef<cr>
-  " map <buffer> <c-w><c-t> :vs<cr>:TSTypeDef<cr>
-  " map <buffer> <leader>rj :TSRename<cr>
-  " map <buffer> <leader>rf :TSRename<cr>
+  nmap <buffer> K :TSType<cr>
+  map <buffer> <c-]> :TSDef<cr>
+  map <buffer> <c-t> :TSTypeDef<cr>
+  map <buffer> <c-w><c-]> :vs<cr>:TSDef<cr>
+  map <buffer> <c-w><c-t> :vs<cr>:TSTypeDef<cr>
+  map <buffer> <leader>rj :TSRename<cr>
+  map <buffer> <leader>rf :TSRename<cr>
+
   map <buffer> <leader>I :TSImport<cr>
   map <buffer> <c-]> :TsuDefinition<cr>
 
   "" tsuquyomi bindings
   " type hint
-  nmap <buffer> K :<C-u>echo tsuquyomi#hint()<CR>:<C-u>echo tsuquyomi#hint()<CR>
-  map <buffer> <leader>rj :TsuRenameSymbol<cr>
-  map <buffer> <leader>rf :TsuRenameSymbol<cr>
+  " nmap <buffer> K :<C-u>echo tsuquyomi#hint()<CR>:<C-u>echo tsuquyomi#hint()<CR>
+  " map <buffer> <leader>rj :TsuRenameSymbol<cr>
+  " map <buffer> <leader>rf :TsuRenameSymbol<cr>
 endfunction
 
 function! SetJavascriptOptions()
@@ -67,6 +68,8 @@ function! SetJavascriptOptions()
   let b:surround_{char2nr('d')} = "describe('', () => {\n\r\n})"
   let b:match_words = "(:),\[:\],{:},<:>,<\@<=\\([^/][^ \t>]*\\)[^>]*\\%(/\@<!>\\|$\\):<\@<=/\1>,':'"
   set conceallevel=0
+
+  map <Leader>py <Plug>(Prettier)
 
   map <buffer> <leader>gf <Plug>JumpToModule()
   " jump to function definition (outbox only)

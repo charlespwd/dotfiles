@@ -4,14 +4,16 @@
 [alias]
 	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
 	fuck = reset --hard HEAD
-	up = !git fetch && git rebase --autostash FETCH_HEAD
 [core]
 	editor = nvim
 	excludesfile = /home/charles/.gitignore
+	pager = diff-so-fancy | less --tabs=4 -RFX
 [diff]
-	tool = vimdiff
+	tool = nvim
 [difftool]
   prompt = false
+[difftool "nvim"]
+  cmd = nvim -d $LOCAL $REMOTE
 [merge]
 	tool = vimdiff
 [mergetool]
@@ -27,3 +29,10 @@
 	browser = firefox-developer-edition
 [browser "firefox-developer-edition"]
 	cmd = /usr/bin/firefox-developer-edition
+[color]
+	ui = true
+[color "diff"]
+	meta = yellow
+	old = red bold
+	new = green bold
+	whitespace = red reverse

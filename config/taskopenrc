@@ -47,7 +47,7 @@ PATH_EXT=/usr/share/taskopen/scripts
 
 # Regular expression that identifies file paths in annotations. Will be opened by xdg-open.
 # Default is: \.|\/|~
-FILE_REGEX="\.|\/|~"
+FILE_REGEX="\.|\/|~|run "
 
 # Regular expression that identifies a text annotation. Automatically triggers raw edit mode like '-r'.
 #TEXT_REGEX=".*"

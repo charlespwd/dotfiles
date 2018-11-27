@@ -53,7 +53,7 @@ font-2 = FontAwesome:pixelsize=23;4
 modules-left = i3
 modules-center =
 ; modules-right = filesystem xbacklight volume xkeyboard memory cpu wifi eth battery temperature date powermenu
-modules-right = recording vpn ip memory root home volume xkeyboard wifi bluetooth battery date
+modules-right = recording vpn ip memory root home volume xkeyboard bluetooth battery calories slu date wifi
 
 tray-position = right
 tray-padding = 0
@@ -93,6 +93,17 @@ label-indicator-margin = 1
 label-indicator-background = ${colors.secondary}
 ; label-indicator-underline = ${colors.secondary}
 
+[module/task]
+type = custom/script
+exec = /home/charles/.config/polybar/task-indicator
+interval = 1
+
+; format-prefix = 
+; format-prefix-foreground = ${colors.red}
+; format-prefix-padding-right = 2
+; format-underline = #458588
+format-padding = 1
+
 [module/recording]
 type = custom/script
 exec = /home/charles/.config/polybar/is-recording
@@ -104,15 +115,37 @@ format-prefix-padding-right = 2
 ; format-underline = #458588
 format-padding = 1
 
-[module/vpn]
+[module/calories]
 type = custom/script
-exec = /home/charles/.config/polybar/is-vpn-on
-interval = 5
+exec = /home/charles/.config/polybar/calories-toggle
+tail = true
+click-left = kill -USR1 %pid%
+interval = 600
 
-; format-prefix = 
+format-prefix = 
 format-prefix-foreground = ${colors.foreground-dim}
 format-prefix-padding-right = 2
 ; format-underline = #458588
+format-padding = 0
+
+[module/slu]
+type = custom/script
+exec = /home/charles/.config/polybar/since-update
+interval = 60
+
+; format-prefix = 
+format-prefix-foreground = ${colors.foreground-dim}
+format-prefix-padding-right = 0
+; format-underline = #458588
+format-padding = 0
+
+[module/vpn]
+type = custom/script
+exec = echo "VPN: ON"
+exec-if = pgrep -x openconnect
+interval = 5
+format-prefix-foreground = ${colors.foreground-dim}
+format-prefix-padding-right = 2
 format-padding = 1
 
 [module/save-count-pr]
@@ -264,6 +297,17 @@ format-prefix = " "
 format-prefix-foreground = ${colors.foreground-dim}
 ; format-underline = #d79921
 label = %gb_used%
+; format = <ramp-used>
+
+; Only applies if <ramp-used> is used
+ramp-used-0 = ▁
+ramp-used-1 = ▂
+ramp-used-2 = ▃
+ramp-used-3 = ▄
+ramp-used-4 = ▅
+ramp-used-5 = ▆
+ramp-used-6 = ▇
+ramp-used-7 = █
 
 [module/bluetooth]
 type = custom/script

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 english="/usr/share/dict/american-english"
-thesaurus="www.thesaurus.com/browse/"
+thesaurus="www.dictionary.com/browse/"
 dict="${1:-$english}"
 dicturl="${2:-$thesaurus}"
 prompt="define: "

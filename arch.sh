@@ -10,6 +10,10 @@ export PATH=${PATH}:/usr/local/bin
 export PATH=${PATH}:bin
 export BIN=$HOME/bin
 
+# dotfiles and stuff
+export POLYBAR="$CONFIG/polybar"
+export DOT="$HOME/dotfiles"
+
 # yarn / nvm
 export PATH=${PATH}:$(yarn global bin)
 
@@ -30,9 +34,16 @@ export GDK_DPI_SCALE=0.5
 export LPASS_AGENT_TIMEOUT=0
 
 # Android home
-export ANDROID_HOME=/opt/android-sdk
-export PATH=${PATH}:${ANDROID_HOME}/tools/bin
-export PATH=${PATH}:${ANDROID_HOME}/platform-tools
+if [ -d /opt/android-sdk ]; then
+  export ANDROID_HOME=/opt/android-sdk
+  export PATH=${PATH}:${ANDROID_HOME}/tools/bin
+  export PATH=${PATH}:${ANDROID_HOME}/platform-tools
+fi
+
+# go-jira
+if [ -d $HOME/.jira.d ]; then
+  export JIRA=$HOME/.jira.d
+fi
 
 # python user bin
 export PATH=${PATH}:$HOME/.local/bin
@@ -72,3 +83,5 @@ rbenv() {
     command rbenv "$command" "$@";;
   esac
 }
+
+(command -v jira &>/dev/null) && eval "$(jira --completion-script-bash)"

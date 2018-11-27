@@ -1,7 +1,7 @@
 #!/bin/bash
 if [ -t 0 ]; then
   if [ -z "$1" ]; then
-    echo "usage: tny long_url [custom_keyword]"
+    echo "usage: tiny long_url [custom_keyword]"
     echo ""
     echo "Shorten URLs with tny.im URL shortener"
     echo "This script expects a long URL to shorten either as an argument or passed through STDIN."
@@ -14,4 +14,5 @@ else
     url=$line
   done
 fi
-echo `wget -q -O - http://tny.im/yourls-api.php?action=shorturl\&format=simple\&url=$url\&keyword=$2`
+tinyurl=$(curl http://tinyurl.com/api-create.php?url=$url 2>/dev/null)
+echo $tinyurl
