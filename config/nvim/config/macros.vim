@@ -107,16 +107,20 @@ call SetupCommandAlias('eodsy', 'w !send-summary 1')
 call SetupCommandAlias('wf', 'w !sudo tee %')
 call SetupCommandAlias('setx', '!chmod u+x %')
 call SetupCommandAlias('re!', 'Redir !')
+call SetupCommandAlias('RE!!', 'Redir !%')
+call SetupCommandAlias('qf', 'QFilter')
+call SetupCommandAlias('qf!', 'QFilter!')
 
 " to imgur image link
-map <leader>2i :let @a=system('imgur', expand('<cfile>'))<cr>^C<c-r>a<esc>-ys$)i![alt]<esc>+dd
+map <leader>2i :let @a=system('imgur', expand('<cfile>'))<cr>^C![alt](<c-r>a<bs>)
 
 " MACROS
 " map <leader>ww :!wc -w %<cr>
 " nmap <leader>== 70i=<esc>o<esc>
 " tmap <Esc> <C-\><C-n>
+map <c-]> :let w:scratch=0<cr>:Redir !%<cr>
 map <leader>"" <Plug>ToggleTextObjQuotes
-map <leader># :let @+=system('sed -e "s#^[^/]*/##" -e "s#\(/index\)*.js\$##" -e "s#/home/charles/ws/aldo/shoebox/##"', expand('%'))<CR>
+map <leader># :let @+=system('sed -e "s#^[^/]*/##" -e "s#\(/index\)*.js\$##" -e "s#/home/charles/ws/aldo/shoebox/##"', resolve(expand('%')))<CR>
 map <leader>% :let @+=expand('%')<CR>
 map <leader>,. :lopen<cr>
 map <leader>,t :if exists('g:do_lint_js') && g:do_lint_js <bar> let g:do_lint_js=0 <bar> else <bar> let g:do_lint_js=1 <bar> endif <bar> echo g:do_lint_js<cr>
@@ -217,8 +221,9 @@ map <leader>te <Plug>EditTmpFile()
 map <leader>tsp <Plug>SplitTmpFile()
 map <leader>tvs <Plug>VSplitEditTmpFile()
 map <leader>vs :vs <c-r>%<c-w><c-w>
+map <leader>x :cclose<cr>:lclose<cr>
 map <silent> <leader>Q :bn<bar>bd #<cr>
-map <silent> <leader>q :bdelete<cr>
+map <silent> <leader>q :call CloseBuffer()<cr>
 map <silent> <leader>x :ccl<cr>:lcl<cr>
 map \\ <Plug>MostRecentBuffer
 nmap <leader>a/ 16a/<esc><cr>k==
@@ -232,6 +237,15 @@ vmap <leader>s "ky:%s/\v(<<C-R>k>)/
 vmap <leader>ss "ky<sid>SearchFromRegisterK()<Plug>QfreplaceFromRegisterK
 vmap <leader>sw "ky<sid>SearchFromRegisterKWithBounds()<Plug>QfreplaceFromRegisterK
 vmap <leader>vy <Plug>SendToTmux
+
+function! CloseBuffer()
+  if (&ft == 'qf' || &ft == 'gitcommit' || &ft == 'help' || &ft == 'nerdtree' || &ft == 'fugitiveblame' || &ft == 'fugitive' || &diff == 1 || (exists('w:scratch') && w:scratch == 1))
+    quit
+  else
+    echom 'BDELETE?'
+    Bdelete
+  endif
+endfunction
 
 " terminal bindings
 tnoremap <c-c> <c-\><c-n>
@@ -258,3 +272,7 @@ nnoremap <silent> <a-o> :nohl<cr>:normal! <c-l><cr>
 
 " remap alt-l to nohl (osx)
 " nnoremap <silent> ¬ :nohl<cr>:normal! <c-l><cr>
+
+map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
+\ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
+\ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>

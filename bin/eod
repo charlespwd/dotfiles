@@ -34,7 +34,7 @@ if (program.sod) {
 
 if (!program.remote) eod.add(50, 'm');
 if (program.early) eod.subtract(25, 'm');
-if (program.workout) eod.add(1, 'h');
+if (program.workout) eod.add(1, 'h').add(15, 'm');
 if (program.plus) {
   const [, val, time] = R.match(/^([0-9.]+)(.*)$/, program.plus);
   eod.add(val, time);

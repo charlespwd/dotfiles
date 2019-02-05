@@ -399,7 +399,7 @@ exec --no-startup-id dunst
 # exec --no-startup-id $scripts/firefox-developer-edition
 exec --no-startup-id chromium
 exec --no-startup-id franz
-exec --no-startup-id thunderbird
+# exec --no-startup-id thunderbird
 # exec --no-startup-id exec i3-msg 'workspace $w4; exec spotify; exec sleep 1; workspace $w1'
 
 ## quick terminal

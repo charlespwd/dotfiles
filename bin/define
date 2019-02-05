@@ -1,12 +1,12 @@
 #!/bin/bash
+set -eou pipefail
 
 english="/usr/share/dict/american-english"
 thesaurus="www.dictionary.com/browse/"
 dict="${1:-$english}"
 dicturl="${2:-$thesaurus}"
-prompt="define: "
-menu="rofi -dmenu -p $prompt -matching fuzzy -i -levenshtein-sort"
-word=$(cat $dict | $menu)
+prompt="define"
+word=$(rofi -i -dmenu -p "$prompt" -matching fuzzy -sort -levenshtein-sort -input "$dict")
 if [[ $word != '' ]]; then
   url="$dicturl$word"
   chromium $url

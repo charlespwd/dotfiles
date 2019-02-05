@@ -46,6 +46,7 @@ function! SetTypescriptOptions()
 
   map <buffer> <leader>I :TSImport<cr>
   map <buffer> <c-]> :TsuDefinition<cr>
+  map <buffer> <c-\> :Redir !node dist/index.js<cr>
 
   "" tsuquyomi bindings
   " type hint

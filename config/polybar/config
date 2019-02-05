@@ -60,6 +60,7 @@ tray-padding = 0
 tray-transparent = false
 tray-background = ${colors.background}
 tray-maxsize = 24
+enable-ipc = true
 
 ;wm-restack = i3
 
@@ -142,7 +143,7 @@ format-padding = 0
 [module/vpn]
 type = custom/script
 exec = echo "VPN: ON"
-exec-if = pgrep -x openconnect
+exec-if = pgrep -x openconnect || pgrep -x openvpn
 interval = 5
 format-prefix-foreground = ${colors.foreground-dim}
 format-prefix-padding-right = 2

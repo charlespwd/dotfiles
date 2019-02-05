@@ -4,6 +4,7 @@ browser = /usr/bin/chromium
 font = LiterationMonoPowerline Nerd Font 12
 allow_bold = false
 
+# GRUVBOX
 [colors]
 # hard contrast: background = #1d2021
 background = #282828

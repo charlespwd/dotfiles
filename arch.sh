@@ -10,12 +10,15 @@ export PATH=${PATH}:/usr/local/bin
 export PATH=${PATH}:bin
 export BIN=$HOME/bin
 
+# completions path
+export fpath=($BIN/completions $fpath)
+
 # dotfiles and stuff
 export POLYBAR="$CONFIG/polybar"
 export DOT="$HOME/dotfiles"
 
 # yarn / nvm
-export PATH=${PATH}:$(yarn global bin)
+export PATH=${PATH}:$HOME/.yarn/bin
 
 # ruby gems
 export PATH=${PATH}:$HOME/.gem/ruby/2.5.0/bin
@@ -55,8 +58,8 @@ if [ -n "$DESKTOP_SESSION" ]; then
 fi
 
 # Load autoenv
-[ -s "/usr/share/autoenv/activate.sh" ] \
-  && source /usr/share/autoenv/activate.sh \
+[ -s "/usr/share/autoenv-git/activate.sh" ] \
+  && source /usr/share/autoenv-git/activate.sh \
   || echo "'autoenv' not installed"
 
 # default browser

@@ -10,6 +10,7 @@ let g:gruvbox_improved_strings=0
 
 try
   colorscheme gruvbox
+  " colorscheme solarized
 catch /^Vim\%((\a\+)\)\=:E185/
   " deal with it
 endtry
@@ -184,6 +185,7 @@ let g:ale_lint_on_insert_leave = 0
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_linters = {}
 let g:ale_linters.javascript = ['eslint']
+let g:ale_linters.scss = ['stylelint']
 let g:ale_linters.typescript = ['tslint', 'tsserver']
 let g:ale_linters.json = ['jsonlint']
 let g:ale_set_quickfix = 0
@@ -264,6 +266,7 @@ let g:no_plugin_maps=1
 
 " fzf
 let g:fzf_action = {
+  \ 'ctrl-q': 'bdelete!',
   \ 'ctrl-n': 'NERDTreeFind',
   \ 'ctrl-t': 'tab split',
   \ 'ctrl-x': 'split',
@@ -272,5 +275,9 @@ let g:fzf_action = {
 " man page fix with projectionist
 " https://github.com/neovim/neovim/issues/8939
 let g:projectionist_ignore_man=1
+
+" quick-scope
+" Trigger a highlight in the appropriate direction when pressing these keys:
+let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 
 highlight jsFuncCall ctermfg=White

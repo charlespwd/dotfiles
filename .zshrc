@@ -33,6 +33,10 @@ setopt HIST_BEEP                 # Beep when accessing nonexistent history.
 # time that oh-my-zsh is loaded.
 ZSH_THEME="cp"
 
+# Bash compatible completion
+autoload bashcompinit
+bashcompinit
+
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
 
@@ -72,7 +76,7 @@ ZSH_CUSTOM=~/.zsh_custom
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 if [ "$OS" = "Linux" ]; then
-  plugins=(git node npm vi-mode jump cp)
+  plugins=(git node vi-mode jump cp)
 elif [ "$OS" = "Darwin" ]; then
   plugins=(git osx vagrant node npm rbenv be rake rails vi-mode jump brew heroku cp autoenv)
 fi
@@ -124,10 +128,13 @@ export FZF_TMUX_HEIGHT="50%"
 export PATH="node_modules/.bin:../../node_modules/.bin:$PATH"
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
-export PATH="$PATH:$HOME/.rvm/bin"
+# export PATH="$PATH:$HOME/.rvm/bin"
 
 export NVM_DIR="/home/charles/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 
+# yarn
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 export CONFIG="$XDG_CONFIG_HOME"
+
+unsetopt nomatch

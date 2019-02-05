@@ -101,6 +101,7 @@ rofi.padding:                        600
 
 ! "Use levenshtein sorting" Set from: Default
 rofi.levenshtein-sort:               true
+! rofi.sort: true
 
 ! "Set case-sensitivity" Set from: Default
 ! rofi.case-sensitive:                 false

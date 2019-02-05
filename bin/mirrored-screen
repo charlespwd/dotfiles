@@ -1,6 +1,6 @@
 #!/bin/bash
 
-mode="3840x2160"
+mode="1920x1080"
 xrandr --output eDP1 --mode $mode --scale 1x1
 xrandr --output HDMI1 --mode $mode --same-as eDP1 --scale 1x1
 

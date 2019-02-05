@@ -105,6 +105,7 @@ call plug#begin($XDG_CONFIG_HOME . '/nvim/plugged')
   " Misc
   Plug 'nathanaelkane/vim-indent-guides'
   Plug 'morhetz/gruvbox'
+  " Plug 'altercation/vim-colors-solarized'
   " Plug 'tpope/vim-projectionist'
   Plug 'tpope/vim-repeat'
   Plug 'tpope/vim-unimpaired'
@@ -116,6 +117,10 @@ call plug#begin($XDG_CONFIG_HOME . '/nvim/plugged')
   Plug 'vim-scripts/matchit.zip'
   " Plug 'jpalardy/vim-slime'
   Plug 'godlygeek/tabular'
+  Plug 'unblevable/quick-scope'
+
+  " Bdelete
+  Plug 'moll/vim-bbye'
 
   "" Autoclosing parens
   " Plug 'Raimondi/delimitMate'
@@ -131,6 +136,7 @@ call plug#begin($XDG_CONFIG_HOME . '/nvim/plugged')
   " Git
   " Plug 'idanarye/vim-merginal'
   Plug 'tpope/vim-fugitive'
+  Plug 'junegunn/gv.vim'
   Plug 'tpope/vim-rhubarb'
   Plug 'AndrewRadev/linediff.vim'
 

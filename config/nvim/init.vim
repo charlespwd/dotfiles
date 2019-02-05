@@ -1,8 +1,8 @@
 syntax enable
 filetype plugin indent on
 
-source $XDG_CONFIG_HOME/nvim/config/plugins.vim
-source $XDG_CONFIG_HOME/nvim/config/options.vim
-source $XDG_CONFIG_HOME/nvim/config/functions.vim
-source $XDG_CONFIG_HOME/nvim/config/macros.vim
-source $XDG_CONFIG_HOME/nvim/config/ft.vim
+source $HOME/.config/nvim/config/plugins.vim
+source $HOME/.config/nvim/config/options.vim
+source $HOME/.config/nvim/config/functions.vim
+source $HOME/.config/nvim/config/macros.vim
+source $HOME/.config/nvim/config/ft.vim
