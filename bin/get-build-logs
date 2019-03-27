@@ -1,0 +1,35 @@
+#!/bin/bash
+get_window() {
+  case $1 in
+    comp|composer|co*)
+      echo "start/composer"
+      ;;
+    cis|callitspring|ci*)
+      echo "start/callitspring"
+      ;;
+    aldo|aldoshoes|al*)
+      echo "start/aldoshoes"
+      ;;
+    globo|globoshoes|gl*)
+      echo "start/globoshoes"
+      ;;
+    gatsby)
+      echo "start/gatsby"
+      ;;
+    *)
+      echo $1
+      ;;
+  esac
+}
+
+get_suffix() {
+  case $1 in
+    i* )
+      echo "/iso"
+      ;;
+  esac
+}
+
+session="build"
+target="$session:$(get_window $1)$(get_suffix $2)"
+tmux switch-client -t $target

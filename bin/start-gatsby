@@ -1,0 +1,39 @@
+#!/bin/bash
+root="$HOME/ws/blog"
+session="build"
+
+is_in_session() {
+  [[ -n $TMUX ]] && [[ $(tmux display-message -p '#S') = $session ]];
+  return
+}
+
+create_and_start() {
+  name="$1"
+  cmd="$2"
+  target="$session:$name"
+  if (tmux select-window -t "$target" &> /dev/null); then
+    tmux send-keys -t "$target" C-c
+    sleep 1
+  else
+    tmux new-window -t $session -n "$name"
+  fi
+
+  tmux send-keys -t "$target" "cd $root" Enter
+  tmux send-keys -t "$target" "nvm use" Enter
+  tmux send-keys -t "$target" "$cmd" Enter
+}
+
+cd $root
+
+# start session
+(tmux has-session -t $session &> /dev/null) || tmux new -s $session -d
+
+create_and_start 'start/gatsby' 'yarn start' &
+echo "All goodie goodie!"
+tmux ls
+
+if is_in_session; then
+  tmux new -s gatsby "cd $root"
+elif ! [[ -n $TMUX ]]; then
+  tmux attach -t gatsby
+fi

@@ -1,0 +1,13 @@
+#!/bin/bash
+
+script="
+const repl = require('repl');
+const moment = require('moment');
+const R = require('ramda');
+
+const r = repl.start('> ');
+r.context.R = R;
+r.context.moment = moment;
+"
+
+$HOME/bin/node-eval "$script"
