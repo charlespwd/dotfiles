@@ -1,0 +1,16 @@
+#!/usr/bin/env node
+const moment = require('moment');
+const fs = require('fs');
+const home = process.env.HOME;
+const histfile = fs.readFileSync(home + '/.zsh_history', 'utf8');
+const R = require('ramda');
+
+const getLines = R.pipe(
+  R.split(/\n?: /g),
+  R.map(R.replace(/:0;/g, '\t')),
+  R.map(R.split('\t')),
+  R.map(([ts,cmd]) => [moment(ts, 'X').format('YYYY-MM-DD hh:mm:ss'), cmd].join('\t')),
+  R.join('\n'),
+);
+
+console.log(getLines(histfile));
