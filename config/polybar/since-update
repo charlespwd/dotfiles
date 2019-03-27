@@ -1,0 +1,32 @@
+#!/bin/bash
+
+date=$(
+cat /var/log/pacman.log \
+  | grep full \
+  | tail -n 1 \
+  | sed -e 's#\[##g' -e 's#\]##g' \
+  | cut -d ' ' -f 1
+)
+
+script="
+const moment = require('moment')
+const a = moment('$date', 'YYYY-MM-DD')
+const b = moment()
+const diff = moment.duration(b.diff(a))
+const red = x => console.log('%{F#cc241d}' + x + '%{F-}')
+const orange = x => console.log('%{F#fe8019}' + x + '%{F-}')
+const green = x => console.log(x);
+if (diff.asDays() > 30) {
+  red(Math.floor(diff.asMonths()) + 'M')
+} else if (diff.asDays() > 14) {
+  red(Math.floor(diff.asWeeks()) + 'W')
+} else if (diff.asDays() > 7) {
+  orange(Math.floor(diff.asWeeks()) + 'W')
+} else if (diff.asDays() > 1) {
+  green(Math.ceil(diff.asDays()) + 'D')
+} else if (diff.asHours() > 1) {
+  green(Math.ceil(diff.asHours()) + 'H')
+}
+"
+
+$BIN/node-eval "$script"

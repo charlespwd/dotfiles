@@ -1,0 +1,9 @@
+#!/bin/bash
+
+if pgrep -x openconnect &> /dev/null; then
+  echo "VPN: ALDO"
+elif pgrep -x openvpn &> /dev/null; then
+  echo "VPN: NORD"
+else
+  echo ""
+fi

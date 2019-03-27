@@ -1,0 +1,40 @@
+#!/bin/bash
+t=0
+source $HOME/.env
+
+toggle() {
+    t=$(((t + 1) % 4))
+}
+
+cal_to_goal() {
+  cal=$($HOME/bin/calories $1)
+  curr=$(echo $cal | cut -d ' ' -f2)
+  goal=$(echo $cal | cut -d ' ' -f3)
+  echo $curr/$goal
+}
+
+pct() {
+  $HOME/bin/calories -P $1 | cut -d' ' -f2
+}
+
+trap "toggle" USR1
+
+while true; do
+    if [ $t -eq 0 ]; then
+      pct -e
+    elif [ $t -eq 1 ]; then
+      cal_to_goal -e
+    elif [ $t -eq 2 ]; then
+      c="C: $(pct -c)"
+      p="P: $(pct -p)"
+      f="F: $(pct -f)"
+      echo $c $p $f
+    else
+      c="C: $(cal_to_goal -c)"
+      p="P: $(cal_to_goal -p)"
+      f="F: $(cal_to_goal -f)"
+      echo $c $p $f
+    fi
+    sleep 60 &
+    wait
+done
