@@ -1,0 +1,3 @@
+#!/bin/bash
+$BIN/start-all $BRAND true
+$BIN/start-all composer true

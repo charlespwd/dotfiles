@@ -138,3 +138,54 @@ export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 export CONFIG="$XDG_CONFIG_HOME"
 
 unsetopt nomatch
+
+# _complete_yarn() {
+#   if [[ -e package.json ]]; then
+#     reply=($(cat package.json | jq -S -r '.scripts | keys | .[]'))
+#     # reply=($(cat package.json | jq -S -r '.scripts | to_entries | map("\(.key)[\(.value|tostring)]") | .[]'))
+#   fi
+# }
+#
+# compctl -K _complete_yarn -X _complete_yarn_desc yarn
+
+_complete_yarn_2() {
+  local -a keyValues
+  if ! [[ -f $PWD/package.json ]]; then
+    exit 0;
+  fi
+  filter='.scripts | to_entries | map("\(.key|sub(":"; "\\:"; "g")):\(.value|tostring)") | .[]'
+  IFS=$'\n';
+  keyValues=($(cat $PWD/package.json | jq --sort-keys --raw-output $filter))
+  _describe 'command' keyValues
+  _arguments '--cwd[cwd]:filename:_files'
+}
+
+compdef _complete_yarn_2 yarn
+
+export PATH="$PATH:$HOME/ws/aldo/perf/bin"
+
+# _complete_compare() {
+#   folders=$(find $HOME/tmp -maxdepth 1 -type d | egrep -v '9409661|achat|accounting' | xargs -n 1 basename | grep -v 'tmp' | sort | awk '{ print $1.":hello" }')
+#   IFS=$'\n'
+#   keyValues=($folders)
+#   _describe 'command' folders
+# }
+#
+# compdef _complete_compare() comparebuilds
+
+_complete_compare() {
+  reply=($(find $HOME/tmp -maxdepth 1 -type d | egrep -v '9409661|achat|accounting' | xargs -n 1 basename | grep -v 'tmp' | sort))
+}
+
+compctl -K _complete_compare comparebuilds
+compctl -K _complete_compare shoebox-perf
+
+# tabtab source for serverless package
+# uninstall by removing these lines or running `tabtab uninstall serverless`
+[[ -f /home/charles/ws/aldo/shoebox/node_modules/tabtab/.completions/serverless.zsh ]] && . /home/charles/ws/aldo/shoebox/node_modules/tabtab/.completions/serverless.zsh
+# tabtab source for sls package
+# uninstall by removing these lines or running `tabtab uninstall sls`
+[[ -f /home/charles/ws/aldo/shoebox/node_modules/tabtab/.completions/sls.zsh ]] && . /home/charles/ws/aldo/shoebox/node_modules/tabtab/.completions/sls.zsh
+# tabtab source for slss package
+# uninstall by removing these lines or running `tabtab uninstall slss`
+[[ -f /home/charles/ws/aldo/shoebox/node_modules/tabtab/.completions/slss.zsh ]] && . /home/charles/ws/aldo/shoebox/node_modules/tabtab/.completions/slss.zsh

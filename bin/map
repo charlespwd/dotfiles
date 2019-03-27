@@ -1,0 +1,18 @@
+#!/bin/bash
+set -eou pipefail
+
+color() {
+  echo -e "\e[${1}m"
+}
+
+items="$1"
+cmd=$2
+shift 2
+args=$@
+fgcolor=$(color 37)
+nocolor=$(color 0)
+
+for item in $items; do
+  # echo -e "$fgcolor$cmd $@ $item$nocolor"
+  $cmd $args $item
+done

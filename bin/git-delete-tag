@@ -1,0 +1,5 @@
+#!/bin/bash
+
+tag=$1
+git push --delete upstream $tag
+git tag --delete $tag

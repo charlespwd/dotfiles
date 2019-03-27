@@ -280,4 +280,17 @@ let g:projectionist_ignore_man=1
 " Trigger a highlight in the appropriate direction when pressing these keys:
 let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 
+" split join
+let g:splitjoin_trailing_comma = 1
+
 highlight jsFuncCall ctermfg=White
+highlight clear SpellBad
+highlight SpellBad ctermfg=Red
+highlight SpellCap ctermfg=Red
+highlight SpellRare ctermfg=Red
+highlight SpellLocal ctermfg=Red
+
+" press f10 to know highligh group under cursor
+map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
+\ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
+\ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>

@@ -1,0 +1,5 @@
+#!/bin/bash
+set -eou pipefail
+id=$1
+taskopen $id
+task done $id

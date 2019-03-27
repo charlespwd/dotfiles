@@ -1,0 +1,3 @@
+#!/bin/bash
+script="$1"
+NODE_PATH="$BIN/node_modules" node -e "$script"

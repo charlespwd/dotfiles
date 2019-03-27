@@ -12,25 +12,31 @@ source ~/.vim/config/ft/javascript.vim
 " source ~/.vim/config/ft/ruby.vim
 
 " Others
-autocmd FileType ruby,tex,clojure,md,html,javascript,css,scss,vim,unix,typescript autocmd BufWritePre <buffer> StripWhitespace
-autocmd BufReadPre,FileReadPre help set relativenumber
-autocmd FileType json let b:ale_lint_on_enter = 1
+augroup misc
+  " clear the commands
+  autocmd!
+  autocmd FileType ruby,tex,clojure,md,html,javascript,css,scss,vim,unix,typescript autocmd BufWritePre <buffer> StripWhitespace
+  autocmd BufReadPre,FileReadPre help set relativenumber
+  autocmd FileType json let b:ale_lint_on_enter = 1
+  autocmd FileType gitcommit if expand('%:t') == 'PULLREQ_EDITMSG' | set filetype=vimwiki.pullrequest | endif
+augroup END
+
+augroup runnable
+  autocmd!
+  autocmd FileType javascript,sh :map <c-]> :let w:scratch=0<cr>:Redir !./%<cr>
+augroup END
 
 autocmd Filetype liquid set filetype=liquid.html
 
-" wrap in quickfix
-autocmd FileType qf setlocal wrap
+augroup quickfix
+  autocmd!
 
-" remap <c-i> to copy the import statement
-autocmd FileType qf nnoremap <buffer> <C-i> /import<cr>y$<c-k>
+  " wrap in quickfix
+  autocmd FileType qf setlocal wrap
 
-" remap ctrl+v in quickfix to vertical split
-autocmd FileType qf nnoremap <buffer> <C-v> <C-w><cr><C-w>L
+  " remap <c-i> to copy the import statement
+  autocmd FileType qf nnoremap <buffer> <C-i> /import<cr>y$<c-k>
 
-" autocmd BufNewFile,BufRead *.raml setlocal filetype=yaml
-" autocmd Filetype mail setlocal ft=markdown.mail
-
-" Always show gutter to prevent annoying left-right shift when done with
-" warnings
-"autocmd BufEnter * sign define dummy
-"autocmd BufEnter * execute 'sign place 9999 line=1 name=dummy buffer=' . bufnr('')
+  " remap ctrl+v in quickfix to vertical split
+  autocmd FileType qf nnoremap <buffer> <C-v> <C-w><cr><C-w>L
+augroup END

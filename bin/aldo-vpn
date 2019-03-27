@@ -1,6 +1,8 @@
 #!/bin/bash
 
+# help desk: 1-866-767-2536 / 8-22h
 logfile="$HOME/.config/aldo-vpn.log"
 date --rfc-3339=seconds >> $logfile
 pkill transmission
 echo $ALDO_PASS | sudo openconnect --passwd-on-stdin -u cpclermont.cg.ide --authgroup=ALDOGROUP vpn.aldogroup.com
+# sudo openconnect -u cpclermont.cg.ide --authgroup=ALDOGROUP vpn.aldogroup.com

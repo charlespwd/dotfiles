@@ -6,6 +6,11 @@ let g:vimwiki_list = [
 let g:vimwiki_folding = 'syntax'
 let g:vimwiki_ext2syntax = {'.md': 'markdown', '.markdown': 'markdown', '.mdown': 'markdown'}
 
+" prettier
+let g:prettier#config#semi = 'true'
+let g:prettier#config#single_quote = 'true'
+let g:prettier#config#trailing_comma = 'all'
+
 " load plugins
 call plug#begin($XDG_CONFIG_HOME . '/nvim/plugged')
   " html stuff
@@ -15,7 +20,7 @@ call plug#begin($XDG_CONFIG_HOME . '/nvim/plugged')
   Plug 'othree/html5.vim', { 'for': 'html' }
 
   " Plug 'tpope/vim-liquid'
-  " Plug 'AndrewRadev/splitjoin.vim'
+  Plug 'AndrewRadev/splitjoin.vim'
   " Plug 'othree/xml.vim'
 
   "" Autocomplete engine

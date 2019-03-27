@@ -1,0 +1,4 @@
+#!/bin/bash
+tag=$1
+git tag $1
+git push upstream $1

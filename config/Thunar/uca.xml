@@ -24,4 +24,13 @@
 	<text-files/>
 	<video-files/>
 </action>
+<action>
+	<icon>utilities-terminal</icon>
+	<name>Run Script</name>
+	<unique-id>1549389923286867-1</unique-id>
+	<command>bash %f</command>
+	<description></description>
+	<patterns>*.sh</patterns>
+	<other-files/>
+</action>
 </actions>

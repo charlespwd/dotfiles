@@ -1,0 +1,8 @@
+#!/bin/bash
+
+set -eou pipefail
+
+# https://nordvpn.com/servers/#recommended
+vpnfile="/etc/openvpn/ovpn/ovpn_udp/ca432.nordvpn.com.udp.ovpn"
+passfile="$NORD_VPN_PASSFILE"
+sudo openvpn $vpnfile

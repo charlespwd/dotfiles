@@ -1,0 +1,16 @@
+#!/bin/bash
+# Usage
+# echo /path/to/img.png | imgur
+
+clientid='9be03e7e8cc7d41'
+read -r img
+res=$(curl -sH "Authorization: Client-ID $clientid" -F "image=@$img" "https://api.imgur.com/3/upload")
+
+echo $res | grep -qo '"status":200' && link=$(echo $res | sed -e 's/.*"link":"\([^"]*\).*/\1/' -e 's/\\//g')
+
+if test -n "$link"; then
+  echo "$link"
+else
+  echo "$res" >&2
+  exit 1
+fi

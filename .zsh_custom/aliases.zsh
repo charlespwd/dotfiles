@@ -45,14 +45,15 @@ if [ "$OS" = "Linux" ]; then
   alias fixheadphones="alsactl restore"
   alias gtypist="gtypist -w"
   alias ji="jira"
+  alias jt="jira-task"
   alias jifs="jira sprintf"
   alias jis="jira sprint"
   alias jisf="jira sprintf"
-  alias jit="jira transition --noedit"
-  alias jitcr='map "$(jira sprintf)" jira transition --noedit "Code Review"'
-  alias jitqa='issues="$(jira sprintf)"; map $issues jira transition --noedit "QA"; map $issues jira unassign'
-  alias jits='map "$(jira sprintf)" jira transition --noedit "In Progress"'
-  alias jiv='map "$(jira sprintf)" jira view -b'
+  alias ji2="jira transition --noedit"
+  alias ji2cr='jira transition --noedit "Code Review" $(jira sprintf)'
+  alias ji2qa='jira transition --noedit "QA" $(jira sprintf)'
+  alias ji2ip='jira transition --noedit "In Progress" $(jira sprintf)'
+  alias jiv='jira view -b $(jira sprintf)'
   alias journalctl="sudo journalctl"
   alias mountmc="sudo mount -t cifs //raspi.local/mediacenter /mnt/mediacenter -o username=pi,vers=1.0"
   alias nmr="sudo systemctl restart NetworkManager"
@@ -177,3 +178,4 @@ alias outbox-vpn="sudo openconnect -u cpclermont --authgroup=Anyconnect connect.
 alias weather="curl wttr.in/Montreal"
 alias update="yay -Syu --nocleanmenu --noeditmenu --nodiffmenu --nocombinedupgrade --noupgrademenu"
 alias update-aur="update --aur"
+alias sa="start-all"

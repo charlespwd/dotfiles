@@ -142,8 +142,7 @@ format-padding = 0
 
 [module/vpn]
 type = custom/script
-exec = echo "VPN: ON"
-exec-if = pgrep -x openconnect || pgrep -x openvpn
+exec = /home/charles/.config/polybar/is-vpn-on
 interval = 5
 format-prefix-foreground = ${colors.foreground-dim}
 format-prefix-padding-right = 2

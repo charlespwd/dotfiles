@@ -1,0 +1,3 @@
+#!/bin/bash
+id=$1
+task _get $1.description | cut -d ' ' -f 1

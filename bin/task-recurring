@@ -1,0 +1,5 @@
+#!/bin/bash
+
+tmpfile=/tmp/import.json
+task export '(+CHILD or +PARENT) -COMPLETED -DELETED' | task-recurring.js > $tmpfile
+task import $tmpfile

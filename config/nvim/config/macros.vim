@@ -101,24 +101,24 @@ call SetupCommandAlias('NMS', 'NeomakeSh')
 call SetupCommandAlias('NSH', 'NeomakeSh')
 call SetupCommandAlias('ZON', 'ZenModeOn')
 call SetupCommandAlias('ZOFF', 'ZenModeOff')
-call SetupCommandAlias('eod', 'e ~/summary.md')
+" call SetupCommandAlias('eod', eodcmd)
 call SetupCommandAlias('eods', 'w !send-summary')
 call SetupCommandAlias('eodsy', 'w !send-summary 1')
 call SetupCommandAlias('wf', 'w !sudo tee %')
 call SetupCommandAlias('setx', '!chmod u+x %')
+call SetupCommandAlias('script', 'w\|set ft=sh\|!chmod u+x %')
 call SetupCommandAlias('re!', 'Redir !')
 call SetupCommandAlias('RE!!', 'Redir !%')
 call SetupCommandAlias('qf', 'QFilter')
 call SetupCommandAlias('qf!', 'QFilter!')
 
 " to imgur image link
-map <leader>2i :let @a=system('imgur', expand('<cfile>'))<cr>^C![alt](<c-r>a<bs>)
+map <leader>2i :let @a=system('imgur', expand('<cfile>'))<cr>^C![alt](<c-r>a<bs>)<esc>
 
 " MACROS
 " map <leader>ww :!wc -w %<cr>
 " nmap <leader>== 70i=<esc>o<esc>
 " tmap <Esc> <C-\><C-n>
-map <c-]> :let w:scratch=0<cr>:Redir !%<cr>
 map <leader>"" <Plug>ToggleTextObjQuotes
 map <leader># :let @+=system('sed -e "s#^[^/]*/##" -e "s#\(/index\)*.js\$##" -e "s#/home/charles/ws/aldo/shoebox/##"', resolve(expand('%')))<CR>
 map <leader>% :let @+=expand('%')<CR>
@@ -196,6 +196,7 @@ map <leader>pi :PlugInstall<cr>
 map <leader>po :PencilToggle<cr>
 map <leader>pp "+p
 map <leader>pu :PlugUpdate<cr>
+map <leader>ra :RangerAppend<cr>
 map <leader>rf :%s/\v(<<c-r><c-w>>)/
 map <leader>ritual <Plug>Ritual
 map <leader>rm :call delete(expand('%')) <bar> bdelete!

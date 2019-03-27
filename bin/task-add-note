@@ -1,0 +1,2 @@
+#!/bin/bash
+task $1 annotate "$HOME/documents/tasknotes/$(task _get $1.uuid | cut -d '-' -f 1).md"

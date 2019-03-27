@@ -220,6 +220,17 @@ call s:OpenJsxStr('<SeatPickerPopover viewId={this.viewId} addToCart={this.addTo
 call s:OpenJsxStr('<SeatPickerPopover style={{ backgroundColor: 1 }} addToCart={this.addToCart} closePopover={this.onClosePopover}>')
 call s:OpenJsxStr('<iframe attr="some-key" />')
 
+function! Eod()
+  let monthregex='(January|February|March|April|May|June|July|August|September|October|November|December)'
+  let dayregex='\d{1,2}'
+  let yearregex='\d{4}'
+  let dateregex='\v' . monthregex . ' ' . dayregex . ', ' . yearregex
+  let today=system("/usr/bin/env node -e 'process.stdout.setEncoding(`utf8`);process.stdout.write(new Intl.DateTimeFormat(`en-CA`, { year: `numeric`, month: `long`, day: `numeric`, timezone: `America/New_York` }).format(new Date()))'")
+  edit ~/summary.md
+  execute '3s#'.dateregex.'#'.today.'#ge'
+endfunction
+command! -nargs=0 -complete=command Eod silent call Eod(<f-args>)
+
 function! s:FilterQuickfixList(bang, pattern)
   let cmp = a:bang ? '!~#' : '=~#'
   call setqflist(filter(getqflist(), "bufname(v:val['bufnr']) " . cmp . " a:pattern"))

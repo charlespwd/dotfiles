@@ -68,6 +68,7 @@ function! SetJavascriptOptions()
   let b:surround_{char2nr('D')} = "describe('', function() {\n\r\n});"
   let b:surround_{char2nr('d')} = "describe('', () => {\n\r\n})"
   let b:match_words = "(:),\[:\],{:},<:>,<\@<=\\([^/][^ \t>]*\\)[^>]*\\%(/\@<!>\\|$\\):<\@<=/\1>,':'"
+
   set conceallevel=0
 
   map <Leader>py <Plug>(Prettier)
@@ -113,21 +114,24 @@ endfunction
 
 " Set js options for all js files
 " autocmd BufReadPre,FileReadPre *.es6,*.jsx set filetype=javascript
-autocmd BufReadPre,FileReadPre *.tsx set filetype=typescript
-autocmd BufReadPre,FileReadPre,BufEnter *.js.liquid set filetype=javascript.jsx.liquid
-autocmd Filetype javascript call SetJavascriptOptions()
-autocmd Filetype typescript call SetTypescriptOptions()
+augroup jslike
+  autocmd!
+  autocmd BufReadPre,FileReadPre *.tsx set filetype=typescript
+  autocmd BufReadPre,FileReadPre,BufEnter *.js.liquid set filetype=javascript.jsx.liquid
+  autocmd Filetype javascript call SetJavascriptOptions()
+  autocmd Filetype typescript call SetTypescriptOptions()
 
-" run lint on save
-" autocmd BufRead,BufWrite *.js,*.jsx Neomake eslint
-" autocmd BufRead,BufWrite *.ts,*.tsx Neomake
-" autocmd BufRead,BufWrite *.ts TsuGeterr
+  " run lint on save
+  " autocmd BufRead,BufWrite *.js,*.jsx Neomake eslint
+  " autocmd BufRead,BufWrite *.ts,*.tsx Neomake
+  " autocmd BufRead,BufWrite *.ts TsuGeterr
 
-" disable the annoying vim-node doc preview
-autocmd BufEnter *.js,*.jsx setlocal completeopt-=preview
+  " disable the annoying vim-node doc preview
+  autocmd BufEnter *.js,*.jsx setlocal completeopt-=preview
 
-autocmd User Node
-  \ if &filetype == "javascript.jsx" |
-  \   nmap <buffer> <C-w>f <Plug>NodeVSplitGotoFile |
-  \   nmap <buffer> <C-w><C-f> <Plug>NodeVSplitGotoFile |
-  \ endif
+  autocmd User Node
+        \ if &filetype == "javascript.jsx" |
+        \   nmap <buffer> <C-w>f <Plug>NodeVSplitGotoFile |
+        \   nmap <buffer> <C-w><C-f> <Plug>NodeVSplitGotoFile |
+        \ endif
+augroup END

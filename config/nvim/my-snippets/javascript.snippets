@@ -38,26 +38,6 @@ import debugUtils from 'core/common/utils/debug';
 const debug = debugUtils(__filename);
 endsnippet
 
-snippet imp_ "import properties"
-import { ${1:map} } from '${2:lodash}';
-endsnippet
-
-snippet impc "redux connect"
-import { connect } from 'react-redux';
-endsnippet
-
-snippet impr "React"
-import React$1 from 'react';
-endsnippet
-
-snippet impR "Ramda"
-import R from 'ramda';
-endsnippet
-
-snippet imppt "Prop types"
-import PropTypes from 'prop-types';
-endsnippet
-
 snippet reaction
 /* @module ${1:Module}Actions */
 import flux from '../../common/flux';
@@ -663,8 +643,36 @@ snippet imp
 import ${1:module} from '${2:$1}';
 endsnippet
 
+snippet ipt
+import PropTypes from 'prop-types';
+endsnippet
+
 snippet .imp
 import ${1:module} from './${2:$1}';
+endsnippet
+
+snippet imp_ "import properties"
+import { ${1:map} } from '${2:lodash}';
+endsnippet
+
+snippet impc "redux connect"
+import { connect } from 'react-redux';
+endsnippet
+
+snippet impr "React"
+import React$1 from 'react';
+endsnippet
+
+snippet impR "Ramda"
+import R from 'ramda';
+endsnippet
+
+snippet impl "loadable"
+import loadable from '@loadable/component';
+endsnippet
+
+snippet imppt "Prop types"
+import PropTypes from 'prop-types';
 endsnippet
 
 snippet xp
@@ -856,10 +864,6 @@ snippet Given
 this.Given(/${1:myregex}/, () => {
 	${2}
 });
-endsnippet
-
-snippet ipt
-import PropTypes from 'prop-types';
 endsnippet
 
 snippet props "React.Component prop-types"

@@ -13,4 +13,5 @@ function! SetProseOptions()
   endtry
 
   vmap <leader>K "ic[<c-r>i](<c-r>i)
+  setlocal spell spelllang=en_us
 endfunction
