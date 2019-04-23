@@ -16,6 +16,48 @@ if [ "$OS" = "Linux" ]; then
     xdg-mime default $2 $1
   }
 
+  function ji2qa {
+    jira transition --noedit "QA" $1
+    jira unassign $1
+  }
+
+  function jib {
+    if [[ $# -ne 1 ]]; then
+      ticket="$(jira sprintf)"
+    else
+      ticket="$1"
+    fi
+    jira view -b $ticket
+  }
+
+  function jiv {
+    jira view $@ \
+      | fold -w $(tput cols) -s \
+      | $BIN/hilite -f blue '\- | #.*$' \
+      | $BIN/hilite -f green 'content:.*$' \
+      | $BIN/hilite -f yellow '\[~.*\]' \
+      | $BIN/hilite -f green '\[\^.*\]' \
+      | $BIN/hilite -f green '\[.*|.*]' \
+      | $BIN/hilite -f green '\![^!]*\!' \
+      | $BIN/hilite -f green 'https\:\/\/[a-zA-Z0-9.?&%=/#_\+\-]*' \
+      | $BIN/hilite -f grey '{code.*}'
+  }
+
+  function jigs {
+    jira grab $1 && jiS $1
+  }
+
+  # jira 2 ip + start in task warrior
+  function jiS {
+    ticketId=$1
+    taskId=$(task export | jq -r '. | map(select(.description | contains("'$ticketId:u'"))) | .[0] | .uuid' | tr -d '\n' | tr -d ' ' )
+    echo $taskId
+    if [[ $taskId != 'null' ]]; then
+      ji2ip $1
+      ts $taskId
+    fi
+  }
+
   alias ".."="cd .."
   alias "..."="cd ../.."
   alias ".i3"="vim ~/.config/i3/config"
@@ -44,16 +86,17 @@ if [ "$OS" = "Linux" ]; then
   alias fgpr="gpr"
   alias fixheadphones="alsactl restore"
   alias gtypist="gtypist -w"
+  alias ji2="jira transition --noedit"
+  alias ji2cr='jira transition --noedit "Code Review"'
+  alias ji2ip='jira transition --noedit "In Progress"'
   alias ji="jira"
-  alias jt="jira-task"
+  alias jic="jira comment"
+  alias jict="task +ACTIVE export | jq -r '.[].description' | cut -d'|' -f 1 | head -n 1 | tr -d '\n' | tr -d ' ' 2> /dev/null"
   alias jifs="jira sprintf"
   alias jis="jira sprint"
   alias jisf="jira sprintf"
-  alias ji2="jira transition --noedit"
-  alias ji2cr='jira transition --noedit "Code Review" $(jira sprintf)'
-  alias ji2qa='jira transition --noedit "QA" $(jira sprintf)'
-  alias ji2ip='jira transition --noedit "In Progress" $(jira sprintf)'
-  alias jiv='jira view -b $(jira sprintf)'
+  alias jit="jira-task"
+  alias jivc='jiv $(jict)'
   alias journalctl="sudo journalctl"
   alias mountmc="sudo mount -t cifs //raspi.local/mediacenter /mnt/mediacenter -o username=pi,vers=1.0"
   alias nmr="sudo systemctl restart NetworkManager"
