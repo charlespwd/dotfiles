@@ -1,8 +1,40 @@
 #!/bin/bash
 
+usage() {
+  cat << EOD
+$0 usage:
+  -v <vpn-ip>
+    Change the vpn's ip address (for when it's down)
+  -p
+    Enter password manually
+EOD
+}
+
+usePass=0
+vpn="vpn.aldogroup.com"
+while getopts "hpv:" option; do
+  case $option in
+    h)
+      usage
+      exit 0
+      ;;
+    p)
+      usePass=1
+      ;;
+    v)
+      vpn="${OPTARG}"
+      ;;
+  esac
+done
+shift $(($OPTIND - 1))
+
 # help desk: 1-866-767-2536 / 8-22h
 logfile="$HOME/.config/aldo-vpn.log"
 date --rfc-3339=seconds >> $logfile
 pkill transmission
-echo $ALDO_PASS | sudo openconnect --passwd-on-stdin -u cpclermont.cg.ide --authgroup=ALDOGROUP vpn.aldogroup.com
-# sudo openconnect -u cpclermont.cg.ide --authgroup=ALDOGROUP vpn.aldogroup.com
+
+if [[ $usePass = 1 ]]; then
+  sudo openconnect -u cpclermont.cg.ide --authgroup=ALDOGROUP $vpn
+else
+  echo $ALDO_PASS | sudo openconnect --passwd-on-stdin -u cpclermont.cg.ide --authgroup=ALDOGROUP $vpn
+fi
