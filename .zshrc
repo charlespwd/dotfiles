@@ -1,6 +1,3 @@
-# Load secret environment variables
-[ -s "$HOME/dotfiles/env" ] && source "$HOME/dotfiles/env";
-
 # For switching configs
 OS=$(uname -s)
 
@@ -84,23 +81,9 @@ fi
 # Load oh-my-zsh
 source $ZSH/oh-my-zsh.sh
 
-# User configuration
-
-# Add $scr variable
-export scr="$HOME/bin"
-
-# Change your path
-export PATH="$HOME/bin:$PATH"
-
 # Load os specific config
 [ "$OS" = "Linux" ] && source ~/dotfiles/arch.sh
 [ "$OS" = "Darwin" ] && source ~/dotfiles/osx.sh
-
-# Default editor
-export EDITOR='nvim'
-
-# CONFIG HOME (neovim)
-export XDG_CONFIG_HOME="$HOME/dotfiles/config"
 
 # Enable c-x,c-e command line editing
 autoload -U edit-command-line
@@ -124,18 +107,8 @@ export FZF_DEFAULT_COMMAND='rg --files --follow --glob "!.git/*"'
 export FZF_TMUX=1
 export FZF_TMUX_HEIGHT="50%"
 
-# Prioritize utilization of locally installed scripts
-export PATH="node_modules/.bin:../../node_modules/.bin:$PATH"
-
-# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
-# export PATH="$PATH:$HOME/.rvm/bin"
-
 export NVM_DIR="/home/charles/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
-
-# yarn
-export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
-export CONFIG="$XDG_CONFIG_HOME"
 
 unsetopt nomatch
 
@@ -161,8 +134,6 @@ _complete_yarn_2() {
 }
 
 compdef _complete_yarn_2 yarn
-
-export PATH="$PATH:$HOME/ws/aldo/perf/bin"
 
 # _complete_compare() {
 #   folders=$(find $HOME/tmp -maxdepth 1 -type d | egrep -v '9409661|achat|accounting' | xargs -n 1 basename | grep -v 'tmp' | sort | awk '{ print $1.":hello" }')

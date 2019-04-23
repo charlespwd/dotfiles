@@ -3,26 +3,6 @@
   && source /usr/share/nvm/init-nvm.sh \
   || echo "'nvm' not installed"
 
-# /usr/local/bin
-export PATH=${PATH}:/usr/local/bin
-
-# local bin
-export PATH=${PATH}:bin
-export BIN=$HOME/bin
-
-# completions path
-export fpath=($BIN/completions $fpath)
-
-# dotfiles and stuff
-export POLYBAR="$CONFIG/polybar"
-export DOT="$HOME/dotfiles"
-
-# yarn / nvm
-export PATH=${PATH}:$HOME/.yarn/bin
-
-# ruby gems
-export PATH=${PATH}:$HOME/.gem/ruby/2.5.0/bin
-
 # Startx on boot
 if [ -z "$DISPLAY" ] && [ -n "$XDG_VTNR" ] && [ "$XDG_VTNR" -eq 1 ]; then
   exec startx
@@ -43,14 +23,6 @@ if [ -d /opt/android-sdk ]; then
   export PATH=${PATH}:${ANDROID_HOME}/platform-tools
 fi
 
-# go-jira
-if [ -d $HOME/.jira.d ]; then
-  export JIRA=$HOME/.jira.d
-fi
-
-# python user bin
-export PATH=${PATH}:$HOME/.local/bin
-
 # ssh key chain (see .xinitrc)
 if [ -n "$DESKTOP_SESSION" ]; then
     eval $(gnome-keyring-daemon --start)
@@ -61,11 +33,6 @@ fi
 [ -s "/usr/share/autoenv-git/activate.sh" ] \
   && source /usr/share/autoenv-git/activate.sh \
   || echo "'autoenv' not installed"
-
-# default browser
-export BROWSER="chromium"
-export EDITOR="nvim"
-export VISUAL="nvim"
 
 # rbenv
 export PATH="$HOME/.rbenv/shims:${PATH}"
