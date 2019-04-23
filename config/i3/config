@@ -129,6 +129,7 @@ for_window [class="feh" floating] border none
 
 # octave
 for_window [class="GNU Octave"] floating enable
+for_window [class="(?i)matplotlib"] floating enable
 
 # Slack rule
 assign [instance="slack"] $w4
