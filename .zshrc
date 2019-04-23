@@ -126,8 +126,10 @@ _complete_yarn_2() {
   if ! [[ -f $PWD/package.json ]]; then
     exit 0;
   fi
+  # turn scripts into `${key}:${value}` pairs separated by a line
   filter='.scripts | to_entries | map("\(.key|sub(":"; "\\:"; "g")):\(.value|tostring)") | .[]'
   IFS=$'\n';
+  # keyValues will be `${key}:${value}`[]
   keyValues=($(cat $PWD/package.json | jq --sort-keys --raw-output $filter))
   _describe 'command' keyValues
   _arguments '--cwd[cwd]:filename:_files'
@@ -150,6 +152,20 @@ _complete_compare() {
 
 compctl -K _complete_compare comparebuilds
 compctl -K _complete_compare shoebox-perf
+
+_complete_release() {
+  reply=($(git tag))
+}
+
+compctl -K _complete_release release
+
+_complete_tempo() {
+  IFS=$'\n';
+  keyValues=($($BIN/tempo -l | sed 's#\t#:#g'))
+  _describe 'command' keyValues
+}
+
+compdef _complete_tempo tempo
 
 # tabtab source for serverless package
 # uninstall by removing these lines or running `tabtab uninstall serverless`
