@@ -90,3 +90,4 @@ bin/jira-sprint
 bin/jira-task
 config/googlecl
 config/monitors.xml
+config/nvim/black
