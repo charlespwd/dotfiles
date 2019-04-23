@@ -1,3 +1,24 @@
+snippet getopts
+# OPTSTRING is string with list of expected arguments,
+#
+# h    - check for option -h without parameters; gives error on unsupported options;
+# h:   - check for option -h with parameter; gives errors on unsupported options;
+# abc  - check for options -a, -b, -c; gives errors on unsupported options;
+# :abc - check for options -a, -b, -c; silences errors on unsupported options;
+#
+# OPTARG - is set to current argument value,
+#
+# OPTERR - indicates if Bash should display error messages.
+while getopts "${1:OPTSTRING}" option; do
+	case $option in
+		${2:a})
+			echo "hello"
+			;;
+	esac
+done
+shift $(($OPTIND - 1))
+endsnippet
+
 snippet switch
 case "${1:\$1}" in
 	"${2:start}")

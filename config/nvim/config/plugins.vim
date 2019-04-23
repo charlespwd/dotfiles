@@ -62,7 +62,7 @@ call plug#begin($XDG_CONFIG_HOME . '/nvim/plugged')
 
   " golang
   " Plug 'nsf/gocode', { 'rtp': 'nvim', 'do': '~/.config/nvim/plugged/gocode/nvim/symlink.sh' }
-  " Plug 'fatih/vim-go'
+  Plug 'fatih/vim-go'
 
   " Javascript & typescript
   Plug 'charlespwd/vim-node'

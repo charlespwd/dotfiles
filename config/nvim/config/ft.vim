@@ -18,13 +18,16 @@ augroup misc
   autocmd FileType ruby,tex,clojure,md,html,javascript,css,scss,vim,unix,typescript autocmd BufWritePre <buffer> StripWhitespace
   autocmd BufReadPre,FileReadPre help set relativenumber
   autocmd FileType json let b:ale_lint_on_enter = 1
-  autocmd FileType gitcommit if expand('%:t') == 'PULLREQ_EDITMSG' | set filetype=vimwiki.pullrequest | endif
+  autocmd FileType gitcommit,pullrequest if expand('%:t') == 'PULLREQ_EDITMSG' | set filetype=vimwiki | endif
+  autocmd BufEnter *.png,*.jpg,*gif,*tif exec "! /usr/bin/xdg-open ".expand("%") | :bw
   autocmd BufWritePre *.py execute ':Black'
+  autocmd BufEnter */config/jira/templates/* set ft=gotexttmpl
 augroup END
 
 augroup runnable
   autocmd!
-  autocmd FileType javascript,sh :map <c-]> :let w:scratch=0<cr>:Redir !./%<cr>
+  autocmd FileType javascript,sh :map <c-\> :let w:scratch=0<cr>:Redir !./%<cr>
+  autocmd BufEnter */shoebox/packages/*.test.js :map <c-\> :let w:scratch=0<cr>:Redir !scripts/run-test <c-r>=expand('%:p')<cr><cr>
 augroup END
 
 autocmd Filetype liquid set filetype=liquid.html

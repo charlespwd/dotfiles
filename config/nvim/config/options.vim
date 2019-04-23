@@ -64,6 +64,7 @@ set nosmarttab
 set formatoptions+=t " make sure lines are wrapped with textwidth
 set formatoptions+=l " make sure lines don't get wrapped if they are already long
 set noshowmode " hide the --insert-- message in menu bar
+set shell=/bin/bash
 
 " Persistent undo tree (even after you trash the buffer)
 " You can also setup a cron job that deletes files unused for 90 days
@@ -289,6 +290,7 @@ highlight SpellBad ctermfg=Red
 highlight SpellCap ctermfg=Red
 highlight SpellRare ctermfg=Red
 highlight SpellLocal ctermfg=Red
+highlight Comment cterm=italic
 
 " press f10 to know highligh group under cursor
 map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'

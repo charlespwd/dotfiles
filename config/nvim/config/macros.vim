@@ -173,7 +173,6 @@ map <leader>gd :Gdiff<cr>
 map <leader>gfp :let @a=fugitive#head()<cr>:Gpush -f origin <c-r>a
 map <leader>ggp :let @a=fugitive#head()<cr>:Gpush origin <c-r>a
 map <leader>ggt :GitGutterToggle<cr>
-map <leader>gi :Git add --intent-to-add %<cr>
 map <leader>glg :Git lg -20<cr>
 map <leader>gp :let @a=fugitive#head()<cr>:Gpush origin <c-r>a
 map <leader>gri :Git rebase -i<space>
@@ -200,7 +199,7 @@ map <leader>ra :RangerAppend<cr>
 map <leader>rf :%s/\v(<<c-r><c-w>>)/
 map <leader>ritual <Plug>Ritual
 map <leader>rm :call delete(expand('%')) <bar> bdelete!
-map <leader>rn :set relativenumber!<cr>
+" map <leader>rn :set relativenumber!<cr>
 map <leader>rr :%s//
 map <leader>rs :call ReloadAllSnippets()<cr>
 map <leader>sR <leader>aW<Plug>QfreplaceFromRegisterK
