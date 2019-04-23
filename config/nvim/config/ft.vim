@@ -6,7 +6,7 @@ source ~/.vim/config/ft/clojure.vim
 source ~/.vim/config/ft/css.vim
 source ~/.vim/config/ft/html.vim
 source ~/.vim/config/ft/javascript.vim
-" source ~/.vim/config/ft/python.vim
+source ~/.vim/config/ft/python.vim
 " source ~/.vim/config/ft/latex.vim
 " source ~/.vim/config/ft/markdown.vim
 " source ~/.vim/config/ft/ruby.vim
@@ -19,6 +19,7 @@ augroup misc
   autocmd BufReadPre,FileReadPre help set relativenumber
   autocmd FileType json let b:ale_lint_on_enter = 1
   autocmd FileType gitcommit if expand('%:t') == 'PULLREQ_EDITMSG' | set filetype=vimwiki.pullrequest | endif
+  autocmd BufWritePre *.py execute ':Black'
 augroup END
 
 augroup runnable

@@ -124,6 +124,9 @@ call plug#begin($XDG_CONFIG_HOME . '/nvim/plugged')
   Plug 'godlygeek/tabular'
   Plug 'unblevable/quick-scope'
 
+  " python
+  Plug 'ambv/black', { 'for': ['python'] }
+
   " Bdelete
   Plug 'moll/vim-bbye'
 
