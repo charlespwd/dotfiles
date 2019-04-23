@@ -1,0 +1,44 @@
+{{/* table template */ -}}
+{{$w := sub termWidth 35 -}}
+{{$p := " | " -}}
+{{ range .issues -}}
+  {{ .key | printf "%-10s" -}}{{ $p -}}
+  {{ with .fields.status.name -}}
+    {{ if or (eq . "Re-Opened") (eq . "To Do") -}}
+      {{ "TD" -}}
+    {{ else if (eq . "Code Review") -}}
+      {{ "CR" -}}
+    {{ else if (eq . "In Progress") -}}
+      {{ "IP" -}}
+    {{ else -}}
+      {{ . -}}
+    {{ end -}}
+  {{ end -}}{{ $p -}}
+  {{ with .fields.issuetype.name -}}
+    {{ if eq . "Story" -}}
+      {{ "" -}}
+    {{ else if eq . "Spike" -}}
+      {{ "" -}}
+    {{ else if eq . "Bug" -}}
+      {{ "" -}}
+    {{ else -}}
+      {{ . -}}
+    {{ end -}}
+  {{ end }}{{ $p -}}
+  {{ with .fields.customfield_10004 -}}
+    {{ . -}}
+  {{ else -}}
+    {{ "-" -}}
+  {{ end -}}{{ $p -}}
+  {{ with .fields.assignee -}}
+    {{ if eq .key "cpclermont.cg.ide" -}}
+      {{ "M" -}}
+    {{ else -}}
+      {{ .key -}}
+    {{ end -}}
+  {{ else -}}
+    {{ "-" -}}
+  {{ end -}}{{ $p -}}
+  {{ .fields.summary | abbrev (sub $w 2) | printf (printf "%%-%ds" (sub $w 2)) -}}
+  {{- " " }}
+{{ end -}}

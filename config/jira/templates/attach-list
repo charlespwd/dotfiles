@@ -1,0 +1,8 @@
+{{/* table template */ -}}
++{{ "-" | rep 12 }}+{{ "-" | rep 30 }}+{{ "-" | rep 12 }}+{{ "-" | rep 14 }}+{{ "-" | rep 14 }}+
+| {{printf "%-10s" "id"}} | {{printf "%-28s" "filename"}} | {{printf "%-10s" "bytes"}} | {{printf "%-12s" "user"}} | {{printf "%-12s" "created"}} |
++{{ "-" | rep 12 }}+{{ "-" | rep 30 }}+{{ "-" | rep 12 }}+{{ "-" | rep 14 }}+{{ "-" | rep 14 }}+
+{{range . -}}
+| {{.id | printf "%10d" }} | {{.filename | printf "%-28s"}} | {{.size | printf "%10d"}} | {{.author.name | printf "%-12s"}} | {{.created | age | printf "%-12s"}} |
+{{end -}}
++{{ "-" | rep 12 }}+{{ "-" | rep 30 }}+{{ "-" | rep 12 }}+{{ "-" | rep 14 }}+{{ "-" | rep 14 }}+

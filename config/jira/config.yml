@@ -1,0 +1,48 @@
+endpoint: https://aldogroup.atlassian.net
+user: cpclermont.cg.ide@aldogroup.com
+
+custom-commands:
+  - name: sprint
+    help: jira list sprint view
+    options:
+      - name: color
+        short: c
+        type: 'BOOL'
+      - name: sprint
+        short: s
+        type: 'BOOL'
+      - name: template
+        short: t
+        default: table
+      - name: fields
+        short: f
+        default: assignee,summary,status,customfield_10004,issuetype
+    args:
+      - name: MORE
+        repeat: true
+    script: |
+      $BIN/jira-sprint {{ if options.sprint -}}-s {{ end -}}{{ if options.color -}}-c {{ end -}} -t {{ options.template }} -f {{ options.fields }} {{range $more := args.MORE}}{{$more}} {{end}}
+
+  - name: sprintf
+    help: jira list sprint view fzf
+    args:
+      - name: MORE
+        repeat: true
+    script: |
+      $BIN/jira-sprint -c -t table {{range $more := args.MORE}}{{$more}} {{end}} | fzf --multi --tac | cut -d '|' -f 1
+
+  - name: task
+    help: Add task to taskwarrior
+    args:
+      - name: ticketId
+        required: false
+    script: |
+      $BIN/jira-task {{ with args.ticketId }}{{ . }}{{ end }}
+
+  - name: grab
+    help: assign issue to self
+    args:
+      - name: ticketId
+    script: |
+      jira assign {{ args.ticketId }} cpclermont.cg.ide
+      jira task {{ args.ticketId }}

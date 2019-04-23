@@ -89,5 +89,4 @@ bin/calories
 bin/jira-sprint
 bin/jira-task
 config/googlecl
-config/jira
 config/monitors.xml

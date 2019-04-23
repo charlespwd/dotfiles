@@ -1,0 +1,6 @@
+{{/* worklog template */ -}}
+# issue: {{ .issue }}
+comment: |~
+  {{ or .comment "" }}
+timeSpent: {{ or .timeSpent "" }}
+started: {{ or .started "" }}
