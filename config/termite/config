@@ -1,8 +1,10 @@
 [options]
 clickable_url = true
 browser = /usr/bin/chromium
-font = LiterationMonoPowerline Nerd Font 12
-allow_bold = false
+# font = LiterationMonoPowerline Nerd Font 14
+# allow_bold = false
+font = Cousine Nerd Font 13
+allow_bold = true
 
 # GRUVBOX
 [colors]
