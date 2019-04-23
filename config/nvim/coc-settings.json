@@ -1,0 +1,6 @@
+{
+  "javascript.preferences.importModuleSpecifier": "non-relative",
+  "javascript.validate.enable": false,
+  "tsserver.enableJavascript": true,
+  "tsserver.implicitProjectConfig.checkJs": true
+}

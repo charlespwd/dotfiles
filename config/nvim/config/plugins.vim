@@ -25,15 +25,15 @@ call plug#begin($XDG_CONFIG_HOME . '/nvim/plugged')
 
   "" Autocomplete engine
   if !has('gui_running')
-    " nvim-completion-manager stuff
-    " Plug 'roxma/nvim-completion-manager'
-    if has('nvim')
-      Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-    endif
-    " this is for javascript tern completion
-    Plug 'roxma/nvim-cm-tern',  {'do': 'npm install' }
-    " this is for typescript and stuff
-    Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.sh' }
+    " if has('nvim')
+    "   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+    " endif
+    " " this is for javascript tern completion
+    " Plug 'roxma/nvim-cm-tern',  {'do': 'npm install' }
+    " " this is for typescript and stuff
+    " Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.sh' }
+
+    Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install() }}
   endif
 
   " Autocomplete helper (use tab instead of <c-n> and <c-p>)

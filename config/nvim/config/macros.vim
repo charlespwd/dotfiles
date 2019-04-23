@@ -248,6 +248,40 @@ function! CloseBuffer()
   endif
 endfunction
 
+" coc mappings
+nmap <silent> [c <Plug>(coc-diagnostic-prev)
+nmap <silent> ]c <Plug>(coc-diagnostic-next)
+
+" Remap keys for gotos
+nmap gd <Plug>(coc-definition)
+nmap gy <Plug>(coc-type-definition)
+nmap gi <Plug>(coc-implementation)
+nmap gr <Plug>(coc-references)
+
+" Use K for show documentation in preview window
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+" Remap for do codeAction of current line
+nmap <leader>ac  <Plug>(coc-codeaction)
+
+function! s:show_documentation()
+  if (&ft == 'javascript' || &ft == 'javascript.jsx' || &ft == 'typescript')
+    call CocAction('doHover')
+  else
+    execute &keywordprg.' '.expand('<cword>')
+  endif
+endfunction
+
+" Remap for rename current word
+nmap <leader>rn <Plug>(coc-rename)
+
+" Code action
+nmap <leader>ca <Plug>(coc-codeaction)
+
+" Remap for format selected region
+" vmap gq <Plug>(coc-format-selected)
+" nmap gq <Plug>(coc-format-selected)
+
 " terminal bindings
 tnoremap <c-c> <c-\><c-n>
 tnoremap <c-h> <C-\><C-N><C-w>h
