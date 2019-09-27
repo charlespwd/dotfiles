@@ -97,16 +97,16 @@ if [ "$OS" = "Linux" ]; then
 
   function argsDrop {
     set -- "${@:2:$#}"
-    echo $@
+    echo "$@"
   }
 
   function argsDropLast {
     set -- "${@:1:$(($# - 1))}"
-    echo $@
+    echo "$@"
   }
 
   function argsPlusTicketId {
-    echo $(argsDropLast $@) $(toTicketId $(argsLast $@))
+    echo "$(argsDropLast "$@")" "$(toTicketId $(argsLast "$@"))"
   }
 
   function mapf {

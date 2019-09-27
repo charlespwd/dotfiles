@@ -101,3 +101,5 @@ config/FreeCAD
 config/balena-etcher-electron
 config/jira/contacts.txt
 config/emojis-lru
+bin/add-poeditor-user
+bin/github-issue
