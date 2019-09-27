@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+
+function argsHead {
+  echo "$1"
+}
+
+function argsLast {
+  echo "${@: -1}"
+}
+
+function argsDrop {
+  set -- "${@:2:$#}"
+  echo "$@"
+}
+
+function argsDropLast {
+  set -- "${@:1:$(($# - 1))}"
+  echo "$@"
+}
+
+function getTime {
+  systemd-analyze timestamp "$1" \
+    | grep "Normalized" \
+    | sed 's/Normalized form: //'
+}
+
+time="$(getTime "$(argsHead "$@")")"
+echo "$time"
+
+systemd-run \
+  --uid charles \
+  --on-calendar="$time" \
+  --timer-property=WakeSystem=true \
+  /bin/zsh -c "$(argsDrop "$@")"
