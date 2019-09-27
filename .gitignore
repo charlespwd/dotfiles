@@ -96,3 +96,8 @@ config/Ledger Live
 config/monero-project
 bin/ledger-live
 bin/payment-id
+config/direnv
+config/FreeCAD
+config/balena-etcher-electron
+config/jira/contacts.txt
+config/emojis-lru
