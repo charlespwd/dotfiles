@@ -1,21 +1,21 @@
 #!/bin/bash
 
 function play {
-  dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Play
-  # slack &
+  logfile="$HOME/.config/aldo-vpn.log"
+  date --rfc-3339=seconds >> "$logfile"
+  dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Play || true
   disown
 }
 
 function pause {
-  dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Stop
-  # pkill slack || true
+  dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Stop || true
 }
 
 pause
 trap play SIGINT SIGHUP SIGTERM
 # i3lock -i "$tmpbg"
 
-i3lock -f -c 000000 -e -n $@ || true
+i3lock -f -c 000000 -e -n "$@" || true
 
 # rm "$tmpbg"
 play

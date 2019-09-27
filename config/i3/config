@@ -118,6 +118,7 @@ for_window [title="(?i)bnc -.*firefox.*"] floating enable, border normal 7
 
 # dev tools rules
 for_window [title="DevTools - .*"] floating disable, border pixel 7, move to workspace $w8, workspace $w8
+for_window [title="devtools.*"] floating disable, border pixel 7, move to workspace $w8, workspace $w8
 for_window [title="Redux DevTools.*"] floating disable, border pixel 7, move to workspace $w8, workspace $w8
 
 # Spotify rule
@@ -181,9 +182,7 @@ bindsym $mod+$ctrl+space exec $scripts/rofi-find
 bindsym $mod+space exec rofi -show drun -matching fuzzy -levenshtein-sort
 bindsym $mod+m exec $scripts/=
 bindsym $mod+braceright exec $scripts/rofi-pass
-
-# start chromium
-bindsym $mod+c exec --no-startup-id chromium
+bindsym $mod+o exec $scripts/emoji
 
 # dash
 bindsym $mod+d exec --no-startup-id zeal; workspace $w5
@@ -236,8 +235,8 @@ bindsym $mod+t layout tabbed
 bindsym $mod+e layout splith
 
 # focus the parent container
-bindsym $mod+p focus parent
-bindsym $mod+semicolon focus child
+# bindsym $mod+p focus parent
+# bindsym $mod+semicolon focus child
 
 # sound
 bindsym $mod+Shift+p exec pavucontrol

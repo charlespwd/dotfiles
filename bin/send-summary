@@ -12,6 +12,14 @@ console.log(date.format('MMMM D, YYYY'));
 
 date=$($BIN/node-eval "$script")
 to="$SUMMARY_CLIENT_EMAIL"
-mailx -A gmail -s "Summary - $date" $to
+title="Summary - $date"
+echo $title
+
+if [[ -p /dev/stdout ]]; then
+  mailx -A gmail -s "$title" $to
+else
+  cat $HOME/summary.md | mailx -A gmail -s "$title" $to
+fi
+
 task rc:$HOME/.taskrc rc.context=none next &>/dev/null
 task rc:$HOME/.taskrc rc.context=none +summary +PENDING done

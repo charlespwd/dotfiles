@@ -83,7 +83,6 @@ config/Franz
 config/vocal
 config/aurman
 config/hub
-bin/tempo
 bin/aldo-map
 bin/calories
 bin/jira-sprint
@@ -91,3 +90,9 @@ bin/jira-task
 config/googlecl
 config/monitors.xml
 config/nvim/black
+bin/monero
+bin/monero-gui
+config/Ledger Live
+config/monero-project
+bin/ledger-live
+bin/payment-id

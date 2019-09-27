@@ -2,7 +2,7 @@
 {{$w := sub termWidth 35 -}}
 {{$p := " | " -}}
 {{ range .issues -}}
-  {{ .key | printf "%-10s" -}}{{ $p -}}
+  {{ .key | printf "%-9s" -}}{{ $p -}}
   {{ with .fields.status.name -}}
     {{ if or (eq . "Re-Opened") (eq . "To Do") -}}
       {{ "TD" -}}
@@ -10,6 +10,8 @@
       {{ "CR" -}}
     {{ else if (eq . "In Progress") -}}
       {{ "IP" -}}
+    {{ else if (eq . "Done") -}}
+      {{ " " -}}
     {{ else -}}
       {{ . -}}
     {{ end -}}
@@ -19,8 +21,18 @@
       {{ "" -}}
     {{ else if eq . "Spike" -}}
       {{ "" -}}
+    {{ else if eq . "Improvement" -}}
+      {{ "" -}}
+    {{ else if eq . "Data Issues" -}}
+      {{ "" -}}
     {{ else if eq . "Bug" -}}
       {{ "" -}}
+    {{ else if eq . "Sub-Bug" -}}
+      {{ "" -}}
+    {{ else if eq . "Application Issues" -}}
+      {{ "" -}}
+    {{ else if eq . "Sub-task" -}}
+      {{ "" -}}
     {{ else -}}
       {{ . -}}
     {{ end -}}

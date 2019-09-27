@@ -29,10 +29,8 @@ if [ -n "$DESKTOP_SESSION" ]; then
     export SSH_AUTH_SOCK
 fi
 
-# Load autoenv
-[ -s "/usr/share/autoenv-git/activate.sh" ] \
-  && source /usr/share/autoenv-git/activate.sh \
-  || echo "'autoenv' not installed"
+# Load direnv
+eval "$(direnv hook zsh)"
 
 # rbenv
 export PATH="$HOME/.rbenv/shims:${PATH}"

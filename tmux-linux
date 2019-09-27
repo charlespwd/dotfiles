@@ -1,10 +1,14 @@
-# copy
+## copy
 unbind-key -T copy-mode-vi Enter
 bind-key -T copy-mode-vi Enter send -X copy-pipe-and-cancel "xclip -i -selection clipboard"
 bind-key -T copy-mode-vi y send -X copy-pipe-and-cancel "xclip -i -selection clipboard"
 
-# paste (C-s C-p)
+## paste (C-s C-p)
 bind C-p run "tmux set-buffer \"$(xclip -o -sel clipboard)\"; tmux paste-buffer"
 
-# set default terminal
-set -g default-terminal "screen-256color"
+## set the default $TERM
+# set -g default-terminal "screen-256color"
+set -g default-terminal "tmux-256color"
+
+## update the TERM variable of terminal emulator when creating a new session or attaching a existing session
+set -g update-environment 'DISPLAY SSH_ASKPASS SSH_AGENT_PID SSH_CONNECTION WINDOWID XAUTHORITY TERM'

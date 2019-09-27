@@ -2,11 +2,26 @@ endpoint: https://aldogroup.atlassian.net
 user: cpclermont.cg.ide@aldogroup.com
 
 custom-commands:
+  - name: subtasks
+    help: jira list subtasks
+    options:
+      - name: template
+        short: t
+        default: table
+      - name: fields
+        short: f
+        default: assignee,summary,status,customfield_10004,issuetype
+    args:
+      - name: MORE
+        repeat: true
+    script: |
+      $BIN/jira-subtasks -t {{ options.template }} -f {{ options.fields }} {{range $more := args.MORE}}{{$more}} {{end}}
+
   - name: sprint
     help: jira list sprint view
     options:
-      - name: color
-        short: c
+      - name: assignee
+        short: a
         type: 'BOOL'
       - name: sprint
         short: s
@@ -21,7 +36,7 @@ custom-commands:
       - name: MORE
         repeat: true
     script: |
-      $BIN/jira-sprint {{ if options.sprint -}}-s {{ end -}}{{ if options.color -}}-c {{ end -}} -t {{ options.template }} -f {{ options.fields }} {{range $more := args.MORE}}{{$more}} {{end}}
+      $BIN/jira-sprint {{ if options.assignee -}}-a {{ end -}}{{ if options.sprint -}}-s {{ end -}} -t {{ options.template }} -f {{ options.fields }} {{range $more := args.MORE}}{{$more}} {{end}}
 
   - name: sprintf
     help: jira list sprint view fzf
@@ -29,7 +44,7 @@ custom-commands:
       - name: MORE
         repeat: true
     script: |
-      $BIN/jira-sprint -c -t table {{range $more := args.MORE}}{{$more}} {{end}} | fzf --multi --tac | cut -d '|' -f 1
+      $BIN/jira-sprint -t table {{range $more := args.MORE}}{{$more}} {{end}} | fzf --ansi --multi --tac | cut -d '|' -f 1
 
   - name: task
     help: Add task to taskwarrior

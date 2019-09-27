@@ -33,8 +33,5 @@ logfile="$HOME/.config/aldo-vpn.log"
 date --rfc-3339=seconds >> $logfile
 pkill transmission
 
-if [[ $usePass = 1 ]]; then
-  sudo openconnect -u cpclermont.cg.ide --authgroup=ALDOGROUP $vpn
-else
-  echo $ALDO_PASS | sudo openconnect --passwd-on-stdin -u cpclermont.cg.ide --authgroup=ALDOGROUP $vpn
-fi
+sudo openconnect -u cpclermont.cg.ide --authgroup=ALDOGROUP $vpn
+# sudo openconnect -u cpclermont.cg.ide --authgroup=ALDOGROUP $vpn

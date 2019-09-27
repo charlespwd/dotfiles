@@ -5,21 +5,25 @@
 	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
 	fuck = reset --hard HEAD
 [core]
-	editor = nvim
+	editor = /usr/bin/nvim
 	excludesfile = /home/charles/.gitignore
 	pager = diff-so-fancy | less --tabs=4 -RFX
 [diff]
-	tool = nvim
+  tool = nvim
 [difftool]
   prompt = false
+[difftool "nvr"]
+  cmd = nvr -s -d $LOCAL $REMOTE
 [difftool "nvim"]
-  cmd = nvim -d $LOCAL $REMOTE
+  cmd = /usr/bin/nvim -d $LOCAL $REMOTE
 [merge]
-	tool = vimdiff
+  tool = vimdiff
 [mergetool]
   prompt = true
+[mergetool "nvr"]
+  cmd = nvr -s -d $LOCAL $BASE $REMOTE $MERGED -c 'wincmd J | wincmd ='
 [mergetool "vimdiff"]
-  cmd = nvim -d $LOCAL $BASE $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
+  cmd = /usr/bin/nvim -d $LOCAL $BASE $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
 [filter "media"]
 	clean = git-media-clean %f
 	smudge = git-media-smudge %f

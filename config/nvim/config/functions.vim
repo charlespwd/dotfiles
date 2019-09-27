@@ -261,3 +261,31 @@ function! Redir(cmd)
 endfunction
 
 command! -nargs=1 -complete=command Redir silent call Redir(<f-args>)
+
+function! Cycle()
+  let filename = expand('%')
+  let alternate = filename
+  if filename =~ 'aldoshoes'
+    let alternate = substitute(filename, 'aldoshoes', 'callitspring', '')
+    execute "edit ".alternate
+  elseif filename =~ 'callitspring'
+    let alternate = substitute(filename, 'callitspring', 'globoshoes', '')
+    execute "edit ".alternate
+  elseif filename =~ 'globoshoes'
+    let alternate = substitute(filename, 'globoshoes', 'common-mocha-configs', '')
+    execute "edit ".alternate
+  elseif filename =~ 'common-mocha-configs'
+    let alternate = substitute(filename, 'common-mocha-configs', 'aldoshoes', '')
+    execute "edit ".alternate
+  endif
+endfunction
+
+command! -nargs=0 -complete=command Cycle call Cycle(<f-args>)
+
+function! Mv(new_name)
+  let filename = expand('%')
+  execute "!mv ".filename." ".a:new_name
+  execute "edit ".a:new_name
+endfunction
+
+command! -nargs=1 -complete=file Mv call Mv(<f-args>)

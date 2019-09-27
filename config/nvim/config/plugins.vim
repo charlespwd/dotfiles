@@ -5,11 +5,7 @@ let g:vimwiki_list = [
  \ ]
 let g:vimwiki_folding = 'syntax'
 let g:vimwiki_ext2syntax = {'.md': 'markdown', '.markdown': 'markdown', '.mdown': 'markdown'}
-
-" prettier
-let g:prettier#config#semi = 'true'
-let g:prettier#config#single_quote = 'true'
-let g:prettier#config#trailing_comma = 'all'
+let g:node#suffixesadd = ['.js', '.json', '.ts']
 
 " load plugins
 call plug#begin($XDG_CONFIG_HOME . '/nvim/plugged')
@@ -25,15 +21,17 @@ call plug#begin($XDG_CONFIG_HOME . '/nvim/plugged')
 
   "" Autocomplete engine
   if !has('gui_running')
-    " if has('nvim')
-    "   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-    " endif
-    " " this is for javascript tern completion
-    " Plug 'roxma/nvim-cm-tern',  {'do': 'npm install' }
+    if has('nvim')
+      Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+      Plug 'deoplete-plugins/deoplete-dictionary'
+    endif
+    " this is for javascript tern completion
+    Plug 'roxma/nvim-cm-tern',  {'do': 'npm install' }
+
     " " this is for typescript and stuff
     " Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.sh' }
 
-    Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install() }}
+    " Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install() }}
   endif
 
   " Autocomplete helper (use tab instead of <c-n> and <c-p>)
@@ -42,7 +40,7 @@ call plug#begin($XDG_CONFIG_HOME . '/nvim/plugged')
   " Writing
   Plug 'plasticboy/vim-markdown', { 'for': ['markdown'] }
   Plug 'vimwiki/vimwiki'
-  Plug 'suan/vim-instant-markdown', { 'do': 'yarn global add instant-markdown-d' }
+  " Plug 'suan/vim-instant-markdown', { 'do': 'yarn global add instant-markdown-d' }
 
   "" snipmate (REQUIRES brew install python)
   Plug 'SirVer/ultisnips'
@@ -53,7 +51,7 @@ call plug#begin($XDG_CONFIG_HOME . '/nvim/plugged')
   Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install'  }
   Plug 'junegunn/fzf.vim'
   Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeFind'] }
-  Plug 'danro/rename.vim'
+  Plug 'tpope/vim-eunuch'
   Plug 'sjl/gundo.vim'
 
   "" Ranger
@@ -68,9 +66,7 @@ call plug#begin($XDG_CONFIG_HOME . '/nvim/plugged')
   Plug 'charlespwd/vim-node'
   Plug 'heavenshell/vim-jsdoc', { 'for': ['javascript', 'typescript'] }
   " Plug 'flowtype/vim-flow', { 'for': ['javascript'] }
-  Plug 'prettier/vim-prettier', {
-    \ 'do': 'yarn install',
-    \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html'] }
+  Plug 'mogelbrod/vim-jsonpath', { 'for': ['json'] }
 
   " Javascript syntax
   " Plug 'neoclide/vim-jsx-improve', { 'for': ['javascript'] }
@@ -80,9 +76,9 @@ call plug#begin($XDG_CONFIG_HOME . '/nvim/plugged')
   " typescript syntax
   Plug 'leafgarland/typescript-vim', { 'for': ['typescript'] }
   " Plug 'MaxMEllon/vim-jsx-pretty', { 'for': ['typescript'] }
-  Plug 'mhartington/nvim-typescript', { 'do': './install.sh' }
-  Plug 'Shougo/vimproc.vim', { 'do': 'make' }
-  Plug 'Quramy/tsuquyomi'
+  Plug 'mhartington/nvim-typescript', { 'for': ['typescript'], 'do': './install.sh' }
+  " Plug 'Shougo/vimproc.vim', { 'do': 'make' }
+  " Plug 'Quramy/tsuquyomi'
 
   " Clojure
   " " Plug 'venantius/vim-cljfmt', { 'for': 'clojure' }
@@ -102,7 +98,7 @@ call plug#begin($XDG_CONFIG_HOME . '/nvim/plugged')
   " Plug 'tpope/vim-salve', { 'for': ['clojure'] }
   "
   " async jobs with vim, also used by clojure, otherwise use neomake
-  Plug 'tpope/vim-dispatch', { 'for': ['clojure', 'go', 'javascript', 'typescript'] }
+  Plug 'tpope/vim-dispatch'
 
   " octave / matlab
   Plug 'jvirtanen/vim-octave'
@@ -111,7 +107,7 @@ call plug#begin($XDG_CONFIG_HOME . '/nvim/plugged')
   Plug 'nathanaelkane/vim-indent-guides'
   Plug 'morhetz/gruvbox'
   " Plug 'altercation/vim-colors-solarized'
-  " Plug 'tpope/vim-projectionist'
+  Plug 'tpope/vim-projectionist'
   Plug 'tpope/vim-repeat'
   Plug 'tpope/vim-unimpaired'
   Plug 'christoomey/vim-sort-motion'
@@ -131,25 +127,22 @@ call plug#begin($XDG_CONFIG_HOME . '/nvim/plugged')
   Plug 'moll/vim-bbye'
 
   "" Autoclosing parens
-  " Plug 'Raimondi/delimitMate'
   Plug 'jiangmiao/auto-pairs'
 
   " grepping
-  " Plug 'rking/ag.vim'
   Plug 'mhinz/vim-grepper'
 
   " requires python (and python-editorconfig on arch)
   Plug 'editorconfig/editorconfig-vim'
 
   " Git
-  " Plug 'idanarye/vim-merginal'
   Plug 'tpope/vim-fugitive'
   Plug 'junegunn/gv.vim'
   Plug 'tpope/vim-rhubarb'
   Plug 'AndrewRadev/linediff.vim'
 
   " Style
-  Plug 'bling/vim-airline'
+  Plug 'vim-airline/vim-airline', { 'tag': 'v0.10' }
   Plug 'vim-airline/vim-airline-themes'
   Plug 'edkolev/tmuxline.vim'
   Plug 'ntpeters/vim-better-whitespace'
@@ -157,3 +150,5 @@ call plug#begin($XDG_CONFIG_HOME . '/nvim/plugged')
   " linting
   Plug 'w0rp/ale'
 call plug#end()
+
+let g:node#suffixesadd = ['.js', '.json', '.ts']

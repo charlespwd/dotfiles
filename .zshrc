@@ -75,7 +75,7 @@ ZSH_CUSTOM=~/.zsh_custom
 if [ "$OS" = "Linux" ]; then
   plugins=(git node vi-mode jump cp)
 elif [ "$OS" = "Darwin" ]; then
-  plugins=(git osx vagrant node npm rbenv be rake rails vi-mode jump brew heroku cp autoenv)
+  plugins=(git osx vagrant node npm rbenv be rake rails vi-mode jump brew heroku cp)
 fi
 
 # Load oh-my-zsh
@@ -153,11 +153,12 @@ _complete_compare() {
 compctl -K _complete_compare comparebuilds
 compctl -K _complete_compare shoebox-perf
 
-_complete_release() {
+_complete_tags() {
   reply=($(git tag))
 }
 
-compctl -K _complete_release release
+compctl -K _complete_tags release
+compctl -K _complete_tags git-delete-tag
 
 _complete_tempo() {
   IFS=$'\n';
@@ -166,6 +167,15 @@ _complete_tempo() {
 }
 
 compdef _complete_tempo tempo
+
+_complete_make() {
+  targets=($(cat $PWD/makefile | egrep -io '^[^:\t]*:' | tr -d ':'))
+
+  # man zshcompsys /_arguments for more info
+  _arguments ":target:($targets)"
+}
+
+compdef _complete_make make
 
 # tabtab source for serverless package
 # uninstall by removing these lines or running `tabtab uninstall serverless`

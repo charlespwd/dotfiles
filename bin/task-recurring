@@ -2,4 +2,4 @@
 
 tmpfile=/tmp/import.json
 task export '(+CHILD or +PARENT) -COMPLETED -DELETED' | task-recurring.js > $tmpfile
-task import $tmpfile
+task rc.recurrence.confirmation=no import $tmpfile

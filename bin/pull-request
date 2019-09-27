@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/bin/bash
 
 set -e
 
@@ -47,6 +47,7 @@ curuser=$(remote_to_branch $cururl || echo 'charlespwd') # charlespwd
 
 git push origin $curbranch
 
+echo `which node`
 echo -n "Command line? [yn] "
 read reply
 

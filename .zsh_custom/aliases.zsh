@@ -1,6 +1,53 @@
 OS=$(uname -s)
 if [ "$OS" = "Linux" ]; then
 
+  function nvim_start {
+    session='aldo'
+    socketfile='/tmp/nvimsocket'
+    targetfile='/tmp/nvimtmuxtarget'
+
+    function is_in_session {
+      [[ -n "$TMUX" ]];
+      return
+    }
+
+    function nvim_is_running {
+      [[ -S "$socketfile" ]];
+      return
+    }
+
+    function nvim_is_suspended {
+      nvim_pid="$(pgrep nvim)"
+      [[ -n "$nvim_pid" ]] && [[ "$(ps -o s= -p $nvim_pid)" = 'T' ]];
+      return
+    }
+
+    function target {
+      cat "$targetfile"
+    }
+
+    if nvim_is_suspended && is_in_session && nvim_is_running; then
+      nvr "$@" &> /dev/null &
+      disown
+      tmux switch-client -t "$(target)" &> /dev/null;
+      tmux send-keys -t "$(target)" "fg" Enter &> /dev/null;
+      return 0
+
+    elif is_in_session && nvim_is_running; then
+      nvr "$@";
+      statusCode="$?";
+      tmux switch-client -t "$(target)";
+      return $statusCode
+
+    else
+      tmux display-message -p '#S:#I.#P' > "$targetfile";
+      nvr -s "$@";
+      statusCode="$?";
+      rm "$targetfile";
+      return $statusCode
+    fi
+  }
+
   # functions related to default applications
   function default_and_mime {
     ft=$(xdg-mime query filetype $1)
@@ -16,22 +63,65 @@ if [ "$OS" = "Linux" ]; then
     xdg-mime default $2 $1
   }
 
-  function ji2qa {
-    jira transition --noedit "QA" $1
-    jira unassign $1
+  function toTicketId {
+    re='^[0-9]+$'
+    ticketId="$(echo $1 | tr -d ' ')"
+    if [[ $1 =~ $re ]]; then
+      ticketId=$(task export $1 | jq -r .[0].description | cut -d '|' -f1 | tr -d ' ')
+    fi
+    echo $ticketId
   }
 
-  function jib {
+  function jira-browse {
     if [[ $# -ne 1 ]]; then
       ticket="$(jira sprintf)"
     else
-      ticket="$1"
+      ticket=$(toTicketId $1)
     fi
     jira view -b $ticket
   }
 
-  function jiv {
-    jira view $@ \
+  function set-return-trap {
+    trap "trap - ERR; trap - EXIT; return 1" ERR
+    trap "trap - ERR; trap - EXIT; return 0" EXIT
+    return 0
+  }
+
+  function argsHead {
+    echo "$1"
+  }
+
+  function argsLast {
+    echo "${@: -1}"
+  }
+
+  function argsDrop {
+    set -- "${@:2:$#}"
+    echo $@
+  }
+
+  function argsDropLast {
+    set -- "${@:1:$(($# - 1))}"
+    echo $@
+  }
+
+  function argsPlusTicketId {
+    echo $(argsDropLast $@) $(toTicketId $(argsLast $@))
+  }
+
+  function mapf {
+    f="$(argsHead $@)"
+    OIFS=$IFS
+    IFS=' '
+    args=($(argsDrop $@))
+    IFS=$OIFS
+    for arg in "${args[@]}"; do
+      $f $arg
+    done
+  }
+
+  function jira-view {
+    jira view $(argsPlusTicketId $@) \
       | fold -w $(tput cols) -s \
       | $BIN/hilite -f blue '\- | #.*$' \
       | $BIN/hilite -f green 'content:.*$' \
@@ -43,19 +133,82 @@ if [ "$OS" = "Linux" ]; then
       | $BIN/hilite -f grey '{code.*}'
   }
 
-  function jigs {
-    jira grab $1 && jiS $1
+  function jira-grab-start {
+    for ticketId in "$@"; do
+      echo "Grabbing $ticketId..."
+      jira grab $ticketId
+      echo "Starting $ticketId..."
+      jira-start $ticketId
+    done
   }
 
   # jira 2 ip + start in task warrior
-  function jiS {
-    ticketId=$1
+  function jira-start {
+    set-return-trap
+    ticketId=$(toTicketId $1)
     taskId=$(task export | jq -r '. | map(select(.description | contains("'$ticketId:u'"))) | .[0] | .uuid' | tr -d '\n' | tr -d ' ' )
-    echo $taskId
     if [[ $taskId != 'null' ]]; then
-      ji2ip $1
+      echo "Moving $taskId to In Progress..."
+      j2ip $1
       ts $taskId
     fi
+  }
+
+  function jira-subtask-quick {
+    ticketId=$(toTicketId $1)
+    summary="$2"
+    jira subtask "$ticketId" -o summary="$2" --noedit
+  }
+
+  function jira-subtasks {
+    jira subtasks $(argsPlusTicketId $@)
+  }
+
+  function jira-comment {
+    jira comment $(argsPlusTicketId $@)
+  }
+
+  function j2ip {
+    jira transition --noedit "In Progress" $(argsPlusTicketId $@)
+  }
+
+  function j2cr {
+    jira transition --noedit "Code Review" $(argsPlusTicketId $@)
+  }
+
+  function j2qa {
+    set-return-trap
+    ticketId=$(toTicketId $1)
+    jira transition --noedit "QA" $ticketId
+    jira unassign $ticketId
+    taskId=$(task export | jq -r '. | map(select(.description | contains("'$ticketId:u'"))) | .[0] | .uuid' | tr -d '\n' | tr -d ' ' )
+    if [[ $taskId != 'null' ]]; then
+      task $taskId done
+    fi
+  }
+
+  function j2d {
+    mapf jira-2-done $(mapf toTicketId $@)
+  }
+
+  function jira-2-done {
+    set-return-trap
+
+    ticketId="$(toTicketId $1)"
+    transition="Closed"
+    if [[ $(jira view -t json $ticketId | jq .fields.issuetype.subtask) = "true" ]]; then
+      transition="Done"
+    fi
+
+    jira transition --noedit "$transition" $ticketId
+    taskId=$(task export | jq -r '. | map(select(.description | contains("'$ticketId:u'"))) | .[0] | .uuid' | tr -d '\n' | tr -d ' ' )
+    if [[ $taskId != 'null' ]]; then
+      task $taskId done
+    fi
+  }
+
+  function ji2 {
+    jira transition --noedit $(argsPlusTicketId $@)
   }
 
   alias ".."="cd .."
@@ -66,6 +219,10 @@ if [ "$OS" = "Linux" ]; then
   alias ":q"="exit"
   alias "default?"='default_and_mime'
   alias "filetype?"="xdg-mime query filetype"
+  alias "js+"="jira subtask"
+  alias "js++"="jira-subtask-quick"
+  alias "jsc+"='jira subtask $(jct)'
+  alias "jsc++"='jira-subtask-quick $(jct)'
   alias "list-desktop-entries"="ls /usr/share/applications"
   alias "node-exec"="node-eval"
   alias "set-default"="set_default"
@@ -75,6 +232,7 @@ if [ "$OS" = "Linux" ]; then
   alias "ta-"="task-splice denotate"
   alias "tm+"="task-splice append"
   alias "tm-"="task-splice prepend"
+  alias amdone="notify-send 'DONE'"
   alias btoff="sudo systemctl stop bluetooth.service"
   alias bton="sudo systemctl start bluetooth.service"
   alias chrome="chromium &> /dev/null &"
@@ -86,18 +244,26 @@ if [ "$OS" = "Linux" ]; then
   alias fgpr="gpr"
   alias fixheadphones="alsactl restore"
   alias gtypist="gtypist -w"
-  alias ji2="jira transition --noedit"
-  alias ji2cr='jira transition --noedit "Code Review"'
-  alias ji2ip='jira transition --noedit "In Progress"'
+  alias jb='jira-browse'
+  alias jbc='jira-browse $(jct)'
+  alias jc='jira-comment'
+  alias jcc='jira-comment $(jct)'
+  alias jcs="task +ACTIVE +subtask export | jq -r '.[].description' | cut -d'|' -f 1 | head -n 1 | tr -d '\n' | tr -d ' ' 2> /dev/null"
+  alias jct="task +ACTIVE -subtask export | jq -r '.[].description' | cut -d'|' -f 1 | head -n 1 | tr -d '\n' | tr -d ' ' 2> /dev/null"
+  alias jfs="jira sprintf"
+  alias je="jira edit"
+  alias jg="jira grab"
+  alias jgs="jira-grab-start"
   alias ji="jira"
-  alias jic="jira comment"
-  alias jict="task +ACTIVE export | jq -r '.[].description' | cut -d'|' -f 1 | head -n 1 | tr -d '\n' | tr -d ' ' 2> /dev/null"
-  alias jifs="jira sprintf"
+  alias jira="EDITOR=/usr/bin/nvim $HOME/.local/bin/jira"
   alias jis="jira sprint"
   alias jisf="jira sprintf"
-  alias jit="jira-task"
-  alias jivc='jiv $(jict)'
   alias journalctl="sudo journalctl"
+  alias js="jira-subtasks"
+  alias jsc='jira subtasks $(jct)'
+  alias jt="jira-task"
+  alias jv='jira-view'
+  alias jvc='jv $(jct)'
   alias mountmc="sudo mount -t cifs //raspi.local/mediacenter /mnt/mediacenter -o username=pi,vers=1.0"
   alias nmr="sudo systemctl restart NetworkManager"
   alias notify="notify-send -u normal"
@@ -107,6 +273,7 @@ if [ "$OS" = "Linux" ]; then
   alias paccleanorphans="sudo pacman -Rns $(pacman -Qtdq)"
   alias pacinstalled="pacman -Qqettn"
   alias pacinstalledaur="pacman -Qqettm"
+  alias paclistbysize='expac -s "%-30n %m" | sort -rhk 2 | less'
   alias pbcopy="xclip -sel clipboard -i"
   alias pbpaste="xclip -sel clipboard -o"
   alias rtv="BROWSER=/usr/bin/firefox-developer-edition rtv"
@@ -174,13 +341,15 @@ alias gcio="git clean -i *.orig"
 alias gcl="git clone"
 alias gcmsg="echo 'Please use gc instead. Be a man and write a proper commit message.'"
 alias gcob='git checkout $(git branch | fzf)'
-alias gcot='git checkout $(git tag | fzf)'
+alias gcot='git checkout $(git tag | sort -V | tac | fzf)'
 alias gdc="git diff --cached"
 alias gdcs="git diff --compact-summary"
 alias ggfpush='git push -f origin $(current_branch)'
+alias gi="github-issue"
 alias git="hub"
 alias gl="git pull --rebase"
 alias glg="git lg"
+alias glog="git lg"
 alias glgt="git log --tags --simplify-by-decoration --pretty='format:%ai %d'"
 alias glp="git lg -p"
 alias gnext="gco master && gl && gbdm"
@@ -205,8 +374,9 @@ alias treed="tree --dirsfirst"
 alias usage="du -sh * .* | sort -h"
 alias v="vim"
 alias vi="vim"
-alias vim="nvim"
+alias vim='nvim'
 alias vimrc="v ~/.vimrc"
+alias nvim="nvim_start"
 alias vnoplugin="vim -u NORC"
 alias whatsmyip="echo \`ifconfig en0 2>/dev/null|awk '/inet / {print $2}'|sed 's/addr://'\`"
 alias ws="cd ~/ws"
@@ -218,7 +388,12 @@ alias getpass='lpass show -cp $(passid)'
 # client specific
 alias outbox-start="work-setup && outbox-setup"
 alias outbox-vpn="sudo openconnect -u cpclermont --authgroup=Anyconnect connect.outbox.com"
-alias weather="curl wttr.in/Montreal"
+alias weather="curl v2.wttr.in/Prévost"
 alias update="yay -Syu --nocleanmenu --noeditmenu --nodiffmenu --nocombinedupgrade --noupgrademenu"
 alias update-aur="update --aur"
 alias sa="start-all"
+
+if [[ -n $TMUX ]]; then
+  # Prevent weird VI bugs when using ssh
+  alias ssh="TERM=xterm-color ssh"
+fi

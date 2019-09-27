@@ -18,6 +18,7 @@ export CONFIG="$XDG_CONFIG_HOME"
 export DOT="$HOME/dotfiles"
 export DOWNLOADS="$HOME/downloads"
 export POLYBAR="$CONFIG/polybar"
+export ACCOUNTING="$HOME/tmp/accounting"
 
 # completions path
 export fpath=($BIN/completions $fpath)
@@ -27,23 +28,26 @@ if [ -d $HOME/.jira.d ]; then
   export JIRA=$HOME/.jira.d
 fi
 
+# go path
+export GOPATH="$HOME/go"
+
 # Set default path
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/bin"
 
 # Change your path
 export PATH="$HOME/bin:$PATH"
 
+# local bin
+export PATH="$PATH:bin"
+
 # Prioritize utilization of locally installed scripts
-export PATH="node_modules/.bin:../../node_modules/.bin:$PATH"
+export PATH="$PATH:node_modules/.bin:../../node_modules/.bin"
 
 # yarn
-export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+export PATH="$PATH:$HOME/.config/yarn/global/node_modules/.bin"
 
 # yarn / nvm
 export PATH="$PATH:$HOME/.yarn/bin"
-
-# local bin
-export PATH="$PATH:bin"
 
 # ruby gems
 export PATH="$PATH:$HOME/.gem/ruby/2.5.0/bin"
@@ -51,8 +55,12 @@ export PATH="$PATH:$HOME/.gem/ruby/2.5.0/bin"
 # python user bin
 export PATH="$PATH:$HOME/.local/bin"
 
+# go stuff
+export PATH="$PATH:$GOPATH/bin"
+
 # ALDO stuff
 export PATH="$PATH:$HOME/ws/aldo/perf/bin"
 
 # Source aliases
 source "$DOT/.zsh_custom/aliases.zsh"
+source "$HOME/.envrc"

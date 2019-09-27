@@ -604,7 +604,7 @@ snippet sass-loader
 endsnippet
 
 snippet req
-const ${1:module} = require('${2:$1}');
+const ${1:module} = require('${2:$1}')$3;
 endsnippet
 
 snippet test
@@ -758,6 +758,10 @@ endsnippet
 
 snippet clj
 console.log(JSON.stringify(${1}, null, 2));
+endsnippet
+
+snippet cljl
+console.log('${1}', JSON.stringify($1, null, 2));
 endsnippet
 
 snippet ectxt
@@ -948,4 +952,35 @@ import { createStructuredSelector } from 'reselect';
 export default createStructuredSelector({
 	$1
 });
+endsnippet
+
+snippet dump
+require('fs').writeFileSync('/tmp/dump.json', JSON.stringify($1, null, 2), 'utf8');
+endsnippet
+
+snippet script
+async function run() {
+
+}
+
+async function main() {
+	let statusCode = 0;
+	try {
+		await run();
+	} catch (e) {
+		console.log(e);
+		statusCode = 1;
+	}
+	process.exit(statusCode);
+}
+
+main();
+endsnippet
+
+snippet tap
+R.tap(x => console.log(JSON.stringify(x, null, 2))),
+endsnippet
+
+snippet prom
+const $1 = promisify($3${2:$1});
 endsnippet

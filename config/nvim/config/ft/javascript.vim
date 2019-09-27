@@ -44,13 +44,13 @@ function! SetTypescriptOptions()
   map <buffer> <leader>rj :TSRename<cr>
   map <buffer> <leader>rf :TSRename<cr>
 
-  map <buffer> <leader>I :TSImport<cr>
-  map <buffer> <c-]> :TsuDefinition<cr>
+  " map <buffer> <leader>I :TSImport<cr>
+  map <buffer> <c-]> :TSDef<cr>
 
   "" tsuquyomi bindings
   " type hint
   " nmap <buffer> K :<C-u>echo tsuquyomi#hint()<CR>:<C-u>echo tsuquyomi#hint()<CR>
-  " map <buffer> <leader>rj :TsuRenameSymbol<cr>
+  " map <bLOGIN> <leader>rj :TsuRenameSymbol<cr>
   " map <buffer> <leader>rf :TsuRenameSymbol<cr>
 endfunction
 
@@ -70,8 +70,6 @@ function! SetJavascriptOptions()
 
   set conceallevel=0
 
-  map <buffer> <Leader>py <Plug>(Prettier)
-
   " map <buffer> <leader>gf <Plug>JumpToModule()
   " jump to function definition (outbox only)
   map <buffer> <leader>af vaBV
@@ -88,6 +86,7 @@ function! SetJavascriptOptions()
   map <buffer> <leader>imp cwimport<esc>f=dt(ifrom <esc>f(ds)
   " turn an import statement into a require statement
   map <buffer> <leader>req cwconst<esc>wWcw=<esc>f'irequire(<esc>lxf;i)<esc>
+  map <buffer> <leader>I <Plug>ShoeboxImportFn()
 endfunction
 
 " Set js options for all js files
@@ -98,7 +97,7 @@ augroup jslike
   autocmd BufReadPre,FileReadPre,BufEnter *.js.liquid set filetype=javascript.jsx.liquid
   autocmd Filetype javascript call SetJavascriptOptions()
   autocmd Filetype typescript call SetTypescriptOptions()
-  autocmd FileType javascript set formatprg=prettier\ --parser\ babylon
+  autocmd FileType javascript setlocal formatprg=prettier\ --parser\ babel
 
   " run lint on save
   " autocmd BufRead,BufWrite *.js,*.jsx Neomake eslint

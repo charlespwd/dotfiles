@@ -34,6 +34,10 @@ if has('unix')
   endif
 endif
 
+if has('nvim')
+  let $GIT_EDITOR = 'nvr -cc split --remote-wait'
+endif
+
 " options
 set textwidth=70
 set path+="**"
@@ -136,6 +140,7 @@ let g:airline_powerline_fonts = 1
 " let g:airline_theme='onedark'
 let g:airline_symbols = {
       \  'linenr': '',
+      \  'maxlinenr': '',
       \  'paste': 'PASTE',
       \  'colnr': '',
       \  'notexists': '∄',
@@ -161,9 +166,11 @@ let g:deoplete#file#enable_buffer_path = 1
 " call deoplete#custom#set('file', 'min_pattern_length', 0)
 let g:deoplete#auto_complete_delay = 150
 
-" FUCK YOU NCM.
-let g:cm_completeopt="menu,menuone,noinsert,noselect"
-" let g:cm_completeopt="menu,menuone,noinsert,noselect"
+call deoplete#custom#source('dictionary', 'matchers', ['matcher_head'])
+" If dictionary is already sorted, no need to sort it again.
+call deoplete#custom#source('dictionary', 'sorters', [])
+" Do not complete too short words
+call deoplete#custom#source('dictionary', 'min_pattern_length', 2)
 
 " supertab options
 let g:SuperTabDefaultCompletionType = '<c-n>'
@@ -189,21 +196,13 @@ let g:ale_linters.javascript = ['eslint']
 let g:ale_linters.scss = ['stylelint']
 let g:ale_linters.typescript = ['tslint', 'tsserver']
 let g:ale_linters.json = ['jsonlint']
+let g:ale_fixers = {}
+let g:ale_fixers.javascript = ['prettier']
+let g:ale_fixers.typescript = ['prettier']
+let g:ale_fixers.sh = ['shfmt']
 let g:ale_set_quickfix = 0
 let g:ale_sign_error = '✗'
 let g:ale_sign_warning = '⚠'
-
-" neomake
-let g:neomake_highlight_columns=0
-let g:neomake_serialize=0
-let g:neomake_warning_sign = {
-  \ 'text': '⚠',
-  \ 'texthl': 'DiffText',
-  \ }
-let g:neomake_error_sign = {
-  \ 'text': '✗',
-  \ 'texthl': 'DiffDelete',
-  \ }
 
 " NERDTree config
 let NERDTreeIgnore = ['\.pyc$', 'lib/', 'node_modules/', 'influx-data']
@@ -223,7 +222,7 @@ let g:surround_{char2nr('P')} = "{\n\t\r\n}"
 let g:surround_{char2nr('S')} = "[\n\t\r\n]"
 
 " editorconfig
-let g:EditorConfig_core_mode = 'external_command'
+let g:EditorConfig_core_mode = 'vim_core'
 let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'term://.*']
 
 " vim-jsx
@@ -232,8 +231,17 @@ let g:jsx_ext_required = 0
 " vim-javascript
 let g:javascript_plugin_jsdoc = 1
 
+" vim-jsonpath
+let g:jsonpath_register = '+'
+
+" Define mappings for json buffers
+au FileType json noremap <buffer> <silent> <expr> <leader>pp jsonpath#echo()
+au FileType json noremap <buffer> <silent> <expr> <leader>g jsonpath#goto()
+
 " vim-node
 let g:vim_node#node_path = []
+let g:node#suffixesadd = ['.js', '.json', '.ts', '.tsx']
+let g:node_filetypes = ['javascript', 'json', 'jsx', 'typescript', 'tsx']
 
 " tsuquyomi (typescript)
 let g:tsuquyomi_disable_quickfix=1

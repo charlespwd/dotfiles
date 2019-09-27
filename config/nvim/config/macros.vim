@@ -1,4 +1,6 @@
 " Set leader key to space
+" import
+" aldoshoes/src/content-modules/product-landing/product-landing.component
 map <Space> <nop>
 let mapleader = "\<Space>"
 
@@ -59,6 +61,8 @@ map <Plug>MostRecentBuffer :e #<cr>
 map <Plug>NextDiff :Gstatus<cr>/not staged<cr>/modified<cr>WD:pclose<cr>
 map <Plug>QfreplaceFromRegisterK :cdo s#<c-r>k##ge<bar>w<left><left><left><left><left>
 map <Plug>ToggleTextObjQuotes :ToggleEducate<cr>
+map <silent> <Plug>ShoeboxImport() :let @+='@aldogroup/'.system('sed -e "s#^[^/]*/##" -e "s#\(/index\)*.[jt]s\$##" -e "s#/home/charles/ws/aldo/shoebox/##"', resolve(expand('%')))<cr>:let @@=@+<CR>:echo @+<cr>
+map <silent> <Plug>ShoeboxImportFn() <Plug>ShoeboxImport():let @+='import { '.expand('<cword>').' } from ''<c-r>+'';'<cr>:let @@=@+."\n"<cr>:echo @+<cr>
 map <SID>SearchFromRegisterK :GrepperAg "<c-r>k"<cr>
 map <SID>SearchFromRegisterKWithBounds :GrepperAg "\b<c-r>k\b"<cr>
 
@@ -121,7 +125,9 @@ map <leader>2i :let @a=system('imgur', expand('<cfile>'))<cr>^C![alt](<c-r>a<bs>
 " tmap <Esc> <C-\><C-n>
 map <leader>"" <Plug>ToggleTextObjQuotes
 map <leader># :let @+=system('sed -e "s#^[^/]*/##" -e "s#\(/index\)*.js\$##" -e "s#/home/charles/ws/aldo/shoebox/##"', resolve(expand('%')))<CR>
+map <leader>@ <Plug>ShoeboxImport()
 map <leader>% :let @+=expand('%')<CR>
+map <leader>'' :vs term://zsh<cr>a
 map <leader>,. :lopen<cr>
 map <leader>,t :if exists('g:do_lint_js') && g:do_lint_js <bar> let g:do_lint_js=0 <bar> else <bar> let g:do_lint_js=1 <bar> endif <bar> echo g:do_lint_js<cr>
 map <leader>.. :Dispatch<cr>
@@ -146,6 +152,8 @@ map <leader>.w :e ~/thoughts/new-words.md<cr>
 map <leader>.x :e ~/dotfiles/.Xresources<cr>
 map <leader>.z :e ~/.zshrc<cr>
 map <leader>;; :%s/;//g<cr>
+map <leader><cr> :tab sp term://zsh<cr>
+map <leader>C :Cycle<cr>
 map <leader>F :Files ~/<cr>
 map <leader>G :G
 map <leader>R :redraw!<cr>
@@ -187,7 +195,7 @@ map <leader>il <Plug>ExpandHTML
 map <leader>jd :e ~/thoughts/debug.md<cr>
 map <leader>journal <Plug>Journal
 map <leader>md :InstantMarkdownPreview<CR>
-map <leader>mv :Rename<space>
+map <leader>mv :Move <c-r>=expand('%')<cr>
 map <leader>nd <Plug>NextDiff
 map <leader>nf :NERDTreeFind<cr>
 map <leader>pc :PlugClean!<cr>
@@ -195,11 +203,12 @@ map <leader>pi :PlugInstall<cr>
 map <leader>po :PencilToggle<cr>
 map <leader>pp "+p
 map <leader>pu :PlugUpdate<cr>
+map <leader>py :ALEFix<cr>
 map <leader>ra :RangerAppend<cr>
 map <leader>rf :%s/\v(<<c-r><c-w>>)/
 map <leader>ritual <Plug>Ritual
 map <leader>rm :call delete(expand('%')) <bar> bdelete!
-" map <leader>rn :set relativenumber!<cr>
+map <leader>rn :Rename <c-r>=expand('%:t')<cr>
 map <leader>rr :%s//
 map <leader>rs :call ReloadAllSnippets()<cr>
 map <leader>sR <leader>aW<Plug>QfreplaceFromRegisterK
@@ -241,48 +250,25 @@ vmap <leader>vy <Plug>SendToTmux
 function! CloseBuffer()
   if (&ft == 'qf' || &ft == 'gitcommit' || &ft == 'help' || &ft == 'nerdtree' || &ft == 'fugitiveblame' || &ft == 'fugitive' || &diff == 1 || (exists('w:scratch') && w:scratch == 1))
     quit
+  elseif (&buftype == 'terminal')
+    Bdelete!
   else
-    echom 'BDELETE?'
     Bdelete
   endif
 endfunction
 
-" coc mappings
-nmap <silent> [c <Plug>(coc-diagnostic-prev)
-nmap <silent> ]c <Plug>(coc-diagnostic-next)
-
-" Remap keys for gotos
-nmap gd <Plug>(coc-definition)
-nmap gy <Plug>(coc-type-definition)
-nmap gi <Plug>(coc-implementation)
-nmap gr <Plug>(coc-references)
-
-" Use K for show documentation in preview window
-nnoremap <silent> K :call <SID>show_documentation()<CR>
-
-" Remap for do codeAction of current line
-nmap <leader>ac  <Plug>(coc-codeaction)
-
-function! s:show_documentation()
-  if (&ft == 'javascript' || &ft == 'javascript.jsx' || &ft == 'typescript')
-    call CocAction('doHover')
+function! GetCurrentFileExecuteCommand()
+  if (&ft =~ 'javascript')
+    return 'node '.expand('%:p')
+  elseif (expand('%:e') == '')
+    return expand('%')
   else
-    execute &keywordprg.' '.expand('<cword>')
+    return expand('%')
   endif
 endfunction
 
-" Remap for rename current word
-nmap <leader>rn <Plug>(coc-rename)
-
-" Code action
-nmap <leader>ca <Plug>(coc-codeaction)
-
-" Remap for format selected region
-" vmap gq <Plug>(coc-format-selected)
-" nmap gq <Plug>(coc-format-selected)
-
 " terminal bindings
-tnoremap <c-c> <c-\><c-n>
+tnoremap <c-[> <c-\><c-n>
 tnoremap <c-h> <C-\><C-N><C-w>h
 tnoremap <c-j> <C-\><C-N><C-w>j
 tnoremap <c-k> <C-\><C-N><C-w>k

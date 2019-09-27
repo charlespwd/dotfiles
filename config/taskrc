@@ -33,7 +33,7 @@ include ~/.config/task/rc/gruvbox.theme
 
 color=on
 confirmation=no
-context.accounting=project:finance.bookkeeping
+context.accounting=project:finance.bookkeeping or project:finance or project:business
 context.focus=-chore -backlog proj.not:shoebox.microform
 context.home=proj.not:shoebox
 context.work=-chore
@@ -47,9 +47,14 @@ report.all.labels=ID,Project,St,R,P,Deps,Wait,Sch,Due,Until,Description
 report.all.sort=project+/,status+/,entry-
 report.eod.columns=status.short,description.desc
 report.eod.description=End of day summary
-report.eod.filter=(+COMPLETED and end.after=today) or start.any: or (+started and -COMPLETED)
+report.eod.filter=-DELETED and ((+COMPLETED and end.after=today) or start.any: or (+started and -COMPLETED))
 report.eod.labels=S, Description
 report.eod.sort=status+\/,end+,start-
+report.eodd.columns=status.short,description.desc
+report.eodd.description=End of day summary
+report.eodd.filter=-DELETED and ((+COMPLETED and end.after=yesterday and end.before=today) or start.any: or (+started and -COMPLETED))
+report.eodd.labels=S, Description
+report.eodd.sort=status+\/,end+,start-
 report.next2.columns=id,project,tags,due.relative,description.count,urgency
 report.next2.description=Most urgent tasks
 report.next2.filter=+PENDING +UNBLOCKED -backlog
@@ -64,3 +69,4 @@ urgency.uda.priority.M.coefficient=3.9
 urgency.user.tag.backlog.coefficient=-1
 urgency.user.tag.next.coefficient=14
 urgency.user.tag.started.coefficient=1
+context=focus
