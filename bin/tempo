@@ -1,0 +1,251 @@
+#!/usr/bin/env node
+
+const program = require('commander');
+const request = require('request-promise-native');
+const R = require('ramda');
+const chrono = require('chrono-node');
+const inquirer = require('inquirer');
+const moment = require('moment');
+const Table = require('cli-table2');
+const colors = require('colors/safe');
+
+const JIRA_TEMPO_USER = process.env.JIRA_TEMPO_USER;
+const TEMPO_TOKEN = process.env.JIRA_TEMPO_TOKEN;
+const TEMPO_API_BASE = 'https://api.tempo.io/core/3';
+
+const issueAliases = {
+  support: 'EE19-179',
+  performance: 'EE19-890',
+  perf: 'EE19-890',
+};
+
+function getIssueId(issueKey) {
+  return issueKey.toUpperCase();
+}
+
+// https://tempo-io.github.io/tempo-api-docs/#worklogs
+async function tempoRequest(url, params) {
+  return request(TEMPO_API_BASE + url, {
+    ...params,
+    json: true,
+    auth: {
+      bearer: TEMPO_TOKEN,
+    },
+  });
+}
+
+async function addWorklog({
+  comment,
+  duration = moment.duration(1, 'h'),
+  issueKey,
+  date = moment(),
+}) {
+  const issueId = getIssueId(issueAliases[issueKey] || issueKey);
+  const payload = {
+    issueKey: issueId,
+    timeSpentSeconds: duration.asSeconds(),
+    billableSeconds: duration.asSeconds(),
+    startDate: date.format('YYYY-MM-DD'),
+    startTime: '08:00:00',
+    description: comment,
+    authorAccountId: JIRA_TEMPO_USER,
+    remainingEstimateSeconds: 0,
+  };
+
+  return tempoRequest('/worklogs', {
+    method: 'POST',
+    body: payload,
+  });
+}
+
+function parseDuration(duration) {
+  if (duration === 'rest') {
+    return 'rest';
+  }
+  if (/^\d+(\.\d+)?[hms]$/.test(duration)) {
+    const [value, unit] = R.match(/^(\d+\.?\d*)([hms])$/, duration);
+    return moment.duration(parseFloat(value), unit);
+  }
+  return undefined;
+}
+
+function getPairs(args) {
+  const pairs = R.pipe(
+    R.splitEvery(2),
+    R.map(R.sortBy(R.test(/rest|\d+\.?\d*[hms]/))),
+    R.map(([issueKey, duration]) => ({
+      duration: parseDuration(duration),
+      issueKey,
+    })),
+  )(args);
+  const sumHours = R.pipe(
+    R.pluck('duration'),
+    R.reject(R.equals('rest')),
+    R.map(x => x.asHours()),
+    R.sum,
+  )(pairs);
+
+  const rest = moment.duration(7.5 - sumHours, 'h');
+  return R.map(
+    R.evolve({
+      duration: x => (x === 'rest' ? rest : x),
+    }),
+    pairs,
+  );
+}
+
+const toTime = (res, from) => k => {
+  const date = from
+    .clone()
+    .add(k, 'days')
+    .startOf('day');
+
+  if (date.month() !== from.month()) return 0;
+
+  return (
+    res
+      .filter(x => x.startDate === date.format('YYYY-MM-DD'))
+      .map(x => x.billableSeconds)
+      .reduce(R.add, 0) / 3600
+  );
+};
+
+function dateOption() {
+  return moment(chrono.parseDate(program.date || 'today'));
+}
+
+function getWorklog({ from, to }) {
+  return tempoRequest(`/worklogs/user/${JIRA_TEMPO_USER}`, {
+    method: 'GET',
+    qs: {
+      from: from.format('YYYY-MM-DD'),
+      to: to.format('YYYY-MM-DD'),
+    },
+  }).then(x => x.results);
+}
+
+async function printExcelTimesheet() {
+  const date = dateOption();
+  const from = date.clone().startOf('month');
+  const to = date.clone().endOf('month');
+  const res = await getWorklog({ from, to });
+
+  const ts = [
+    R.range(0, 15)
+      .map(toTime(res, from))
+      .join('\n'),
+    '=sum(B8:B22)',
+    '',
+    R.range(15, 32)
+      .map(toTime(res, from))
+      .join('\n'),
+    '=sum(B25:B40)',
+    '',
+  ].join('\n');
+
+  console.log(ts);
+  process.exit(0);
+}
+
+async function printTimesheet() {
+  const date = dateOption();
+  const from = date.clone().startOf('week');
+  const to = date.clone().endOf('week');
+  const worklog = await getWorklog({ from, to });
+  const worklogByDate = R.pipe(
+    R.groupBy(R.prop('startDate')),
+    R.toPairs,
+    R.sortBy(([d]) => moment(d, 'YYYY-MM-DD').unix()),
+  )(worklog);
+
+  const table = new Table({
+    chars: {
+      top: '',
+      'top-mid': '',
+      'top-left': '',
+      'top-right': '',
+      bottom: '',
+      'bottom-mid': '',
+      'bottom-left': '',
+      'bottom-right': '',
+      left: '',
+      'left-mid': '',
+      mid: '',
+      'mid-mid': '',
+      right: '',
+      'right-mid': '',
+      middle: ' ',
+    },
+    style: { 'padding-left': 0, 'padding-right': 0 },
+    colAligns: ['right', 'right', 'right'],
+  });
+
+  for (const [d, entries] of worklogByDate) {
+    for (const entry of entries) {
+      table.push([
+        moment(d, 'YYYY-MM-DD').format('ddd YYYY-MM-DD'),
+        entry.issue.key,
+        moment.duration(entry.timeSpentSeconds, 's').asHours() + 'h',
+      ]);
+    }
+    table.push([
+      colors.gray('Total'),
+      colors.gray('='),
+      colors.gray(
+        entries
+          .map(entry => moment.duration(entry.timeSpentSeconds, 's').asHours())
+          .reduce(R.add, 0) + 'h',
+      ),
+    ]);
+  }
+
+  console.log(table.toString());
+}
+
+async function logTimesheet(args) {
+  const pairs = getPairs(args);
+  const date = dateOption();
+
+  for (const pair of pairs) {
+    const answers = await inquirer.prompt([
+      {
+        name: 'addComment',
+        type: 'confirm',
+        message: `${pair.issueKey} - Add comment?`,
+      },
+      {
+        name: 'comment',
+        type: 'editor',
+        when: answer => answer.addComment,
+      },
+    ]);
+
+    const response = await addWorklog({
+      date: date,
+      issueKey: pair.issueKey,
+      comment: answers.comment,
+      duration: pair.duration,
+    });
+  }
+
+  process.exit(0);
+}
+
+program.version('0.0.1').option('-d, --date [date]', 'target date');
+
+program
+  .command('excel')
+  .description('print excel timesheet')
+  .action(printExcelTimesheet);
+
+program
+  .command('print')
+  .description('print time entries for the week')
+  .action(printTimesheet);
+
+program
+  .command('log (<time> <ticket>...)')
+  .description('log time entries for the day')
+  .action(logTimesheet);
+
+program.parse(process.argv);
