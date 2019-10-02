@@ -1,2 +1,2 @@
 #!/bin/bash
-$HOME/bin/tempo -t | xclip -sel clipboard
+$HOME/bin/tempo excel | xclip -sel clipboard

@@ -10,7 +10,7 @@ const Table = require('cli-table2');
 const colors = require('colors/safe');
 
 const JIRA_TEMPO_USER = process.env.JIRA_TEMPO_USER;
-const TEMPO_TOKEN = process.env.JIRA_TEMPO_TOKEN;
+const JIRA_TEMPO_TOKEN = process.env.JIRA_TEMPO_TOKEN;
 const TEMPO_API_BASE = 'https://api.tempo.io/core/3';
 
 const issueAliases = {
@@ -20,7 +20,7 @@ const issueAliases = {
 };
 
 function getIssueId(issueKey) {
-  return issueKey.toUpperCase();
+  return issueAliases[issueKey] || issueKey.toUpperCase();
 }
 
 // https://tempo-io.github.io/tempo-api-docs/#worklogs
@@ -29,7 +29,7 @@ async function tempoRequest(url, params) {
     ...params,
     json: true,
     auth: {
-      bearer: TEMPO_TOKEN,
+      bearer: JIRA_TEMPO_TOKEN,
     },
   });
 }
@@ -40,7 +40,7 @@ async function addWorklog({
   issueKey,
   date = moment(),
 }) {
-  const issueId = getIssueId(issueAliases[issueKey] || issueKey);
+  const issueId = getIssueId(issueKey);
   const payload = {
     issueKey: issueId,
     timeSpentSeconds: duration.asSeconds(),
@@ -66,6 +66,10 @@ function parseDuration(duration) {
     const [value, unit] = R.match(/^(\d+\.?\d*)([hms])$/, duration);
     return moment.duration(parseFloat(value), unit);
   }
+  if (/^\d+(\.\d+)?[%]$/.test(duration)) {
+    const [value, unit] = R.match(/^(\d+\.?\d*)([%])$/, duration);
+    return moment.duration(parseFloat(value), unit);
+  }
   return undefined;
 }
 
@@ -85,7 +89,7 @@ function getPairs(args) {
     R.sum,
   )(pairs);
 
-  const rest = moment.duration(7.5 - sumHours, 'h');
+  const rest = moment.duration(program.total - sumHours, 'h');
   return R.map(
     R.evolve({
       duration: x => (x === 'rest' ? rest : x),
@@ -110,8 +114,8 @@ const toTime = (res, from) => k => {
   );
 };
 
-function dateOption() {
-  return moment(chrono.parseDate(program.date || 'today'));
+function dateOption(defaultValue = 'today') {
+  return moment(chrono.parseDate(program.date || defaultValue));
 }
 
 function getWorklog({ from, to }) {
@@ -125,7 +129,7 @@ function getWorklog({ from, to }) {
 }
 
 async function printExcelTimesheet() {
-  const date = dateOption();
+  const date = dateOption('last month');
   const from = date.clone().startOf('month');
   const to = date.clone().endOf('month');
   const res = await getWorklog({ from, to });
@@ -174,30 +178,35 @@ async function printTimesheet() {
       'mid-mid': '',
       right: '',
       'right-mid': '',
-      middle: ' ',
+      middle: ' | ',
     },
     style: { 'padding-left': 0, 'padding-right': 0 },
-    colAligns: ['right', 'right', 'right'],
+    colAligns: ['left', 'right', 'right'],
   });
 
   for (const [d, entries] of worklogByDate) {
+    const fd = moment(d, 'YYYY-MM-DD').format('ddd, YYYY-MM-DD');
     for (const entry of entries) {
-      table.push([
-        moment(d, 'YYYY-MM-DD').format('ddd YYYY-MM-DD'),
-        entry.issue.key,
-        moment.duration(entry.timeSpentSeconds, 's').asHours() + 'h',
-      ]);
+      table.push([fd, entry.issue.key, moment.duration(entry.timeSpentSeconds, 's').asHours()]);
     }
     table.push([
-      colors.gray('Total'),
-      colors.gray('='),
+      colors.gray(fd),
+      colors.gray('Subtotal'),
       colors.gray(
         entries
           .map(entry => moment.duration(entry.timeSpentSeconds, 's').asHours())
-          .reduce(R.add, 0) + 'h',
+          .reduce(R.add, 0),
       ),
     ]);
   }
+
+  table.push([
+    colors.gray('---------------'),
+    colors.gray('Total'),
+    colors.gray(
+      worklog.map(entry => moment.duration(entry.timeSpentSeconds, 's').asHours()).reduce(R.add),
+    ),
+  ]);
 
   console.log(table.toString());
 }
@@ -207,11 +216,13 @@ async function logTimesheet(args) {
   const date = dateOption();
 
   for (const pair of pairs) {
+    const issueId = getIssueId(pair.issueKey);
+    const issueDesc = issueId !== pair.issueKey ? `${issueId}(${pair.issueKey})` : issueId;
     const answers = await inquirer.prompt([
       {
         name: 'addComment',
         type: 'confirm',
-        message: `${pair.issueKey} - Add comment?`,
+        message: `${issueDesc} - ${pair.duration.asHours()}h - Add comment?`,
       },
       {
         name: 'comment',
@@ -228,10 +239,38 @@ async function logTimesheet(args) {
     });
   }
 
+  await printTimesheet();
+
   process.exit(0);
 }
 
-program.version('0.0.1').option('-d, --date [date]', 'target date');
+async function clearTimesheet() {
+  const date = dateOption();
+  const worklog = await getWorklog({
+    from: date.clone(),
+    to: date.clone(),
+  });
+
+  const results = await Promise.all(
+    worklog.map(entry => tempoRequest(`/worklogs/${entry.tempoWorklogId}`, { method: 'DELETE' })),
+  );
+
+  await printTimesheet();
+
+  process.exit(0);
+}
+
+program
+  .version('0.0.1')
+  .option('-d, --date <date>', 'target date')
+  .option(
+    '-t, --total <total>',
+    'total hours worked that day (used in rest calculation)',
+    x => parseFloat(x),
+    7.5,
+  )
+  .arguments('(<time> <ticket>...)')
+  .action(logTimesheet);
 
 program
   .command('excel')
@@ -247,5 +286,10 @@ program
   .command('log (<time> <ticket>...)')
   .description('log time entries for the day')
   .action(logTimesheet);
+
+program
+  .command('clear')
+  .description('remove time entries for the day')
+  .action(clearTimesheet);
 
 program.parse(process.argv);
