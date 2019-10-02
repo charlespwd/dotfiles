@@ -48,43 +48,41 @@ if [ "$OS" = "Linux" ]; then
     fi
   }
 
-  # functions related to default applications
-  function default_and_mime {
-    ft=$(xdg-mime query filetype $1)
-    def=$(xdg-mime query default $ft)
-    echo "ft: $ft, default: ${def:-None}"
-  }
-
-  function set_default {
-    if [[ "$#" -ne 2 ]]; then
-      echo "Usage: set-default filetype entry.desktop"
-      return 1;
-    fi
-    xdg-mime default $2 $1
-  }
-
   function toTicketId {
-    re='^[0-9]+$'
+    re='^[0-9]{2}$'
     ticketId="$(echo $1 | tr -d ' ')"
     if [[ $1 =~ $re ]]; then
-      ticketId=$(task export $1 | jq -r .[0].description | cut -d '|' -f1 | tr -d ' ')
+      ticketId="$(task export $1 | jq -r .[0].description | cut -d '|' -f1 | tr -d ' ' | tr -d '\n')"
+    elif [[ $1 =~ '^[0-9]{4}$' ]]; then
+      ticketId="EE19-$tickedId"
     fi
-    echo $ticketId
+    echo $ticketId | tr -d ' '
+  }
+
+  function toTaskId {
+    ticketId="$(toTicketId $1)"
+    task export \
+      | jq -r '. | map(select(.description | contains("'$ticketId:u'"))) | .[0] | .uuid' \
+      | tr -d '\n' \
+      | tr -d ' '
   }
 
   function jira-browse {
     if [[ $# -ne 1 ]]; then
       ticket="$(jira sprintf)"
     else
-      ticket=$(toTicketId $1)
+      ticket="$(toTicketId "$1")"
     fi
     jira view -b $ticket
   }
 
   function set-return-trap {
-    trap "trap - ERR; trap - EXIT; return 1" ERR
-    trap "trap - ERR; trap - EXIT; return 0" EXIT
+    trap "trap - ERR; return 1" ERR
     return 0
+  }
+
+  function unset-return-trap {
+    trap - ERR
   }
 
   function argsHead {
@@ -106,17 +104,14 @@ if [ "$OS" = "Linux" ]; then
   }
 
   function argsPlusTicketId {
-    echo "$(argsDropLast "$@")" "$(toTicketId $(argsLast "$@"))"
+    echo "$(argsDropLast "$@")" "$(toTicketId $(argsLast "$@"))" | tr -d ' '
   }
 
   function mapf {
     f="$(argsHead $@)"
-    OIFS=$IFS
-    IFS=' '
-    args=($(argsDrop $@))
-    IFS=$OIFS
-    for arg in "${args[@]}"; do
-      $f $arg
+    args="$(argsDrop $@)"
+    for arg in "$(echo "$args")"; do
+      $f "$arg"
     done
   }
 
@@ -145,13 +140,14 @@ if [ "$OS" = "Linux" ]; then
   # jira 2 ip + start in task warrior
   function jira-start {
     set-return-trap
-    ticketId=$(toTicketId $1)
-    taskId=$(task export | jq -r '. | map(select(.description | contains("'$ticketId:u'"))) | .[0] | .uuid' | tr -d '\n' | tr -d ' ' )
+    ticketId="$(toTicketId $1)"
+    taskId="$(toTaskId $1)"
     if [[ $taskId != 'null' ]]; then
       echo "Moving $taskId to In Progress..."
       j2ip $1
       ts $taskId
     fi
+    unset-return-trap
   }
 
   function jira-subtask-quick {
@@ -161,37 +157,58 @@ if [ "$OS" = "Linux" ]; then
   }
 
   function jira-subtasks {
-    jira subtasks $(argsPlusTicketId $@)
+    jira subtasks "$(argsPlusTicketId "$@")"
   }
 
   function jira-comment {
-    jira comment $(argsPlusTicketId $@)
+    jira comment "$(argsPlusTicketId "$@")"
   }
 
   function j2ip {
-    jira transition --noedit "In Progress" $(argsPlusTicketId $@)
+    mapf jira2ip "$(mapf toTicketId "$@")"
   }
 
   function j2cr {
-    jira transition --noedit "Code Review" $(argsPlusTicketId $@)
+    mapf jira2cr "$(mapf toTicketId "$@")"
   }
 
   function j2qa {
-    set-return-trap
-    ticketId=$(toTicketId $1)
-    jira transition --noedit "QA" $ticketId
-    jira unassign $ticketId
-    taskId=$(task export | jq -r '. | map(select(.description | contains("'$ticketId:u'"))) | .[0] | .uuid' | tr -d '\n' | tr -d ' ' )
-    if [[ $taskId != 'null' ]]; then
-      task $taskId done
-    fi
+    mapf jira2qa "$(mapf toTicketId "$@")"
   }
 
   function j2d {
-    mapf jira-2-done $(mapf toTicketId $@)
+    mapf jira2done "$(mapf toTicketId $@)"
   }
 
-  function jira-2-done {
+  function jira2ip {
+    jira transition --noedit "In Progress" "$(toTicketId $1)"
+  }
+
+  function jira2cr {
+    set-return-trap
+    ticketId=$(toTicketId $1)
+    taskId=$(toTaskId $1)
+    jira transition --noedit "Code Review" "$ticketId"
+    if [[ $taskId != 'null' ]]; then
+      task $taskId modify +cr
+      task $taskId stop
+    fi
+    unset-return-trap
+  }
+
+  function jira2qa {
+    set-return-trap
+    ticketId="$(toTicketId $1)"
+    jira transition --noedit "QA" $ticketId
+    jira unassign $ticketId
+    taskId="$(toTaskId $1)"
+    if [[ $taskId != 'null' ]]; then
+      task $taskId done
+    fi
+    unset-return-trap
+  }
+
+  function jira2done {
     set-return-trap
 
     ticketId="$(toTicketId $1)"
@@ -205,6 +222,7 @@ if [ "$OS" = "Linux" ]; then
     if [[ $taskId != 'null' ]]; then
       task $taskId done
     fi
+    unset-return-trap
   }
 
   function ji2 {
@@ -217,15 +235,14 @@ if [ "$OS" = "Linux" ]; then
   alias ".i3status"="vim ~/.config/i3status/config"
   alias ".p"="vim ~/.config/polybar/config"
   alias ":q"="exit"
-  alias "default?"='default_and_mime'
   alias "filetype?"="xdg-mime query filetype"
   alias "js+"="jira subtask"
   alias "js++"="jira-subtask-quick"
   alias "jsc+"='jira subtask $(jct)'
   alias "jsc++"='jira-subtask-quick $(jct)'
-  alias "list-desktop-entries"="ls /usr/share/applications"
+  alias "list-desktop-entries"="default? list-options"
   alias "node-exec"="node-eval"
-  alias "set-default"="set_default"
+  alias "set-default"="default? set-application"
   alias "t+"="task next"
   alias "ta+"="task-splice annotate"
   alias "ta+n"="task-add-note"
@@ -248,8 +265,8 @@ if [ "$OS" = "Linux" ]; then
   alias jbc='jira-browse $(jct)'
   alias jc='jira-comment'
   alias jcc='jira-comment $(jct)'
-  alias jcs="task +ACTIVE +subtask export | jq -r '.[].description' | cut -d'|' -f 1 | head -n 1 | tr -d '\n' | tr -d ' ' 2> /dev/null"
-  alias jct="task +ACTIVE -subtask export | jq -r '.[].description' | cut -d'|' -f 1 | head -n 1 | tr -d '\n' | tr -d ' ' 2> /dev/null"
+  alias jcs="task +ACTIVE -COMPLETED +subtask project.is:shoebox export | jq -r '.[].description' | cut -d'|' -f 1 | head -n 1 | tr -d '\n' | tr -d ' ' 2> /dev/null"
+  alias jct="task +ACTIVE -COMPLETED -subtask project.is:shoebox export | jq -r '.[].description' | cut -d'|' -f 1 | head -n 1 | tr -d '\n' | tr -d ' ' 2> /dev/null"
   alias jfs="jira sprintf"
   alias je="jira edit"
   alias jg="jira grab"
@@ -391,6 +408,7 @@ alias outbox-vpn="sudo openconnect -u cpclermont --authgroup=Anyconnect connect.
 alias weather="curl v2.wttr.in/Prévost"
 alias update="yay -Syu --nocleanmenu --noeditmenu --nodiffmenu --nocombinedupgrade --noupgrademenu"
 alias update-aur="update --aur"
+alias loyalty="jira-sprint -q 'project = EE19 AND labels = Loyalty_E2E_Bugs AND status != Closed AND status != QA AND (assignee = currentUser() OR assignee is EMPTY) ORDER BY status DESC, priority DESC' -t table"
 alias sa="start-all"
 
 if [[ -n $TMUX ]]; then
