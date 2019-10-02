@@ -1,0 +1,105 @@
+#!/usr/bin/env node
+
+const program = require('commander');
+const path = require('path');
+const ini = require('ini');
+const { promisify } = require('util');
+const exec = promisify(require('child_process').exec);
+const fs = require('fs');
+const R = require('ramda');
+
+const readFile = promisify(fs.readFile);
+
+async function run(command, silent = false) {
+  const { stdout, stderr } = await exec(command);
+  if (stdout && !silent) process.stdout.write(stdout);
+  if (stderr && !silent) process.stderr.write(stderr);
+  return stdout.replace(/\n$/, '');
+}
+
+async function getFileType(file) {
+  if (/\./.test(file)) return run(`xdg-mime query filetype ${file}`, true);
+  return file;
+}
+
+async function getConf() {
+  const confPaths = [
+    path.join(process.env.HOME, '.config/mimeapps.list'),
+    path.join(process.env.HOME, '.local/share/applications/mimeapps.list'),
+  ];
+  const confs = await Promise.all(confPaths.map(x => readFile(x, 'utf8')));
+  return R.pipe(
+    R.map(ini.parse),
+    R.map(R.prop('Default Applications')),
+    R.reduceRight(R.merge, {}),
+  )(confs);
+}
+
+program
+  .version('0.0.1')
+  .description("tool to help manage default applications (cause nobody ain't got time fo' dat!)");
+
+program
+  .command('type <file>')
+  .description('list mime type for file')
+  .action(async file => {
+    await run(`xdg-mime query filetype ${file}`);
+  });
+
+program
+  .command('application <file>')
+  .alias('app')
+  .description('list default application for file')
+  .action(async file => {
+    const ft = await getFileType(file);
+    await run(`xdg-mime query default ${ft}`);
+  });
+
+program
+  .command('set-application <filetype> <app>')
+  .alias('set')
+  .description('set default application for filetype (use app.desktop)')
+  .action(async (filetype, app) => {
+    await run(`xdg-mime default ${app} ${filetype}`);
+  });
+
+program
+  .command('list-applications')
+  .alias('list')
+  .description('list all default applications')
+  .action(async () => {
+    const conf = await getConf();
+    const text = R.pipe(
+      R.toPairs,
+      R.sortBy(x => x[0]),
+      R.map(R.join(' ')),
+      R.join('\n'),
+    )(conf);
+    console.log(text);
+  });
+
+program
+  .command('list-options')
+  .description('list all desktop applications')
+  .action(async () => {
+    await run('ls /usr/share/applications');
+  });
+
+program
+  .command('replace <appBefore> <appAfter>')
+  .description('replace default `appBefore` by `appAfter`')
+  .action(async (appBefore, appAfter) => {
+    const conf = await getConf();
+    const fts = R.pipe(
+      R.filter(x => x === appBefore),
+      R.keys,
+      R.uniq,
+    )(conf);
+    await run(`xdg-mime default ${appAfter} ${fts.map(x => `"${x}"`).join(' ')}`);
+  });
+
+program.parse(process.argv);
+
+if (!process.argv.slice(2).length) {
+  program.outputHelp();
+}
