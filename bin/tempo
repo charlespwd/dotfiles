@@ -140,11 +140,10 @@ async function printExcelTimesheet() {
       .join('\n'),
     '=sum(B8:B22)',
     '',
-    R.range(15, 32)
+    R.range(15, 31)
       .map(toTime(res, from))
       .join('\n'),
     '=sum(B25:B40)',
-    '',
   ].join('\n');
 
   console.log(ts);

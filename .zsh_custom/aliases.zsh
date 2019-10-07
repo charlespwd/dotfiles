@@ -1,66 +1,19 @@
 OS=$(uname -s)
 if [ "$OS" = "Linux" ]; then
 
-  function nvim_start {
-    session='aldo'
-    socketfile='/tmp/nvimsocket'
-    targetfile='/tmp/nvimtmuxtarget'
-
-    function is_in_session {
-      [[ -n "$TMUX" ]];
-      return
-    }
-
-    function nvim_is_running {
-      [[ -S "$socketfile" ]];
-      return
-    }
-
-    function nvim_is_suspended {
-      nvim_pid="$(pgrep nvim)"
-      [[ -n "$nvim_pid" ]] && [[ "$(ps -o s= -p $nvim_pid)" = 'T' ]];
-      return
-    }
-
-    function target {
-      cat "$targetfile"
-    }
-
-    if nvim_is_suspended && is_in_session && nvim_is_running; then
-      nvr "$@" &> /dev/null &
-      disown
-      tmux switch-client -t "$(target)" &> /dev/null;
-      tmux send-keys -t "$(target)" "fg" Enter &> /dev/null;
-      return 0
-
-    elif is_in_session && nvim_is_running; then
-      nvr "$@";
-      statusCode="$?";
-      tmux switch-client -t "$(target)";
-      return $statusCode
-
-    else
-      tmux display-message -p '#S:#I.#P' > "$targetfile";
-      nvr -s "$@";
-      statusCode="$?";
-      rm "$targetfile";
-      return $statusCode
-    fi
-  }
-
   function toTicketId {
-    re='^[0-9]{2}$'
-    ticketId="$(echo $1 | tr -d ' ')"
-    if [[ $1 =~ $re ]]; then
+    local re='^[0-9]{2}$'
+    local ticketId="$(echo $1 | tr -d ' ')"
+    if [[ $ticketId =~ $re ]]; then
       ticketId="$(task export $1 | jq -r .[0].description | cut -d '|' -f1 | tr -d ' ' | tr -d '\n')"
-    elif [[ $1 =~ '^[0-9]{4}$' ]]; then
-      ticketId="EE19-$tickedId"
+    elif [[ $ticketId =~ '^[0-9]{4}$' ]]; then
+      ticketId="EE19-$ticketId"
     fi
     echo $ticketId | tr -d ' '
   }
 
   function toTaskId {
-    ticketId="$(toTicketId $1)"
+    local ticketId="$(toTicketId $1)"
     task export \
       | jq -r '. | map(select(.description | contains("'$ticketId:u'"))) | .[0] | .uuid' \
       | tr -d '\n' \
@@ -68,12 +21,13 @@ if [ "$OS" = "Linux" ]; then
   }
 
   function jira-browse {
+    local ticketId
     if [[ $# -ne 1 ]]; then
-      ticket="$(jira sprintf)"
+      ticketId="$(jira sprintf)"
     else
-      ticket="$(toTicketId "$1")"
+      ticketId="$(toTicketId "$1")"
     fi
-    jira view -b $ticket
+    jira view -b $ticketId
   }
 
   function set-return-trap {
@@ -108,15 +62,28 @@ if [ "$OS" = "Linux" ]; then
   }
 
   function mapf {
-    f="$(argsHead $@)"
-    args="$(argsDrop $@)"
+    local f="$(argsHead $@)"
+    local args="$(argsDrop $@)"
     for arg in "$(echo "$args")"; do
       $f "$arg"
     done
   }
 
   function jira-view {
-    jira view $(argsPlusTicketId $@) \
+    local ticketId=$(toTicketId $(argsLast "$@"))
+    local cache="$HOME/documents/jira/$ticketId"
+    local force='false'
+
+    if [[ $1 = '-f' ]] || [[ $1 = '--force' ]]; then
+      force='true'
+      shift 1;
+    fi
+
+    if ! [[ -e "$cache" ]] || [[ $force = 'true' ]]; then
+      jira view "$(argsPlusTicketId "$@")" > "$cache"
+    fi
+
+    cat "$cache" \
       | fold -w $(tput cols) -s \
       | $BIN/hilite -f blue '\- | #.*$' \
       | $BIN/hilite -f green 'content:.*$' \
@@ -129,7 +96,7 @@ if [ "$OS" = "Linux" ]; then
   }
 
   function jira-grab-start {
-    for ticketId in "$@"; do
+    for ticketId in $(mapf toTicketId "$@"); do
       echo "Grabbing $ticketId..."
       jira grab $ticketId
       echo "Starting $ticketId..."
@@ -140,8 +107,8 @@ if [ "$OS" = "Linux" ]; then
   # jira 2 ip + start in task warrior
   function jira-start {
     set-return-trap
-    ticketId="$(toTicketId $1)"
-    taskId="$(toTaskId $1)"
+    local ticketId="$(toTicketId $1)"
+    local taskId="$(toTaskId $1)"
     if [[ $taskId != 'null' ]]; then
       echo "Moving $taskId to In Progress..."
       j2ip $1
@@ -151,8 +118,8 @@ if [ "$OS" = "Linux" ]; then
   }
 
   function jira-subtask-quick {
-    ticketId=$(toTicketId $1)
-    summary="$2"
+    local ticketId=$(toTicketId $1)
+    local summary="$2"
     jira subtask "$ticketId" -o summary="$2" --noedit
   }
 
@@ -186,8 +153,8 @@ if [ "$OS" = "Linux" ]; then
 
   function jira2cr {
     set-return-trap
-    ticketId=$(toTicketId $1)
-    taskId=$(toTaskId $1)
+    local ticketId=$(toTicketId $1)
+    local taskId=$(toTaskId $1)
     jira transition --noedit "Code Review" "$ticketId"
     if [[ $taskId != 'null' ]]; then
       task $taskId modify +cr
@@ -198,10 +165,10 @@ if [ "$OS" = "Linux" ]; then
 
   function jira2qa {
     set-return-trap
-    ticketId="$(toTicketId $1)"
+    local ticketId="$(toTicketId $1)"
     jira transition --noedit "QA" $ticketId
     jira unassign $ticketId
-    taskId="$(toTaskId $1)"
+    local taskId="$(toTaskId $1)"
     if [[ $taskId != 'null' ]]; then
       task $taskId done
     fi
@@ -211,14 +178,14 @@ if [ "$OS" = "Linux" ]; then
   function jira2done {
     set-return-trap
 
-    ticketId="$(toTicketId $1)"
-    transition="Closed"
+    local ticketId="$(toTicketId $1)"
+    local transition="Closed"
     if [[ $(jira view -t json $ticketId | jq .fields.issuetype.subtask) = "true" ]]; then
       transition="Done"
     fi
 
     jira transition --noedit "$transition" $ticketId
-    taskId=$(task export | jq -r '. | map(select(.description | contains("'$ticketId:u'"))) | .[0] | .uuid' | tr -d '\n' | tr -d ' ' )
+    local taskId=$(task export | jq -r '. | map(select(.description | contains("'$ticketId:u'"))) | .[0] | .uuid' | tr -d '\n' | tr -d ' ' )
     if [[ $taskId != 'null' ]]; then
       task $taskId done
     fi
@@ -276,6 +243,7 @@ if [ "$OS" = "Linux" ]; then
   alias jis="jira sprint"
   alias jisf="jira sprintf"
   alias journalctl="sudo journalctl"
+  alias jctl='journalctl'
   alias js="jira-subtasks"
   alias jsc='jira subtasks $(jct)'
   alias jt="jira-task"
@@ -393,7 +361,7 @@ alias v="vim"
 alias vi="vim"
 alias vim='nvim'
 alias vimrc="v ~/.vimrc"
-alias nvim="nvim_start"
+alias nvim="/usr/bin/nvim"
 alias vnoplugin="vim -u NORC"
 alias whatsmyip="echo \`ifconfig en0 2>/dev/null|awk '/inet / {print $2}'|sed 's/addr://'\`"
 alias ws="cd ~/ws"
