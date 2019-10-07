@@ -2,7 +2,7 @@
 {{$w := sub termWidth 35 -}}
 {{$p := " | " -}}
 {{ range .issues -}}
-  {{ .key | printf "%-9s" -}}{{ $p -}}
+  {{ .key | printf "%-10s" -}}{{ $p -}}
   {{ with .fields.status.name -}}
     {{ if or (eq . "Re-Opened") (eq . "To Do") -}}
       {{ "TD" -}}
