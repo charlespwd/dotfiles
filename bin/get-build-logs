@@ -13,6 +13,9 @@ get_window() {
     globo|globoshoes|gl*)
       echo "start/globoshoes"
       ;;
+    nginx)
+      echo "start/nginx"
+      ;;
     gatsby)
       echo "start/gatsby"
       ;;
