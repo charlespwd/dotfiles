@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+cat > /tmp/email.html
+google-chrome-stable --headless --ignore-certificate-errors --print-to-pdf="/tmp/email.pdf" /tmp/email.html
