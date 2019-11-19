@@ -103,3 +103,5 @@ config/jira/contacts.txt
 config/emojis-lru
 bin/add-poeditor-user
 bin/github-issue
+__pycache__
+config/nemo
