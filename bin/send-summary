@@ -12,13 +12,23 @@ console.log(date.format('MMMM D, YYYY'));
 
 date=$($BIN/node-eval "$script")
 to="$SUMMARY_CLIENT_EMAIL"
+# to="charles@cpclermont.com"
 title="Summary - $date"
 echo $title
+css="$HOME/.config/email.css"
+
+pandocCmd() {
+  pandoc -f markdown -t html -H $css
+}
+
+mailCmd() {
+  mailx -A gmail -M text/html -s "$title" $to
+}
 
 if [[ -p /dev/stdout ]]; then
-  mailx -A gmail -s "$title" $to
+  pandocCmd | mailCmd
 else
-  cat $HOME/summary.md | mailx -A gmail -s "$title" $to
+  cat $HOME/summary.md | pandocCmd | mailCmd
 fi
 
 task rc:$HOME/.taskrc rc.context=none next &>/dev/null

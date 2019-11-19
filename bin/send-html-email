@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+
+# if [[ $# -ne 2 ]]; then
+#   echo "Usage: $0 <to> <title>"
+#   exit 0
+# fi
+
+to="$1"
+if ! [[ $to =~ '@' ]]; then
+  echo -e "Aborting: Recipient is not a valid email address."
+  exit 1
+fi
+
+title="$2"
+if [[ -z $2 ]]; then
+  echo -e "Aborting: Missing email title."
+  exit 1
+fi
+
+attach="$3"
+css="$HOME/.config/email.css"
+
+pandocCmd() {
+  pandoc -f markdown -t html -H "$css"
+}
+
+mailCmd() {
+  if [[ -n $attach ]]; then
+    mailx -A gmail -M text/html -s "$title" -a "$attach" "$to"
+  else
+    mailx -A gmail -M text/html -s "$title" "$to"
+  fi
+}
+
+pandocCmd | mailCmd
