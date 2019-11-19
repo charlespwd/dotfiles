@@ -1,22 +1,29 @@
 #!/bin/bash
 
-# source /home/charles/.config/colors.sh
-TICK="✓"
-CROSS="✗"
+source /home/charles/.config/colors.sh
+# TICK="✓"
+# CROSS="✗"
 
-URGENT="❗"
-OVERDUE="☠️"
-DUETODAY="😱"
-DUETOMORROW="📅"
+# echo $neutral_orange
+OVERDUE="%{F$neutral_red}"
+URGENT="%{F$neutral_orange}"
+DUETODAY="%{F$bright_yellow}"
+DUETOMORROW="%{F$bright_yellow}"
+task="task rc.context=none"
 
-if [ `task +READY +OVERDUE count` -gt "0" ]; then
+has_at_least_1() {
+  count=$($task +READY "$@" count 2> /dev/null)
+  [[ $count -gt "0" ]]
+}
+
+if has_at_least_1 +OVERDUE; then
   echo "$OVERDUE"
-elif [ `task +READY +DUETODAY count` -gt "0" ]; then
+elif has_at_least_1 +DUETODAY; then
   echo "$DUETODAY"
-elif [ `task +READY +DUETOMORROW count` -gt "0" ]; then
+elif has_at_least_1 +DUETOMORROW; then
   echo "$DUETOMORROW"
-elif [ `task +READY urgency \> 10 count` -gt "0" ]; then
+elif has_at_least_1 urgency \> 20; then
   echo "$URGENT"
 else
-  echo "$TICK"
+  echo ""
 fi

@@ -1,0 +1,32 @@
+#!/bin/bash
+
+source /home/charles/.config/colors.sh
+# TICK="✓"
+# CROSS="✗"
+
+session="build"
+
+lower() {
+  echo "$1" | tr '[:upper:]' '[:lower:]'
+}
+
+has() {
+  name="$1"
+  target="$session:$name"
+  if tmux has-session -t "$target/iso" &> /dev/null; then
+    echo "2"
+  elif tmux has-session -t "$target" &> /dev/null; then
+    echo "1"
+  else
+    echo "0"
+  fi
+}
+
+C=$(has "start/composer")
+A=$(has "start/aldoshoes")
+I=$(has "start/callitspring")
+G=$(has "start/globoshoes")
+R=$(has "start/redis")
+N=$(has "start/nginx")
+
+echo "$C$A$I$G$R$N"

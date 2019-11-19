@@ -47,14 +47,14 @@ module-margin-right = 2
 
 font-0 = SFNS Display:style=Regular:pixelsize=22;4
 ; font-0 = xft:DejaVuSansMonoForPowerline Nerd Font:style=Book:size=14:pixelsize=18;1
-font-1 = unifont:fontformat=truetype:size=20:antialias=false;0
+font-1 = Cousine Nerd Font:pixelsize=22;4
 font-2 = FontAwesome:pixelsize=23;4
 
 modules-left = i3
 modules-center =
 ; modules-right = filesystem xbacklight volume xkeyboard memory cpu wifi eth battery temperature date powermenu
 ; modules-right = recording vpn ip memory root home volume xkeyboard bluetooth battery calories slu date wifi
-modules-right = recording vpn ip memory root home volume xkeyboard bluetooth battery slu date wifi
+modules-right = server task recording vpn ip memory root home volume xkeyboard bluetooth battery slu date wifi
 
 tray-position = right
 tray-padding = 0
@@ -95,6 +95,11 @@ label-indicator-margin = 1
 label-indicator-background = ${colors.secondary}
 ; label-indicator-underline = ${colors.secondary}
 
+[module/server]
+type = custom/script
+exec = /home/charles/.config/polybar/server-indicator
+interval = 1
+
 [module/task]
 type = custom/script
 exec = /home/charles/.config/polybar/task-indicator
@@ -104,7 +109,7 @@ interval = 1
 ; format-prefix-foreground = ${colors.red}
 ; format-prefix-padding-right = 2
 ; format-underline = #458588
-format-padding = 1
+; format-padding = 1
 
 [module/recording]
 type = custom/script
