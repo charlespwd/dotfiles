@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+set -eou pipefail
+
+# Get file path from args
+file="${1}"
+
+if [[ $# -ne 1 ]] || ! [[ -f "$file" ]]; then
+  echo "Usage: $0 <file>"
+fi
+
+# Getting an ID
+gfyname=$(
+curl -v \
+  -XPOST "https://api.gfycat.com/v1/gfycats" \
+  -H "Content-Type: application/json" \
+  2> /dev/null \
+  | jq -r .gfyname
+)
+
+# Uploading file (file must have same name as ID)
+copy="/tmp/$gfyname"
+cp "$file" "$copy"
+curl -i https://filedrop.gfycat.com --upload-file "$copy" &> /dev/null
+
+# Clean up
+rm "$copy"
+
+# Getting mp4 url
+mp4Url="null"
+i=0;
+while [[ "$mp4Url" = "null" ]]; do
+  payload=$(
+  curl -v "https://api.gfycat.com/v1/gfycats/fetch/status/$gfyname" \
+    2> /dev/null
+  )
+  mp4Url="$(echo "$payload" | jq -r .mp4Url)"
+  sleep 0.5
+  i=$((i + 1))
+  if [[ $i -eq 10 ]]; then
+    echo $payload | jq .
+  fi
+done
+
+echo "$payload" | jq .
