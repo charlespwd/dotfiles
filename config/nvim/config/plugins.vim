@@ -1,7 +1,8 @@
 let g:vimwiki_map_prefix = '<Leader>w'
 let g:vimwiki_list = [
  \ {'path': '~/documents/wiki/', 'ext': '.md', 'syntax': 'markdown'},
- \ {'path': '~/dnd/Adventure/', 'ext': '.md', 'syntax': 'markdown'}
+ \ {'path': '~/dnd/Adventure/', 'ext': '.md', 'syntax': 'markdown'},
+ \ {'path': '~/dnd/TempleOfDoom/', 'ext': '.md', 'syntax': 'markdown'}
  \ ]
 let g:vimwiki_folding = 'syntax'
 let g:vimwiki_ext2syntax = {'.md': 'markdown', '.markdown': 'markdown', '.mdown': 'markdown'}
@@ -60,7 +61,7 @@ call plug#begin($XDG_CONFIG_HOME . '/nvim/plugged')
 
   " golang
   " Plug 'nsf/gocode', { 'rtp': 'nvim', 'do': '~/.config/nvim/plugged/gocode/nvim/symlink.sh' }
-  Plug 'fatih/vim-go'
+  " Plug 'fatih/vim-go'
 
   " Javascript & typescript
   Plug 'charlespwd/vim-node'
@@ -76,26 +77,27 @@ call plug#begin($XDG_CONFIG_HOME . '/nvim/plugged')
   " typescript syntax
   Plug 'leafgarland/typescript-vim', { 'for': ['typescript'] }
   " Plug 'MaxMEllon/vim-jsx-pretty', { 'for': ['typescript'] }
-  Plug 'mhartington/nvim-typescript', { 'for': ['typescript'], 'do': './install.sh' }
+  Plug 'HerringtonDarkholme/yats.vim', { 'for': ['typescript', 'javascript'] }
+  Plug 'mhartington/nvim-typescript', { 'for': ['typescript', 'javascript'], 'do': './install.sh' }
   " Plug 'Shougo/vimproc.vim', { 'do': 'make' }
   " Plug 'Quramy/tsuquyomi'
 
   " Clojure
   " " Plug 'venantius/vim-cljfmt', { 'for': 'clojure' }
-  " Plug 'christoph-frick/vim-fireplace', { 'for': 'clojure' }
-  " Plug 'guns/vim-clojure-highlight', { 'for': 'clojure' }
-  " Plug 'guns/vim-clojure-static', { 'for': 'clojure' }
-  " Plug 'guns/vim-slamhound', { 'for': 'clojure' }
+  Plug 'christoph-frick/vim-fireplace', { 'for': 'clojure' }
+  Plug 'guns/vim-clojure-highlight', { 'for': 'clojure' }
+  Plug 'guns/vim-clojure-static', { 'for': 'clojure' }
+  Plug 'guns/vim-slamhound', { 'for': 'clojure' }
   " " Plug 'honza/vim-clojure-conceal', { 'for': 'clojure' }
-  " Plug 'raymond-w-ko/vim-niji', { 'for': 'clojure' }
-  " Plug 'tpope/vim-leiningen', { 'for': 'clojure' }
-  " Plug 'guns/vim-sexp', { 'for': ['clojure'] }
-  " Plug 'tpope/vim-sexp-mappings-for-regular-people', { 'for': ['clojure'] }
-  " Plug 'tpope/vim-classpath', { 'for': ['clojure'] }
-  " Plug 'vim-scripts/paredit.vim', { 'for': ['clojure'] }
+  Plug 'raymond-w-ko/vim-niji', { 'for': 'clojure' }
+  Plug 'tpope/vim-leiningen', { 'for': 'clojure' }
+  Plug 'guns/vim-sexp', { 'for': ['clojure'] }
+  Plug 'tpope/vim-sexp-mappings-for-regular-people', { 'for': ['clojure'] }
+  Plug 'tpope/vim-classpath', { 'for': ['clojure'] }
+  Plug 'vim-scripts/paredit.vim', { 'for': ['clojure'] }
   "
   " " for clojurescript doc I needed this and the cider nrepl plugin
-  " Plug 'tpope/vim-salve', { 'for': ['clojure'] }
+  Plug 'tpope/vim-salve', { 'for': ['clojure'] }
   "
   " async jobs with vim, also used by clojure, otherwise use neomake
   Plug 'tpope/vim-dispatch'

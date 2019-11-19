@@ -2,5 +2,7 @@
   "javascript.preferences.importModuleSpecifier": "non-relative",
   "javascript.validate.enable": false,
   "tsserver.enableJavascript": true,
+  "tsserver.log": "verbose",
+  "tsserver.trace.server": "verbose",
   "tsserver.implicitProjectConfig.checkJs": true
 }

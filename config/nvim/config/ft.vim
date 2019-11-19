@@ -47,8 +47,8 @@ endfunction
 augroup quickfix
   autocmd!
 
-  " wrap in quickfix
-  autocmd FileType qf setlocal wrap
+  " nowrap in quickfix
+  autocmd FileType qf setlocal nowrap
 
   " remap <c-i> to copy the import statement
   autocmd FileType qf nnoremap <buffer> <C-i> /import<cr>y$:let @@ = @@."\n"<cr><c-w><c-k>N
@@ -57,7 +57,7 @@ augroup quickfix
   autocmd FileType qf nnoremap <buffer> <C-v> <C-w><cr><C-w>L
 
   " quick filter
-  autocmd FileType qf nnoremap <buffer> <leader>nt :QFilter! test<cr>:QFilter! spec<cr>:QFilter! json<cr>:QFilter! scss<cr>
+  autocmd FileType qf nnoremap <buffer> <leader>nt :QFilter! test<cr>:QFilter! spec<cr>:QFilter! json<cr>:QFilter! scss<cr>:set nowrap<cr>
   autocmd FileType qf nnoremap <buffer> <leader>fa :QFilter! callitspring<cr>:QFilter! globoshoes<cr>:QFilter! composer<cr>
   autocmd FileType qf nnoremap <buffer> <leader>fc :QFilter! aldoshoes<cr>:QFilter! globoshoes<cr>:QFilter! composer<cr>
   autocmd FileType qf nnoremap <buffer> <leader>fC :QFilter composer<cr>

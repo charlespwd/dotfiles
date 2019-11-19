@@ -237,6 +237,12 @@ function! s:FilterQuickfixList(bang, pattern)
 endfunction
 command! -bang -nargs=1 -complete=file QFilter call s:FilterQuickfixList(<bang>0, <q-args>)
 
+function! s:FilterQuickfixListByText(bang, pattern)
+  let cmp = a:bang ? '!~#' : '=~#'
+  call setqflist(filter(getqflist(), "v:val['text'] " . cmp . " a:pattern"))
+endfunction
+command! -bang -nargs=1 -complete=file QFilterText call s:FilterQuickfixListByText(<bang>0, <q-args>)
+
 " Usage:
 " 	:Redir hi ............. show the full output of command ':hi' in a scratch window
 " 	:Redir !ls -al ........ show the full output of command ':!ls -al' in a scratch window

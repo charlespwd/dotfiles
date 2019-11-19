@@ -115,9 +115,13 @@ call SetupCommandAlias('re!', 'Redir !')
 call SetupCommandAlias('RE!!', 'Redir !%')
 call SetupCommandAlias('qf', 'QFilter')
 call SetupCommandAlias('qf!', 'QFilter!')
+call SetupCommandAlias('qft', 'QFilterText')
+call SetupCommandAlias('qft!', 'QFilterText!')
 
 " to imgur image link
 map <leader>2i :let @a=system('imgur', expand('<cfile>'))<cr>^C![alt](<c-r>a<bs>)<esc>
+" to mp4 gfycat image link
+map <leader>2m :let @p=system('to-mp4-play-button-url ' . expand('<cfile>'))<cr>^C<c-r>p<esc>
 
 " MACROS
 " map <leader>ww :!wc -w %<cr>

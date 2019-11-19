@@ -166,11 +166,13 @@ let g:deoplete#file#enable_buffer_path = 1
 " call deoplete#custom#set('file', 'min_pattern_length', 0)
 let g:deoplete#auto_complete_delay = 150
 
-call deoplete#custom#source('dictionary', 'matchers', ['matcher_head'])
-" If dictionary is already sorted, no need to sort it again.
-call deoplete#custom#source('dictionary', 'sorters', [])
-" Do not complete too short words
-call deoplete#custom#source('dictionary', 'min_pattern_length', 2)
+if exists("*deoplete#custom#source")
+  call deoplete#custom#source('dictionary', 'matchers', ['matcher_head'])
+  " If dictionary is already sorted, no need to sort it again.
+  call deoplete#custom#source('dictionary', 'sorters', [])
+  " Do not complete too short words
+  call deoplete#custom#source('dictionary', 'min_pattern_length', 2)
+endif
 
 " supertab options
 let g:SuperTabDefaultCompletionType = '<c-n>'
