@@ -63,11 +63,11 @@ function parseDuration(duration) {
     return 'rest';
   }
   if (/^\d+(\.\d+)?[hms]$/.test(duration)) {
-    const [value, unit] = R.match(/^(\d+\.?\d*)([hms])$/, duration);
+    const [, value, unit] = R.match(/^(\d+\.?\d*)([hms])$/, duration);
     return moment.duration(parseFloat(value), unit);
   }
   if (/^\d+(\.\d+)?[%]$/.test(duration)) {
-    const [value, unit] = R.match(/^(\d+\.?\d*)([%])$/, duration);
+    const [, value, unit] = R.match(/^(\d+\.?\d*)([%])$/, duration);
     return moment.duration(parseFloat(value), unit);
   }
   return undefined;
@@ -203,7 +203,7 @@ async function printTimesheet() {
     colors.gray('---------------'),
     colors.gray('Total'),
     colors.gray(
-      worklog.map(entry => moment.duration(entry.timeSpentSeconds, 's').asHours()).reduce(R.add),
+      worklog.map(entry => moment.duration(entry.timeSpentSeconds, 's').asHours()).reduce(R.add, 0),
     ),
   ]);
 
@@ -213,6 +213,8 @@ async function printTimesheet() {
 async function logTimesheet(args) {
   const pairs = getPairs(args);
   const date = dateOption();
+  const params = [];
+  console.log(date.format('dddd, MMMM Do YYYY'));
 
   for (const pair of pairs) {
     const issueId = getIssueId(pair.issueKey);
@@ -230,13 +232,15 @@ async function logTimesheet(args) {
       },
     ]);
 
-    const response = await addWorklog({
+    params.push({
       date: date,
       issueKey: pair.issueKey,
       comment: answers.comment,
       duration: pair.duration,
     });
   }
+
+  const responses = await Promise.all(params.map(addWorklog));
 
   await printTimesheet();
 
@@ -267,9 +271,7 @@ program
     'total hours worked that day (used in rest calculation)',
     x => parseFloat(x),
     7.5,
-  )
-  .arguments('(<time> <ticket>...)')
-  .action(logTimesheet);
+  );
 
 program
   .command('excel')
@@ -291,4 +293,5 @@ program
   .description('remove time entries for the day')
   .action(clearTimesheet);
 
+// console.log(program.commands);
 program.parse(process.argv);
