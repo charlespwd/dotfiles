@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+logfile="$HOME/.config/aldo-vpn.log"
+date --rfc-3339=seconds >> "$logfile"
