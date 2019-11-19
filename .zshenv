@@ -1,5 +1,6 @@
 # Load secret environment variables
-[ -s "$HOME/dotfiles/env" ] && source "$HOME/dotfiles/env";
+[[ -f "$HOME/dotfiles/env" ]] && source "$HOME/dotfiles/env";
+[[ -f "$HOME/.envrc" ]] && source "$HOME/.envrc"
 
 # Add $scr variable
 export scr="$HOME/bin"
@@ -63,4 +64,3 @@ export PATH="$PATH:$HOME/ws/aldo/perf/bin"
 
 # Source aliases
 source "$DOT/.zsh_custom/aliases.zsh"
-source "$HOME/.envrc"
