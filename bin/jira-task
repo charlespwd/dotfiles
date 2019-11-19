@@ -1,0 +1,27 @@
+#!/bin/bash
+set -eou pipefail
+
+jira_base='https://aldogroup.atlassian.net/browse'
+
+if [[ $# -ne 1 ]]; then
+  ticket="$(jira sprint -c | tac | fzf)"
+else
+  ticket="$(jira list -t table -q "key = $1")"
+fi
+
+desc=$(echo $ticket | cut -d '|' -f 1,6)
+ticket_status=$(echo $ticket | cut -d '|' -f 3 | tr -d ' ')
+ticket_id=$(echo $ticket | cut -d '|' -f1 | tr -d ' ')
+
+tags=""
+if [[ $ticket_status = '' ]]; then
+  tags="+subtask"
+fi
+
+if ! task $ticket_id &> /dev/null; then
+  # create new task
+  new_task_id=$(task add proj:shoebox +work $tags $desc | tr -cd '[[:digit:]]')
+  # annotate new task with jira ticket
+  url=$jira_base/$ticket_id
+  task $new_task_id annotate $url
+fi

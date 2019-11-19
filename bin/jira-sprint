@@ -1,0 +1,55 @@
+#!/bin/bash
+
+sprintQuery="Sprint in openSprints() OR Sprint in futureSprints() OR Sprint is EMPTY"
+options=""
+assignee="AND (assignee = currentUser() OR assignee is EMPTY)"
+query=""
+while getopts ":csaq:" option; do
+  case $option in
+    a)
+      assignee=""
+      ;;
+    s)
+      sprintQuery="Sprint in openSprints()"
+      ;;
+    q)
+      query="${OPTARG}"
+      ;;
+    *)
+      options="$options -${OPTARG}"
+      ;;
+  esac
+done
+shift $(($OPTIND - 1))
+
+# JQL Reference:
+# http://tny.im/inQ4
+if [[ -z $query ]]; then
+query="
+(
+  'Omni Team' = 'javascrap'
+  AND (component not in (Hybris) OR component is EMPTY)
+  AND (labels not in (Thinkwrap) OR labels is EMPTY)
+  AND (issuetype not in (Sub-task, Task, Epic))
+  AND (status = 'To Do' OR status = Re-Opened OR status='In Progress' OR status='Code Review')
+  $assignee
+  AND ($sprintQuery)
+  AND (issue not in (EE18-6515, EE18-7923, CCSO-6204, CCSO-6203, EE18-6821, EE18-6534))
+)
+OR (
+  assignee = currentUser()
+  AND (issuetype not in (Sub-task, Task, Epic))
+  AND (status = 'To Do' OR status = Re-Opened OR status='In Progress' OR status='Code Review' )
+)
+ORDER BY assignee DESC, cf[10007] ASC, status ASC, Rank ASC
+"
+fi
+
+jira list -q "$query" $options "$@" \
+  | "$BIN/hilite" -f green "" \
+  | "$BIN/hilite" -f red "" \
+  | "$BIN/hilite" -f blue "" \
+  | "$BIN/hilite" -f green "" \
+  | "$BIN/hilite" -f green " CR " \
+  | "$BIN/hilite" -f yellow " IP " \
+  | "$BIN/hilite" -f blue " Me "

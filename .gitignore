@@ -84,8 +84,6 @@ config/aurman
 config/hub
 bin/aldo-map
 bin/calories
-bin/jira-sprint
-bin/jira-task
 config/googlecl
 config/monitors.xml
 config/nvim/black
