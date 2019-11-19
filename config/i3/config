@@ -96,7 +96,7 @@ for_window [floating] border normal 7
 for_window [floating] title_format "<span size='smaller'> %title</span>"
 
 # Browser rules
-for_window [class="Firefox"] move to workspace $w1, workspace $w1
+for_window [class="Firefox"] move to workspace $w3, workspace $w3
 for_window [instance="chromium"] move to workspace $w1, workspace $w1
 for_window [instance="google-chrome"] move to workspace $w1, workspace $w1
 
@@ -280,6 +280,12 @@ bindsym $mod+Shift+r restart
 bindsym --release $mod+Control+4 exec --no-startup-id $scripts/screenshot-to-clipboard
 bindsym --release $mod+Control+Shift+4 exec --no-startup-id $scripts/screenshot-to-tmp
 bindsym --release $mod+Control+5 exec --no-startup-id $scripts/record-gif-to-clipboard
+bindsym --release $mod+Control+Shift+5 exec --no-startup-id $scripts/record-mp4
+bindsym --release $mod+comma exec --no-startup-id $scripts/benchmark /tmp/screengrab/left.mp4
+bindsym --release $mod+period exec --no-startup-id $scripts/benchmark /tmp/screengrab/right.mp4
+bindsym --release $mod+slash exec --no-startup-id $scripts/benchmark-merge
+bindsym --release $mod+Shift+slash exec --no-startup-id mpv --loop --fullscreen /tmp/screengrab/output.mp4
+bindsym --release $mod+v exec --no-startup-id $scripts/cache-clear
 
 # volume settings
 # bindsym XF86AudioRaiseVolume exec --no-startup-id amixer sset Master 5%+
@@ -384,6 +390,7 @@ exec termite
 exec_always --no-startup-id $scripts/trackpad_config.sh
 exec_always --no-startup-id $scripts/wallpaper
 exec_always --no-startup-id $scripts/restart-polybar
+exec_always --no-startup-id $scripts/log-activity
 
 # boot stuff
 exec --no-startup-id dropbox
