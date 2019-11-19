@@ -74,7 +74,6 @@ config/kst
 bin/wod
 bin/start-aldo
 bin/start-aldo-iso
-bin/start-all
 config/nvim/autoload/gocomplete.vim
 config/nvim/ftplugin/go
 config/nvim/swap

@@ -1,0 +1,169 @@
+#!/bin/bash
+set -eou pipefail
+
+root="$HOME/ws/aldo/shoebox"
+session="build"
+project_name=${1:-}
+mode=${2:-}
+TMUX=${TMUX:-''}
+
+is_in_session() {
+  [[ -n $TMUX ]] && [[ $(tmux display-message -p '#S') = "$session" ]];
+  return
+}
+
+window_exists() {
+  tmux
+}
+
+create_and_start() {
+  name="$1"
+  cmd="$2"
+  target="$session:$name"
+  echo "$cmd"
+
+  if (tmux select-window -t "$target" &> /dev/null); then
+    if [[ $name = 'start/redis' ]]; then
+      return;
+    fi
+    tmux send-keys -t "$target" C-c
+    sleep 1
+  else
+    tmux new-window -t "$session" -n "$name"
+  fi
+
+  tmux send-keys -t "$target" "cd $root" Enter
+  tmux send-keys -t "$target" "nvm use" Enter
+  tmux send-keys -t "$target" "$cmd" Enter
+}
+
+start_presentation() {
+  brand=$1
+  port=$2
+  if [[ $mode = "iso" ]]; then
+    create_and_start "start/$brand/iso" \
+      "BRAND=$brand CLIENT_PORT=$port yarn start:presentation:iso" &
+    create_and_start "start/$brand" \
+      "BRAND=$brand CLIENT_PORT=$port yarn dev:presentation:iso" &
+  elif [[ $mode = "build" ]]; then
+    create_and_start "start/$brand" \
+      "PROJECT_NAME=$brand PORT=$port yarn start:build" &
+  elif [[ $mode = "kill" ]]; then
+    tmux kill-window -t "$session:start/$brand" || true
+    tmux kill-window -t "$session:start/$brand/iso" || true
+  else
+    create_and_start "start/$brand" \
+      "BRAND=$brand CLIENT_PORT=$port yarn start:presentation" &
+  fi
+}
+
+start_composer() {
+  case $mode in
+    build )
+      create_and_start 'start/composer' 'PROJECT_NAME=composer PORT=3001 yarn start:build' &
+      ;;
+    aldo|aldoshoes|al*)
+      create_and_start 'start/composer' 'CLIENT_FRONTEND_PORT=8080 yarn start:composer:debug' &
+      ;;
+    cis|callitspring|ca*)
+      create_and_start 'start/composer' 'CLIENT_FRONTEND_PORT=8081 yarn start:composer:debug' &
+      ;;
+    globo|globoshoes|gl*)
+      create_and_start 'start/composer' 'CLIENT_FRONTEND_PORT=8082 yarn start:composer:debug' &
+      ;;
+    *)
+      create_and_start 'start/composer' 'CLIENT_FRONTEND_PORT=8080 yarn start:composer:debug' &
+      ;;
+  esac
+}
+
+start_aldoshoes() {
+  start_presentation 'aldoshoes' '8080'
+}
+
+start_callitspring() {
+  start_presentation 'callitspring' '8081'
+}
+
+start_globoshoes() {
+  start_presentation 'globoshoes' '8082'
+}
+
+start_redis() {
+  create_and_start 'start/redis' \
+    'redis-server ./packages/composer/redis.conf' &
+}
+
+start_nginx() {
+  echo systemctl restart nginx
+  systemctl restart nginx
+  create_and_start 'start/nginx' \
+   'tail -f /etc/nginx/logs/access.log' &
+}
+
+cd "$root"
+
+# start session
+(tmux has-session -t $session &> /dev/null) || tmux new -s $session -d
+
+if is_in_session; then
+  tmux rename-window 'sb/vim'
+fi
+
+run() {
+  project_name=${1:-}
+  mode=${2:-}
+  shift 1
+
+  case $project_name in
+    all)
+      start_composer
+      start_callitspring
+      start_aldoshoes
+      start_globoshoes
+      start_redis
+      ;;
+    comp|composer|co*)
+      start_composer
+      ;;
+    cis|callitspring|ca*)
+      start_callitspring
+      ;;
+    aldo|aldoshoes|al*)
+      start_aldoshoes
+      ;;
+    globo|globoshoes|gl*)
+      start_globoshoes
+      ;;
+    redis)
+      start_redis
+      ;;
+    nginx)
+      start_nginx
+      ;;
+    kill)
+      for p in "$@"; do
+        run $p kill
+      done
+      ;;
+    start)
+      args="${@:-comp aldo redis}"
+      for p in $(echo "$args"); do
+        run $p
+      done
+      ;;
+    *)
+      echo -e "Error: project name $project_name not supported."
+      exit 1
+      ;;
+  esac
+}
+
+run "$@"
+
+if is_in_session; then
+  tmux select-window -t 'sb/vim'
+  tmux send-keys -t 'sb/vim' 'exit' Enter
+fi
+
+echo 'All done!'
