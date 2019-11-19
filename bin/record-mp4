@@ -1,18 +1,47 @@
 #!/bin/bash
 mkdir -p /tmp/screengrab
-tmp_avi=$(mktemp /tmp/screengrab/outXXXXXXXXXX.avi)
-output='/tmp/screengrab/screencast.mp4'
+tmp_mp4=${1:-$(mktemp /tmp/screengrab/outXXXXXXXXXX.mp4)}
+tmp_ctl='/tmp/screengrab/ctl'
+tmp_processing='/tmp/screengrab/processing'
 framerate=${1:-10}
 
-# lossless option:
-ffcast -s % ffmpeg -y -f x11grab \
-  -framerate $framerate \
-  -video_size %s \
-  -i %D+%c \
-  -vcodec huffyuv \
-  $tmp_avi \
-&& ffmpeg -i $tmp_avi $output
+cleanup() {
+  rm -f $tmp_ctl
+  rm -f $tmp_processing
+}
+trap cleanup 0 SIGHUP SIGINT SIGTERM
 
-echo $output | xclip -sel clipboard
-echo "Output saved to $output"
-ls -h $output
+# If the fifo exists, stop recording when running the script again.
+if [[ -e $tmp_ctl ]]; then
+  echo "q" >> $tmp_ctl
+  rm "$tmp_mp4"
+  exit 0
+fi
+
+set -e
+
+# record current screen
+rect=$(ffcast -q -# "$(xdotool getactivewindow)" echo "%s %D+%c")
+
+# record selection
+# rect=$(ffcast -s % echo "%s %D+%c")
+
+# record current window
+# rect=$(ffcast -w % echo "%s %D+%c")
+
+size=$(echo "$rect" | cut -d' ' -f1)
+loc=$(echo "$rect" | cut -d' ' -f2)
+framerate=60
+
+mkfifo $tmp_ctl
+
+cat $tmp_ctl | ffmpeg -y \
+  -f x11grab \
+  -framerate $framerate \
+  -video_size "$size" \
+  -i "$loc" \
+  "$tmp_mp4"
+
+echo "$tmp_mp4" | xclip -sel clipboard
+echo "Output saved to $tmp_mp4"
+ls -lh "$tmp_mp4"

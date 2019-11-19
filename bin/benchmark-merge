@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+tmp_processing='/tmp/screengrab/processing'
+
+cleanup() {
+  rm -f $tmp_processing
+}
+trap cleanup SIGHUP SIGINT SIGTERM
+
+touch $tmp_processing
+
+a="/tmp/screengrab/left.mp4"
+b="/tmp/screengrab/right.mp4"
+out="/tmp/screengrab/output.mp4"
+ ffmpeg -y \
+   -i $a \
+   -i $b \
+   -filter_complex "[0:v][1:v]hstack, crop=h=ih-200:y=200" \
+   $out
+
+echo $out | xclip -i -sel clipboard
+
+cleanup

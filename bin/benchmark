@@ -1,0 +1,82 @@
+#!/usr/bin/env bash
+
+DIR_UP="4"
+DIR_DOWN="5"
+delay=14
+file="${1:-/tmp/screengrab/bench.mp4}"
+
+scroll_wait() {
+  duration=0.3
+  echo sleep $duration
+}
+
+scroll() {
+  direction=${1:-$DIR_DOWN}
+  repeat=${2:-31}
+  echo click --repeat $repeat --delay $delay $direction
+}
+
+scroll_down() {
+  scroll $DIR_DOWN "$1"
+}
+
+scroll_up() {
+  scroll $DIR_UP "$1"
+}
+
+mouse_move() {
+  x=$1
+  y=$2
+  echo mousemove $x $y
+}
+
+mouse_click() {
+  x=$1
+  y=$2
+  echo mousemove $x $y click 1
+}
+
+drag_start() {
+  x=$1
+  y=$2
+  echo mousemove $x $y mousedown 1
+}
+
+drag_move() {
+  dx=$1
+  dy=$2
+  for (( i = 0; i < 400; i++ )); do
+    echo -n mousemove_relative -- $dx $dy sleep 0.0001 ''
+  done
+}
+
+drag_end() {
+  echo mouseup 1
+}
+
+test_menu() {
+  xdotool sleep 0.5 \
+    $(mouse_click 1061 480) \
+    sleep 1 \
+    $(drag_move 1123 522) \
+    $(mouse_click 1123 522) \
+    sleep 1 \
+    $(drag_move 1169 715) \
+    $(mouse_click 1169 715) \
+    sleep 1 \
+    $(drag_move 1195 800) \
+    $(mouse_click 1195 800) \
+    sleep 8
+}
+
+test_plp() {
+  xdotool sleep 1 \
+    $(mouse_click 813 502) \
+    sleep 1 \
+    $(mouse_click 823 630) \
+    sleep 4
+}
+
+(record-mp4 "$file" &) &> /dev/null
+test_menu
+record-mp4

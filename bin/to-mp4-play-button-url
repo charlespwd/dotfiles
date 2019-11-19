@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+set -eou pipefail
+
+file=$1
+payload="$(gfycat "$file")"
+mp4Url=$(echo "$payload" | jq -r .mp4Url)
+thumbUrl=$(echo "$payload" | jq -r .posterUrl)
+extension=$(basename -- "$thumbUrl")
+extension=${extension##*.}
+tmpThumb=$(mktemp "/tmp/thumbXXXXX.$extension")
+tmpOutput=$(mktemp "/tmp/outXXXXXX.$extension")
+overlay="$XDG_CONFIG_HOME/play-button-overlay.png"
+curl "$thumbUrl" --output "$tmpThumb" &> /dev/null
+convert "$tmpThumb" "$overlay" -gravity center -composite -format "$extension" -quality 90 "$tmpOutput" &> /dev/null
+imgurThumb=$("$BIN/imgur" "$tmpOutput")
+echo "[![thumb]($imgurThumb)]($mp4Url)"
