@@ -44,12 +44,12 @@
   {{ end -}}{{ $p -}}
   {{ with .fields.assignee -}}
     {{ if eq .key "cpclermont.cg.ide" -}}
-      {{ "M" -}}
+      {{ "Me" -}}
     {{ else -}}
-      {{ .key -}}
+      {{ .key | printf "%.2s" -}}
     {{ end -}}
   {{ else -}}
-    {{ "-" -}}
+    {{ "--" -}}
   {{ end -}}{{ $p -}}
   {{ .fields.summary | abbrev (sub $w 2) | printf (printf "%%-%ds" (sub $w 2)) -}}
   {{- " " }}
