@@ -3,6 +3,7 @@
 	name = Charles-P. Clermont
 [alias]
 	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+  lgg = log --date=short --color --graph --pretty=format:'%Cred%h%Creset - %Cgreen(%cd)%C(yellow)%d%Creset %s %C(bold blue)<%an>%Creset' --abbrev-commit
 	fuck = reset --hard HEAD
 [core]
 	editor = /usr/bin/nvim
@@ -12,16 +13,12 @@
   tool = nvim
 [difftool]
   prompt = false
-[difftool "nvr"]
-  cmd = nvr -s -d $LOCAL $REMOTE
 [difftool "nvim"]
   cmd = /usr/bin/nvim -d $LOCAL $REMOTE
 [merge]
   tool = vimdiff
 [mergetool]
   prompt = true
-[mergetool "nvr"]
-  cmd = nvr -s -d $LOCAL $BASE $REMOTE $MERGED -c 'wincmd J | wincmd ='
 [mergetool "vimdiff"]
   cmd = /usr/bin/nvim -d $LOCAL $BASE $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
 [filter "media"]
