@@ -1,69 +1,76 @@
 #!/bin/env node
 
-const program = require("commander");
-const moment = require("moment");
+const program = require('commander');
+const moment = require('moment');
 const chrono = require('chrono-node');
-const path = require("path");
-const fs = require("fs");
-const R = require("ramda");
-const filename = path.join(process.env.XDG_CONFIG_HOME, "aldo-vpn.log");
-const filecontents = fs.readFileSync(filename, "utf8");
-const today = moment().startOf("day");
+const path = require('path');
+const fs = require('fs');
+const R = require('ramda');
+const filename = path.join(process.env.XDG_CONFIG_HOME, 'aldo-vpn.log');
+const filecontents = fs.readFileSync(filename, 'utf8');
+const today = moment().startOf('day');
 const entries = filecontents
-  .split("\n")
+  .split('\n')
   .map(entry => moment(entry))
   .filter(entry => entry.isValid())
   .filter(date => date.isAfter(today));
 const firstEntry = entries[0];
 
 program
-  .version("1.0.0")
-  .option("-r, --remote", "Working remotely")
-  .option("-e, --early", "Might finish before 3")
-  .option("-w, --workout", "Working remotely")
-  .option("-s, --sod", "Print start of day")
-  .option("-0, --since", "Since Start of day")
-  .option("-b, --begin [time]", "Beginning of day")
-  .option("-p, --plus [value]", "Add time")
-  .option("-m, --minus [value]", "Sub time")
+  .version('1.0.0')
+  .option('-r, --remote', 'Working remotely')
+  .option('-e, --early', 'Might finish before 3')
+  .option('-l, --skip-lunch', 'If skipped lunch')
+  .option('-1, --sod', 'Print start of day')
+  .option('-w, --worked', 'Hours worked since start of day')
+  .option('-s, --start [time]', 'Beginning of day')
+  .option('-p, --plus [value]', 'Add time')
+  .option('-m, --minus [value]', 'Sub time')
   .parse(process.argv);
 
-let eod = moment()
-      .startOf("day")
-      .add("7", "h")
-      .add("8", "h");
+const getStartOfDay = () => {
+  if (program.start) return moment(chrono.parseDate(program.start));
+  if (firstEntry) return firstEntry.clone();
+  return moment()
+    .startOf('day')
+    .add(7, 'h');
+};
 
-if (firstEntry) {
-  eod = firstEntry.clone().add(8, "h")
-}
+const driving = 40; // m
+const getEndOfDay = sod => {
+  const eod = sod.clone().add('7.5', 'h');
 
-if (program.begin) {
-  eod = moment(chrono.parseDate(program.begin)).add(8, 'h');
-}
+  if (!program.skipLunch) eod.add(0.5, 'h');
+  if (!program.remote) eod.add(driving * 2, 'm');
+  if (!program.remote && program.early) eod.subtract(driving, 'm');
+  if (program.plus) {
+    const [, val, time] = R.match(/^([0-9.]+)(.*)$/, program.plus);
+    eod.add(val, time);
+  }
+  if (program.minus) {
+    const [, val, time] = R.match(/^([0-9.]+)(.*)$/, program.minus);
+    eod.subtract(val, time);
+  }
+
+  return eod;
+};
+
+const sod = getStartOfDay();
+const eod = getEndOfDay(sod);
 
 if (program.sod) {
-  console.log(firstEntry.format("hh:mm a"));
+  console.log(sod.format('hh:mm a'));
   process.exit(0);
 }
 
-if (!program.remote) eod.add(80, "m");
-if (program.early) eod.subtract(25, "m");
-if (program.workout) eod.add(1, "h").add(15, "m");
-if (program.plus) {
-  const [, val, time] = R.match(/^([0-9.]+)(.*)$/, program.plus);
-  eod.add(val, time);
-}
-if (program.minus) {
-  const [, val, time] = R.match(/^([0-9.]+)(.*)$/, program.minus);
-  eod.subtract(val, time);
-}
-
-if (program.since) {
+if (program.worked) {
   const now = moment();
-  const diff = moment.duration(now.diff(firstEntry));
-  if (!program.remote) diff.subtract(25, "m");
-  console.log(Math.round(diff.asHours() * 4) / 4);
+  const diff = moment.duration(now.diff(sod));
+  if (!program.remote) diff.subtract(driving, 'm');
+  if (!program.remote && now.hours() > 15) diff.subtract(driving, 'm');
+  if (!program.skipLunch && now.hours() > 12) diff.subtract(30, 'm');
+  console.log(Math.round(diff.asHours() * 4) / 4 + 'h'); // round to nearest 15m
   process.exit(0);
 }
 
-console.log(eod.format("hh:mm a"));
+console.log(eod.format('hh:mm a'));
