@@ -4,11 +4,11 @@ USAGE="Usage: compress dest files..."
 
 dest=$1
 shift
-files=$@
+files="$@"
 
 case $dest in
-  *.tar.gz) tar -zcf $dest $files ;;
-  *.tar)    tar -cf $dest $files  ;;
-  *.zip)    zip $dest $files      ;;
+  *.tar.gz) tar -zcf $dest "$files" ;;
+  *.tar)    tar -cf $dest "$files" ;;
+  *.zip)    zip $dest "$files" ;;
   *)        echo $USAGE ;;
 esac
