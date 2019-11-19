@@ -29,9 +29,11 @@ done
 shift $(($OPTIND - 1))
 
 # help desk: 1-866-767-2536 / 8-22h
-logfile="$HOME/.config/aldo-vpn.log"
-date --rfc-3339=seconds >> $logfile
-pkill transmission
+$HOME/bin/log-activity
 
+echo "stopping smb..."
+sudo systemctl stop smb.service
+echo "starting vpn..."
 sudo openconnect -u cpclermont.cg.ide --authgroup=ALDOGROUP $vpn
-# sudo openconnect -u cpclermont.cg.ide --authgroup=ALDOGROUP $vpn
+echo "restarting smb..."
+sudo systemctl start smb.service
