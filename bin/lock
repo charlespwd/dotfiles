@@ -1,14 +1,14 @@
 #!/bin/bash
 
 function play {
-  logfile="$HOME/.config/aldo-vpn.log"
-  date --rfc-3339=seconds >> "$logfile"
-  dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Play || true
+  /home/charles/bin/log-activity
+  dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Play &
   disown
 }
 
 function pause {
-  dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Stop || true
+  dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Stop &
+  disown
 }
 
 pause
