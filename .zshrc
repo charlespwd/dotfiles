@@ -162,11 +162,30 @@ compctl -K _complete_tags git-delete-tag
 
 _complete_tempo() {
   IFS=$'\n';
-  keyValues=($($BIN/tempo -l | sed 's#\t#:#g'))
+  keyValues=($($BIN/tempo -h | sed 's#\t#:#g'))
   _describe 'command' keyValues
 }
 
 compdef _complete_tempo tempo
+
+_complete_eod() {
+  # example of option completion, see optspec
+  # optspec=[]:varname: means can't really complete argument but
+  # should not try to complete it either.
+  _arguments -s \
+    {-V,--version}'[output the version number]' \
+    {-1,--sod}'[print start of day]' \
+    {-r,--remote}'[set remote]' \
+    {-e,--early}'[set might finish before 3]' \
+    {-l,--skip-lunch}'[set skip lunch]' \
+    {-s,--start}'=[set start of day]:time:' \
+    {-p,--plus}'=[add time]:plus:' \
+    {-m,--minus}'=[sub time]:minus:' \
+    {-w,--worked}'[print hours worked since sod]' \
+    {-h,--help}'=[output usage information]'
+}
+
+compdef _complete_eod eod
 
 _complete_make() {
   targets=($(cat $PWD/makefile | egrep -io '^[^:\t]*:' | tr -d ':'))
