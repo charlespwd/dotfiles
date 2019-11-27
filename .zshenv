@@ -2,13 +2,11 @@
 [[ -f "$HOME/dotfiles/env" ]] && source "$HOME/dotfiles/env";
 [[ -f "$HOME/.envrc" ]] && source "$HOME/.envrc"
 
-# Add $scr variable
-export scr="$HOME/bin"
-
 # Default editor
 export BROWSER="chromium"
 export EDITOR="nvim"
 export VISUAL="nvim"
+# export BASH_ENV="$HOME/.zshenv"
 
 # CONFIG HOME (neovim)
 export XDG_CONFIG_HOME="$HOME/dotfiles/config"
