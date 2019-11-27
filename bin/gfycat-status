@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+gfyid="${1/https:\/\/gfycat.com\//}"
+curl -v "https://api.gfycat.com/v1/gfycats/$gfyid" \
+  2> /dev/null

@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+gfycat-status $1 | jq -r .gfyItem.max5mbGif
