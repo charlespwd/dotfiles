@@ -62,9 +62,9 @@ if [ "$OS" = "Linux" ]; then
   }
 
   function mapf {
-    local f="$(argsHead $@)"
-    local args="$(argsDrop $@)"
-    for arg in "$(echo "$args")"; do
+    local f="$(argsHead "$@")"
+    local args="$(argsDrop "$@")"
+    for arg in $(echo $args); do
       $f "$arg"
     done
   }
@@ -96,6 +96,7 @@ if [ "$OS" = "Linux" ]; then
   }
 
   function jira-grab-start {
+    echo $(mapf toTicketId "$@")
     for ticketId in $(mapf toTicketId "$@"); do
       echo "Grabbing $ticketId..."
       jira grab $ticketId
