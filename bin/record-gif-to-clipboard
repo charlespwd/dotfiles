@@ -42,7 +42,7 @@ cat $tmp_ctl | ffmpeg -y \
   -video_size $size -i $loc \
   -codec:v huffyuv \
   -filter:v "crop=iw-mod(iw\\,2):ih-mod(ih\\,2),scale=$scalefactor:-1" \
-  $tmp_avi
+  $tmp_avi || (rm -f "$tmp_avi" && false)
 
 echo $? >> /tmp/screengrab/logs
 

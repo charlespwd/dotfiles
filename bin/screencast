@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+menu="rofi -dmenu -p Screencast"
+answer=$($menu <<- EOD
+1 - Select area
+2 - Select window
+3 - Entire screen
+EOD
+)
+answerNum=$(echo "$answer" | cut -d '-' -f1 | tr -d ' ')
+
+case $answerNum in
+  1)
+    "$BIN/record-mp4" selection
+    ;;
+  2)
+    "$BIN/record-mp4" window
+    ;;
+  3)
+    "$BIN/record-mp4" screen
+    ;;
+esac

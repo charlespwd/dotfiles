@@ -280,7 +280,8 @@ bindsym $mod+Shift+r restart
 bindsym --release $mod+Control+4 exec --no-startup-id $scripts/screenshot-to-clipboard
 bindsym --release $mod+Control+Shift+4 exec --no-startup-id $scripts/screenshot-to-tmp
 bindsym --release $mod+Control+5 exec --no-startup-id $scripts/record-gif-to-clipboard
-bindsym --release $mod+Control+Shift+5 exec --no-startup-id $scripts/record-mp4
+bindsym --release $mod+Control+Shift+5 exec --no-startup-id $scripts/screencast
+bindsym --release $mod+Control+6 exec --no-startup-id $scripts/stop-recording
 bindsym --release $mod+comma exec --no-startup-id $scripts/benchmark /tmp/screengrab/left.mp4
 bindsym --release $mod+period exec --no-startup-id $scripts/benchmark /tmp/screengrab/right.mp4
 bindsym --release $mod+slash exec --no-startup-id $scripts/benchmark-merge
