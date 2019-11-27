@@ -1,3 +1,4 @@
 #!/bin/bash
+. "$BIN/load-node.sh"
 script="$1"
 NODE_PATH="$BIN/node_modules" /usr/bin/env node -e "$script"

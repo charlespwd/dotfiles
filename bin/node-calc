@@ -1,2 +1,3 @@
-#!/bin/bash
+#!/usr/bin/env bash
+. "$BIN/load-node.sh"
 node --eval "console.log($1)"

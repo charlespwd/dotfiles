@@ -107,8 +107,8 @@ export FZF_DEFAULT_COMMAND='rg --files --follow --glob "!.git/*"'
 export FZF_TMUX=1
 export FZF_TMUX_HEIGHT="50%"
 
-export NVM_DIR="/home/charles/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+# load nvm
+[[ -s "$BIN/load-node.sh" ]] && . "$BIN/load-node.sh"
 
 unsetopt nomatch
 
