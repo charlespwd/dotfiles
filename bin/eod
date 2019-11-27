@@ -26,9 +26,11 @@ program
   .option('-s, --start [time]', 'Beginning of day')
   .option('-p, --plus [value]', 'Add time')
   .option('-m, --minus [value]', 'Sub time')
+  .option('--set [time]', "set today's start of day")
   .parse(process.argv);
 
 const getStartOfDay = () => {
+  if (program.set) return moment(chrono.parseDate(program.set));
   if (program.start) return moment(chrono.parseDate(program.start));
   if (firstEntry) return firstEntry.clone();
   return moment()
@@ -57,6 +59,19 @@ const getEndOfDay = sod => {
 
 const sod = getStartOfDay();
 const eod = getEndOfDay(sod);
+
+if (program.set) {
+  const updatedContents = filecontents
+    .split('\n')
+    .map(entry => moment(entry))
+    .filter(entry => entry.isValid())
+    .filter(entry => entry.isBefore(sod))
+    .concat(sod)
+    .map(m => m.format())
+    .join('\n');
+  fs.writeFileSync(filename, updatedContents, 'utf8');
+  process.exit(0);
+}
 
 if (program.sod) {
   console.log(sod.format('hh:mm a'));
