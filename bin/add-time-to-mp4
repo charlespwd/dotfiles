@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+input="$1"
+output="${2:-output.mp4}"
+height="$(ffprobe -loglevel error -select_streams v:0 -show_entries stream=height -of default=nw=1:nk=1 "$input")"
+fs="$(node-calc "Math.floor($height*0.1)")"
+pad="$(node-calc "Math.floor($fs / 2)")"
+border="$(node-calc "Math.floor($fs / 4)")"
+ffmpeg -i "$input" \
+  -vf "drawtext=fontfile=OpenSans-Regular.ttf\
+  :text='%{expr_int_format\:t\:d}'\
+  :fontcolor=white\
+  :fontsize=$fs\
+  :x=w-tw-$pad\
+  :y=h-th-$pad\
+  :box=1\
+  :boxcolor=black@0.5\
+  :boxborderw=$border" \
+  -c:v libx264 \
+  -c:a copy \
+  -movflags \
+  +faststart \
+  "$output"
