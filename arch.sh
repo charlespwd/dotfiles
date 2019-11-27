@@ -1,8 +1,3 @@
-# Nodejs stuff
-[ -s "/usr/share/nvm/init-nvm.sh" ] \
-  && source /usr/share/nvm/init-nvm.sh \
-  || echo "'nvm' not installed"
-
 # Startx on boot
 if [ -z "$DISPLAY" ] && [ -n "$XDG_VTNR" ] && [ "$XDG_VTNR" -eq 1 ]; then
   exec startx
