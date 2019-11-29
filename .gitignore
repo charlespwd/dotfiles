@@ -102,3 +102,6 @@ bin/add-poeditor-user
 bin/github-issue
 __pycache__
 config/nemo
+bin/run-test
+bin/cheerio
+bin/get-fav-posts
