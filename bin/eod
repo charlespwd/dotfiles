@@ -69,7 +69,7 @@ if (program.set) {
     .concat(sod)
     .map(m => m.format())
     .join('\n');
-  fs.writeFileSync(filename, updatedContents, 'utf8');
+  fs.writeFileSync(filename, updatedContents + '\n', 'utf8');
   process.exit(0);
 }
 
