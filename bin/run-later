@@ -1,5 +1,15 @@
 #!/usr/bin/env bash
 
+if [[ $# -lt 2 ]]; then
+  cat <<- EOD
+Usage: $0 <timedelta> <command> [args...]"
+
+  timedelta - when to run the script (e.g. +30s, +30m, etc.)
+  command - command to run
+  args - args to pass to that command
+EOD
+fi
+
 function argsHead {
   echo "$1"
 }
@@ -24,8 +34,9 @@ function getTime {
     | sed 's/Normalized form: //'
 }
 
+timedelta="$(argsHead "$@")"
 time="$(getTime "$(argsHead "$@")")"
-echo "$time"
+echo "Scheduling command to run in $timedelta at $time"
 
 systemd-run \
   --uid charles \
