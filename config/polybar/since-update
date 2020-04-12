@@ -11,7 +11,7 @@ cat /var/log/pacman.log \
 script="
 const moment = require('moment')
 const a = moment('$date', 'YYYY-MM-DD')
-const b = moment()
+const b = moment().startOf('day')
 const diff = moment.duration(b.diff(a))
 const red = x => console.log('%{F#cc241d}' + x + '%{F-}')
 const orange = x => console.log('%{F#fe8019}' + x + '%{F-}')
@@ -24,8 +24,6 @@ if (diff.asDays() > 30) {
   orange(Math.floor(diff.asWeeks()) + 'W')
 } else if (diff.asDays() > 1) {
   green(Math.ceil(diff.asDays()) + 'D')
-} else if (diff.asHours() > 1) {
-  green(Math.ceil(diff.asHours()) + 'H')
 }
 "
 

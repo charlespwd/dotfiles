@@ -5,16 +5,32 @@ source /home/charles/.config/colors.sh
 # CROSS="✗"
 
 # echo $neutral_orange
-OVERDUE="%{F$neutral_red}"
-URGENT="%{F$neutral_orange}"
-DUETODAY="%{F$bright_yellow}"
-DUETOMORROW="%{F$bright_yellow}"
+OVERDUE=" %{F$neutral_red}"
+URGENT=" %{F$neutral_orange}"
+DUETODAY=" %{F$bright_yellow}"
+DUETOMORROW=" %{F$bright_yellow}"
+RECYCLING=" %{F$neutral_blue}"
+COMPOST=" %{F$neutral_yellow}"
+TRASH=" %{F$neutral_green}"
 task="task rc.context=none"
 
 has_at_least_1() {
   count=$($task +READY "$@" count 2> /dev/null)
   [[ $count -gt "0" ]]
 }
+
+trash_is_due() {
+  count=$($task +READY project:trash "$@" count 2> /dev/null)
+  [[ $count -gt "0" ]]
+}
+
+if trash_is_due recycling; then
+  echo -n "$RECYCLING"
+elif trash_is_due trash; then
+  echo -n "$TRASH"
+elif trash_is_due compost; then
+  echo -n "$COMPOST"
+fi
 
 if has_at_least_1 +OVERDUE; then
   echo "$OVERDUE"

@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+if pactl list sources | grep -q Mute:.yes; then
+  echo ""
+else
+  echo ""
+fi

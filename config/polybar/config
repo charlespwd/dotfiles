@@ -54,13 +54,13 @@ modules-left = i3
 modules-center =
 ; modules-right = filesystem xbacklight volume xkeyboard memory cpu wifi eth battery temperature date powermenu
 ; modules-right = recording vpn ip memory root home volume xkeyboard bluetooth battery calories slu date wifi
-modules-right = server task recording vpn ip memory root home volume xkeyboard bluetooth battery slu date wifi
+modules-right = mic-muted server task recording vpn ip cpu memory root home volume xkeyboard battery slu date
 
 tray-position = right
 tray-padding = 0
 tray-transparent = false
 tray-background = ${colors.background}
-tray-maxsize = 24
+tray-maxsize = 30
 enable-ipc = true
 
 ;wm-restack = i3
@@ -94,6 +94,12 @@ label-indicator-padding = 2
 label-indicator-margin = 1
 label-indicator-background = ${colors.secondary}
 ; label-indicator-underline = ${colors.secondary}
+
+[module/mic-muted]
+type = custom/script
+exec = /home/charles/.config/polybar/is-muted
+label-foreground = ${colors.red}
+interval = 1
 
 [module/server]
 type = custom/script
@@ -291,8 +297,8 @@ card = intel_backlight
 [module/cpu]
 type = internal/cpu
 interval = 2
-format-prefix = " "
-format-prefix-foreground = ${colors.foreground-alt}
+format-prefix = " "
+; format-prefix-foreground = ${colors.foreground-alt}
 ; format-underline = #f90000
 label = %percentage%%
 
@@ -374,16 +380,49 @@ time-alt = %H:%M
 
 label = %date%  %time%
 
+; [module/volume]
+; type = internal/volume
+;
+; format-volume = <label-volume> <bar-volume>
+; label-volume = 
+; label-volume-foreground = ${colors.foreground-dim}
+;
+; format-muted-prefix = " "
+; format-muted-foreground = ${colors.foreground-alt}
+; label-muted = sound muted
+;
+; bar-volume-width = 8
+; bar-volume-foreground-0 = #55aa55
+; bar-volume-foreground-1 = #55aa55
+; bar-volume-foreground-2 = #55aa55
+; bar-volume-foreground-3 = #55aa55
+; bar-volume-foreground-4 = #55aa55
+; bar-volume-foreground-5 = #f5a70a
+; bar-volume-foreground-6 = #ff5555
+; bar-volume-gradient = false
+; bar-volume-indicator = |
+; bar-volume-indicator-font = 2
+; bar-volume-fill = ─
+; bar-volume-fill-font = 2
+; bar-volume-empty = ─
+; bar-volume-empty-font = 2
+; bar-volume-empty-foreground = ${colors.foreground-alt}
+
 [module/volume]
-type = internal/volume
+type = internal/pulseaudio
+; sink = alsa_output
 
 format-volume = <label-volume> <bar-volume>
 label-volume = 
 label-volume-foreground = ${colors.foreground-dim}
 
+;; use 153%
+use-ui-max = true
+click-right = pavucontrol &
+
 format-muted-prefix = " "
 format-muted-foreground = ${colors.foreground-alt}
-label-muted = sound muted
+label-muted = muted
 
 bar-volume-width = 8
 bar-volume-foreground-0 = #55aa55
