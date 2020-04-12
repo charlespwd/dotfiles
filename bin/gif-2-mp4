@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+filename="${1%.*}"
+ffmpeg -f gif -i "$filename.gif" "$filename.mp4"

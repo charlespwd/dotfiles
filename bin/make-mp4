@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+set -eou pipefail
+
+i=1
+for f in "$@"; do
+  d=$(printf "%04d" $i)
+  cp $f "_pic$d.jpg"
+  i=$(( i + 1 ))
+done
+
+ffmpeg -r 3 -vcodec mjpeg -i _pic%04d.jpg out.mp4
+rm -rf _pic*.jpg
