@@ -33,11 +33,12 @@ include ~/.config/task/rc/gruvbox.theme
 
 color=on
 confirmation=no
-# context.accounting=project:finance.bookkeeping or project:finance or project:business
-context.accounting=project:accounting
+context.accounting=project:finance.bookkeeping or project:finance or project:business
+# context.accounting=project:accounting
 context.focus=-chore -backlog proj.not:shoebox.microform
 context.home=proj.not:shoebox
-context.work=-chore
+context.work=proj:shoebox
+context.simplified=proj:simplified
 default.command=next2
 report.desc.columns=description
 report.desc.filter=+ACTIVE +PENDING
@@ -61,7 +62,7 @@ report.next2.description=Most urgent tasks
 report.next2.filter=+PENDING +UNBLOCKED -backlog
 report.next2.labels=ID,Project,Tags,Due,Description,U
 report.next2.sort=urgency-
-recurrence.limit=3
+recurrence.limit=1
 search.case.sensitive=no
 uda.priority.values=H,M,,L
 urgency.active.coefficient=15
