@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+_usage() {
+  find "$1" -maxdepth 1 -mindepth 1 | sudo xargs -n 1 -P 4 du -sh | sort -h
+}
+
+if [[ $# -eq 0 ]]; then
+  _usage "$1"
+else
+  for f in $(echo "$@"); do
+    _usage "$f"
+  done
+fi
