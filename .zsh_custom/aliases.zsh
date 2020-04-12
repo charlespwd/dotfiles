@@ -64,7 +64,7 @@ if [ "$OS" = "Linux" ]; then
   function mapf {
     local f="$(argsHead "$@")"
     local args="$(argsDrop "$@")"
-    for arg in $(echo $args); do
+    for arg in "$(echo "$args")"; do
       $f "$arg"
     done
   }
@@ -132,6 +132,10 @@ if [ "$OS" = "Linux" ]; then
     jira comment "$(argsPlusTicketId "$@")"
   }
 
+  function j2td {
+    mapf jira2td "$(mapf toTicketId "$@")"
+  }
+
   function j2ip {
     mapf jira2ip "$(mapf toTicketId "$@")"
   }
@@ -146,6 +150,15 @@ if [ "$OS" = "Linux" ]; then
 
   function j2d {
     mapf jira2done "$(mapf toTicketId $@)"
+  }
+
+  function jira2td {
+    jira unassign "$1"
+    jira transition --noedit "To Do" "$1"
+    local taskId="$(toTaskId $1)"
+    if [[ $taskId != 'null' ]]; then
+      task $taskId done
+    fi
   }
 
   function jira2ip {
@@ -234,8 +247,8 @@ if [ "$OS" = "Linux" ]; then
   alias jbc='jira-browse $(jct)'
   alias jc='jira-comment'
   alias jcc='jira-comment $(jct)'
-  alias jcs="task +ACTIVE -COMPLETED +subtask project.is:shoebox export | jq -r '.[].description' | cut -d'|' -f 1 | head -n 1 | tr -d '\n' | tr -d ' ' 2> /dev/null"
-  alias jct="task +ACTIVE -COMPLETED -subtask project.is:shoebox export | jq -r '.[].description' | cut -d'|' -f 1 | head -n 1 | tr -d '\n' | tr -d ' ' 2> /dev/null"
+  alias jcs="task +ACTIVE -COMPLETED -DELETED +subtask project.is:shoebox export | jq -r '.[].description' | cut -d'|' -f 1 | head -n 1 | tr -d '\n' | tr -d ' ' 2> /dev/null"
+  alias jct="task +ACTIVE -COMPLETED -DELETED -subtask project.is:shoebox export | jq -r '.[].description' | cut -d'|' -f 1 | tail -n 1 | tr -d '\n' | tr -d ' ' 2> /dev/null"
   alias jctl='journalctl'
   alias je="jira edit"
   alias jfs="jira sprintf"
@@ -258,7 +271,7 @@ if [ "$OS" = "Linux" ]; then
   alias notify="notify-send -u normal"
   alias open="xdg-open"
   alias openports="netstat -tuplen"
-  alias paccleancache="paccache -rk 2"
+  alias paccleancache="paccache -rk 1"
   alias paccleanorphans="sudo pacman -Rns $(pacman -Qtdq)"
   alias pacinstalled="pacman -Qqettn"
   alias pacinstalledaur="pacman -Qqettm"
@@ -278,6 +291,7 @@ if [ "$OS" = "Linux" ]; then
   alias tS="task stop"
   alias ta="task add"
   alias taC="task add +chore"
+  alias tas="task add +work proj:simplified"
   alias taw="task add +work proj:shoebox"
   alias tc="task context"
   alias tcf="task context focus"
@@ -347,7 +361,8 @@ alias gpra="pull-request -l 'Aldo code review'"
 alias gprco="git pr checkout"
 alias gprm="git merge --no-commit master"
 alias gr="git reset"
-alias grH="git reset --hard"
+alias grs="git restore --staged"
+alias grH="git restore"
 alias grhom="git reset --hard origin/master"
 alias gundo='git checkout $(git reflog | sed 1d | head -n 1 | cut -d" " -f1)'
 alias ideas="v ~/thoughts/ideas.md"
@@ -362,7 +377,6 @@ alias selenium="java -jar /usr/share/selenium-server/selenium-server-standalone.
 alias taa="tmux_attach_or_new"
 alias thoughts="v -c ':normal G' ~/thoughts/thoughts.md"
 alias treed="tree --dirsfirst"
-alias usage="du -sh * .* | sort -h"
 alias v="vim"
 alias vi="vim"
 alias vim='nvim'
