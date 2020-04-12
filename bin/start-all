@@ -49,9 +49,10 @@ start_presentation() {
     create_and_start "start/$brand" \
       "PROJECT_NAME=$brand PORT=$port yarn start:build" &
   elif [[ $mode = "kill" ]]; then
-    tmux kill-window -t "$session:start/$brand" || true
-    tmux kill-window -t "$session:start/$brand/iso" || true
+    kill_window "start/$brand"
+    kill_window "start/$brand/iso"
   else
+    kill_window "start/$brand/iso"
     create_and_start "start/$brand" \
       "BRAND=$brand CLIENT_PORT=$port yarn start:presentation" &
   fi
@@ -71,10 +72,19 @@ start_composer() {
     globo|globoshoes|gl*)
       create_and_start 'start/composer' 'CLIENT_FRONTEND_PORT=8082 yarn start:composer:debug' &
       ;;
+    kill)
+      kill_window 'start/composer'
+      ;;
     *)
       create_and_start 'start/composer' 'CLIENT_FRONTEND_PORT=8080 yarn start:composer:debug' &
       ;;
   esac
+}
+
+kill_window() {
+  name="$session:$1"
+  echo "Killing window $name"
+  tmux kill-window -t "$name" || true
 }
 
 start_aldoshoes() {
@@ -89,16 +99,40 @@ start_globoshoes() {
   start_presentation 'globoshoes' '8082'
 }
 
+start_simplified() {
+  root="$HOME/ws/simplified/simplified.dev"
+  name="start/simplified"
+  if [[ $mode = 'kill' ]]; then
+    kill_window "$name"
+  elif [[ $mode = 'build' ]]; then
+    create_and_start "$name" \
+      'yarn start:build' &
+  else
+    create_and_start "$name" \
+      'yarn develop' &
+  fi
+}
+
 start_redis() {
-  create_and_start 'start/redis' \
-    'redis-server ./packages/composer/redis.conf' &
+  if [[ $mode = 'kill' ]]; then
+    kill_window 'start/redis'
+  else
+    create_and_start 'start/redis' \
+      'redis-server ./packages/composer/redis.conf' &
+  fi
 }
 
 start_nginx() {
-  echo systemctl restart nginx
-  systemctl restart nginx
-  create_and_start 'start/nginx' \
-   'tail -f /etc/nginx/logs/access.log' &
+  if [[ $mode = 'kill' ]]; then
+    kill_window "start/nginx"
+    systemctl stop cache-buster.service
+    systemctl stop nginx
+  else
+    echo systemctl restart nginx
+    systemctl restart nginx cache-buster.service
+    create_and_start 'start/nginx' \
+     'tail -f /etc/nginx/logs/access.log' &
+  fi
 }
 
 cd "$root"
@@ -118,9 +152,7 @@ run() {
   case $project_name in
     all)
       start_composer
-      start_callitspring
       start_aldoshoes
-      start_globoshoes
       start_redis
       ;;
     comp|composer|co*)
@@ -134,6 +166,9 @@ run() {
       ;;
     globo|globoshoes|gl*)
       start_globoshoes
+      ;;
+    simplified|si*)
+      start_simplified
       ;;
     redis)
       start_redis

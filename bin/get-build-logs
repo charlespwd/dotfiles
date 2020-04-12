@@ -13,11 +13,14 @@ get_window() {
     globo|globoshoes|gl*)
       echo "start/globoshoes"
       ;;
-    nginx)
+    nginx|ng*)
       echo "start/nginx"
       ;;
-    gatsby)
-      echo "start/gatsby"
+    redis|re*)
+      echo "start/redis"
+      ;;
+    simplified|si*)
+      echo "start/simplified"
       ;;
     *)
       echo $1

@@ -14,7 +14,10 @@ const JIRA_TEMPO_TOKEN = process.env.JIRA_TEMPO_TOKEN;
 const TEMPO_API_BASE = 'https://api.tempo.io/core/3';
 
 const issueAliases = {
-  support: 'EE19-179',
+  support: 'EE20-302',
+  scrum: 'EE20-303',
+  meeting: 'EE20-303',
+  meetings: 'EE20-303',
   performance: 'EE19-890',
   perf: 'EE19-890',
 };
@@ -73,7 +76,7 @@ function parseDuration(duration) {
   return undefined;
 }
 
-function getPairs(args) {
+function getPairs(args, total) {
   const pairs = R.pipe(
     R.splitEvery(2),
     R.map(R.sortBy(R.test(/rest|\d+\.?\d*[hms]/))),
@@ -89,7 +92,7 @@ function getPairs(args) {
     R.sum,
   )(pairs);
 
-  const rest = moment.duration(program.total - sumHours, 'h');
+  const rest = moment.duration(total - sumHours, 'h');
   return R.map(
     R.evolve({
       duration: x => (x === 'rest' ? rest : x),
@@ -210,8 +213,21 @@ async function printTimesheet() {
   console.log(table.toString());
 }
 
+async function getTotal() {
+  const date = dateOption();
+  const entries = await getWorklog({
+    from: date.clone(),
+    to: date.clone(),
+  });
+  const worked = entries
+    .map(entry => moment.duration(entry.timeSpentSeconds, 's').asHours())
+    .reduce(R.add, 0);
+  return program.total - worked;
+}
+
 async function logTimesheet(args) {
-  const pairs = getPairs(args);
+  const total = await getTotal();
+  const pairs = getPairs(args, total);
   const date = dateOption();
   const params = [];
   console.log(date.format('dddd, MMMM Do YYYY'));
