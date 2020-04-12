@@ -1,7 +1,33 @@
 #!/bin/bash
 # xrandr --output DP-1 --off
-# mode=3200x1800
-mode=2880x1620
+if ! [[ -f $CONFIG/modes ]]; then
+  modes=$(xrandr |
+    awk -v monitor="^$MONITOR connected" '/connected/ {p = 0}
+      $0 ~ monitor {p = 1}
+      p { print $1 }')
+
+  $BIN/node-eval "
+    const modes = \`$modes\`
+      .split('\n')
+      .filter(x => /x/.test(x))
+      .filter(d => {
+        const [x, y] = d.split('x');
+        return Math.abs(y / x - 1440/2560) < 0.01;
+      })
+      .join('\n');
+
+
+    console.log(modes);
+    " > "$CONFIG/modes"
+fi
+
+if [[ $# -eq 1 ]]; then
+  mode="2880x1620"
+else
+  menu="rofi -p resolution -dmenu"
+  mode=$(cat "$CONFIG/modes" | $menu)
+fi
+
 xrandr \
   --output HDMI1 --off \
   --output eDP1 --mode $mode
