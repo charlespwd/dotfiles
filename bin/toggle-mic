@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+set -ou pipefail
+
+card="bluez_card.4C_87_5D_51_95_42"
+
+is_a2dp() {
+  pactl list cards | grep "Active Profile" | grep "a2dp_sink"
+}
+
+if is_a2dp; then
+  pactl set-card-profile $card headset_head_unit
+else
+  pactl set-card-profile $card a2dp_sink
+fi
