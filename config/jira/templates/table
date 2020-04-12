@@ -43,7 +43,7 @@
     {{ "-" -}}
   {{ end -}}{{ $p -}}
   {{ with .fields.assignee -}}
-    {{ if eq .key "cpclermont.cg.ide" -}}
+    {{ if eq .emailAddress "cpclermont.cg.ide@aldogroup.com" -}}
       {{ "Me" -}}
     {{ else -}}
       {{ .key | printf "%.2s" -}}
