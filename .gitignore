@@ -119,3 +119,4 @@ config/obs-studio
 config/modes
 config/coc/history.json
 config/coc/mru
+config/gatsby
