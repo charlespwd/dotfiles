@@ -31,6 +31,8 @@ shift $(($OPTIND - 1))
 # help desk: 1-866-767-2536 / 8-22h
 $HOME/bin/log-activity
 
+pkill -9 transmission
+
 echo "stopping smb..."
 sudo systemctl stop smb.service
 echo "starting vpn..."
