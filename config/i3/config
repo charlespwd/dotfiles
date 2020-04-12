@@ -1,3 +1,4 @@
+##
 # i3 config file (v4)
 #
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
@@ -17,35 +18,59 @@ set $dir /home/charles/dotfiles/.config/i3
 set $scripts /home/charles/dotfiles/bin
 
 # Gruvbox theme
-set $background #282828
-set $foreground #ebdbb2
-set $color0s #1d2021
-set $color0  #282828
-set $color1  #cc241d
-set $color2  #98971a
-set $color3  #d79921
-set $color4  #458588
-set $color5  #b16286
-set $color6  #689d6a
-set $color7  #a89984
-set $color8  #928374
-set $color9  #fb4934
-set $color10 #b8bb26
-set $color11 #fabd2f
-set $color12 #83a598
-set $color13 #d3869b
-set $color14 #8ec07c
-set $color15 #ebdbb2
+# #1d2021 | bg0_h
+# #282828 | bg
+# #cc241d | red
+# #98971a | green
+# #d79921 | yellow
+# #458588 | blue
+# #b16286 | purple
+# #689d6a | aqua
+# #a89984 | gray
+# #928374 | gray darker
+# #fb4934 | red bright
+# #b8bb26 | green bright
+# #fabd2f | yellow bright
+# #83a598 | blue bright
+# #d3869b | purple bright
+# #8ec07c | aqua bright
+# #ebdbb2 | fg
 
-# Theme colors
-set $focused-border         #98971a
-set $bg-color               #282828
-set $border-color           #fabd2f
-set $inactive-bg-color      #282828
-set $inactive-border-color  #282828
-set $text-color             #ebdbb2
-set $inactive-text-color    #689d6a
-set $urgent-bg-color        #282828
+# Theme colors (work)
+set $focused-bd-color #fabd2f
+set $focused-bg-color #fabd2f
+set $focused-fg-color #282828
+set $focused-in-color #fabd2f
+set $inactive-bd-color #fabd2f
+set $inactive-bg-color #fabd2f
+set $inactive-fg-color #a89984
+set $inactive-in-color #fabd2f
+set $unfocused-bd-color #fabd2f
+set $unfocused-bg-color #fabd2f
+set $unfocused-fg-color #a89984
+set $unfocused-in-color #fabd2f
+set $urgent-bd-color #cc241d
+set $urgent-bg-color #cc241d
+set $urgent-fg-color #a89984
+set $urgent-in-color #cc241d
+
+# Theme Colors (DM)
+# set $focused-bd-color #282828
+# set $focused-bg-color #282828
+# set $focused-fg-color #282828
+# set $focused-in-color #282828
+# set $inactive-bd-color #282828
+# set $inactive-bg-color #282828
+# set $inactive-fg-color #282828
+# set $inactive-in-color #282828
+# set $unfocused-bd-color #282828
+# set $unfocused-bg-color #282828
+# set $unfocused-fg-color #282828
+# set $unfocused-in-color #282828
+# set $urgent-bd-color #282828
+# set $urgent-bg-color #282828
+# set $urgent-fg-color #282828
+# set $urgent-in-color #282828
 
 # monitors
 set $m1 eDP1
@@ -115,11 +140,13 @@ for_window [instance="google-chrome" window_role="pop-up"] floating enable, bord
 for_window [class="Firefox" window_role="pop-up"] floating enable, border normal 7
 for_window [title="(?i).*bnc - mozilla firefox.*"] floating enable, border normal 7
 for_window [title="(?i)bnc -.*firefox.*"] floating enable, border normal 7
+for_window [class="(?i)pavucontrol"] floating enable, border normal 7
 
 # dev tools rules
 for_window [title="DevTools - .*"] floating disable, border pixel 7, move to workspace $w8, workspace $w8
 for_window [title="devtools.*"] floating disable, border pixel 7, move to workspace $w8, workspace $w8
 for_window [title="Redux DevTools.*"] floating disable, border pixel 7, move to workspace $w8, workspace $w8
+for_window [title="Developer Tools.*"] floating disable, border pixel 7, move to workspace $w8, workspace $w8
 
 # Spotify rule
 for_window [class="Spotify"] move to workspace $w3, workspace $w3
@@ -150,6 +177,12 @@ for_window [title="ranger"] move to workspace $w9, workspace $w9
 # zeal rule
 for_window [instance="zeal"] move to workspace $w5, workspace $w5
 for_window [class="zeal"] move to workspace $w5, workspace $w5
+
+# xprop
+for_window [class="Key-mon"] floating enable
+for_window [class="Key-mon"] border none
+for_window [class="Key-mon"] resize set 40px 40px
+for_window [class="Key-mon"] move right 20px
 
 # worspace ordering
 workspace "$w1" output $m2
@@ -313,6 +346,9 @@ bindsym XF86MonBrightnessDown exec xbacklight -dec 10
 bindsym XF86KbdBrightnessUp exec kbdlight up 10
 bindsym XF86KbdBrightnessDown exec kbdlight down 10
 
+# right click simulation
+bindsym $mod+c exec --no-startup-id xdotool click --clearmodifiers 3
+
 # resize window (you can also use the mouse for that)
 mode "resize" {
         # These bindings trigger as soon as you enter the resize mode
@@ -362,32 +398,11 @@ bindsym $mod+grave mode "$mode_system"
 # toggle locale
 bindsym $mod+$alt+space exec --no-startup-id $scripts/toggle-keymap
 
-#.window.colors          border                  background              text                  indicator
-client.focused           $border-color           $border-color           $text-color           $border-color
-client.unfocused         $inactive-border-color  $inactive-border-color  $inactive-text-color  $bg-color
-client.focused_inactive  $inactive-border-color  $inactive-border-color  $inactive-text-color  $bg-color
-client.urgent            $urgent-bg-color        $urgent-bg-color        $text-color           $bg-color
-
-# Start i3bar to display a workspace bar (plus the system information i3status
-# finds out, if available)
-# bar {
-#   status_command i3status
-#   position top
-#   height 40
-#   tray_padding 7
-#   tray_output none
-#   strip_workspace_numbers yes
-#   separator_symbol "   "
-#   colors {
-#     background $bg-color
-#     separator $foreground
-#     statusline $color15
-#     #                   border     background   text
-#     focused_workspace   $color10   $color10     $color0
-#     inactive_workspace  $color0s   $color0s     $color15
-#     urgent_workspace    $color11   $color11     $color0
-#   }
-# }
+#.window.colors           border                background            text                  indicator
+client.focused            $focused-bd-color     $focused-bg-color     $focused-fg-color     $focused-in-color
+client.unfocused          $unfocused-bd-color   $unfocused-bg-color   $unfocused-fg-color   $unfocused-in-color
+client.focused_inactive   $inactive-bd-color    $inactive-bg-color    $inactive-fg-color    $inactive-in-color
+client.urgent             $urgent-bd-color      $urgent-bg-color      $urgent-fg-color      $urgent-in-color
 
 exec termite
 
@@ -399,6 +414,7 @@ exec_always --no-startup-id $scripts/log-activity
 # boot stuff
 exec --no-startup-id dropbox
 exec --no-startup-id nm-applet
+exec --no-startup-id blueman-applet
 
 # f.lux like app
 exec --no-startup-id redshift
