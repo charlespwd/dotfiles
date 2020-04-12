@@ -1,10 +1,9 @@
 let g:vimwiki_map_prefix = '<Leader>w'
 let g:vimwiki_list = [
  \ {'path': '~/documents/wiki/', 'ext': '.md', 'syntax': 'markdown'},
- \ {'path': '~/dnd/Adventure/', 'ext': '.md', 'syntax': 'markdown'},
- \ {'path': '~/dnd/TempleOfDoom/', 'ext': '.md', 'syntax': 'markdown'}
+ \ {'path': '~/documents/simplified/', 'ext': '.md', 'syntax': 'markdown'}
  \ ]
-let g:vimwiki_folding = 'syntax'
+let g:vimwiki_folding = 'custom'
 let g:vimwiki_ext2syntax = {'.md': 'markdown', '.markdown': 'markdown', '.mdown': 'markdown'}
 let g:node#suffixesadd = ['.js', '.json', '.ts']
 
@@ -42,6 +41,7 @@ call plug#begin($XDG_CONFIG_HOME . '/nvim/plugged')
   Plug 'plasticboy/vim-markdown', { 'for': ['markdown'] }
   Plug 'vimwiki/vimwiki'
   " Plug 'suan/vim-instant-markdown', { 'do': 'yarn global add instant-markdown-d' }
+  Plug 'reedes/vim-textobj-quote', { 'for': ['vimwiki', 'markdown'] }
 
   "" snipmate (REQUIRES brew install python)
   Plug 'SirVer/ultisnips'
@@ -154,3 +154,6 @@ call plug#begin($XDG_CONFIG_HOME . '/nvim/plugged')
 call plug#end()
 
 let g:node#suffixesadd = ['.js', '.json', '.ts']
+
+command! -bang -nargs=? -complete=dir Files
+    \ call fzf#vim#files(<q-args>, <bang>0)
