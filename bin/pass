@@ -1,0 +1,56 @@
+#!/bin/env bash
+
+# OPTSTRING is string with list of expected arguments,
+#
+# h    - check for option -h without parameters; gives error on unsupported options;
+# h:   - check for option -h with parameter; gives errors on unsupported options;
+# abc  - check for options -a, -b, -c; gives errors on unsupported options;
+# :abc - check for options -a, -b, -c; silences errors on unsupported options;
+#
+# OPTARG - is set to current argument value,
+#
+# OPTERR - indicates if Bash should display error messages.
+should_type_output=0
+should_output_username=0
+while getopts "tu" option; do
+  case $option in
+    t)
+      should_type_output=1
+      ;;
+    u)
+      should_output_username=1
+      ;;
+  esac
+done
+shift $(($OPTIND - 1))
+
+set -e
+
+if [[ $(lpass status) = 'Not logged in.' ]]; then
+  if [[ -n $LPASS_USERNAME ]]; then
+    lpass login "$LPASS_USERNAME"
+  else
+    notify-send 'LastPass' 'Please login first.'
+    exit 0
+  fi
+fi
+
+set +e
+
+menu="rofi -dmenu -i -matching fuzzy -levenshtein-sort -p lpass"
+passinfo=$(lpass ls --format '%an - %au - %ai' | $menu)
+passid=$(echo "$passinfo" | awk -F' - ' '{ print $3 }')
+output=$(lpass show -p $passid)
+
+if [[ $should_output_username -eq 1 ]]; then
+  output=$(echo "$passinfo" | awk -F' - ' '{ print $2 }')
+fi
+
+if [[ $should_type_output -eq 1 ]]; then
+  xdotool type --clearmodifiers $output
+fi
+
+echo -n $output | xclip -i -selection clipboard
+$HOME/bin/clear-clipboard &
+output=""
+disown

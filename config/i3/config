@@ -181,7 +181,8 @@ bindsym $alt+space exec rofi -show run -matching fuzzy -levenshtein-sort
 bindsym $mod+$ctrl+space exec $scripts/rofi-find
 bindsym $mod+space exec rofi -show drun -matching fuzzy -levenshtein-sort
 bindsym $mod+m exec $scripts/=
-bindsym $mod+braceright exec $scripts/rofi-pass
+bindsym $mod+braceleft exec $scripts/pass -t -u
+bindsym $mod+braceright exec $scripts/pass -t
 bindsym $mod+o exec $scripts/emoji
 
 # dash
