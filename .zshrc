@@ -179,6 +179,7 @@ _complete_eod() {
     {-e,--early}'[set might finish before 3]' \
     {-l,--skip-lunch}'[set skip lunch]' \
     {-s,--start}'=[set start of day]:time:' \
+    --set'=[set and persist start of day]:time:' \
     {-p,--plus}'=[add time]:plus:' \
     {-m,--minus}'=[sub time]:minus:' \
     {-w,--worked}'[print hours worked since sod]' \
@@ -186,6 +187,19 @@ _complete_eod() {
 }
 
 compdef _complete_eod eod
+
+_complete_switch_config() {
+  # example of option completion, see optspec
+  # optspec=[]:varname: means can't really complete argument but
+  # should not try to complete it either.
+  _arguments -n \
+    '*:env:(dev3 qa3 perf prod)'
+  _arguments -s \
+    {-p,--project}'[project]:project:(all aldoshoes callitspring globoshoes)' \
+    {-c,--config}'[config]:config:(all hybris firebase contentful)'
+}
+
+compdef _complete_switch_config switch-config
 
 _complete_make() {
   targets=($(cat $PWD/makefile | egrep -io '^[^:\t]*:' | tr -d ':'))

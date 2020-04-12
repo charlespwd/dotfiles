@@ -17,6 +17,7 @@ export CONFIG="$XDG_CONFIG_HOME"
 export DOT="$HOME/dotfiles"
 export DOWNLOADS="$HOME/downloads"
 export POLYBAR="$CONFIG/polybar"
+export NVIM="$CONFIG/nvim"
 export ACCOUNTING="$HOME/tmp/accounting"
 
 # completions path
