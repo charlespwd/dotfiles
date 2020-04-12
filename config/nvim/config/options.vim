@@ -174,6 +174,9 @@ if exists("*deoplete#custom#source")
   call deoplete#custom#source('dictionary', 'min_pattern_length', 2)
 endif
 
+" dispatch.vim options
+let g:dispatch_no_tmux_make = 1
+
 " supertab options
 let g:SuperTabDefaultCompletionType = '<c-n>'
 let g:SuperTabContextDefaultCompletionType = '<c-n>'
@@ -196,11 +199,12 @@ let g:ale_lint_on_text_changed = 'never'
 let g:ale_linters = {}
 let g:ale_linters.javascript = ['eslint']
 let g:ale_linters.scss = ['stylelint']
-let g:ale_linters.typescript = ['tslint', 'tsserver']
+let g:ale_linters.typescript = ['eslint', 'tsserver']
 let g:ale_linters.json = ['jsonlint']
 let g:ale_fixers = {}
 let g:ale_fixers.javascript = ['prettier']
 let g:ale_fixers.typescript = ['prettier']
+let g:ale_fixers.scss = ['prettier']
 let g:ale_fixers.sh = ['shfmt']
 let g:ale_set_quickfix = 0
 let g:ale_sign_error = '✗'
@@ -306,3 +310,6 @@ highlight Comment cterm=italic
 map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
 \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
 \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
+
+" whitespace
+let g:better_whitespace_filetypes_blacklist = ['qf', 'html']
