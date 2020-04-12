@@ -116,3 +116,4 @@ config/dconf
 config/discord
 config/rncbc.org
 config/obs-studio
+config/modes
