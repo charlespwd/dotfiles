@@ -1,0 +1,2 @@
+[Service]
+ExecStart=/usr/bin/pulseaudio --daemonize=no -vvvv --log-time=1
