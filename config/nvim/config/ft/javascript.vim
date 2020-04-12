@@ -61,11 +61,11 @@ function! SetJavascriptOptions()
   let b:surround_{char2nr('a')} = "const PLACEHOLDER = () => {\n\r\n};"
   let b:surround_{char2nr('F')} = "(function() {\n\r\n})();"
   let b:surround_{char2nr('f')} = "function PLACEHOLDER() {\n\r\n}"
-  let b:surround_{char2nr('i')} = "it('', function() {\n\r\n});"
+  let b:surround_{char2nr('i')} = "it('', () => {\n\r\n});"
   let b:surround_{char2nr('I')} = "if (true) {\n\r\n}"
   let b:surround_{char2nr('n')} = "{{/*\n\r\n*/}}"
-  let b:surround_{char2nr('D')} = "describe('', function() {\n\r\n});"
-  let b:surround_{char2nr('d')} = "describe('', () => {\n\r\n})"
+  let b:surround_{char2nr('D')} = "describe('', () => {\n\r\n});"
+  let b:surround_{char2nr('d')} = "describe('', () => {\n\r\n});"
   let b:match_words = "(:),\[:\],{:},<:>,<\@<=\\([^/][^ \t>]*\\)[^>]*\\%(/\@<!>\\|$\\):<\@<=/\1>,':'"
 
   set conceallevel=0
