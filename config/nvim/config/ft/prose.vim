@@ -5,6 +5,11 @@ autocmd BufReadPost,FileReadPost *.wiki call SetProseOptions()
 function! SetProseOptions()
   let b:delimitMate_expand_space = 0
   let b:surround_{char2nr('k')} = "[\r]()"
+
+  setlocal foldmethod=expr
+  setlocal foldexpr=MarkdownFoldLevel(v:lnum)
+  setlocal foldcolumn=3
+
   try
     nunmap <silent> =p
     nunmap <silent> =P
@@ -14,4 +19,33 @@ function! SetProseOptions()
 
   vmap <leader>K "ic[<c-r>i](<c-r>i)
   setlocal spell spelllang=en_us
+  call textobj#quote#init()
+
+  map <silent> <leader>"c <Plug>ReplaceWithCurly
+  map <silent> <leader>"s <Plug>ReplaceWithStraight
+endfunction
+
+function! MarkdownFoldLevel(lnum)
+  let l1 = getline(a:lnum)
+
+  if l1 =~ '^\s*$'
+    return '='
+  endif
+
+  let l2 = getline(a:lnum+1)
+
+  if l1 =~ '^---$' && a:lnum == 1
+    " fold frontmatter
+    return '>1'
+  elseif l1 =~ '^---$'
+    " done folding
+    return '<1'
+  elseif l1 =~ '^#'
+    " fold headers
+    return '>' . (matchend(l1, '^#\+') - 1)
+  elseif l2 =~ '^#'
+    return 's1'
+  else
+    return '='
+  endif
 endfunction
