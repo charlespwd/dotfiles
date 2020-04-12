@@ -22,7 +22,7 @@ augroup misc
   autocmd FileType gitcommit,pullrequest set bufhidden=delete
   autocmd FileType sql setlocal formatprg=sqlfmt\ -u
   autocmd TermOpen * set bufhidden=hide
-  autocmd BufEnter *.png,*.jpg,*gif,*tif exec "! /usr/bin/xdg-open ".expand("%") | :bw
+  autocmd BufEnter *.png,*.jpg,*.gif,*.tif exec "! /usr/bin/xdg-open ".expand("%") | :bw
   autocmd BufWritePre *.py execute ':Black'
   autocmd BufEnter */config/jira/templates/* set ft=gotexttmpl
   autocmd FileType yaml setlocal complete+=k
@@ -42,6 +42,27 @@ function! MyFoldText()
   let line = getline(v:foldstart)
   let sub = substitute(line, '\v[|].*$', '', 'g')
   return sub
+endfunction
+
+function! MyFoldLine(lnum)
+  let line = getline(a:lnum)
+  if line =~ '^||' || line =~ 'info'
+    return 1
+  endif
+
+  return 0
+  " if matchstr(getline(a:lnum),'^[^\|]\\+') ==# matchstr(getline(a:lnum + 1),'^[^\|]\\+')
+  "   return 1
+  " else
+  "   return '<1'
+  " endif
+  " if getline(a:lnum) =~? '\v<info>'
+  "   return '-1';
+  " endif
+  " return '0'
+  " let line = getline(a:lnum)
+  "   return 0;
+  " endif
 endfunction
 
 augroup quickfix
@@ -66,7 +87,8 @@ augroup quickfix
   " Fold by filename
   autocmd BufReadPost quickfix setlocal foldlevel=0
   autocmd BufReadPost quickfix setlocal foldmethod=expr
-  autocmd BufReadPost quickfix setlocal foldexpr=matchstr(getline(v:lnum),'^[^\|]\\+')==#matchstr(getline(v:lnum+1),'^[^\|]\\+')?1:'<1'
+  " autocmd BufReadPost quickfix setlocal foldexpr=matchstr(getline(v:lnum),'^[^\|]\\+')==#matchstr(getline(v:lnum+1),'^[^\|]\\+')?1:'<1'
+  autocmd BufReadPost quickfix setlocal foldexpr=MyFoldLine(v:lnum)
   autocmd BufReadPost quickfix setlocal foldtext=MyFoldText()
   autocmd BufReadPost quickfix highlight clear Folded
   autocmd BufReadPost quickfix highlight Folded ctermfg=Green cterm=bold
