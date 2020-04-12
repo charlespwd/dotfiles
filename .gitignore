@@ -105,3 +105,5 @@ config/nemo
 bin/run-test
 bin/cheerio
 bin/get-fav-posts
+config/QtProject.conf
+config/Thunar
