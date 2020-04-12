@@ -25,7 +25,13 @@ if [ -n "$DESKTOP_SESSION" ]; then
 fi
 
 # Load direnv
-eval "$(direnv hook zsh)"
+if [[ $(whoami) = 'charles' ]]; then
+  if [[ -n "$ZSH_VERSION" ]]; then
+    eval "$(direnv hook zsh)"
+  elif [[ -n "$BASH_VERSION" ]]; then
+    eval "$(direnv hook bash)"
+  fi
+fi
 
 # rbenv
 export PATH="$HOME/.rbenv/shims:${PATH}"
