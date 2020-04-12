@@ -116,6 +116,7 @@ function! FZenModeOn()
   set wrap
   set linebreak
   DisableWhitespace
+  Educate
   " GitGutterDisable
   " SyntasticReset
 endfunction
@@ -123,6 +124,7 @@ endfunction
 function! FZenModeOff()
   set nowrap
   EnableWhitespace
+  NoEducate
   " GitGutterEnable
   " SyntasticCheck
 endfunction
