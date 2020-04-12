@@ -8,7 +8,7 @@
 [core]
 	editor = /usr/bin/nvim
 	excludesfile = /home/charles/.gitignore
-	pager = diff-so-fancy | less --tabs=4 -RFX
+	# pager = diff-so-fancy | less --tabs=4 -RFX
 [diff]
   tool = nvim
 [difftool]
