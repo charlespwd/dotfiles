@@ -2,8 +2,12 @@
 
 set -eou pipefail
 
+if [[ $# -eq 2 ]]; then
+  show_logs=true
+fi
+
 file=$1
-payload="$(gfycat "$file")"
+payload="$(gfycat "$file" 2> /dev/null)"
 mp4Url=$(echo "$payload" | jq -r .mp4Url)
 thumbUrl=$(echo "$payload" | jq -r .posterUrl)
 extension=$(basename -- "$thumbUrl")
@@ -12,6 +16,24 @@ tmpThumb=$(mktemp "/tmp/thumbXXXXX.$extension")
 tmpOutput=$(mktemp "/tmp/outXXXXXX.$extension")
 overlay="$XDG_CONFIG_HOME/play-button-overlay.png"
 curl "$thumbUrl" --output "$tmpThumb" &> /dev/null
-convert "$tmpThumb" "$overlay" -gravity center -composite -format "$extension" -quality 90 "$tmpOutput" &> /dev/null
+size=$(identify "$tmpThumb" | cut -d ' ' -f 3)
+w=$(echo $size | cut -d 'x' -f 1)
+h=$(echo $size | cut -d 'x' -f 2)
+
+# resize btn to be 10% width of image
+btnSize=$(identify "$overlay" | cut -d ' ' -f 3)
+bw=$(echo $btnSize | cut -d 'x' -f 1)
+bh=$(echo $btnSize | cut -d 'x' -f 2)
+btnW=$(node-calc "0.10 * $w")
+btnH=$(node-calc "0.10 * $w / $bw * $bh")
+
+convert \
+  "$tmpThumb" \
+  \( "$overlay" -geometry "${btnW}x${btnH}" \) \
+  -gravity center \
+  -composite \
+  -format "$extension" \
+  -quality 90 \
+  "$tmpOutput" &> /dev/null
 imgurThumb=$("$BIN/imgur" "$tmpOutput")
 echo "[![thumb]($imgurThumb)]($mp4Url)"
