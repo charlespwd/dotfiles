@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+
+set -ou pipefail
+
+cleanup() {
+  pactl list modules short \
+    | grep -E -e "mic_v1|spotify_v1|spotify_headphones|V1|V2" \
+    | cut -d $'\t' -f 1 \
+    | xargs -n 1 pacmd unload-module
+}
+
+create_node() {
+  if pactl list sinks short | grep -q "$1"; then
+    echo "$1 already initialized"
+  else
+    pacmd load-module module-null-sink sink_name="$1"
+  fi
+
+  pacmd update-sink-proplist "$1" device.description="$1.in"
+  pacmd update-source-proplist "$1.monitor" device.description="$1.out"
+}
+
+create_loopback_edge() {
+  if pactl list modules short | grep -q "$2"; then
+    echo "Loopback module $2 already initialized"
+  else
+    pacmd load-module module-loopback sink="$1" \
+      source_output_properties=media.name="$2" \
+      sink_input_properties=media.name="$2"
+  fi
+}
+
+case "$1" in
+  "cleanup")
+    cleanup
+    exit 0
+    ;;
+
+  *)
+    create_node "V1"
+    create_node "V2"
+
+    # mic -> v1.in
+    create_loopback_edge "V1" "mic_v1"
+    # spotify -> v1.in
+    create_loopback_edge "V1" "spotify_v1"
+    # spotify -> v2.in
+    create_loopback_edge "V2" "spotify_headphones"
+    ;;
+esac
