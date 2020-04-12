@@ -67,7 +67,8 @@ map <SID>SearchFromRegisterK :GrepperAg "<c-r>k"<cr>
 map <SID>SearchFromRegisterKWithBounds :GrepperAg "\b<c-r>k\b"<cr>
 
 " Scratchpads
-map <Plug>GetTmpFile() :let @t=system('mktemp /tmp/XXXXX.js')<cr>
+map <Plug>SetupTmpJs() :!mkdir -p /tmp/js/ && cp $HOME/dotfiles/.prettierrc.js /tmp/js<cr>
+map <Plug>GetTmpFile() <Plug>SetupTmpJs():let @t=system('mktemp /tmp/js/XXXXX.js')<cr>
 map <Plug>EditTmpFile() <Plug>GetTmpFile():e <c-r>t<cr>
 map <Plug>SplitTmpFile() <Plug>GetTmpFile():sp <c-r>t<cr>
 map <Plug>VSplitTmpFile() <Plug>GetTmpFile():vs <c-r>t<cr>
@@ -108,7 +109,6 @@ call SetupCommandAlias('ZOFF', 'ZenModeOff')
 " call SetupCommandAlias('eod', eodcmd)
 call SetupCommandAlias('eods', 'w !send-summary')
 call SetupCommandAlias('eodsy', 'w !send-summary 1')
-call SetupCommandAlias('wf', 'w !sudo tee %')
 call SetupCommandAlias('setx', '!chmod u+x %')
 call SetupCommandAlias('script', 'w\|set ft=sh\|!chmod u+x %')
 call SetupCommandAlias('re!', 'Redir !')
@@ -117,6 +117,7 @@ call SetupCommandAlias('qf', 'QFilter')
 call SetupCommandAlias('qf!', 'QFilter!')
 call SetupCommandAlias('qft', 'QFilterText')
 call SetupCommandAlias('qft!', 'QFilterText!')
+call SetupCommandAlias('wc', '!$BIN/wordcount %')
 
 " to imgur image link
 map <leader>2i :let @a=system('imgur', expand('<cfile>'))<cr>^C![alt](<c-r>a<bs>)<esc>
@@ -124,12 +125,10 @@ map <leader>2i :let @a=system('imgur', expand('<cfile>'))<cr>^C![alt](<c-r>a<bs>
 map <leader>2m :let @p=system('to-mp4-play-button-url ' . expand('<cfile>'))<cr>^C<c-r>p<esc>
 
 " MACROS
-" map <leader>ww :!wc -w %<cr>
 " nmap <leader>== 70i=<esc>o<esc>
 " tmap <Esc> <C-\><C-n>
 map <leader>"" <Plug>ToggleTextObjQuotes
 map <leader># :let @+=system('sed -e "s#^[^/]*/##" -e "s#\(/index\)*.js\$##" -e "s#/home/charles/ws/aldo/shoebox/##"', resolve(expand('%')))<CR>
-map <leader>@ <Plug>ShoeboxImport()
 map <leader>% :let @+=expand('%')<CR>
 map <leader>'' :vs term://zsh<cr>a
 map <leader>,. :lopen<cr>
@@ -157,6 +156,7 @@ map <leader>.x :e ~/dotfiles/.Xresources<cr>
 map <leader>.z :e ~/.zshrc<cr>
 map <leader>;; :%s/;//g<cr>
 map <leader><cr> :tab sp term://zsh<cr>
+map <leader>@ <Plug>ShoeboxImport()
 map <leader>C :Cycle<cr>
 map <leader>F :Files ~/<cr>
 map <leader>G :G
@@ -199,6 +199,7 @@ map <leader>il <Plug>ExpandHTML
 map <leader>jd :e ~/thoughts/debug.md<cr>
 map <leader>journal <Plug>Journal
 map <leader>md :InstantMarkdownPreview<CR>
+map <leader>ms :let @+=substitute(system('xclip -o -sel clipboard'), '\vwebpack:\/\/\/(\.+\/)*<bar>\?.*$<bar>https?:\/\/.{-}shoebox\/', '', 'g')<cr>:FZF -q <c-r>+<cr>
 map <leader>mv :Move <c-r>=expand('%')<cr>
 map <leader>nd <Plug>NextDiff
 map <leader>nf :NERDTreeFind<cr>
@@ -234,11 +235,13 @@ map <leader>te <Plug>EditTmpFile()
 map <leader>tsp <Plug>SplitTmpFile()
 map <leader>tvs <Plug>VSplitEditTmpFile()
 map <leader>vs :vs <c-r>%<c-w><c-w>
+map <leader>wc :!$BIN/wordcount %<cr>
 map <leader>x :cclose<cr>:lclose<cr>
 map <silent> <leader>Q :bn<bar>bd #<cr>
 map <silent> <leader>q :call CloseBuffer()<cr>
 map <silent> <leader>x :ccl<cr>:lcl<cr>
 map \\ <Plug>MostRecentBuffer
+map gvf :vs<cr>gf
 nmap <leader>a/ 16a/<esc><cr>k==
 vmap <leader>C "+y
 vmap <leader>V "+p
@@ -293,6 +296,10 @@ map <leader>mct OCompleted:<esc>:read !my-commits-today<cr><c-v>?Completed:<cr>j
 " remap nohl (arch)
 nnoremap <silent> <a-l> :nohl<cr>:normal! <c-l><cr>
 nnoremap <silent> <a-o> :nohl<cr>:normal! <c-l><cr>
+
+" remap alt-l to nohl (ipad)
+nnoremap <silent> ì :nohl<cr>:normal! <c-l><cr>
+nnoremap è :h<space>
 
 " remap alt-l to nohl (osx)
 " nnoremap <silent> ¬ :nohl<cr>:normal! <c-l><cr>
