@@ -1,11 +1,23 @@
 #!/usr/bin/env bash
-set -eou pipefail
 
 # Get file path from args
-file="${1}"
+file="$(readlink $1 || echo $1)"
 
-if [[ $# -ne 1 ]] || ! [[ -f "$file" ]]; then
+if [[ $# -ne 1 ]] || ! { [[ -f "$file" ]] || [[ $file =~ gfycat.com ]]; }; then
   echo "Usage: $0 <file>"
+  exit 1
+fi
+
+set -eou pipefail
+
+get_gfycat_info() {
+  curl -v "https://api.gfycat.com/v1/gfycats/$1" \
+    2> /dev/null | jq .gfyItem
+}
+
+if [[ $file =~ gfycat.com ]]; then
+  get_gfycat_info "$(basename "$file" '.mp4')"
+  exit 0;
 fi
 
 # Getting an ID
@@ -27,17 +39,22 @@ rm "$copy"
 
 # Getting mp4 url
 mp4Url="null"
+payload="{}"
 i=0;
-while [[ "$mp4Url" = "null" ]]; do
-  payload=$(
-  curl -v "https://api.gfycat.com/v1/gfycats/fetch/status/$gfyname" \
-    2> /dev/null
-  )
-  mp4Url="$(echo "$payload" | jq -r .mp4Url)"
+while [[ "$mp4Url" = "null" ]] && [[ $(echo "$payload" | jq -r .task) != "error" ]]; do
   sleep 0.5
+  payload=$(
+    curl -v "https://api.gfycat.com/v1/gfycats/fetch/status/$gfyname" \
+      2> /dev/null
+  )
+  if [[ "$(echo "$payload" | jq -r .task)" = "complete" ]]; then
+    gfyname="$(echo "$payload" | jq -r .gfyname)"
+    payload="$(get_gfycat_info $gfyname)"
+  fi
+  mp4Url="$(echo "$payload" | jq -r .mp4Url)"
   i=$((i + 1))
-  if [[ $i -eq 10 ]]; then
-    echo $payload | jq .
+  if [[ $((i % 5)) -eq 0 ]]; then
+    echo $payload | jq . 1>&2
   fi
 done
 
