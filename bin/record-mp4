@@ -18,6 +18,10 @@ if [[ -e $tmp_ctl ]]; then
   exit 0
 fi
 
+if [[ $mode = "kill" ]]; then
+  exit 0;
+fi
+
 set -e
 
 case "$mode" in
@@ -45,7 +49,6 @@ cat "$tmp_ctl" | ffmpeg -y \
   -i "$loc" \
   "$tmp_mp4" || (rm -f "$tmp_mp4" && false)
 
-echo "$tmp_mp4" | xclip -sel clipboard
 echo "Output saved to"
 echo "$tmp_mp4"
 ls -lh "$tmp_mp4"

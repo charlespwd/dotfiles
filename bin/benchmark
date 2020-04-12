@@ -1,9 +1,31 @@
 #!/usr/bin/env bash
 
+# set -eou pipefail
 DIR_UP="4"
 DIR_DOWN="5"
 delay=14
 file="${1:-/tmp/screengrab/bench.mp4}"
+
+locfile=/tmp/mouseloc
+rm $locfile;
+
+get_mouse_loc() {
+  if ! [[ -f $locfile ]]; then
+    xdotool getmouselocation 2>&1 \
+      | sed -rn '${s/x:([0-9]+) y:([0-9]+) .*/\1 \2/p}' \
+      > $locfile
+  fi
+  cat $locfile
+}
+
+on_err() {
+  if [[ is_recording -eq 1 ]]; then
+    record-mp4 kill
+  fi
+  exit 1
+}
+
+trap on_err ERR SIGINT
 
 scroll_wait() {
   duration=0.3
@@ -24,22 +46,64 @@ scroll_up() {
   scroll $DIR_UP "$1"
 }
 
+animate_move() {
+  cur_loc="$(get_mouse_loc)"
+  x1=$(echo "$cur_loc" | cut -d ' ' -f 1)
+  y1=$(echo "$cur_loc" | cut -d ' ' -f 2)
+  x2=$1
+  y2=$2
+  ms=${3:-500}
+  node-eval "
+    const ease = t => 1 - Math.pow(2, -10 * t);
+    const eps = 180; // events per second
+    const frames = Math.floor($ms / 1000 * eps);
+    const delay = (1 / eps).toFixed(6);
+    for (let i = 1; i <= frames; i++) {
+      const t = ease(i / frames);
+      const x = Math.floor(($x2 - $x1) * t + $x1);
+      const y = Math.floor(($y2 - $y1) * t + $y1);
+      console.log('mousemove ' + x + ' ' + y + ' sleep ' + delay);
+    }
+  "
+  echo $x2 $y2 > $locfile
+}
+
+animate_click() {
+  animate_move $1 $2
+  mouse_click $1 $2
+}
+
 mouse_move() {
   x=$1
   y=$2
   echo mousemove $x $y
+  echo $x $y > $locfile
 }
 
 mouse_click() {
   x=$1
   y=$2
   echo mousemove $x $y click 1
+  echo $x $y > $locfile
+}
+
+drag_animation() {
+  x1=$1
+  y1=$2
+  x2=$3
+  y2=$4
+  delay=$5
+  echo $(animate_move $x1 $y1) \
+    $(drag_start $x1 $y1) \
+    $(animate_move $x2 $y2 $delay) \
+    $(drag_end)
 }
 
 drag_start() {
   x=$1
   y=$2
   echo mousemove $x $y mousedown 1
+  echo $x $y > $locfile
 }
 
 drag_move() {
@@ -55,7 +119,7 @@ drag_end() {
 }
 
 test_menu() {
-  xdotool sleep 0.5 \
+  echo sleep 0.5 \
     $(mouse_click 1061 480) \
     sleep 1 \
     $(drag_move 1123 522) \
@@ -70,13 +134,62 @@ test_menu() {
 }
 
 test_plp() {
-  xdotool sleep 1 \
+  echo sleep 1 \
     $(mouse_click 813 502) \
     sleep 1 \
     $(mouse_click 823 630) \
     sleep 4
 }
 
-(record-mp4 "$file" &) &> /dev/null
-test_menu
-record-mp4
+test_load() {
+  echo sleep 1 \
+    key --clearmodifiers Return \
+    sleep 8
+}
+
+test_pdp_change_style() {
+  echo sleep 2 \
+    $(scroll_down 2) \
+    sleep 1 \
+    $(mouse_click 1600 821) \
+    sleep 4
+}
+
+test_click_and_done() {
+  echo sleep 0.5 \
+    $(animate_click 1256 709) \
+    sleep 3
+}
+
+test_social_modal() {
+  echo sleep 0.5 \
+    $(animate_click 1155 893) \
+    sleep 2 \
+    $(mouse_click 1997 722) \
+    sleep 1.5 \
+    $(mouse_click 1073 716) \
+    sleep 1.5 \
+    $(mouse_click 1997 722) \
+    sleep 0.75 \
+    $(mouse_click 1997 722) \
+    sleep 0.75 \
+    $(mouse_click 1997 722) \
+    sleep 3
+}
+
+test_social_modal_mobile() {
+  echo sleep 0.5 \
+    $(animate_click 1351 1338) \
+    sleep 1 \
+    $(drag_animation 1443 1101 788 1083 100) \
+    sleep 2 \
+    $(drag_animation 1443 1101 788 1083 100) \
+    sleep 2 \
+    $(drag_animation 1443 1101 788 1083 100) \
+    sleep 2
+}
+
+cmd="$(test_load)"
+is_recording=1 && (record-mp4 screen "$file" &) &> /dev/null
+xdotool $cmd
+record-mp4 kill

@@ -18,6 +18,7 @@ out="/tmp/screengrab/output.mp4"
    -filter_complex "[0:v][1:v]hstack, crop=h=ih-200:y=200" \
    $out
 
-echo $out | xclip -i -sel clipboard
+rm /tmp/screengrab/last.mp4
+ln -s "$out" /tmp/screengrab/last.mp4
 
 cleanup
