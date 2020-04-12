@@ -14,6 +14,34 @@ stdin.on('end', () => {
   }
 })
 
+// export interface Annotation {
+//   entry: string;
+//   description: string;
+// }
+//
+// type DateStr ~= "20191225T050000Z",
+//
+// export interface Task {
+//   id: number;
+//   depends: string;
+//   description: string;
+//   due: string;
+//   entry: string;
+//   mask: string;
+//   modified: string;
+//   project: string;
+//   recur: string;
+//   status: string;
+//   tags: string[];
+//   uuid: string;
+//   annotations: Annotation[];
+//   urgency: number;
+//   start: string;
+//   wait: string;
+//   imask?: number;
+//   parent: string;
+// }
+
 function main(data) {
   const parents = data.filter(x => !x.parent);
   const children = data
@@ -22,15 +50,17 @@ function main(data) {
     .map(x => {
       const depends = x.depends
         .split(',')
-        .map(d => {
-          const parent = parents.find(p => p.uuid === d);
+        .map(dependencyId => {
+          const parent = parents.find(p => p.uuid === dependencyId);
+
+          // Update dependencyId with first child dependency of parent
           if (parent) {
             const child = data.find(e => e.parent === parent.uuid)
             if (child) {
               return child.uuid;
             }
           }
-          return d;
+          return dependencyId;
         })
         .join(',');
       return { ...x, depends };
