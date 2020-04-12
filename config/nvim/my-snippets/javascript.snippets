@@ -643,7 +643,7 @@ snippet imp
 import ${1:module} from '${2:$1}';
 endsnippet
 
-snippet ipt
+snippet impt
 import PropTypes from 'prop-types';
 endsnippet
 
@@ -711,6 +711,12 @@ endsnippet
 
 snippet b4e
 beforeEach(() => {
+	${1}
+});
+endsnippet
+
+snippet aft
+afterEach(() => {
 	${1}
 });
 endsnippet
@@ -988,4 +994,14 @@ program
 	.action((cmd, env) => {});
 
 program.parse(process.argv);
+endsnippet
+
+snippet for
+for (let ${1:i} = 0; $1 < ${2:b}; $1++) {
+	$3
+}
+endsnippet
+
+snippet js
+JSON.stringify($1)
 endsnippet

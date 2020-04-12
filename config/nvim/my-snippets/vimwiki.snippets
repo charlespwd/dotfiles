@@ -9,3 +9,27 @@ snippet bp
 | --- | --- | --- |
 |   |   |   |
 endsnippet
+
+snippet quote
+<blockquote>
+${1:content}
+<footer>
+	<a href="${2:source-url}">
+		${3:source desc}
+	</a>
+</footer>
+</blockquote>
+endsnippet
+
+snippet frontmatter
+---
+path: "/performance/how-to-measure-impact"
+date: "2020-02-06"
+title: "ze-title"
+type: "article"
+tags:
+	- "performance"
+isDraft: false
+moustache: "2000 words and lots of graphs"
+---
+endsnippet
