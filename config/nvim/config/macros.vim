@@ -236,10 +236,9 @@ map <leader>tsp <Plug>SplitTmpFile()
 map <leader>tvs <Plug>VSplitEditTmpFile()
 map <leader>vs :vs <c-r>%<c-w><c-w>
 map <leader>wc :!$BIN/wordcount %<cr>
-map <leader>x :cclose<cr>:lclose<cr>
 map <silent> <leader>Q :bn<bar>bd #<cr>
 map <silent> <leader>q :call CloseBuffer()<cr>
-map <silent> <leader>x :ccl<cr>:lcl<cr>
+map <silent> <leader>x :ccl<bar>lcl<bar>pcl<cr>
 map \\ <Plug>MostRecentBuffer
 map gvf :vs<cr>gf
 nmap <leader>a/ 16a/<esc><cr>k==

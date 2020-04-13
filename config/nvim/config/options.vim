@@ -197,7 +197,7 @@ let g:ale_lint_on_enter = 0
 let g:ale_lint_on_insert_leave = 0
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_linters = {}
-let g:ale_linters.javascript = ['eslint']
+let g:ale_linters.javascript = ['eslint', 'tsserver']
 let g:ale_linters.scss = ['stylelint']
 let g:ale_linters.typescript = ['eslint', 'tsserver']
 let g:ale_linters.json = ['jsonlint']
@@ -209,6 +209,7 @@ let g:ale_fixers.sh = ['shfmt']
 let g:ale_set_quickfix = 0
 let g:ale_sign_error = '✗'
 let g:ale_sign_warning = '⚠'
+let g:ale_hover_to_preview = 1
 
 " NERDTree config
 let NERDTreeIgnore = ['\.pyc$', 'lib/', 'node_modules/', 'influx-data']

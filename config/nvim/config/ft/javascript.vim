@@ -15,17 +15,6 @@ let g:angular_skip_alternate_mappings = 1
 "       \ }
 " let g:neomake_javascript_enabled_makers = ['eslint_d']
 
-let g:tsuquyomi_completion_detail=1
-let g:tsuquyomi_completion_preview=1
-let g:tsuquyomi_definition_split=2
-let g:tsuquyomi_disable_default_mappings=0
-let g:tsuquyomi_disable_quickfix=1
-let g:tsuquyomi_save_onrename=1
-let g:tsuquyomi_single_quote_import=1
-let g:nvim_typescript#type_info_on_hold=0
-let g:nvim_typescript#signature_complete=0
-let g:nvim_typescript#default_mappings=0
-
 function! SetTypescriptOptions()
   call SetJavascriptOptions()
   let b:ale_lint_on_enter = 1
@@ -33,25 +22,6 @@ function! SetTypescriptOptions()
   let b:ale_lint_on_insert_leave = 0
   " set ft=typescript.jsx
   map <buffer> <leader>,, :copen<cr>
-  " set omnifunc=''
-
-  "" nvim-ts bindings
-  nmap <buffer> K :TSType<cr>
-  map <buffer> <c-]> :TSDef<cr>
-  map <buffer> <c-t> :TSTypeDef<cr>
-  map <buffer> <c-w><c-]> :vs<cr>:TSDef<cr>
-  map <buffer> <c-w><c-t> :vs<cr>:TSTypeDef<cr>
-  map <buffer> <leader>rj :TSRename<cr>
-  map <buffer> <leader>rf :TSRename<cr>
-
-  " map <buffer> <leader>I :TSImport<cr>
-  map <buffer> <c-]> :TSDef<cr>
-
-  "" tsuquyomi bindings
-  " type hint
-  " nmap <buffer> K :<C-u>echo tsuquyomi#hint()<CR>:<C-u>echo tsuquyomi#hint()<CR>
-  " map <bLOGIN> <leader>rj :TsuRenameSymbol<cr>
-  " map <buffer> <leader>rf :TsuRenameSymbol<cr>
 endfunction
 
 function! SetJavascriptOptions()
@@ -87,6 +57,12 @@ function! SetJavascriptOptions()
   " turn an import statement into a require statement
   map <buffer> <leader>req cwconst<esc>wWcw=<esc>f'irequire(<esc>lxf;i)<esc>
   map <buffer> <leader>I <Plug>ShoeboxImportFn()
+
+  " ALE lsp
+  map <buffer> K <plug>(ale_hover)
+  map <buffer> <c-]> <plug>(ale_go_to_definition)
+  map <buffer> <c-}> <plug>(ale_go_to_definition_in_vsplit)
+  map <buffer> <c-t> <plug>(ale_go_to_type_definition)
 endfunction
 
 " Set js options for all js files
@@ -96,7 +72,7 @@ augroup jslike
   autocmd BufReadPre,FileReadPre *.tsx set filetype=typescript
   autocmd BufReadPre,FileReadPre,BufEnter *.js.liquid set filetype=javascript.jsx.liquid
   autocmd Filetype javascript call SetJavascriptOptions()
-  autocmd Filetype typescript call SetTypescriptOptions()
+  autocmd Filetype typescript,typescriptreact call SetTypescriptOptions()
   autocmd FileType javascript setlocal formatprg=prettier\ --parser\ babel
 
   " run lint on save

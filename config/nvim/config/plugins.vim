@@ -25,13 +25,6 @@ call plug#begin($XDG_CONFIG_HOME . '/nvim/plugged')
       Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
       Plug 'deoplete-plugins/deoplete-dictionary'
     endif
-    " this is for javascript tern completion
-    Plug 'roxma/nvim-cm-tern',  {'do': 'npm install' }
-
-    " " this is for typescript and stuff
-    " Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.sh' }
-
-    " Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install() }}
   endif
 
   " Autocomplete helper (use tab instead of <c-n> and <c-p>)
@@ -66,21 +59,14 @@ call plug#begin($XDG_CONFIG_HOME . '/nvim/plugged')
   " Javascript & typescript
   Plug 'charlespwd/vim-node'
   Plug 'heavenshell/vim-jsdoc', { 'for': ['javascript', 'typescript'] }
-  " Plug 'flowtype/vim-flow', { 'for': ['javascript'] }
   Plug 'mogelbrod/vim-jsonpath', { 'for': ['json'] }
 
   " Javascript syntax
-  " Plug 'neoclide/vim-jsx-improve', { 'for': ['javascript'] }
   Plug 'pangloss/vim-javascript'
   Plug 'mxw/vim-jsx'
 
   " typescript syntax
-  Plug 'leafgarland/typescript-vim', { 'for': ['typescript'] }
-  " Plug 'MaxMEllon/vim-jsx-pretty', { 'for': ['typescript'] }
   Plug 'HerringtonDarkholme/yats.vim', { 'for': ['typescript', 'javascript'] }
-  Plug 'mhartington/nvim-typescript', { 'for': ['typescript', 'javascript'], 'do': './install.sh' }
-  " Plug 'Shougo/vimproc.vim', { 'do': 'make' }
-  " Plug 'Quramy/tsuquyomi'
 
   " Clojure
   " " Plug 'venantius/vim-cljfmt', { 'for': 'clojure' }
