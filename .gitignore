@@ -120,3 +120,8 @@ config/modes
 config/coc/history.json
 config/coc/mru
 config/gatsby
+bin/shoebox-conf
+bin/bb-pull-request
+bin/bb-pull-request.js
+config/Electron
+config/nextjs-nodejs

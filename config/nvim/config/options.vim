@@ -157,14 +157,22 @@ let g:airline_section_y = ''
 let g:airline_section_z = '%{g:airline_symbols.linenr}%4l/%L %{g:airline_symbols.colnr}%4v'
 " let g:airline_section_z = '%#__accent_bold#%{g:airline_symbols.linenr}%4l%#__restore__#%#__accent_bold#/%L#__restore__# :%3v'
 let g:tmuxline_powerline_separators = 0
+let g:airline#extensions#tmuxline#enabled = 0
 " let airline#extensions#tmuxline#color_template = 'visual'
+let g:tmuxline_preset = {
+    \'a'       : '#S',
+    \'win'     : '#I #W',
+    \'cwin'    : '#I #W',
+    \'y'       : '#(~/bin/shoebox-conf)',
+    \'z'       : '#H',
+    \'options' : {'status-justify' : 'left'}}
 
 " deoplete config
 let g:deoplete#enable_at_startup = 1
-let g:deoplete#file#enable_buffer_path = 1
+" let g:deoplete#file#enable_buffer_path = 1
 " call deoplete#custom#set('_', 'min_pattern_length', 1)
 " call deoplete#custom#set('file', 'min_pattern_length', 0)
-let g:deoplete#auto_complete_delay = 150
+" let g:deoplete#auto_complete_delay = 150
 
 if exists("*deoplete#custom#source")
   call deoplete#custom#source('dictionary', 'matchers', ['matcher_head'])

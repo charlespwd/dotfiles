@@ -131,10 +131,14 @@ function getWorklog({ from, to }) {
   }).then(x => x.results);
 }
 
+function periodOption(defaultValue = 'week') {
+  return program.period || defaultValue;
+}
+
 async function printExcelTimesheet() {
   const date = dateOption('last month');
-  const from = date.clone().startOf('month');
-  const to = date.clone().endOf('month');
+  const from = date.clone().startOf(periodOption());
+  const to = date.clone().endOf(periodOption());
   const res = await getWorklog({ from, to });
 
   const ts = [
@@ -150,13 +154,17 @@ async function printExcelTimesheet() {
   ].join('\n');
 
   console.log(ts);
+  const total = R.range(0, 31)
+    .map(toTime(res, from))
+    .reduce(R.add, 0);
+  console.error(total);
   process.exit(0);
 }
 
 async function printTimesheet() {
   const date = dateOption();
-  const from = date.clone().startOf('week');
-  const to = date.clone().endOf('week');
+  const from = date.clone().startOf(periodOption());
+  const to = date.clone().endOf(periodOption());
   const worklog = await getWorklog({ from, to });
   const worklogByDate = R.pipe(
     R.groupBy(R.prop('startDate')),
@@ -287,7 +295,8 @@ program
     'total hours worked that day (used in rest calculation)',
     x => parseFloat(x),
     7.5,
-  );
+  )
+  .option('-p, --period <period>', 'period', 'week');
 
 program
   .command('excel')

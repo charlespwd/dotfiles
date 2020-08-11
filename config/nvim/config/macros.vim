@@ -61,8 +61,7 @@ map <Plug>MostRecentBuffer :e #<cr>
 map <Plug>NextDiff :Gstatus<cr>/not staged<cr>/modified<cr>WD:pclose<cr>
 map <Plug>QfreplaceFromRegisterK :cdo s#<c-r>k##ge<bar>w<left><left><left><left><left>
 map <Plug>ToggleTextObjQuotes :ToggleEducate<cr>
-map <silent> <Plug>ShoeboxImport() :let @+='@aldogroup/'.system('sed -e "s#^[^/]*/##" -e "s#\(/index\)*.[jt]s\$##" -e "s#/home/charles/ws/aldo/shoebox/##"', resolve(expand('%')))<cr>:let @@=@+<CR>:echo @+<cr>
-map <silent> <Plug>ShoeboxImportFn() <Plug>ShoeboxImport():let @+='import { '.expand('<cword>').' } from ''<c-r>+'';'<cr>:let @@=@+."\n"<cr>:echo @+<cr>
+map <silent> <Plug>ShoeboxImport() :call ShoeboxAbsoluteFileImport()<cr>
 map <SID>SearchFromRegisterK :GrepperAg "<c-r>k"<cr>
 map <SID>SearchFromRegisterKWithBounds :GrepperAg "\b<c-r>k\b"<cr>
 

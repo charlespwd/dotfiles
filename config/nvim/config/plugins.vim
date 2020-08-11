@@ -66,7 +66,7 @@ call plug#begin($XDG_CONFIG_HOME . '/nvim/plugged')
   Plug 'mxw/vim-jsx'
 
   " typescript syntax
-  Plug 'HerringtonDarkholme/yats.vim', { 'for': ['typescript', 'javascript'] }
+  Plug 'leafgarland/typescript-vim', { 'for': ['typescript'] }
 
   " Clojure
   " " Plug 'venantius/vim-cljfmt', { 'for': 'clojure' }
@@ -143,3 +143,6 @@ let g:node#suffixesadd = ['.js', '.json', '.ts']
 
 command! -bang -nargs=? -complete=dir Files
     \ call fzf#vim#files(<q-args>, <bang>0)
+
+autocmd! User tmuxline.vim Tmuxline airline
+autocmd! User vim-airline Tmuxline airline

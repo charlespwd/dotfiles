@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/bin/zsh
 tag=$1
+remote=$({ git remote -v | grep -q upstream } && echo "upstream" || echo "origin")
 git tag $1
-git push upstream $1
+git push $remote $1

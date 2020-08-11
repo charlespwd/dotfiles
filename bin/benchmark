@@ -189,7 +189,23 @@ test_social_modal_mobile() {
     sleep 2
 }
 
-cmd="$(test_load)"
+test_mobile_menu() {
+  echo sleep 0.5 \
+    $(animate_click 395 492) \
+    sleep 2 \
+    $(animate_click 404 566) \
+    sleep 2 \
+    $(animate_click 533 995) \
+    sleep 2 \
+    $(animate_click 631 481) \
+    sleep 2 \
+    $(animate_click 763 464) \
+    sleep 2 \
+    $(animate_click 914 509) \
+    sleep 2
+}
+
+cmd="$(test_mobile_menu)"
 is_recording=1 && (record-mp4 screen "$file" &) &> /dev/null
 xdotool $cmd
 record-mp4 kill

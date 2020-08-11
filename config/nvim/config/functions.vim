@@ -1,4 +1,6 @@
 " ============================================================
+"
+" Tmuxline airline
 " == Functions
 " ============================================================
 
@@ -246,26 +248,26 @@ endfunction
 command! -bang -nargs=1 -complete=file QFilterText call s:FilterQuickfixListByText(<bang>0, <q-args>)
 
 " Usage:
-" 	:Redir hi ............. show the full output of command ':hi' in a scratch window
-" 	:Redir !ls -al ........ show the full output of command ':!ls -al' in a scratch window
+"   :Redir hi ............. show the full output of command ':hi' in a scratch window
+"   :Redir !ls -al ........ show the full output of command ':!ls -al' in a scratch window
 function! Redir(cmd)
-	for win in range(1, winnr('$'))
-		if getwinvar(win, 'scratch')
-			execute win . 'windo close'
-		endif
-	endfor
+  for win in range(1, winnr('$'))
+    if getwinvar(win, 'scratch')
+      execute win . 'windo close'
+    endif
+  endfor
   let cmd = substitute(a:cmd, '%', expand('%'), '')
-	if a:cmd =~ '^!'
-		execute "let output = system('" . substitute(cmd, '^!', '', '') . "')"
-	else
-		redir => output
-		execute cmd
-		redir END
-	endif
-	vnew
-	let w:scratch = 1
-	setlocal nobuflisted buftype=nofile bufhidden=wipe noswapfile
-	call setline(1, split(output, "\n"))
+  if a:cmd =~ '^!'
+    execute "let output = system('" . substitute(cmd, '^!', '', '') . "')"
+  else
+    redir => output
+    execute cmd
+    redir END
+  endif
+  vnew
+  let w:scratch = 1
+  setlocal nobuflisted buftype=nofile bufhidden=wipe noswapfile
+  call setline(1, split(output, "\n"))
 endfunction
 
 command! -nargs=1 -complete=command Redir silent call Redir(<f-args>)
@@ -312,3 +314,57 @@ command! RemoveQFItem :call RemoveQFItem()
 
 " Use map <buffer> to only map dd in the quickfix window. Requires +localmap
 autocmd FileType qf map <buffer> dd :RemoveQFItem<cr>
+
+function! ShoeboxRelativeImport(fn)
+  let relimport = a:fn
+  let relimport = substitute(l:relimport, '\v(/index)?\.[jt]sx?', '', '')
+  let relimport = substitute(l:relimport, '/home/charles/ws/aldo/shoebox/', '', '')
+  let relimport = substitute(l:relimport, '^[^/]*/', '', '')
+  let relimport = substitute(l:relimport, '\v\.[jt]sx?$', '', '')
+  return relimport
+endfunction
+
+function! ShoeboxAbsoluteImport(fn)
+  let relimport = ShoeboxRelativeImport(a:fn)
+  return '@aldogroup/'.l:relimport
+endfunction
+
+function! ShoeboxAbsoluteImportWithQuotes(fn)
+  return ''''.ShoeboxAbsoluteImport(a:fn).''''
+endfunction
+
+function! ShoeboxAbsoluteFileImport()
+  let @+ = ShoeboxAbsoluteImport(resolve(expand('%')))
+  echo @+
+endfunction
+
+function! ShoeboxImportUnderCursor()
+  let absimport = ShoeboxAbsoluteImport(resolve(expand('%')))
+  let curline = getline('.')
+  if curline =~ 'export default'
+    let importstmt='import '.expand('<cword>').' from '''.l:absimport.''';'
+    let @+ = l:importstmt
+    let @@=@+."\n"
+    echo @+
+  else
+    let importstmt = 'import { '.expand('<cword>').' } from '''.l:absimport.''';'
+    let @+ = l:importstmt
+    let @@=@+."\n"
+    echo @+
+  endif
+endfunction
+
+function! s:MoveFileAndRename(toabs)
+  let fromabs = resolve(expand('%'))
+  let fromrel = ShoeboxAbsoluteImportWithQuotes(l:fromabs)
+  let torel = ShoeboxAbsoluteImportWithQuotes(a:toabs)
+  echom 'l:fromrel: ' . l:fromrel
+  echom 'l:torel: ' . l:torel
+  let @i='cfdo %s#'.l:fromrel.'#'.l:torel.'#g|w'
+  execute 'Move '.a:toabs
+  silent execute 'Grepper -tool rg -quickfix -nojump -noswitch -noopen -noprompt -query "'.l:fromrel.'"'
+  sleep 2
+  execute 'cfdo %s#'.l:fromrel.'#'.l:torel.'#g|w'
+endfunction
+
+command! -nargs=1 -complete=file MoveFileAndRename :call s:MoveFileAndRename(<f-args>)

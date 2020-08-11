@@ -1,5 +1,9 @@
 #!/bin/bash
 
+has_develop() {
+  git branch | grep -q develop
+}
+
 if [[ $1 != '-n' ]] && [[ $1 != '' ]]; then
   echo "Usage: fetchupstream [-n]"
   exit 1
@@ -14,13 +18,14 @@ fi
 
 upstream=$(git remote | grep upstream | head -n 1)
 remote="${upstream:-origin}"
+branch="$(has_develop && echo "develop" || echo "master")"
 
 set -e
 
-git checkout master
+git checkout $branch
 git fetch $remote
 git fetch --tags $remote
-git reset --hard $remote/master
+git reset --hard $remote/$branch
 if [[ $remote != 'origin' ]]; then
-  git push -f origin master
+  git push -f origin $branch
 fi;

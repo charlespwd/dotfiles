@@ -52,3 +52,18 @@ function mapStateToProps(state) {
 
 export default connect(mapStateToProps)($1);
 endsnippet
+
+
+snippet recomponentsl
+import React from 'react';
+
+interface ${2:I$1Props} {
+	${3:title}: ${4:string};
+}
+
+export default function ${1:MyComponent}({ $3 }: $2) {
+	return (
+		<div />
+	);
+}
+endsnippet

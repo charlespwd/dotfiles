@@ -1,4 +1,4 @@
 #!/bin/bash
 
 $HOME/bin/one-screen default
-$HOME/bin/restart-compton
+# $HOME/bin/restart-compton

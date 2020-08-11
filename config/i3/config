@@ -1,4 +1,4 @@
-##
+# #
 # i3 config file (v4)
 #
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
@@ -214,9 +214,13 @@ bindsym $alt+space exec rofi -show run -matching fuzzy -levenshtein-sort
 bindsym $mod+$ctrl+space exec $scripts/rofi-find
 bindsym $mod+space exec rofi -show drun -matching fuzzy -levenshtein-sort
 bindsym $mod+m exec $scripts/=
+bindsym $mod+o exec $scripts/emoji
+
+# enter pass US & CA
 bindsym $mod+braceleft exec $scripts/pass -t -u
 bindsym $mod+braceright exec $scripts/pass -t
-bindsym $mod+o exec $scripts/emoji
+bindsym $mod+dead_circumflex exec $scripts/pass -t -u
+bindsym $mod+dead_diaeresis exec $scripts/pass -t
 
 # dash
 bindsym $mod+d exec --no-startup-id zeal; workspace $w5
@@ -412,20 +416,20 @@ exec_always --no-startup-id $scripts/restart-polybar
 exec_always --no-startup-id $scripts/log-activity
 
 # boot stuff
-exec --no-startup-id dropbox
+# exec --no-startup-id dropbox
 exec --no-startup-id nm-applet
 exec --no-startup-id blueman-applet
 
 # f.lux like app
-exec --no-startup-id redshift
+# exec --no-startup-id redshift
 
 exec --no-startup-id $scripts/i3-start
 exec --no-startup-id libinput-gestures-setup start
 exec --no-startup-id dunst
 # exec --no-startup-id termite
 # exec --no-startup-id $scripts/firefox-developer-edition
-exec --no-startup-id chromium
-exec --no-startup-id franz
+# exec --no-startup-id chromium
+# exec --no-startup-id franz
 # exec --no-startup-id thunderbird
 # exec --no-startup-id exec i3-msg 'workspace $w4; exec spotify; exec sleep 1; workspace $w1'
 

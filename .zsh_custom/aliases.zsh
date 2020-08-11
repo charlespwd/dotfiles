@@ -210,6 +210,11 @@ if [ "$OS" = "Linux" ]; then
     jira transition --noedit $(argsPlusTicketId $@)
   }
 
+  function task-done {
+    task done "$@"
+    task
+  }
+
   alias ".."="cd .."
   alias "..."="cd ../.."
   alias ".i3"="vim ~/.config/i3/config"
@@ -256,7 +261,6 @@ if [ "$OS" = "Linux" ]; then
   alias jgs="jira-grab-start"
   alias ji="jira"
   alias jigs="jira-grab-start"
-  alias jira="EDITOR=/usr/bin/nvim $HOME/.local/bin/jira"
   alias jis="jira sprint"
   alias jisf="jira sprintf"
   alias journalctl="sudo journalctl"

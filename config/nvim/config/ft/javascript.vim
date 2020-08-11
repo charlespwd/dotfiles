@@ -16,6 +16,7 @@ let g:angular_skip_alternate_mappings = 1
 " let g:neomake_javascript_enabled_makers = ['eslint_d']
 
 function! SetTypescriptOptions()
+  set ft=typescript
   call SetJavascriptOptions()
   let b:ale_lint_on_enter = 1
   let b:ale_lint_on_save = 1
@@ -56,13 +57,16 @@ function! SetJavascriptOptions()
   map <buffer> <leader>imp cwimport<esc>f=dt(ifrom <esc>f(ds)
   " turn an import statement into a require statement
   map <buffer> <leader>req cwconst<esc>wWcw=<esc>f'irequire(<esc>lxf;i)<esc>
-  map <buffer> <leader>I <Plug>ShoeboxImportFn()
+  map <buffer> <leader>I :call ShoeboxImportUnderCursor()<cr>
+  map <buffer> <leader>mv :MoveFileAndRename <c-r>=expand('%')<cr>
 
   " ALE lsp
   map <buffer> K <plug>(ale_hover)
   map <buffer> <c-]> <plug>(ale_go_to_definition)
   map <buffer> <c-}> <plug>(ale_go_to_definition_in_vsplit)
   map <buffer> <c-t> <plug>(ale_go_to_type_definition)
+
+  imap <c-x><c-o> <Plug>(ale_complete)
 endfunction
 
 " Set js options for all js files

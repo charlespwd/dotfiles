@@ -20,4 +20,5 @@ function! SetCSSOptions()
   map <buffer> <leader>il <Plug>DeInline
   map <buffer> gf :let @e=SassPath(expand('<cfile>'), expand('%:p:h'))<cr>:e <c-r>e<cr>
   let b:AutoPairs={'(':')', '[':']', '{':'}', '"':'"'}
+  map <buffer> <leader>mv :MoveFileAndRename <c-r>=expand('%')<cr>
 endfunction
