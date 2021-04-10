@@ -4,23 +4,26 @@
 [alias]
 	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
   lgg = log --date=short --color --graph --pretty=format:'%Cred%h%Creset - %Cgreen(%cd)%C(yellow)%d%Creset %s %C(bold blue)<%an>%Creset' --abbrev-commit
+  exclude = !$BIN/exclude
 	fuck = reset --hard HEAD
 [core]
-	editor = /usr/bin/nvim
+	editor = /usr/local/bin/nvim
 	excludesfile = /home/charles/.gitignore
+	commitGraph = true
 	# pager = diff-so-fancy | less --tabs=4 -RFX
 [diff]
   tool = nvim
+	algorithm = default
 [difftool]
   prompt = false
 [difftool "nvim"]
-  cmd = /usr/bin/nvim -d $LOCAL $REMOTE
+  cmd = /usr/local/bin/nvim -d $LOCAL $REMOTE
 [merge]
   tool = vimdiff
 [mergetool]
   prompt = true
 [mergetool "vimdiff"]
-  cmd = /usr/bin/nvim -d $LOCAL $BASE $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
+  cmd = /usr/local/bin/nvim -d $LOCAL $BASE $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
 [filter "media"]
 	clean = git-media-clean %f
 	smudge = git-media-smudge %f
@@ -37,5 +40,15 @@
 	old = red bold
 	new = green bold
 	whitespace = red reverse
+[gc]
+	writeCommitGraph = true
+[protocol]
+	version = 2
 [credential]
-  helper = cache --timeout 30000
+	helper = 
+	helper = store --file /opt/dev/var/private/git_credential_store
+[url "https://github.com/Shopify/"]
+	insteadOf = git@github.com:Shopify/
+	insteadOf = git@github.com:shopify/
+	insteadOf = ssh://git@github.com/Shopify/
+	insteadOf = ssh://git@github.com/shopify/
