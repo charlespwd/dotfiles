@@ -1,0 +1,233 @@
+#  A list of all built-in modifier and literal keywords can be found at https://github.com/koekeishiya/skhd/issues/1
+#  hotkey       = <mode> '<' <action> | <action>
+#
+#  mode         = 'name of mode' | <mode> ',' <mode>
+#
+#  action       = <keysym> '[' <proc_map_lst> ']' | <keysym> '->' '[' <proc_map_lst> ']'
+#                 <keysym> ':' <command>          | <keysym> '->' ':' <command>
+#                 <keysym> ';' <mode>             | <keysym> '->' ';' <mode>
+#
+#  keysym       = <mod> '-' <key> | <key>
+#
+#  mod          = 'modifier keyword' | <mod> '+' <mod>
+#
+#  key          = <literal> | <keycode>
+#
+#  literal      = 'single letter or built-in keyword'
+#
+#  keycode      = 'apple keyboard kVK_<Key> values (0x3C)'
+#
+#  proc_map_lst = * <proc_map>
+#
+#  proc_map     = <string> ':' <command> | <string>     '~' |
+#                 '*'      ':' <command> | '*'          '~'
+#
+#  string       = '"' 'sequence of characters' '"'
+#
+#  command      = command is executed through '$SHELL -c' and
+#                 follows valid shell syntax. if the $SHELL environment
+#                 variable is not set, it will default to '/bin/bash'.
+#                 when bash is used, the ';' delimeter can be specified
+#                 to chain commands.
+#
+#                 to allow a command to extend into multiple lines,
+#                 prepend '\' at the end of the previous line.
+#
+#                 an EOL character signifies the end of the bind.
+#
+#  ->           = keypress is not consumed by skhd
+#
+#  *            = matches every application not specified in <proc_map_lst>
+#
+#  ~            = application is unbound and keypress is forwarded per usual, when specified in a <proc_map>
+
+# add an on_enter command to the default mode
+# :: default : chunkc border::color 0xff775759
+#
+# defines a new mode 'test' with an on_enter command, that captures keypresses
+# :: test @ : chunkc border::color 0xff24ccaa
+#
+# from 'default' mode, activate mode 'test'
+# cmd - x ; test
+#
+# from 'test' mode, activate mode 'default'
+# test < cmd - x ; default
+#
+# launch a new terminal instance when in either 'default' or 'test' mode
+# default, test < cmd - return : open -na /Applications/Terminal.app
+
+# application specific bindings
+#
+# cmd - n [
+#     "kitty"       : echo "hello kitty"
+#     *             : echo "hello everyone"
+#     "qutebrowser" : echo "hello qutebrowser"
+#     "terminal"    ~
+#     "finder"      : false
+# ]
+
+# specify a file that should be included as an additional config-file.
+# treated as an absolutepath if the filename begins with '/' otherwise
+# the file is relative to the path of the config-file it was loaded from.
+#
+# .load "/Users/Koe/.config/partial_skhdrc"
+# .load "partial_skhdrc"
+
+# prevent skhd from monitoring events for specific applications.
+.blacklist [
+   "Alfred 4"
+   "Alfred Preferences"
+   "Alfred"
+   "alfred"
+]
+
+# restart skhd and yabai
+alt + shift - r : skhd -r
+ctrl + alt + shift - r : launchctl kickstart -k "gui/${UID}/homebrew.mxcl.yabai"
+
+# open terminal, blazingly fast compared to iTerm/Hyper
+alt + cmd - return : /Applications/Alacritty.app/Contents/MacOS/alacritty
+
+# close focused window
+# alt - w : yabai -m window --close
+
+# focus window
+shift + alt - h : yabai -m window --focus west
+shift + alt - j : yabai -m window --focus south
+shift + alt - k : yabai -m window --focus north
+shift + alt - l : yabai -m window --focus east
+
+# cmd - j : yabai -m window --focus prev
+# cmd - k : yabai -m window --focus next
+
+# equalize size of windows
+# shift + alt - 0 : chunkc tiling::desktop --equalize
+
+# swap window
+ctrl + shift + alt - h : yabai -m window --swap west
+ctrl + shift + alt - j : yabai -m window --swap south
+ctrl + shift + alt - k : yabai -m window --swap north
+ctrl + shift + alt - l : yabai -m window --swap east
+
+# move window
+shift + cmd - h : yabai -m window --warp west
+shift + cmd - j : yabai -m window --warp south
+shift + cmd - k : yabai -m window --warp north
+shift + cmd - l : yabai -m window --warp east
+
+# make floating window fill screen
+# shift + alt - up     : yabai -m window --grid 1:1:0:0:1:1
+
+# make floating window fill left-half of screen
+# shift + alt - left   : yabai -m window --grid 1:2:0:0:1:1
+
+# make floating window fill right-half of screen
+# shift + alt - right  : yabai -m window --grid 1:2:1:0:1:1
+
+# send window to desktop and follow focus
+# shift + cmd - x : yabai -m window --space $(chunkc get _last_active_desktop); chunkc tiling::desktop --focus $(chunkc get _last_active_desktop)
+# shift + cmd - z : yabai -m window --space prev; yabai -m space --focus prev
+# shift + cmd - c : yabai -m window --space next; yabai -m space --focus next
+shift + alt - 1 -> : yabai -m window --space 1; sleep 0.005; switch-space 1
+shift + alt - 2 -> : yabai -m window --space 2; sleep 0.005; switch-space 2
+shift + alt - 3 -> : yabai -m window --space 3; sleep 0.005; switch-space 3
+shift + alt - 4 -> : yabai -m window --space 4; sleep 0.005; switch-space 4
+shift + alt - 5 -> : yabai -m window --space 5; sleep 0.005; switch-space 5
+shift + alt - 6 -> : yabai -m window --space 6; sleep 0.005; switch-space 6
+shift + alt - 7 -> : yabai -m window --space 7; sleep 0.005; switch-space 7
+shift + alt - 8 -> : yabai -m window --space 8; sleep 0.005; switch-space 8
+shift + alt - 9 -> : yabai -m window --space 9; sleep 0.005; switch-space 9
+shift + alt - 0 -> : yabai -m window --space 10; sleep 0.005; switch-space 10
+
+# focus monitor
+# ctrl + alt - z  : chunkc tiling::monitor -f prev
+# ctrl + alt - c  : chunkc tiling::monitor -f next
+# ctrl + alt - 1  : chunkc tiling::monitor -f 1
+# ctrl + alt - 2  : chunkc tiling::monitor -f 2
+# ctrl + alt - 3  : chunkc tiling::monitor -f 3
+
+# send window to monitor and follow focus
+# ctrl + cmd - z  : yabai -m window --send-to-monitor prev; chunkc tiling::monitor -f prev
+# ctrl + cmd - c  : yabai -m window --send-to-monitor next; chunkc tiling::monitor -f next
+# ctrl + cmd - 1  : yabai -m window --send-to-monitor 1; chunkc tiling::monitor -f 1
+# ctrl + cmd - 2  : yabai -m window --send-to-monitor 2; chunkc tiling::monitor -f 2
+# ctrl + cmd - 3  : yabai -m window --send-to-monitor 3; chunkc tiling::monitor -f 3
+
+# increase region size
+# shift + alt - a : yabai -m window --use-temporary-ratio 0.1 --adjust-window-edge west
+# shift + alt - s : yabai -m window --use-temporary-ratio 0.1 --adjust-window-edge south
+# shift + alt - w : yabai -m window --use-temporary-ratio 0.1 --adjust-window-edge north
+# shift + alt - d : yabai -m window --use-temporary-ratio 0.1 --adjust-window-edge east
+
+# decrease region size
+# shift + cmd - a : yabai -m window --use-temporary-ratio -0.1 --adjust-window-edge west
+# shift + cmd - s : yabai -m window --use-temporary-ratio -0.1 --adjust-window-edge south
+# shift + cmd - w : yabai -m window --use-temporary-ratio -0.1 --adjust-window-edge north
+# shift + cmd - d : yabai -m window --use-temporary-ratio -0.1 --adjust-window-edge east
+
+# set insertion point for focused container
+# ctrl + alt - f : yabai -m window --use-insertion-point cancel
+# ctrl + alt - h : yabai -m window --use-insertion-point west
+# ctrl + alt - j : yabai -m window --use-insertion-point south
+# ctrl + alt - k : yabai -m window --use-insertion-point north
+# ctrl + alt - l : yabai -m window --use-insertion-point east
+
+# rotate tree
+#alt - r : chunkc tiling::desktop --rotate 90
+#
+## mirror tree y-axis
+#alt - y : chunkc tiling::desktop --mirror vertical
+#
+## mirror tree x-axis
+#alt - x : chunkc tiling::desktop --mirror horizontal
+#
+## toggle desktop offset
+#alt - a : chunkc tiling::desktop --toggle offset
+
+# toggle window fullscreen
+alt - return : yabai -m window --toggle zoom-fullscreen
+
+# toggle window native fullscreen
+shift + alt - return : yabai -m window --toggle native-fullscreen
+
+# toggle window parent zoom
+alt - d : yabai -m window --toggle zoom-parent
+
+# toggle window split type
+alt - e : yabai -m window --toggle split
+
+# toggle window fade
+# alt - q : yabai -m window --toggle fade
+
+# float / unfloat window and center on screen
+alt - f : yabai -m window --toggle float; yabai -m window --grid 5:4:1:1:2:3
+
+# toggle sticky
+# alt - s : yabai -m window --toggle sticky
+
+# toggle sticky, float and resize to picture-in-picture size
+# alt - p : yabai -m window --toggle sticky;\
+#           yabai -m window --grid 5:5:4:0:1:1
+
+# disable cmd - tab
+# cmd - tab : true
+
+# reset layout
+ctrl + alt + cmd - space : yabai -m config layout bsp
+
+# notifications
+alt - p : /Users/charles/bin/notificationctl dismiss
+
+# alt - ;
+alt - 0x29 : /Users/charles/bin/notificationctl accept
+
+# float next window to be tiled
+# shift + alt - t : chunkc set window_float_next 1
+
+# change layout of desktop
+# ctrl + alt - a : chunkc tiling::desktop --layout bsp
+# ctrl + alt - s : chunkc tiling::desktop --layout monocle
+# ctrl + alt - d : chunkc tiling::desktop --layout float
+#
+# ctrl + alt - w : chunkc tiling::desktop --deserialize ~/.chunkwm_layouts/dev_1
+
