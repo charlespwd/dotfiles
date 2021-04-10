@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+set -eou pipefail
+
+profile=$1
+frameRate=${2:-10}
+timeline='timeline.json'
+cat $profile \
+  | jq '.audits["screenshot-thumbnails"].details.items' \
+  > $timeline
+
+script="$(cat << EOD
+const fs = require('fs');
+const timeline = JSON.parse(fs.readFileSync('./timeline.json', 'utf8'));
+const start = timeline[0].timestamp / 1000 - 568; // ms
+const end = timeline[timeline.length - 1].timestamp / 1000; // ms
+const delta = end - start;
+const fr = $frameRate; // frames / second
+const interval = 1000 / fr; // ms / frame
+let i = 0;
+let now = 0;
+let j = 0;
+let item = timeline[0];
+let k = 0;
+
+async function main() {
+  while (i < timeline.length && now < delta) {
+    console.log(i, now, j)
+    const data = Buffer.from(item.data, 'base64')
+    await fs.promises.writeFile('image' + j.toString().padStart(3, 0) + '.jpeg', data);
+    now += interval;
+    while (now > timeline[Math.min(i + 1, timeline.length - 1)].timestamp / 1000 - start && k++ < 1000) i++;
+    item = timeline[i];
+    j++;
+    k = 0;
+  }
+}
+
+main();
+EOD
+)"
+
+node -e "$script"
+
+ffmpeg \
+  -f image2 \
+  -pattern_type glob \
+  -framerate $frameRate \
+  -i "image*.jpeg" \
+  out.mp4
+
+rm $timeline
+rm image*.jpeg

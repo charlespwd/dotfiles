@@ -1,0 +1,16 @@
+#!/bin/bash
+
+is_open=/Users/charles/bin/is_lid_open
+
+is_bluetooth_on() {
+  [[ $(blueutil --power) = 1 ]]
+}
+
+$is_open && echo 'open lid' || echo 'closed lid'
+is_bluetooth_on && echo 'on bt' || echo 'off bt'
+! $is_open && is_bluetooth_on && echo 'do' || echo 'dont'
+if ! $is_open && is_bluetooth_on; then
+  blueutil --power 0
+elif $is_open && ! is_bluetooth_on; then
+  blueutil --power 1
+fi

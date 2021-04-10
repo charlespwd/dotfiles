@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+curl -s $1 | hq '
+  head > link[rel=stylesheet],
+  head > script[src]:not([defer]):not([async])
+  | attr(href, src)
+'

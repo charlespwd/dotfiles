@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+file=$1
+n=$2
+
+splitCsv() {
+    HEADER=$(head -1 $1)
+    dir=$(dirname $1)
+    base=$(basename $1 ".csv")
+
+    mkdir -p "$base"
+    if [ -n "$2" ]; then
+      lines=$(wc -l $1 | xargs echo | cut -d ' ' -f1)
+      CHUNK=$(node -e "console.log(Math.ceil($lines / $n))")
+    else
+      CHUNK=25000
+    fi
+    tail -n +2 $1 | gsplit -l $CHUNK -d - "$base/$base."
+    for i in $base/$base*; do
+      [[ $i = $1 ]] && continue
+      echo "$HEADER" > $i.csv
+      cat $i >> $i.csv
+      rm "$i"
+    done
+}
+
+splitCsv $1 $2

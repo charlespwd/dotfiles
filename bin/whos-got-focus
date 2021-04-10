@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+osascript -e 'set myapp to name of (info for (path to frontmost application))' | pbcopy
+pbpaste

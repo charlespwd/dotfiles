@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+remote="$(git remote get-url origin)"
+re="^https"
+
+if [[ $remote =~ $re ]]; then
+  open $remote
+  exit 0
+fi

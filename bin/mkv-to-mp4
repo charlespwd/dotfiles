@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+in="$(realpath $1)"
+out="$(dirname $in)/$(basename $in .mkv).mp4"
+ffmpeg -i "$in" -codec copy "$out"

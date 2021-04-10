@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+# is_lid_open
+
+# exit code 0 on open, 1 on closed
+ioreg -r -k AppleClamshellState \
+  | grep '"AppleClamshellState" =' \
+  | cut -f2 -d "=" \
+  | xargs \
+  | grep -q "No"

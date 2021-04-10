@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+usage() {
+  cat <<- EOD
+
+  Usage: $(basename $0) [-e statement | programfile] [argument ...]
+
+  A macOS "equivalent" to node. JavaScript for automation.
+
+EOD
+}
+
+test
+if [[ $# -eq 0 ]]; then
+  osascript -l JavaScript -i
+elif [[ $1 =~ (-h)|(--help) ]]; then
+  usage
+else
+  osascript -l JavaScript "$@"
+fi

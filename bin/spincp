@@ -1,0 +1,62 @@
+#!/usr/bin/env bash
+
+set -eou pipefail
+
+usage() {
+  cat <<- EOD
+
+  Copy a remote file from a spin workspace locally.
+
+  USAGE
+    $(basename $0) [flags] <remote_file> [local_file]
+
+  FLAGS
+    -w, --workspace workspace   The workspace to copy a file from. (Default to latest)
+
+  ARGUMENTS
+    remote_file  the path of the file to copy over
+    local_file   the path of the file to copy to (default ".")
+
+  EXAMPLES
+
+    $(basename $0) src/github.com/shopify/shopify/out
+    $(basename $0) src/github.com/shopify/shopify/out localcopy
+    $(basename $0) -w shopify--sca src/github.com/shopify/shopify/out .
+
+EOD
+}
+
+if [[ $# -lt 1 ]]; then
+  usage
+  exit 1
+fi
+
+remote_file="$1"
+local_file="${2:-.}"
+host=""
+
+# OPTSTRING is string with list of expected arguments,
+#
+# h    - check for option -h without parameters; gives error on unsupported options;
+# h:   - check for option -h with parameter; gives errors on unsupported options;
+# abc  - check for options -a, -b, -c; gives errors on unsupported options;
+# :abc - check for options -a, -b, -c; silences errors on unsupported options;
+#
+# OPTARG - is set to current argument value,
+#
+# OPTERR - indicates if Bash should display error messages.
+while getopts "w:" option; do
+  case $option in
+    w)
+      workspace="$OPTARG"
+      host="$(spin ls --output json | jq -r ".[] | select(.name == \"$workspace\") | .fqdn")"
+      ;;
+  esac
+done
+shift $(($OPTIND - 1))
+
+if [[ -z $host ]]; then
+  host="$(spin ls --output json | jq -r '.[0].fqdn')"
+fi
+
+scp $host:$remote_file $local_file

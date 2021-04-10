@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+set -eou pipefail
+
+profile=$1
+frameRate=${2:-10}
+timeline='timeline.json'
+cat $profile \
+  | jq '.[] | select(.args.snapshot | . and (type == "string"))' \
+  | jq -s . \
+  > $timeline
+
+script="$(cat << EOD
+const fs = require('fs');
+const timeline = JSON.parse(fs.readFileSync('./timeline.json', 'utf8'));
+const start = timeline[0].ts / 1000; // ms
+const end = timeline[timeline.length - 1].ts / 1000; // ms
+const delta = end - start;
+const fr = $frameRate; // frames / second
+const interval = 1000 / fr; // ms / frame
+let i = 0;
+let now = 0;
+let j = 0;
+let item = timeline[0];
+
+async function main() {
+  while (i < timeline.length && now < delta) {
+    const data = Buffer.from(item.args.snapshot, 'base64')
+    await fs.promises.writeFile('image' + j.toString().padStart(3, 0) + '.jpeg', data);
+    now += interval;
+    while (now > timeline[Math.min(i + 1, timeline.length - 1)].ts / 1000 - start) i++;
+    item = timeline[i];
+    j++;
+  }
+}
+
+main();
+EOD
+)"
+
+node -e "$script"
+
+ffmpeg \
+  -f image2 \
+  -pattern_type glob \
+  -framerate $frameRate \
+  -i "image*.jpeg" \
+  out.mp4
+
+rm $timeline
+rm image*.jpeg

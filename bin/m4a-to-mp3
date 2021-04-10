@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+ffmpeg out.mp3 -i "$1" -codec:a libmp3lame -qscale:a 1

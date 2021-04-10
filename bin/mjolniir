@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+set -eou pipefail
+
+if ! blueutil --paired | grep -q 'Mjolniir'; then
+  blueutil --pair $HEADPHONES_MAC_ADDRESS
+fi

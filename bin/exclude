@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+set -e
+
+echo "$@" | xargs -n 1 echo >> .git/info/exclude

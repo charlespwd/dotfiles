@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+set -eou pipefail
+
+if [[ $# -lt 1 ]]; then
+  echo "Usage: $(basename $0) <path_to_brew_python_bin>"
+  exit 1
+fi
+
+path="$1"
+ln -s "$path/python" /usr/local/bin/python3
+ln -s "$path/python" /usr/local/bin/python

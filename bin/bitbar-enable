@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+file="$1"
+source="$PWD/$file"
+link="Enabled/$(basename $file)"
+
+rm -rf "$link"
+ln -s "$source" "$link"

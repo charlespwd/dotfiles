@@ -1,0 +1,58 @@
+#!/usr/bin/env bash
+
+usage() {
+  cat <<- EOD
+
+  Usage: $(basename $0) <windowNum>
+
+  Arguments:
+
+    windowNum - Number 0-9
+
+EOD
+}
+
+case $1 in
+  1 )
+    keycode=18
+    ;;
+  2 )
+    keycode=19
+    ;;
+  3 )
+    keycode=20
+    ;;
+  4 )
+    keycode=21
+    ;;
+  5 )
+    keycode=23
+    ;;
+  6 )
+    keycode=22
+    ;;
+  7 )
+    keycode=26
+    ;;
+  8 )
+    keycode=28
+    ;;
+  9 )
+    keycode=25
+    ;;
+  0 )
+    keycode=29
+    ;;
+  * )
+    usage
+    exit 1
+    ;;
+esac
+
+cmd() {
+  cat <<- EOD
+tell application "System Events" to key code $keycode using option down
+EOD
+}
+
+osascript -e "$(cmd)"

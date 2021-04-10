@@ -1,0 +1,58 @@
+#!/usr/bin/env node
+
+const program = require('commander');
+const sqlFormatter = require('sql-formatter');
+const fs = require('fs').promises;
+
+program
+  .version('0.0.1')
+  .description('')
+  .option('-d, --debug', 'output extra debugging')
+  .arguments('[file]')
+  .action(main);
+
+function stdin() {
+  return new Promise((resolve, reject) => {
+    let data = '';
+    process.stdin
+      .on('data', chunk => {
+        data += chunk;
+      })
+      .on('error', err => {
+        reject(err);
+      })
+      .on('end', () => {
+        resolve(data);
+      });
+  });
+}
+
+async function getFile(file) {
+  if (!file) return undefined;
+  return fs.readFile(file, 'utf8');
+}
+
+async function dealWithData(file, data) {
+  if (file) {
+    return fs.writeFile(file, data, 'utf8');
+  }
+  return console.log(data);
+}
+
+async function run(file) {
+  const data = (await getFile(file)) || (await stdin());
+  await dealWithData(file, sqlFormatter.format(data));
+}
+
+async function main(file) {
+  let statusCode = 0;
+  try {
+    await run(file);
+  } catch (e) {
+    console.log(e);
+    statusCode = 1;
+  }
+  process.exit(statusCode);
+}
+
+program.parse(process.argv);

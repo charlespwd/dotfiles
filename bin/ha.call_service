@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+
+usage() {
+  cat <<- EOD
+
+  Usage: $(basename $0) <entityId> [json]
+
+  Make a POST request to the Home Assistant's REST API.
+
+  Parameters:
+
+    entityId  e.g. pi_hole.disable
+    json      e.g. '{"entity_id": "switch.pi_hole_main"}'
+
+EOD
+}
+
+if [[ $# -lt 1 ]]; then
+  usage
+  exit 1
+fi
+
+domain="$(echo -n $1 | cut -d '.' -f1)"
+service="$(echo -n $1 | cut -d '.' -f2)"
+data="$2"
+url="${HOME_ASSISTANT_URL}/api/services/${domain}/${service}"
+
+if [[ $2 = "" ]]; then
+  $BIN/curl.ha -s \
+    -X POST \
+    "$url" \
+    | jq .
+else
+  $BIN/curl.ha -s \
+    -X POST \
+    -H "Content-Type: application/json" \
+    -d "$data" \
+    "$url" \
+    | jq .
+fi

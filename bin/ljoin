@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+usage() {
+  cat <<- EOD
+
+  Usage: $(basename $0) <delimiter>
+
+  Will join new lines with delimiter. Much like Array.prototype.join.
+
+EOD
+}
+
+if [[ $# -lt 1 ]]; then
+  usage
+  exit 1
+fi
+
+paste -sd "$1" -
