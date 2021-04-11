@@ -1,35 +1,19 @@
 #!/bin/bash
+
+set -eou pipefail
+
 get_window() {
-  case $1 in
-    comp|composer|co*)
-      echo "start/composer"
-      ;;
-    cis|callitspring|ci*)
-      echo "start/callitspring"
-      ;;
-    aldo|aldoshoes|al*)
-      echo "start/aldoshoes"
-      ;;
-    globo|globoshoes|gl*)
-      echo "start/globoshoes"
-      ;;
-    nginx|ng*)
-      echo "start/nginx"
-      ;;
-    redis|re*)
-      echo "start/redis"
-      ;;
-    simplified|si*)
-      echo "start/simplified"
-      ;;
-    *)
-      echo $1
-      ;;
-  esac
+  tmux list-windows -t build \
+    | cut -d' ' -f2 \
+    | sed 's/[*]//' \
+    | sed 's/[-]$//' \
+    | sed 's/[#]$//' \
+    | grep "/$1" \
+    | head -n 1
 }
 
 get_suffix() {
-  case $1 in
+  case ${1:-} in
     i* )
       echo "/iso"
       ;;
@@ -37,5 +21,6 @@ get_suffix() {
 }
 
 session="build"
-target="$session:$(get_window $1)$(get_suffix $2)"
+window=$(get_window ${1:-})
+target="$session:$window$(get_suffix ${2:-})"
 tmux switch-client -t $target
