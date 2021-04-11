@@ -8,9 +8,8 @@
 
 # ignore installing those files, they are not to be symlinked
 GLOBIGNORE='.:..:.DS_Store:.git:.gitignore'
-HOMEBREW_PACKAGES="autoenv curl fzf git git-extras nvm the_silver_searcher
-tmux tree vim"
-NPM_GLOBALS="grunt gulp browserify jshint"
+brew_packages="$(cat brew_packages.csv | xargs)"
+os="$(uname -s | tr -d '\n')"
 
 is_installed () {
   # This works with scripts and programs. For more info, check
@@ -26,34 +25,23 @@ is_brew_installed () {
 
 install_homebrew () {
   if ! is_installed brew; then
-    echo "installing brew."
+    step "Installing Homebrew"
     /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
   fi
 
-  for package in $HOMEBREW_PACKAGES; do
+  step "Installing missing packages: $brew_packages"
+  for package in $brew_packages; do
     if ! is_brew_installed $package; then
-      echo "installing $package"
+      echo "Installing $package"
       brew install $package
     fi
   done
 }
 
-install_node () {
-  if ! is_installed node; then
-    echo "installing node with nvm."
-    nvm install node
-
-    # reclaim ownership of the ~/.npm module
-    sudo chown -R $(whoami) ~/.npm
-
-    echo "installing node packages"
-    npm install -g "${NPM_GLOBALS}"
-  fi
-}
-
 install_oh_my_zsh () {
   if ! [[ -d ~/.oh-my-zsh ]] ; then
-    sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+    step "Installing oh-my-zsh"
+    sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
     # make zsh default shell
     chsh -s `which zsh`
@@ -91,24 +79,33 @@ install_file () {
   fi
 }
 
+step() {
+  cat <<-EOF 1>&2
+	==============================
+	$1
+	------------------------------
+	EOF
+}
+
 main () {
   local dot_files="${@:-.*}"
   local current_dir
   current_dir="$(pwd)"
 
-  if ! [ "$#" -ne 0 ]; then
-    echo "=============================="
-    echo "Installing missing packages: $HOMEBREW_PACKAGES"
-    echo ""
+  if [[ $# -eq 0 ]]; then
+    if [[ $os = "Darwin" ]]; then
+      install_homebrew
+    fi
   fi
 
-  echo "=============================="
-  echo "Symlinking dotfile(s): $dot_files"
+  step "Symlinking dotfile(s): $dot_files"
   for dot_file in ${dot_files}; do
     cd "${HOME}"
     install_file "${dot_file}" "${current_dir}"
     cd "${current_dir}"
   done
+
+  install_oh_my_zsh
 }
 
 main "$@"

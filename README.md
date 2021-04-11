@@ -12,7 +12,6 @@ Or cherry pick install with
 ./install .vimrc .jshintrc
 ```
 
-
 # LICENSE
 
 MIT.
