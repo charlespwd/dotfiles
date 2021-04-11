@@ -128,3 +128,6 @@ export XDG_CONFIG_HOME="$HOME/.config"
 
 # load nvm
 [[ -s "$BIN/load-node.sh" ]] && . "$BIN/load-node.sh"
+
+# nix config
+if [ -e $HOME/.nix-profile/etc/profile.d/nix.sh ]; then . $HOME/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
