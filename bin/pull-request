@@ -3,9 +3,15 @@
 set -e
 
 labels=''
+draft=''
 
-while getopts ":l:" opt; do
+while getopts ":dl:" opt; do
   case $opt in
+    d )
+      draft='--draft'
+      shift 1
+      ;;
+
     l )
       labels=$OPTARG
       shift 2;
@@ -19,31 +25,39 @@ while getopts ":l:" opt; do
 done
 
 dir=$(basename $PWD)
-if [[ $dir = 'shoebox' ]]; then
-  labels='Aldo code review'
-fi
 
 echo "Labels: $labels"
+echo "draft: $draft"
 
 if [ $# -lt 1 ]; then
-  echo "Usage: pull-request [base]"
+cat <<- EOD
+Usage: pull-request [-d] [-l label] [base]
+
+Options:
+  -d : Make a --draft pull request
+  -l label : Add labels to the PR
+EOD
   return
 fi
 
-remote_to_branch () {
-  echo $1 | sed 's/^[^:]*://' | sed 's#/.*##'
+remote_to_user () {
+  if echo $1 | grep -q 'https://'; then
+    echo $1 | sed 's#.*https://github.com/##' | cut -d '/' -f1
+  else
+    echo $1 | sed 's/^[^:]*://' | sed 's#/.*##'
+  fi
 }
 
 basebranch=$1
 baseurl=$(git remote get-url upstream || git remote get-url origin)
-baseuser=$(remote_to_branch $baseurl) # aldo-dev
+baseuser=$(remote_to_user $baseurl) # Shopify
 
 echo "baseuser" $baseuser
 echo "basebranch" $basebranch
 
 curbranch=`git rev-parse --abbrev-ref HEAD`
 cururl=$(git remote get-url origin)
-curuser=$(remote_to_branch $cururl || echo 'charlespwd') # charlespwd
+curuser=$(remote_to_user $cururl || echo 'charlespwd') # charlespwd
 
 git push origin $curbranch
 
@@ -55,9 +69,11 @@ if [[ $reply = 'y' ]]; then
   if ! [[ $labels = '' ]]; then
     echo $labels
     echo $basebranch
-    hub pull-request --base="$basebranch" --head="$curuser:$curbranch" --labels="$labels"
+    hub pull-request --base="$basebranch" --head="$curuser:$curbranch" --labels="$labels" $draft
   else
-    hub pull-request --base="$basebranch" --head="$curuser:$curbranch"
+    echo $basebranch
+    echo hub pull-request --base="$basebranch" --head="$curuser:$curbranch" $draft
+    hub pull-request --base="$basebranch" --head="$curuser:$curbranch" $draft
   fi
   exit 0
 fi
