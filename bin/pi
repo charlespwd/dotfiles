@@ -1,45 +1,79 @@
 #!/bin/bash
 
-pi="${2-raspi}.local"
+host="${2-raspi}.local"
+
+usage() {
+cat <<- EOD
+
+  Usage: $0 <command> [hostname]
+
+  Brochette of commands to interact with raspberry pi's.
+
+  Commands:
+
+    connect        ssh into it
+    desktop        remote view
+    shutdown       remote shutdown
+    reboot         remote reboot
+    mount          mount using sshfs (FUSE)
+    unmount        unmount
+    setup-ssh-key  copy over your id_rsa as known_host
+
+EOD
+}
 
 case "$1" in
   mount)
     dest="$HOME/ws/pi"
-    echo "Mounting $pi on $dest"
+    echo "Mounting $host on $dest"
     mkdir -p $dest
-    sshfs $pi: $dest
+    sshfs $host: $dest
     ;;
 
   unmount)
-    echo "Unmounting $pi from ~/ws/pi"
+    echo "Unmounting $host from ~/ws/pi"
     sudo umount ~/ws/pi
     ;;
 
   connect)
-    echo "Connecting to $pi"
-    ssh pi@$pi
+    echo "Connecting to $host"
+    ssh pi@$host
+    ;;
+
+  cp)
+    echo "copying files over to $host"
+    echo "copying files over to $host"
+    shift 2
+    echo rsync -avP "$@" pi@$host:portal/
+    rsync -avP "$@" pi@$host:portal/
     ;;
 
   desktop)
-    echo "Opening desktop view of $pi"
+    echo "Opening desktop view of $host"
     ssh "pi@${pi}" '~/bin/vnc start'
     vncviewer "${pi}:0"
     ;;
 
   shutdown)
-    echo "Shutting down $pi"
-    ssh $pi 'sudo shutdown -h now'
+    echo "Shutting down $host"
+    ssh $host 'sudo shutdown -h now'
     ;;
 
   reboot)
-    echo "Rebooting down $pi"
-    ssh pi@$pi 'sudo shutdown -h now'
+    echo "Rebooting down $host"
+    ssh pi@$host 'sudo shutdown -h now'
     sleep 10
-    ssh pi@$pi
+    ssh pi@$host
+    ;;
+
+  setup-ssh-key)
+    cat ~/.ssh/id_rsa.pub | \
+      ssh pi@$host \
+      "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"
     ;;
 
   *)
-   echo "Usage: pi {connect|desktop|shutdown|reboot|mount|unmount} [hostname]"
+   usage
    exit 1
    ;;
 esac
