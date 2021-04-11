@@ -1,10 +1,10 @@
 #!/bin/bash
 set -eou pipefail
 
-root="$HOME/ws/aldo/shoebox"
 session="build"
 project_name=${1:-}
 mode=${2:-}
+dev=/opt/dev/bin/dev
 TMUX=${TMUX:-''}
 
 is_in_session() {
@@ -32,53 +32,7 @@ create_and_start() {
     tmux new-window -t "$session" -n "$name"
   fi
 
-  tmux send-keys -t "$target" "cd $root" Enter
-  tmux send-keys -t "$target" "nvm use" Enter
   tmux send-keys -t "$target" "$cmd" Enter
-}
-
-start_presentation() {
-  brand=$1
-  port=$2
-  if [[ $mode = "iso" ]]; then
-    create_and_start "start/$brand/iso" \
-      "BRAND=$brand CLIENT_PORT=$port yarn start:presentation:iso" &
-    create_and_start "start/$brand" \
-      "BRAND=$brand CLIENT_PORT=$port yarn dev:presentation:iso" &
-  elif [[ $mode = "build" ]]; then
-    create_and_start "start/$brand" \
-      "PROJECT_NAME=$brand PORT=$port yarn start:build" &
-  elif [[ $mode = "kill" ]]; then
-    kill_window "start/$brand"
-    kill_window "start/$brand/iso"
-  else
-    kill_window "start/$brand/iso"
-    create_and_start "start/$brand" \
-      "BRAND=$brand CLIENT_PORT=$port yarn start:presentation" &
-  fi
-}
-
-start_composer() {
-  case $mode in
-    build )
-      create_and_start 'start/composer' 'PROJECT_NAME=composer PORT=3001 yarn start:build' &
-      ;;
-    aldo|aldoshoes|al*)
-      create_and_start 'start/composer' 'CLIENT_FRONTEND_PORT=8080 yarn start:composer:debug' &
-      ;;
-    cis|callitspring|ca*)
-      create_and_start 'start/composer' 'CLIENT_FRONTEND_PORT=8081 yarn start:composer:debug' &
-      ;;
-    globo|globoshoes|gl*)
-      create_and_start 'start/composer' 'CLIENT_FRONTEND_PORT=8082 yarn start:composer:debug' &
-      ;;
-    kill)
-      kill_window 'start/composer'
-      ;;
-    *)
-      create_and_start 'start/composer' 'CLIENT_FRONTEND_PORT=8080 yarn start:composer:debug' &
-      ;;
-  esac
 }
 
 kill_window() {
@@ -87,16 +41,40 @@ kill_window() {
   tmux kill-window -t "$name" || true
 }
 
-start_aldoshoes() {
-  start_presentation 'aldoshoes' '8080'
+start_all_servers() {
+  local integrations="$(
+    cd $HOME/src/github.com/Shopify/$1 && \
+    $dev integration status \
+      | grep enabled \
+      | tr -s " " \
+      | cut -d' ' -f1
+  )"
+  start_server $1
+  for integration in $(echo $integrations); do
+    start_server $integration
+  done
 }
 
-start_callitspring() {
-  start_presentation 'callitspring' '8081'
-}
-
-start_globoshoes() {
-  start_presentation 'globoshoes' '8082'
+start_server() {
+  name="start/$1"
+  mode="${2:-}"
+  if [[ $mode = 'kill' ]]; then
+    kill_window $name
+  else
+    # up & running
+    if $dev sv status | grep -q "$1"; then
+      create_and_start "$name" \
+        "dev cd $1 && dev sv logs -n 100 -f $1"
+    # up but not running
+    elif railgun status -a -o 'name' -H | grep -q "$1"; then
+      create_and_start "$name" \
+        "dev cd $1 && dev sv start && dev sv logs -n 100 -f $1"
+    # not up, not running
+    else
+      create_and_start "$name" \
+        "dev cd $1 && dev up && dev sv start && dev sv logs -n 100 -f $1"
+    fi
+  fi
 }
 
 start_simplified() {
@@ -106,19 +84,10 @@ start_simplified() {
     kill_window "$name"
   elif [[ $mode = 'build' ]]; then
     create_and_start "$name" \
-      'yarn start:build' &
+      "cd $root && yarn start:build" &
   else
     create_and_start "$name" \
       'yarn develop' &
-  fi
-}
-
-start_redis() {
-  if [[ $mode = 'kill' ]]; then
-    kill_window 'start/redis'
-  else
-    create_and_start 'start/redis' \
-      'redis-server ./packages/composer/redis.conf' &
   fi
 }
 
@@ -135,8 +104,6 @@ start_nginx() {
   fi
 }
 
-cd "$root"
-
 # start session
 (tmux has-session -t $session &> /dev/null) || tmux new -s $session -d
 
@@ -151,27 +118,16 @@ run() {
 
   case $project_name in
     all)
-      start_composer
-      start_aldoshoes
-      start_redis
+      start_all_servers "$@"
       ;;
-    comp|composer|co*)
-      start_composer
+    core|shopify)
+      start_server shopify $mode
       ;;
-    cis|callitspring|ca*)
-      start_callitspring
-      ;;
-    aldo|aldoshoes|al*)
-      start_aldoshoes
-      ;;
-    globo|globoshoes|gl*)
-      start_globoshoes
+    server|se*)
+      start_server "$@"
       ;;
     simplified|si*)
       start_simplified
-      ;;
-    redis)
-      start_redis
       ;;
     nginx)
       start_nginx
