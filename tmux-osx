@@ -1,10 +1,6 @@
-# enable pbcopy and pbpaste
-# https://github.com/ChrisJohnsen/tmux-MacOSX-pasteboard/blob/master/README.md
-set-option -g default-command "reattach-to-user-namespace -l zsh"
-
 # copy
-bind-key -t vi-copy Enter copy-pipe "reattach-to-user-namespace pbcopy"
-bind-key -t vi-copy y copy-pipe "reattach-to-user-namespace pbcopy"
+bind-key -T copy-mode-vi Enter send-keys -X copy-pipe-and-cancel "pbcopy"
+bind-key -T copy-mode-vi y send-keys -X copy-pipe-and-cancel "pbcopy"
 
 # paste
 unbind C-p
@@ -12,3 +8,9 @@ bind C-p paste-buffer
 
 # set default terminal
 set -g default-terminal "screen-256color"
+
+# default command (fixes weird [exited] bug)
+set-option -g default-command "/bin/zsh"
+
+# Initialize TMUX plugin manager (keep this line at the very bottom of tmux.conf)
+run '~/.tmux/plugins/tpm/tpm'
