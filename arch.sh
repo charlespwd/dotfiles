@@ -11,6 +11,10 @@ export GDK_DPI_SCALE=0.5
 # Lastpass (don't quit) I'm auto logged into chrome anyway
 export LPASS_AGENT_TIMEOUT=0
 
+# FZF_TMUX config
+export FZF_TMUX=1
+export FZF_TMUX_HEIGHT="50%"
+
 # Android home
 if [ -d /opt/android-sdk ]; then
   export ANDROID_HOME=/opt/android-sdk

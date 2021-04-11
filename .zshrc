@@ -1,8 +1,8 @@
 # For switching configs
 OS=$(uname -s)
 
-# remove file permissions to everyone else by default
-umask go-rwx
+# default umask
+umask 022
 
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
@@ -75,7 +75,7 @@ ZSH_CUSTOM=~/.zsh_custom
 if [ "$OS" = "Linux" ]; then
   plugins=(git node vi-mode jump cp)
 elif [ "$OS" = "Darwin" ]; then
-  plugins=(git osx vagrant node npm rbenv be rake rails vi-mode jump brew heroku cp)
+  plugins=(git osx vagrant node npm rbenv rake rails vi-mode jump brew)
 fi
 
 # Load oh-my-zsh
@@ -104,8 +104,6 @@ bindkey '^N' history-search-forward
 # FZF config
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export FZF_DEFAULT_COMMAND='rg --files --follow --glob "!.git/*"'
-export FZF_TMUX=1
-export FZF_TMUX_HEIGHT="50%"
 
 # load nvm
 [[ -s "$BIN/load-node.sh" ]] && . "$BIN/load-node.sh"
@@ -210,12 +208,14 @@ _complete_make() {
 
 compdef _complete_make make
 
-# tabtab source for serverless package
-# uninstall by removing these lines or running `tabtab uninstall serverless`
-[[ -f /home/charles/ws/aldo/shoebox/node_modules/tabtab/.completions/serverless.zsh ]] && . /home/charles/ws/aldo/shoebox/node_modules/tabtab/.completions/serverless.zsh
-# tabtab source for sls package
-# uninstall by removing these lines or running `tabtab uninstall sls`
-[[ -f /home/charles/ws/aldo/shoebox/node_modules/tabtab/.completions/sls.zsh ]] && . /home/charles/ws/aldo/shoebox/node_modules/tabtab/.completions/sls.zsh
-# tabtab source for slss package
-# uninstall by removing these lines or running `tabtab uninstall slss`
-[[ -f /home/charles/ws/aldo/shoebox/node_modules/tabtab/.completions/slss.zsh ]] && . /home/charles/ws/aldo/shoebox/node_modules/tabtab/.completions/slss.zsh
+_complete_start_all() {
+  targets=($(find $HOME/src/github.com/Shopify -maxdepth 1 -type d | xargs -n 1 basename | grep -v '\.\.'))
+  _arguments -n "1:project:(server core simplified)"
+  _arguments -n "2:server:(kill $targets)"
+}
+
+compdef _complete_start_all start-all
+
+if command -v gh &>/dev/null; then
+  eval $(gh completion --shell $(basename $SHELL))
+fi
