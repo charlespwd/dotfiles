@@ -1,7 +1,7 @@
 #!/bin/bash
 
-has_develop() {
-  git branch | grep -q develop
+has_branch() {
+  git branch | grep -q $1
 }
 
 if [[ $1 != '-n' ]] && [[ $1 != '' ]]; then
@@ -18,7 +18,11 @@ fi
 
 upstream=$(git remote | grep upstream | head -n 1)
 remote="${upstream:-origin}"
-branch="$(has_develop && echo "develop" || echo "master")"
+branch="$(
+has_branch "develop" && echo "develop" \
+  || has_branch "main" && echo "main" \
+  || echo "master"
+)"
 
 set -e
 
