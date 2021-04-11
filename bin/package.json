@@ -20,6 +20,7 @@
     "ramda": "^0.26.1",
     "request-promise": "^4.2.2",
     "request-promise-native": "^1.0.5",
-    "snoowrap": "^1.19.0"
+    "snoowrap": "^1.19.0",
+    "sql-formatter": "^2.3.3"
   }
 }
