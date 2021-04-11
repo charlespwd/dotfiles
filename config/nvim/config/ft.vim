@@ -9,7 +9,8 @@ source ~/.vim/config/ft/javascript.vim
 source ~/.vim/config/ft/python.vim
 " source ~/.vim/config/ft/latex.vim
 " source ~/.vim/config/ft/markdown.vim
-" source ~/.vim/config/ft/ruby.vim
+source ~/.vim/config/ft/ruby.vim
+source ~/.vim/config/ft/r.vim
 
 " Others
 augroup misc
@@ -31,7 +32,7 @@ augroup END
 
 augroup runnable
   autocmd!
-  autocmd FileType javascript,sh :map <c-\> :let w:scratch=0<cr>:Redir !./%<cr>
+  autocmd FileType javascript,sh :map <c-\> :let w:scratch=0<cr>:Redir !<c-r>=expand('%')<cr><cr>
   autocmd FileType javascript :map <c-\> :Dispatch<cr>
   autocmd BufEnter */shoebox/* :map <silent> <leader>ap :!./scripts/replace-relative-imports %<cr><cr>
 augroup END
@@ -78,16 +79,19 @@ augroup quickfix
   autocmd FileType qf nnoremap <buffer> <C-v> <C-w><cr><C-w>L
 
   " quick filter
-  autocmd FileType qf nnoremap <buffer> <leader>nt :QFilter! test<cr>:QFilter! spec<cr>:QFilter! json<cr>:QFilter! scss<cr>:set nowrap<cr>
+  autocmd FileType qf nnoremap <buffer> <leader>nt :QFilter! test<cr>:QFilter! spec<cr>:QFilter! json<cr>:QFilter! scss<cr>:QFilter! yml<cr>:QFilter! erb<cr>:set nowrap<cr>
   autocmd FileType qf nnoremap <buffer> <leader>fa :QFilter! callitspring<cr>:QFilter! globoshoes<cr>:QFilter! composer<cr>
   autocmd FileType qf nnoremap <buffer> <leader>fc :QFilter! aldoshoes<cr>:QFilter! globoshoes<cr>:QFilter! composer<cr>
   autocmd FileType qf nnoremap <buffer> <leader>fC :QFilter composer<cr>
   autocmd FileType qf nnoremap <buffer> <leader>fg :QFilter! aldoshoes<cr>:QFilter! callitspring<cr>:QFilter! composer<cr>
 
+  " No whitespace warnings
+  autocmd FileType qf DisableWhitespace
+
   " Fold by filename
   autocmd BufReadPost quickfix setlocal foldlevel=0
   autocmd BufReadPost quickfix setlocal foldmethod=expr
-  " autocmd BufReadPost quickfix setlocal foldexpr=matchstr(getline(v:lnum),'^[^\|]\\+')==#matchstr(getline(v:lnum+1),'^[^\|]\\+')?1:'<1'
+  autocmd BufReadPost quickfix setlocal foldexpr=matchstr(getline(v:lnum),'^[^\|]\\+')==#matchstr(getline(v:lnum+1),'^[^\|]\\+')?1:'<1'
   autocmd BufReadPost quickfix setlocal foldexpr=MyFoldLine(v:lnum)
   autocmd BufReadPost quickfix setlocal foldtext=MyFoldText()
   autocmd BufReadPost quickfix highlight clear Folded

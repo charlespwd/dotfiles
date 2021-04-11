@@ -1,0 +1,87 @@
+snippet debugger
+binding.pry
+endsnippet
+
+snippet each
+${1:things}.each do |${2:thing}|
+	${3:...}
+end
+endsnippet
+
+snippet nf
+# frozen_string_literal: true
+
+module $1
+	class $2
+	end
+end
+endsnippet
+
+snippet init
+def initialize$1
+end
+endsnippet
+
+snippet test
+# frozen_string_literal: true
+require "test_helper"
+
+class ${1:MyModule}Test < Minitest::Test
+	def setup
+		@${2:module} = $1.new
+	end
+
+	def test_base
+		assert_equal(true, true)
+	end
+end
+endsnippet
+
+snippet docs
+doc docs_url("docs/checks/${1:check}.md")
+endsnippet
+
+snippet check
+# frozen_string_literal: true
+module ThemeCheck
+	class ${1:MyCheck} < LiquidCheck
+		severity :error
+		categories :liquid, :performance
+		doc docs_url(__FILE__)
+
+		def on_document(node)
+			@source = node.template.source
+			@node = node
+			record_offenses
+		end
+
+		def record_offenses
+			#	add_offense(
+			#		"Should not do dis",
+			#		node: @node,
+			#		markup: @source,
+			#		line_number: @source[0...i].count("\n") + 1
+			#	)
+		end
+	end
+end
+endsnippet
+
+snippet checktest
+# frozen_string_literal: true
+require "test_helper"
+
+module ThemeCheck
+	class $1Test < Minitest::Test
+		def test_no_offense_for_good_behaviour
+			offenses = analyze_theme(
+				${1:MyCheck}.new,
+				"templates/index.liquid" => <<~END,
+					...
+				END
+			)
+			assert_offenses("", offenses)
+		end
+	end
+end
+endsnippet

@@ -36,3 +36,24 @@ if [[ $# -lt ${1:2} ]]; then
 	echo "Usage: ${2: command <arg1> <arg2>}"
 fi
 endsnippet
+
+snippet #!
+#!/usr/bin/env bash
+
+usage() {
+	cat <<- EOD
+
+	Usage: $(basename \$0)
+
+	This script does something...
+
+EOD
+}
+
+if [[ $# -lt 0 ]]; then
+	usage
+	exit 1
+fi
+
+$1
+endsnippet

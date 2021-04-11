@@ -16,22 +16,33 @@ catch /^Vim\%((\a\+)\)\=:E185/
 endtry
 
 " OS specific configurations
-if has('unix')
-  let s:uname = system("uname -s")
+if g:os == "Darwin"
+  let g:EditorConfig_exec_path = '/usr/local/bin/editorconfig'
+  " let g:python_host_prog = '/usr/bin/python2'
+  let g:python3_host_prog = '/usr/local/bin/python3'
+  let g:netrw_browsex_viewer = '/usr/bin/open'
 
-  " OSX
-  if s:uname == "Darwin"
-    let g:EditorConfig_exec_path = '/usr/local/bin/editorconfig'
-    let g:python_host_prog = '/usr/local/bin/python2'
-    let g:python3_host_prog = '/usr/local/bin/python3'
+  " osx keymaps
+  nmap Ó :tab help<space>
+  nmap ˙ :Help<cr>
+  vnoremap ç "+y
+  map gx :!open <cfile><cr><cr>
+  map g<cr> :!open <cfile><cr><cr>
+  set backspace=2 " make backspace work like most other apps"
 
   " Linux
-  else
-    " let g:EditorConfig_exec_path = '/usr/bin/editorconfig'
-    let g:EditorConfig_exec_path = '/home/charles/.local/bin/editorconfig'
-    let g:python_host_prog = '/usr/bin/python2'
-    let g:python3_host_prog = '/usr/bin/python3'
-  endif
+elseif g:os == "Linux"
+  " let g:EditorConfig_exec_path = '/usr/bin/editorconfig'
+  let g:EditorConfig_exec_path = '~/.local/bin/editorconfig'
+  let g:python_host_prog = '/usr/bin/python2'
+  let g:python3_host_prog = '/usr/bin/python3'
+
+  " open url in browser
+  let g:netrw_browsex_viewer = "/usr/bin/chromium"
+
+  vmap <a-c> "+y
+  nmap <a-s-h> :tab help<space>
+  nmap <a-h> :Help<cr>
 endif
 
 if has('nvim')
@@ -41,7 +52,6 @@ endif
 " options
 set textwidth=70
 set path+="**"
-"set backspace=2 " make backspace work like most other apps"
 set nocursorline " don't highlight current line
 set nocursorcolumn
 "set lazyredraw
@@ -127,8 +137,6 @@ let g:netrw_liststyle=3 " tree listing by default
 let g:netrw_list_hide='.*\.swp$' " hide files via regex
 let g:netrw_chgwin=1 " open netrw on different window
 
-" open url in browser
-let g:netrw_browsex_viewer = "/usr/bin/chromium"
 
 " enable airline powerline fonts
 " let g:onedark_termcolors = 16
@@ -180,10 +188,14 @@ if exists("*deoplete#custom#source")
   call deoplete#custom#source('dictionary', 'sorters', [])
   " Do not complete too short words
   call deoplete#custom#source('dictionary', 'min_pattern_length', 2)
+  call deoplete#custom#source('ale', 'rank', 999)
 endif
 
 " dispatch.vim options
 let g:dispatch_no_tmux_make = 1
+let g:dispatch_compilers = {
+\ '/opt/dev/bin/dev test': 'dev-test'
+\}
 
 " supertab options
 let g:SuperTabDefaultCompletionType = '<c-n>'
@@ -206,18 +218,45 @@ let g:ale_lint_on_insert_leave = 0
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_linters = {}
 let g:ale_linters.javascript = ['eslint', 'tsserver']
-let g:ale_linters.scss = ['stylelint']
-let g:ale_linters.typescript = ['eslint', 'tsserver']
 let g:ale_linters.json = ['jsonlint']
+let g:ale_linters.liquid = ['liquid-server']
+let g:ale_linters.ruby = ['rubocop', 'sorbet']
+let g:ale_linters.scss = ['stylelint']
+let g:ale_linters.typescript = ['eslint', 'tsserver', 'tslint']
 let g:ale_fixers = {}
+let g:ale_fixers.html = ['prettier']
 let g:ale_fixers.javascript = ['prettier']
-let g:ale_fixers.typescript = ['prettier']
+let g:ale_fixers.r = ['styler']
+let g:ale_fixers.ruby = ['rubocop', 'sorbet']
 let g:ale_fixers.scss = ['prettier']
 let g:ale_fixers.sh = ['shfmt']
+let g:ale_fixers.typescript = ['prettier']
+
+function! SqlFormatter(buffer) abort
+    let l:executable = 'sql-formatter'
+    return {
+    \   'command': ale#Escape(l:executable)
+    \}
+endfunction
+
+let g:ale_fixers.sql = ['SqlFormatter']
 let g:ale_set_quickfix = 0
 let g:ale_sign_error = '✗'
 let g:ale_sign_warning = '⚠'
 let g:ale_hover_to_preview = 1
+
+function! ThemeCheckGetProjectRoot(buffer) abort
+  let l:project_root = ale#path#FindNearestFile(a:buffer, '.theme-check.yml')
+  return !empty(l:project_root) ? fnamemodify(l:project_root, ':h') : ''
+endfunction
+
+call ale#linter#Define('liquid', {
+\   'name': 'liquid-server',
+\   'lsp': 'stdio',
+\   'executable': system('which theme-check-language-server | tr -d "\n" '),
+\   'project_root': function('ThemeCheckGetProjectRoot'),
+\   'command': '%e',
+\})
 
 " NERDTree config
 let NERDTreeIgnore = ['\.pyc$', 'lib/', 'node_modules/', 'influx-data']
@@ -249,7 +288,7 @@ let g:javascript_plugin_jsdoc = 1
 " vim-jsonpath
 let g:jsonpath_register = '+'
 
-" Define mappings for json buffers
+" define mappings for json buffers
 au FileType json noremap <buffer> <silent> <expr> <leader>pp jsonpath#echo()
 au FileType json noremap <buffer> <silent> <expr> <leader>g jsonpath#goto()
 
@@ -272,6 +311,9 @@ let g:slime_no_mappings = 1
 vmap <c-d><c-d> JV<Plug>SlimeRegionSendu
 " nmap <c-d><c-d> V<Plug>SlimeRegionSend
 
+" goyo
+let g:goyo_linenr = 1
+
 " delimitMate
 let g:delimitMate_expand_cr = 0
 let g:delimitMate_expand_space = 1
@@ -289,6 +331,8 @@ let g:grepper.tools = ['rg', 'ag', 'grep']
 let g:no_plugin_maps=1
 
 " fzf
+let g:fzf_layout = { 'down': '20%' }
+let g:fzf_preview_window = ''
 let g:fzf_action = {
   \ 'ctrl-q': 'bdelete!',
   \ 'ctrl-n': 'NERDTreeFind',
@@ -307,6 +351,13 @@ let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 " split join
 let g:splitjoin_trailing_comma = 1
 
+" nvim-r
+let R_assign_map = '<c-->'
+let R_buffer_opts = "winfixheight"
+let R_rconsole_height = 10
+let R_min_editor_width = 200
+let g:r_indent_align_args = 0
+
 highlight jsFuncCall ctermfg=White
 highlight clear SpellBad
 highlight SpellBad ctermfg=Red
@@ -322,3 +373,51 @@ map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans
 
 " whitespace
 let g:better_whitespace_filetypes_blacklist = ['qf', 'html']
+let g:AutoPairsMapSpace = 0
+
+if exists('g:started_by_firenvim')
+  set guifont=Monaco:h18
+  let g:airline_powerline_fonts = 0
+  let g:airline_symbols.linenr = 'L'
+  let g:airline_symbols.colnr = 'C'
+
+  set wrap
+  set linebreak
+  set tw=1000
+  set nonu
+  set rnu
+
+  let g:firenvim_config = {
+        \  'globalSettings': {
+        \    '<C-n>': 'default',
+        \    '<D-v>': 'default',
+        \  },
+        \  'localSettings': {
+        \    '(docs|meet)\.google\.com.*': {
+        \      'takeover': 'never',
+        \    },
+        \    'codepen\.io': {
+        \      'takeover': 'never',
+        \    },
+        \  },
+        \}
+  au BufEnter github.com_*.txt set filetype=markdown
+
+  " add text sync
+  " let g:dont_write = v:false
+  " function! SyncText(timer) abort
+  "   let g:dont_write = v:false
+  "   write
+  " endfunction
+  "
+  " function! ThrottledSyncText() abort
+  "   if g:dont_write
+  "     return
+  "   end
+  "   let g:dont_write = v:true
+  "   call timer_start(1000, 'SyncText')
+  " endfunction
+  "
+  " au TextChanged * ++nested call ThrottledSyncText()
+  " au TextChangedI * ++nested call ThrottledSyncText()
+endif

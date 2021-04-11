@@ -3,8 +3,12 @@ let g:vim_markdown_new_list_item_indent = 0
 autocmd FileType markdown,tex,vimwiki call SetProseOptions()
 autocmd BufReadPost,FileReadPost *.wiki call SetProseOptions()
 function! SetProseOptions()
+  let b:AutoPairsMapSpace = 0
   let b:delimitMate_expand_space = 0
   let b:surround_{char2nr('k')} = "[\r]()"
+  let b:surround_{char2nr('~')} = "```\n\r\n```"
+  let b:surround_{char2nr('B')} = "**\r**"
+  call deoplete#custom#buffer_option('auto_complete', v:false)
 
   setlocal foldmethod=expr
   setlocal foldexpr=MarkdownFoldLevel(v:lnum)
@@ -18,6 +22,8 @@ function! SetProseOptions()
   endtry
 
   vmap <leader>K "ic[<c-r>i](<c-r>i)
+  vmap <leader>T "ic([#<c-r>i](https://github.com/shopify/theme-check/issues/<c-r>i))
+  nmap <leader>T "iciw([#<c-r>i](https://github.com/shopify/theme-check/issues/<c-r>i))
   setlocal spell spelllang=en_us
   call textobj#quote#init()
 

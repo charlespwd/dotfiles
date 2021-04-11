@@ -62,8 +62,8 @@ map <Plug>NextDiff :Gstatus<cr>/not staged<cr>/modified<cr>WD:pclose<cr>
 map <Plug>QfreplaceFromRegisterK :cdo s#<c-r>k##ge<bar>w<left><left><left><left><left>
 map <Plug>ToggleTextObjQuotes :ToggleEducate<cr>
 map <silent> <Plug>ShoeboxImport() :call ShoeboxAbsoluteFileImport()<cr>
-map <SID>SearchFromRegisterK :GrepperAg "<c-r>k"<cr>
-map <SID>SearchFromRegisterKWithBounds :GrepperAg "\b<c-r>k\b"<cr>
+map <SID>SearchFromRegisterK :GrepperRg "<c-r>k"<cr>
+map <SID>SearchFromRegisterKWithBounds :GrepperRg "\b<c-r>k\b"<cr>
 
 " Scratchpads
 map <Plug>SetupTmpJs() :!mkdir -p /tmp/js/ && cp $HOME/dotfiles/.prettierrc.js /tmp/js<cr>
@@ -74,9 +74,6 @@ map <Plug>VSplitTmpFile() <Plug>GetTmpFile():vs <c-r>t<cr>
 
 " `:SS some/text` will search for `some/text` in the file (escapes all special characters)
 command! -nargs=1 SS let @/ = '\V'.escape(<q-args>, '/\')|normal! /<C-R>/<CR>
-
-" not sure let's see just how I like it
-imap jj <esc>
 
 "This allows for change paste motion cp{motion}
 nmap <silent> cp :set opfunc=ChangePaste<CR>g@
@@ -103,8 +100,8 @@ call SetupCommandAlias('T', 'Tabularize')
 call SetupCommandAlias('NM', 'NeomakeSh')
 call SetupCommandAlias('NMS', 'NeomakeSh')
 call SetupCommandAlias('NSH', 'NeomakeSh')
-call SetupCommandAlias('ZON', 'ZenModeOn')
-call SetupCommandAlias('ZOFF', 'ZenModeOff')
+call SetupCommandAlias('ZON', 'Goyo 70x100%')
+call SetupCommandAlias('ZOFF', 'Goyo!')
 " call SetupCommandAlias('eod', eodcmd)
 call SetupCommandAlias('eods', 'w !send-summary')
 call SetupCommandAlias('eodsy', 'w !send-summary 1')
@@ -127,7 +124,7 @@ map <leader>2m :let @p=system('to-mp4-play-button-url ' . expand('<cfile>'))<cr>
 " nmap <leader>== 70i=<esc>o<esc>
 " tmap <Esc> <C-\><C-n>
 map <leader>"" <Plug>ToggleTextObjQuotes
-map <leader># :let @+=system('sed -e "s#^[^/]*/##" -e "s#\(/index\)*.js\$##" -e "s#/home/charles/ws/aldo/shoebox/##"', resolve(expand('%')))<CR>
+map <leader># :let @+=join([expand('%'), line('.')], ':')<CR>
 map <leader>% :let @+=expand('%')<CR>
 map <leader>'' :vs term://zsh<cr>a
 map <leader>,. :lopen<cr>
@@ -147,15 +144,19 @@ map <leader>.l :e ~/.lein/profiles.clj<cr>
 map <leader>.m :e ~/dotfiles/.config/nvim/config/macros.vim<cr>/" MACROS<cr>:nohl<cr>
 map <leader>.o :e ~/dotfiles/.config/nvim/config/options.vim<cr>
 map <leader>.p :e ~/dotfiles/.config/nvim/config/plugins.vim<cr>
-map <leader>.s :e ~/.config/i3status/config<cr>
+map <leader>.s :e ~/.config/skhd/skhdrc<cr>
 map <leader>.t :e ~/.tmux.conf<cr>
 map <leader>.v :e ~/dotfiles/.config/nvim/init.vim<cr>
 map <leader>.w :e ~/thoughts/new-words.md<cr>
 map <leader>.x :e ~/dotfiles/.Xresources<cr>
+map <leader>.y :e ~/.config/yabai/yabairc<cr>
 map <leader>.z :e ~/.zshrc<cr>
+map <leader>2d :!pandoc -f markdown -t docx --reference-doc=$HOME/.pandoc/template.docx -o $DOWNLOADS/output.docx '%'<cr>
+map <leader>2h :!pandoc --self-contained --metadata title="%:t:r" -f markdown -t html -H $HOME/.pandoc/gsheet.css -o $DOWNLOADS/output.html '%'<cr>
+map <leader>2p :!pandoc -f markdown -t pdf -o $DOWNLOADS/output.pdf '%'<cr>
 map <leader>;; :%s/;//g<cr>
 map <leader><cr> :tab sp term://zsh<cr>
-map <leader>@ <Plug>ShoeboxImport()
+map <leader>@ :let @+=expand('%')<cr>
 map <leader>C :Cycle<cr>
 map <leader>F :Files ~/<cr>
 map <leader>G :G
@@ -181,11 +182,11 @@ map <leader>gcb :Git checkout -b<space>
 map <leader>gcc :Gcommit -v<cr>
 map <leader>gco :Git checkout<space>
 map <leader>gd :Gdiff<cr>
-map <leader>gfp :let @a=fugitive#head()<cr>:Gpush -f origin <c-r>a
-map <leader>ggp :let @a=fugitive#head()<cr>:Gpush origin <c-r>a
+map <leader>gfp :let @a=fugitive#head()<cr>:Git push -f origin <c-r>a
+map <leader>ggp :let @a=fugitive#head()<cr>:Git push origin <c-r>a
 map <leader>ggt :GitGutterToggle<cr>
 map <leader>glg :Git lg -20<cr>
-map <leader>gp :let @a=fugitive#head()<cr>:Gpush origin <c-r>a
+map <leader>gp :let @a=fugitive#head()<cr>:Git push origin <c-r>a
 map <leader>gri :Git rebase -i<space>
 map <leader>gs :Gstatus<cr>gg<c-n>
 map <leader>gsta :Git stash
@@ -203,6 +204,7 @@ map <leader>mv :Move <c-r>=expand('%')<cr>
 map <leader>nd <Plug>NextDiff
 map <leader>nf :NERDTreeFind<cr>
 map <leader>pc :PlugClean!<cr>
+map <leader>ph :s/\v (--?\w+)/ \\\r  \1/g<cr>
 map <leader>pi :PlugInstall<cr>
 map <leader>po :PencilToggle<cr>
 map <leader>pp "+p
@@ -235,11 +237,13 @@ map <leader>tsp <Plug>SplitTmpFile()
 map <leader>tvs <Plug>VSplitEditTmpFile()
 map <leader>vs :vs <c-r>%<c-w><c-w>
 map <leader>wc :!$BIN/wordcount %<cr>
+map <leader>zz z10<cr>
 map <silent> <leader>Q :bn<bar>bd #<cr>
 map <silent> <leader>q :call CloseBuffer()<cr>
 map <silent> <leader>x :ccl<bar>lcl<bar>pcl<cr>
 map \\ <Plug>MostRecentBuffer
 map gvf :vs<cr>gf
+map gx :!open <cfile>
 nmap <leader>a/ 16a/<esc><cr>k==
 vmap <leader>C "+y
 vmap <leader>V "+p
@@ -272,22 +276,15 @@ function! GetCurrentFileExecuteCommand()
   endif
 endfunction
 
+" paste
+imap √ <esc>"+pa
+
 " terminal bindings
 tnoremap <c-[> <c-\><c-n>
 tnoremap <c-h> <C-\><C-N><C-w>h
 tnoremap <c-j> <C-\><C-N><C-w>j
 tnoremap <c-k> <C-\><C-N><C-w>k
 tnoremap <c-l> <C-\><C-N><C-w>l
-
-" arch keymap specific stuff...
-vmap <a-c> "+y
-nmap <a-s-h> :tab help<space>
-nmap <a-h> :h<space>
-
-" osx keymaps
-" nmap Ó :tab help<space>
-" nmap ˙ :h<space>
-" vmap ç "+y
 
 map <leader>mct OCompleted:<esc>:read !my-commits-today<cr><c-v>?Completed:<cr>jI- <esc>:g/--wip--/d<cr>
 
@@ -297,11 +294,16 @@ nnoremap <silent> <a-o> :nohl<cr>:normal! <c-l><cr>
 
 " remap alt-l to nohl (ipad)
 nnoremap <silent> ì :nohl<cr>:normal! <c-l><cr>
-nnoremap è :h<space>
+nnoremap è :Help<cr>
 
 " remap alt-l to nohl (osx)
-" nnoremap <silent> ¬ :nohl<cr>:normal! <c-l><cr>
+nnoremap <silent> ¬ :nohl<cr>:normal! <c-l><cr>
 
 map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
 \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
 \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
+
+if exists('g:started_by_firenvim')
+  call SetupCommandAlias('w', 'w!')
+  call SetupCommandAlias('wq', 'wq!')
+endif

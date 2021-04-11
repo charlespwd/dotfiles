@@ -1,14 +1,15 @@
-let g:vimwiki_map_prefix = '<Leader>w'
+let s:wiki_root = g:os == "Darwin" ? "~/Documents" : "~/documents"
 let g:vimwiki_list = [
- \ {'path': '~/documents/wiki/', 'ext': '.md', 'syntax': 'markdown'},
- \ {'path': '~/documents/simplified/', 'ext': '.md', 'syntax': 'markdown'}
+ \ {'path': s:wiki_root . '/wiki/', 'ext': '.md', 'syntax': 'markdown'},
+ \ {'path': s:wiki_root . '/simplified/', 'ext': '.md', 'syntax': 'markdown'}
  \ ]
+let g:vimwiki_map_prefix = '<Leader>w'
 let g:vimwiki_folding = 'custom'
 let g:vimwiki_ext2syntax = {'.md': 'markdown', '.markdown': 'markdown', '.mdown': 'markdown'}
 let g:node#suffixesadd = ['.js', '.json', '.ts']
 
 " load plugins
-call plug#begin($XDG_CONFIG_HOME . '/nvim/plugged')
+call plug#begin('/Users/charles/.config/nvim/plugged')
   " html stuff
   Plug 'cakebaker/scss-syntax.vim', { 'for': 'scss' }
   Plug 'hail2u/vim-css3-syntax', { 'for': 'css' }
@@ -21,7 +22,7 @@ call plug#begin($XDG_CONFIG_HOME . '/nvim/plugged')
 
   "" Autocomplete engine
   if !has('gui_running')
-    if has('nvim')
+    if has('nvim') && !exists('g:started_by_firenvim')
       Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
       Plug 'deoplete-plugins/deoplete-dictionary'
     endif
@@ -37,7 +38,9 @@ call plug#begin($XDG_CONFIG_HOME . '/nvim/plugged')
   Plug 'reedes/vim-textobj-quote', { 'for': ['vimwiki', 'markdown'] }
 
   "" snipmate (REQUIRES brew install python)
-  Plug 'SirVer/ultisnips'
+  if !exists('g:started_by_firenvim')
+    Plug 'SirVer/ultisnips'
+  endif
   Plug 'honza/vim-snippets'
 
   "" Navigation "
@@ -68,6 +71,13 @@ call plug#begin($XDG_CONFIG_HOME . '/nvim/plugged')
   " typescript syntax
   Plug 'leafgarland/typescript-vim', { 'for': ['typescript'] }
 
+  " ruby
+  " Plug 'tpope/vim-rails', { 'for': ['ruby'] }
+  Plug 'vim-ruby/vim-ruby', { 'for': ['ruby'] }
+  Plug 'tpope/vim-endwise', { 'for': ['ruby'] }
+  Plug 'nelstrom/vim-textobj-rubyblock', { 'for': ['ruby'] }
+  Plug 'pechorin/any-jump.vim'
+
   " Clojure
   " " Plug 'venantius/vim-cljfmt', { 'for': 'clojure' }
   Plug 'christoph-frick/vim-fireplace', { 'for': 'clojure' }
@@ -91,7 +101,7 @@ call plug#begin($XDG_CONFIG_HOME . '/nvim/plugged')
   " octave / matlab
   Plug 'jvirtanen/vim-octave'
 
-  " Misc
+  " misc
   Plug 'nathanaelkane/vim-indent-guides'
   Plug 'morhetz/gruvbox'
   " Plug 'altercation/vim-colors-solarized'
@@ -107,9 +117,14 @@ call plug#begin($XDG_CONFIG_HOME . '/nvim/plugged')
   " Plug 'jpalardy/vim-slime'
   Plug 'godlygeek/tabular'
   Plug 'unblevable/quick-scope'
+  Plug 'junegunn/goyo.vim'
+  Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
 
   " python
   Plug 'ambv/black', { 'for': ['python'] }
+
+  " R
+  Plug 'jalvesaq/Nvim-R', { 'for': ['r'] }
 
   " Bdelete
   Plug 'moll/vim-bbye'
@@ -144,5 +159,6 @@ let g:node#suffixesadd = ['.js', '.json', '.ts']
 command! -bang -nargs=? -complete=dir Files
     \ call fzf#vim#files(<q-args>, <bang>0)
 
+" run stuff when plugin is done
 autocmd! User tmuxline.vim Tmuxline airline
 autocmd! User vim-airline Tmuxline airline

@@ -117,19 +117,26 @@ command! -nargs=0 EM :call FEditMode()
 function! FZenModeOn()
   set wrap
   set linebreak
+  set tw=1000
+  set nu
+  set nornu
   DisableWhitespace
-  Educate
+  NoEducate
   " GitGutterDisable
-  " SyntasticReset
 endfunction
 
 function! FZenModeOff()
   set nowrap
+  set tw=70
   EnableWhitespace
+  set rnu
+  set nonu
   NoEducate
   " GitGutterEnable
-  " SyntasticCheck
 endfunction
+
+autocmd! User GoyoEnter call FZenModeOn()
+autocmd! User GoyoLeave call FZenModeOff()
 
 " ZenMode for writing prose without the backspace and such
 command! -nargs=0 ZenMode :call FZenModeOn()

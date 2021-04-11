@@ -1,0 +1,7 @@
+snippet partitionyyyymmddhh "partition"
+shopify_time_range(
+	_partition_yyyy_mm_dd_hh,
+	date_trunc('day', now() - interval '1' day),
+	date_trunc('day', now() - interval '0' day) - interval '1' second
+)
+endsnippet

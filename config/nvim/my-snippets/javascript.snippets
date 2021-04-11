@@ -967,6 +967,24 @@ async function main() {
 main();
 endsnippet
 
+snippet stdin
+function stdin() {
+	return new Promise((resolve, reject) => {
+		let data = '';
+		process.stdin
+			.on('data', chunk => {
+				data += chunk;
+			})
+			.on('error', err => {
+				reject(err);
+			})
+			.on('end', () => {
+				resolve(data);
+			});
+	});
+}
+endsnippet
+
 snippet tap
 R.tap(x => console.log(JSON.stringify(x, null, 2))),
 endsnippet

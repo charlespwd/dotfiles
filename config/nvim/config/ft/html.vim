@@ -1,5 +1,5 @@
 " HTML OPTIONS
-autocmd Filetype html,htmldjango call SetHtmlOptions()
+autocmd Filetype html,htmldjango,liquid call SetHtmlOptions()
 let g:syntastic_html_tidy_ignore_errors=["not recognized!","discarding unexpected"]
 let g:syntastic_html_checkers=[]
 function! SetHtmlOptions()

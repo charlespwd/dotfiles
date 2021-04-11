@@ -1,16 +1,27 @@
 " RUBY OPTIONS
+let g:ruby_indent_assignment_style = 'variable'
+
 autocmd Filetype ruby call SetRubyOptions()
 function! SetRubyOptions()
-  let g:rspec_command = "!rspec --format documentation --color {spec}"
-  setlocal ts=2 sts=2 sw=2 expandtab
-  map <buffer> <leader>L :call RunAllSpecs()<CR>
-  map <buffer> <leader>S :call RunNearestSpec()<CR>
-  map <buffer> <leader>T :call RunCurrentSpecFile()<CR>
+  let b:AutoPairs = g:AutoPairs
+  let b:AutoPairsMapSpace = 1
+  let b:AutoPairs['|'] = '|'
+  let b:surround_{char2nr('e')} = "things.each do |thing|\n\t\r\nend"
+  let b:surround_{char2nr('m')} = "module Module\n\t\r\nend"
+  let b:surround_{char2nr('c')} = "class Thing\n\t\r\nend"
+
+  " ALE lsp
+  map <buffer> K <plug>(ale_hover)
+  map <buffer> <c-]> <plug>(ale_go_to_definition)
+  map <buffer> <c-}> <plug>(ale_go_to_definition_in_vsplit)
+  map <buffer> <c-t> <plug>(ale_go_to_type_definition)
+  " map <buffer> <c-\> :Dispatch /opt/dev/bin/dev test --no-color `=join([expand('%'), line('.')], ':')`<cr>
+
+  imap <c-x><c-o> <Plug>(ale_complete)
 endfunction
+
 autocmd Filetype eruby call SetERubyOptions()
 function! SetERubyOptions()
-  EmmetInstall
   inoremap <buffer> <C-\> </<C-X><C-O>
   let b:AutoPairs={'$':'$', '(':')', '[':']', '{':'}', '"':'"', '%':'%', '<':'>'}
-  setlocal ts=4 sts=4 sw=4 expandtab
 endfunction
