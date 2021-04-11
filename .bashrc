@@ -1,5 +1,5 @@
-### Added by the Heroku Toolbelt
-export PATH="/Users/charlespclermont/npm/bin:/usr/local/heroku/bin:$PATH"
+OS=$(uname -s)
+
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
@@ -11,7 +11,8 @@ export EDITOR="nvim"
 export VISUAL="nvim"
 
 source "$HOME/dotfiles/.zshenv";
-source "$HOME/dotfiles/arch.sh";
+[ "$OS" = "Linux" ] && source ~/dotfiles/os-linux.sh
+[ "$OS" = "Darwin" ] && source ~/dotfiles/os-darwin.sh
 
 ### Load bash_profile
 source "$HOME/.bash_profile";

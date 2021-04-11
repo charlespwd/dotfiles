@@ -82,8 +82,8 @@ fi
 source $ZSH/oh-my-zsh.sh
 
 # Load os specific config
-[ "$OS" = "Linux" ] && source ~/dotfiles/arch.sh
-[ "$OS" = "Darwin" ] && source ~/dotfiles/osx.sh
+[ "$OS" = "Linux" ] && source ~/dotfiles/os-linux.sh
+[ "$OS" = "Darwin" ] && source ~/dotfiles/os-darwin.sh
 
 # Enable c-x,c-e command line editing
 autoload -U edit-command-line
