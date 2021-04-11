@@ -1,0 +1,4 @@
+#!/bin/bash
+export PATH="$PATH:/usr/local/bin"
+passid=$1
+lpass show --username $passid

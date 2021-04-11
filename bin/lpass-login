@@ -1,0 +1,4 @@
+#!/bin/bash
+export PATH="$PATH:/usr/local/bin"
+source ~/.envrc
+lpass login $LAST_PASS_USERNAME

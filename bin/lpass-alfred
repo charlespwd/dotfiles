@@ -1,0 +1,56 @@
+#!/bin/bash
+
+set -ou pipefail
+
+export PATH="$PATH:/usr/local/bin"
+source "$HOME/.envrc"
+export FORMAT='{
+  "valid": true,
+  "uid": "%an-%au",
+  "title": "%an - %au",
+  "subtitle": "%au",
+  "arg": "%ai",
+  "autocomplete": "%an %au",
+  "icon": {
+    "path": "./icon.png"
+  }
+}'
+
+please_login() {
+  echo '{
+    "valid": true,
+    "uuid": "Login",
+    "title": "Please login",
+    "arg": "please-login",
+    "autocomplete": "login",
+    "icon": {
+      "path": "./icon.png"
+    }
+  }'
+}
+
+json_body() {
+  body="$(lpass ls --format "$(echo "$FORMAT" | jq -c .)" \
+    | paste -sd ',' - || please_login)"
+
+  echo '{ "items": ['
+  echo "$body"
+  echo ']}'
+}
+
+json_body | jq .
+
+# {"items": [
+#     {
+#         "uid": "desktop",
+#         "type": "file",
+#         "title": "Desktop",
+#         "subtitle": "~/Desktop",
+#         "arg": "~/Desktop",
+#         "autocomplete": "Desktop",
+#         "icon": {
+#             "type": "fileicon",
+#             "path": "~/Desktop"
+#         }
+#     }
+# ]}
