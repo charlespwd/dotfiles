@@ -1,21 +1,102 @@
 #!/bin/bash
 
+source $HOME/.envrc
+os=$(uname -s | grep -q Darwin && echo 'macOS' || echo 'linux')
+headphones="$HEADPHONES_MAC_ADDRESS"
+
+PATH="$PATH:/usr/local/bin"
+
+spotify_state() {
+  osascript -e 'tell application "Spotify" to player state as string'
+}
+
+spotify_playpause() {
+  osascript -e 'tell application "Spotify" to playpause'
+}
+
+connect_headphones() {
+  bluetoothConnector --connect $headphones --notify
+}
+
+disconnect_headphones() {
+  bluetoothConnector --disconnect $headphones
+}
+
+is_headphone_connected() {
+  [[ $(bluetoothConnector --status $headphones) = "Connected" ]]
+}
+
+is_playing() {
+  [[ $(spotify_state) == "playing" ]]
+}
+
+is_paused() {
+  [[ $(spotify_state) == "paused" ]]
+}
+
+should_pause() {
+  is_playing && is_headphone_connected
+}
+
+should_play() {
+  is_paused
+}
+
 function play {
-  /home/charles/bin/log-activity
-  dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Play &
-  disown
+  if [[ $os = 'linux' ]]; then
+    dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Play &
+    disown
+  else
+    # if should_play; then
+    #   spotify_playpause
+    # fi
+    blueutil --power 1
+    echo blueutil --power 1: status $? >> /tmp/sleepwatcher.log
+    echo wake + bt on >> /tmp/sleepwatcher.log
+    sleep 2
+    # try to reconnect to headphones
+    if ! is_headphone_connected; then
+      connect_headphones
+    fi
+  fi
 }
 
 function pause {
-  dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Stop &
-  disown
+  if [[ $os = 'linux' ]]; then
+    dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Stop &
+    disown
+  else
+    if should_pause; then
+      spotify_playpause
+    fi
+    # turn off bluetooth
+    blueutil --power 0 2>&1 >> /tmp/sleepwatcher.log
+    echo blueutil --power 0: status $? >> /tmp/sleepwatcher.log
+    echo sleep + bt off >> /tmp/sleepwatcher.log
+  fi
 }
 
-pause
-trap play SIGINT SIGHUP SIGTERM
-# i3lock -i "$tmpbg"
+linux_lock() {
+  pause
+  trap play SIGINT SIGHUP SIGTERM
 
-i3lock -f -c 000000 -e -n "$@" || true
+  # i3lock is blocking so you can do this.
+  i3lock -f -c 000000 -e -n "$@" || true
+  play
+}
 
-# rm "$tmpbg"
-play
+mac_lock() {
+  pmset sleepnow
+}
+
+echo whoami $(whoami) >> /tmp/sleepwatcher.log
+if [[ $os = 'linux' ]]; then
+  linux_lock
+elif [[ $os = 'macOS' ]] && [[ $1 = '--sleep' ]]; then
+  pause
+elif [[ $os = 'macOS' ]] && [[ $1 = '--wake' ]]; then
+  play
+elif [[ $os = 'macOS' ]]; then
+  # enter sleep
+  mac_lock
+fi
