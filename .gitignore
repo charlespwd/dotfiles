@@ -141,3 +141,5 @@ config/irb
 config/karabiner/automatic_backups
 nixpkgs
 config/shadowenv/
+config/gh/hosts.yml
+config/gh/state.yml
