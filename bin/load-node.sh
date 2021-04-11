@@ -5,6 +5,9 @@ if ! command -v node &> /dev/null; then
 
   # Node/NVM
   [ -s "/usr/share/nvm/init-nvm.sh" ] \
-    && source /usr/share/nvm/init-nvm.sh \
-    || echo "'nvm' not installed"
+    && source /usr/share/nvm/init-nvm.sh
+
+  # Node/NVM on macOS
+  [ -s "/usr/local/opt/nvm/nvm.sh" ] \
+    && . "/usr/local/opt/nvm/nvm.sh"
 fi
