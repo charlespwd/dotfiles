@@ -78,10 +78,12 @@ if [[ $reply = 'y' ]]; then
   exit 0
 fi
 
+os=$(uname -s)
+clipboard="$([[ $os = "Darwin" ]] && echo "pbcopy" || echo "xclip -i -sel clipboard")"
 #aldo-dev/master...cpclermont/my-current-branch
 compare="$baseuser:$basebranch...$curuser:$curbranch"
 url=`hub compare -u $compare`
 echo "$url"
-echo "$url" | xclip -i -sel clipboard
+echo "$url" | $clipboard
 echo "Compare url copied to clipboard"
 hub compare $compare
