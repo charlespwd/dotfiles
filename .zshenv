@@ -6,7 +6,7 @@ export OS="$(uname -s)"
 
 # default browser
 if [[ "$OS" = "Darwin" ]]; then
-  export BROWSER="/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome"
+  export BROWSER="/Applications/Firefox.app/Contents/MacOS/firefox"
 else
   export BROWSER="chromium"
 fi
