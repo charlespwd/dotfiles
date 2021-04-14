@@ -97,7 +97,7 @@ install_file () {
 }
 
 install_nvim_dependencies() {
-  if ! [ $(ls -A $HOME/.config/nvim/plugged) ]; then
+  if ! ls -A "$HOME/.config/nvim/plugged" &> /dev/null; then
     step "Installing nvim dependencies"
     echo 'PlugInstall | qa!' | nvim -n -u $HOME/.config/nvim/config/plugins.vim -es
   fi
@@ -134,7 +134,7 @@ main () {
   fi
 
   step "Symlinking dotfile(s): $dot_files"
-  for dot_file in $dot_files; do
+  for dot_file in bin $dot_files; do
     cd "$HOME"
     install_file "$dot_file" "$current_dir"
     cd "$current_dir"

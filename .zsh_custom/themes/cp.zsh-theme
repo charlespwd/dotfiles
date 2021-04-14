@@ -13,23 +13,25 @@ _jobscount() {
   ((stopped)) && echo -n "[%{${fg[green]}%}${stopped}%{$reset_color%}] "
 }
 
-function _timestamp() {
-  if [[ -z "$NVIM_LISTEN_ADDRESS" ]]; then
+_timestamp() {
+  if [[ -n $SSH_CONNECTION ]]; then
+    echo "[%{${fg[yellow]}%}%*%{$reset_color%}] "
+  elif [[ -z "$NVIM_LISTEN_ADDRESS" ]]; then
     echo "[%{${fg[green]}%}%*%{$reset_color%}] "
   fi
 }
 
-function _current_dir() {
+_current_dir() {
   echo "%{${fg_bold[blue]}%}%3~%{$reset_color%} "
 }
 
-function _git_prompt_info() {
+_git_prompt_info() {
   if [[ -z "$NVIM_LISTEN_ADDRESS" ]]; then
     echo "($(git_prompt_info)) "
   fi
 }
 
-function _current_dir() {
+_current_dir() {
   local _max_pwd_length="65"
   if [[ $(echo -n $PWD | wc -c) -gt ${_max_pwd_length} ]]; then
     echo "%{${fg_bold[blue]}%}%-2~ ... %3~%{$reset_color%}"
@@ -38,7 +40,7 @@ function _current_dir() {
   fi
 }
 
-function _user_host() {
+_user_host() {
   if [[ -n $SSH_CONNECTION ]]; then
     me="%n@%m"
   elif [[ $LOGNAME != $USER ]]; then
@@ -51,7 +53,7 @@ function _user_host() {
 
 # Determine the time since last commit. If branch is clean,
 # use a neutral color, otherwise colors will vary according to time.
-function _git_time_since_commit() {
+_git_time_since_commit() {
 # Only proceed if there is actually a commit.
   if git log -1 > /dev/null 2>&1; then
     # Get the last commit.
