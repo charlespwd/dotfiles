@@ -50,7 +50,7 @@ install_apt_packages () {
   for package in $apt_packages; do
     if ! is_apt_installed $package; then
       echo "Installing $package"
-      sudo apt install $package
+      sudo apt-get install -y $package
     fi
   done
 }
@@ -98,7 +98,8 @@ install_file () {
 
 install_nvim_dependencies() {
   if ! [ $(ls -A $HOME/.config/nvim/plugged) ]; then
-    nvim -u $HOME/.config/nvim/config/plugins.vim -c 'PlugInstall | qa!'
+    step "Installing nvim dependencies"
+    echo 'PlugInstall | qa!' | nvim -n -u $HOME/.config/nvim/config/plugins.vim -es
   fi
 }
 
@@ -115,6 +116,8 @@ main () {
   local current_dir
   current_dir="$(pwd)"
 
+  install_oh_my_zsh
+
   if [[ $# -eq 0 ]]; then
     if [[ $os = "Darwin" ]]; then
       install_homebrew
@@ -125,6 +128,8 @@ main () {
       install_apt_packages
       mv $HOME/.config/* "$current_dir/config"
       rmdir $HOME/.config
+      rm $HOME/.zshrc
+      rm $HOME/.gitconfig
     fi
   fi
 
@@ -135,7 +140,6 @@ main () {
     cd "$current_dir"
   done
 
-  install_oh_my_zsh
   install_nvim_dependencies
 }
 
