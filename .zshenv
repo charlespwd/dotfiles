@@ -42,9 +42,14 @@ fi
 # go path
 export GOPATH="$HOME/go"
 
+function _path_append  { [[ -e "$1" ]] || [[ "$2" = '-f' ]] && export PATH="$PATH:$1" }
+function _path_prepend { [[ -e "$1" ]] || [[ "$2" = '-f' ]] && export PATH="$1:$PATH" }
+
 # base path
 if [[ "$OS" = "Darwin" ]]; then
   export PATH="/opt/local/bin:/opt/local/sbin:$HOME/bin:$HOME/npm/bin:/usr/local/bin:/bin:/usr/sbin:/sbin:/usr/bin:/usr/texbin"
+elif [[ "$SPIN" ]]; then
+  export PATH="$PATH"
 elif [[ "$OS" = "Linux" ]]; then
   export PATH="/usr/local/sbin:/usr/local/bin:/usr/bin"
 fi
@@ -66,31 +71,32 @@ if [[ "$OS" = "Darwin" ]]; then
 fi
 
 # prefer $HOME/bin
-export PATH="$HOME/bin:$PATH"
+_path_prepend "$HOME/bin" -f
 
 # add local bin
-export PATH="$PATH:bin"
+_path_append "bin" -f
 
 # node scripts
-export PATH="$PATH:node_modules/.bin:../../node_modules/.bin"
+_path_append "node_modules/.bin" -f
+_path_append "../../node_modules/.bin" -f
 
 # global yarn scripts
-export PATH="$PATH:$HOME/.config/yarn/global/node_modules/.bin"
+_path_append "$HOME/.config/yarn/global/node_modules/.bin"
 
 # yarn / nvm
-export PATH="$PATH:$HOME/.yarn/bin"
+_path_append "$HOME/.yarn/bin"
 
 # ruby gems
-export PATH="$PATH:$HOME/.gem/ruby/2.5.7/bin"
+_path_append "$HOME/.gem/ruby/2.5.7/bin"
 
 # ruby gems GEM_HOME
-export PATH="$PATH:$HOME/gems/bin"
+_path_append "$HOME/gems/bin"
 
 # python user bin
-export PATH="$PATH:$HOME/.local/bin"
+_path_append "$HOME/.local/bin"
 
 # go stuff
-export PATH="$PATH:$GOPATH/bin"
+_path_append "$GOPATH/bin"
 
 # Source aliases
 source "$DOT/.zsh_custom/aliases.zsh"
