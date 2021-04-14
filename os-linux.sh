@@ -38,23 +38,21 @@ if [[ $(whoami) = 'charles' ]]; then
 fi
 
 # rbenv
-export PATH="$HOME/.rbenv/shims:${PATH}"
-export RBENV_SHELL=zsh
-source '/usr/lib/rbenv/libexec/../completions/rbenv.zsh'
-command rbenv rehash 2>/dev/null
-rbenv() {
-  local command
-  command="$1"
-  if [ "$#" -gt 0 ]; then
-    shift
-  fi
-
-  case "$command" in
-  rehash|shell)
-    eval "$(rbenv "sh-$command" "$@")";;
-  *)
-    command rbenv "$command" "$@";;
-  esac
-}
-
-(command -v jira &>/dev/null) && eval "$(jira --completion-script-bash)"
+# export PATH="$HOME/.rbenv/shims:${PATH}"
+# export RBENV_SHELL=zsh
+# source '/usr/lib/rbenv/libexec/../completions/rbenv.zsh'
+# command rbenv rehash 2>/dev/null
+# rbenv() {
+#   local command
+#   command="$1"
+#   if [ "$#" -gt 0 ]; then
+#     shift
+#   fi
+#
+#   case "$command" in
+#   rehash|shell)
+#     eval "$(rbenv "sh-$command" "$@")";;
+#   *)
+#     command rbenv "$command" "$@";;
+#   esac
+# }
