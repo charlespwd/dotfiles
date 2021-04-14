@@ -1,4 +1,13 @@
 OS=$(uname -s)
+
+if command -v pacman &> /dev/null; then
+  alias paccleancache="paccache -rk 1"
+  alias paccleanorphans="sudo pacman -Rns $(pacman -Qtdq)"
+  alias pacinstalled="pacman -Qqettn"
+  alias pacinstalledaur="pacman -Qqettm"
+  alias paclistbysize='expac -s "%-30n %m" | sort -rhk 2 | less'
+fi
+
 if [ "$OS" = "Linux" ]; then
 
   function set-return-trap {
@@ -71,11 +80,6 @@ if [ "$OS" = "Linux" ]; then
   alias notify="notify-send -u normal"
   alias open="xdg-open"
   alias openports="netstat -tuplen"
-  alias paccleancache="paccache -rk 1"
-  alias paccleanorphans="sudo pacman -Rns $(pacman -Qtdq)"
-  alias pacinstalled="pacman -Qqettn"
-  alias pacinstalledaur="pacman -Qqettm"
-  alias paclistbysize='expac -s "%-30n %m" | sort -rhk 2 | less'
   alias pbcopy="xclip -sel clipboard -i"
   alias pbpaste="xclip -sel clipboard -o"
   alias rtv="BROWSER=/usr/bin/firefox-developer-edition rtv"
