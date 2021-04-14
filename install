@@ -96,6 +96,12 @@ install_file () {
   fi
 }
 
+install_nvim_dependencies() {
+  if ! [ $(ls -A $HOME/.config/nvim/plugged) ]; then
+    nvim -u $HOME/.config/nvim/config/plugins.vim -c 'PlugInstall | qa!'
+  fi
+}
+
 step() {
   cat <<-EOF 1>&2
 	==============================
@@ -115,12 +121,11 @@ main () {
       install_homebrew_packages
     fi
 
-  fi
-
-  if [[ $SPIN ]]; then
-    install_apt_packages
-    mv $HOME/.config/* "$current_dir/config"
-    rmdir $HOME/.config
+    if [[ $SPIN ]]; then
+      install_apt_packages
+      mv $HOME/.config/* "$current_dir/config"
+      rmdir $HOME/.config
+    fi
   fi
 
   step "Symlinking dotfile(s): $dot_files"
@@ -131,6 +136,7 @@ main () {
   done
 
   install_oh_my_zsh
+  install_nvim_dependencies
 }
 
 main "$@"

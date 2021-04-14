@@ -9,7 +9,7 @@ let g:vimwiki_ext2syntax = {'.md': 'markdown', '.markdown': 'markdown', '.mdown'
 let g:node#suffixesadd = ['.js', '.json', '.ts']
 
 " load plugins
-call plug#begin('/Users/charles/.config/nvim/plugged')
+call plug#begin($HOME . '/.config/nvim/plugged')
   " html stuff
   Plug 'cakebaker/scss-syntax.vim', { 'for': 'scss' }
   Plug 'hail2u/vim-css3-syntax', { 'for': 'css' }
