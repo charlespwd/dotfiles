@@ -50,7 +50,7 @@ install_apt_packages () {
   for package in $apt_packages; do
     if ! is_apt_installed $package; then
       echo "Installing $package"
-      apt install $package
+      sudo apt install $package
     fi
   done
 }
