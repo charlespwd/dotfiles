@@ -8,19 +8,24 @@
 
 # ignore installing those files, they are not to be symlinked
 GLOBIGNORE='.:..:.DS_Store:.git:.gitignore'
-brew_packages="$(cat brew_packages.csv | xargs)"
+homebrew_packages="$(cat packages_brew.csv | xargs)"
+apt_packages="$(cat packages_apt.csv | xargs)"
 os="$(uname -s | tr -d '\n')"
 
 is_installed () {
   # This works with scripts and programs. For more info, check
   # http://goo.gl/B9683D
   type $1 &> /dev/null 2>&1
-  return "$?"
 }
 
 is_brew_installed () {
   brew --prefix "$1" &> /dev/null
-  return "$?"
+}
+
+installed=""
+is_apt_installed() {
+  [[ -z $installed ]] && installed="$(apt list --installed)"
+  echo $installed | grep -q "$1"
 }
 
 install_homebrew () {
@@ -28,12 +33,24 @@ install_homebrew () {
     step "Installing Homebrew"
     /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
   fi
+}
 
-  step "Installing missing packages: $brew_packages"
-  for package in $brew_packages; do
+install_homebrew_packages () {
+  step "Installing missing packages: $homebrew_packages"
+  for package in $homebrew_packages; do
     if ! is_brew_installed $package; then
       echo "Installing $package"
       brew install $package
+    fi
+  done
+}
+
+install_apt_packages () {
+  step "Installing missing packages: $apt_packages"
+  for package in $apt_packages; do
+    if ! is_apt_installed $package; then
+      echo "Installing $package"
+      apt install $package
     fi
   done
 }
@@ -95,14 +112,22 @@ main () {
   if [[ $# -eq 0 ]]; then
     if [[ $os = "Darwin" ]]; then
       install_homebrew
+      install_homebrew_packages
     fi
+
+  fi
+
+  if [[ $SPIN ]]; then
+    install_apt_packages
+    mv $HOME/.config/* "$current_dir/config"
+    rmdir $HOME/.config
   fi
 
   step "Symlinking dotfile(s): $dot_files"
-  for dot_file in ${dot_files}; do
-    cd "${HOME}"
-    install_file "${dot_file}" "${current_dir}"
-    cd "${current_dir}"
+  for dot_file in $dot_files; do
+    cd "$HOME"
+    install_file "$dot_file" "$current_dir"
+    cd "$current_dir"
   done
 
   install_oh_my_zsh
