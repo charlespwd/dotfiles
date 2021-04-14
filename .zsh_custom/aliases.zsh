@@ -108,8 +108,9 @@ elif [ "$OS" = "Darwin" ]; then
   alias nvim="/usr/local/bin/nvim"
   alias ".s"="nvim $CONFIG/skhd/skhdrc"
   alias ".y"="nvim $CONFIG/yabai/yabairc"
+  alias openports="_openports"
 
-  openports() {
+  function _openports {
     if [[ $# -lt 1 ]]; then
       lsof -nP -iTCP
     else
