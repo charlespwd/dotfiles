@@ -154,6 +154,7 @@ map <leader>.z :e ~/.zshrc<cr>
 map <leader>2d :!pandoc -f markdown -t docx --reference-doc=$HOME/.pandoc/template.docx -o $DOWNLOADS/output.docx '%'<cr>
 map <leader>2h :!pandoc --self-contained --metadata title="%:t:r" -f markdown -t html -H $HOME/.pandoc/gsheet.css -o $DOWNLOADS/output.html '%'<cr>
 map <leader>2p :!pandoc -f markdown -t pdf -o $DOWNLOADS/output.pdf '%'<cr>
+map <leader>: :Commands<cr>
 map <leader>;; :%s/;//g<cr>
 map <leader><cr> :tab sp term://zsh<cr>
 map <leader>@ :let @+=expand('%')<cr>

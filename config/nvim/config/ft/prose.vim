@@ -1,7 +1,14 @@
 " Prose options
 let g:vim_markdown_new_list_item_indent = 0
 autocmd FileType markdown,tex,vimwiki call SetProseOptions()
+autocmd FileType vimwiki call SetVimwikiOptions()
 autocmd BufReadPost,FileReadPost *.wiki call SetProseOptions()
+
+function! SetVimwikiOptions()
+  nmap <buffer> <leader>f :Files ~/Documents/wiki<cr>
+  nmap <buffer> <leader>s :VWS<space>
+endfunction
+
 function! SetProseOptions()
   let b:AutoPairsMapSpace = 0
   let b:delimitMate_expand_space = 0
