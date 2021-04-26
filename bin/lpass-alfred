@@ -2,8 +2,9 @@
 
 set -ou pipefail
 
-export PATH="$PATH:/usr/local/bin"
+source "$HOME/.zshenv"
 source "$HOME/.envrc"
+export LPASS_LOG_LEVEL=8
 export FORMAT='{
   "valid": true,
   "uid": "%an-%au",

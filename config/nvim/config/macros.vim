@@ -134,6 +134,7 @@ map <leader>.P :e ~/.config/polybar/config<cr>
 map <leader>.a :e ~/dotfiles/.zsh_custom/aliases.zsh<cr>Gzz
 map <leader>.c :e ~/.config/nvim/config/ft/clojure.vim<cr>
 map <leader>.d :e ~/.config/i3/startup.sh<cr>
+map <leader>.fe :e $XDG_DATA_HOME/firenvim/firenvim<cr>
 map <leader>.ff :e ~/dotfiles/.config/nvim/config/ft.vim<cr>
 map <leader>.fj :e ~/dotfiles/.config/nvim/config/ft/javascript.vim<cr>
 map <leader>.fn :e ~/dotfiles/.config/nvim/config/functions.vim<cr>

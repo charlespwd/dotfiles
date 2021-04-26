@@ -29,7 +29,7 @@ export NVIM="$CONFIG/nvim"
 export ACCOUNTING="$HOME/tmp/accounting"
 
 # completions path
-export fpath=($BIN/completions $fpath)
+# ! [ -z "${fpath+x}" ] && export fpath=($BIN/completions $fpath)
 
 # ruby
 export GEM_HOME=$HOME/.gems
