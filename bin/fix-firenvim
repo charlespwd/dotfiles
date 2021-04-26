@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+usage() {
+  cat <<- EOD
+
+  Usage: $(basename $0)
+
+  This script opens the firenvim config after a brew update
+
+EOD
+}
+
+if [[ $# -gt 0 ]]; then
+  usage
+  exit 1
+fi
+
+nvim "$XDG_DATA_HOME/firenvim/firenvim"
