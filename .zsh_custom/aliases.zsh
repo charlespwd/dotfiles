@@ -120,6 +120,7 @@ elif [ "$OS" = "Darwin" ]; then
 fi
 
 # alias sudo="sudo "
+alias ":e"="nvim"
 alias ":x"="exit"
 alias "a?"="alias | grep"
 alias "ps?"="ps aux | grep"
@@ -133,13 +134,17 @@ alias 'git-tag-delete'='git-delete-tag'
 alias a="ls -ohG"
 alias aliases="v ~/.zsh_custom/aliases.zsh"
 alias atodo="v ~/anti-todo.md"
+alias be="bundle exec"
+alias ber="bundle exec rake"
+alias bert="bundle exec rake test"
+alias berti="bundle exec rake tests:in_memory"
 alias c="cd"
 alias chmine="sudo chown -R charles ."
 alias gai="git add --intent-to-add"
 alias gap="git add --patch"
 alias gbd="git branch -D"
 alias gbdf='git branch -D $(git branch | fzf -m)'
-alias gbdm='git branch --merged | egrep -v "^(\*|master|main|dev)" | xargs -n 1 git branch -d'
+alias gbdm='git checkout $(main-branch) && git branch --merged | egrep -v "^(\*|master|main|dev)" | xargs -n 1 git branch -d'
 alias gbuild="git add dist && git commit -m [Build]"
 alias gcb="git checkout -b"
 alias gch="git rev-parse HEAD"
@@ -151,8 +156,8 @@ alias gcob='git checkout $(git branch | fzf)'
 alias gcot='git checkout $(git tag | sort -V | tac | fzf)'
 alias gdc="git diff --cached"
 alias gdcs="git diff --compact-summary"
-alias ggfpush='git push -f origin $(current_branch)'
 alias gfp='git push -f origin $(current_branch)'
+alias ggfpush='git push -f origin $(current_branch)'
 alias gi="github-issue"
 alias git="hub"
 alias gl="git pull --rebase"
@@ -211,10 +216,6 @@ alias vimrc="v ~/.vimrc"
 alias vnoplugin="vim -u NORC"
 alias whatsmyip="echo \`ifconfig en0 2>/dev/null|awk '/inet / {print $2}'|sed 's/addr://'\`"
 alias ws="cd ~/ws"
-alias be="bundle exec"
-alias ber="bundle exec rake"
-alias bert="bundle exec rake test"
-alias berti="bundle exec rake tests:in_memory"
 
 # security
 alias passid="lpass ls --format '%an - %au - %ai' | fzf | awk -F' - ' '{ print \$3 }'"

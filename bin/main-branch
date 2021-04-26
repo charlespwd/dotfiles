@@ -1,0 +1,9 @@
+#!/bin/bash
+
+has_branch() {
+  git branch | grep -q $1
+}
+
+has_branch "develop" && echo "develop" \
+  || has_branch "main" && echo "main" \
+  || echo "master"
