@@ -32,7 +32,7 @@ call plug#begin($HOME . '/.config/nvim/plugged')
   Plug 'ervandew/supertab'
 
   " Writing
-  Plug 'plasticboy/vim-markdown', { 'for': ['markdown'] }
+  Plug 'plasticboy/vim-markdown', { 'for': ['markdown, vimwiki'] }
   Plug 'vimwiki/vimwiki'
   " Plug 'suan/vim-instant-markdown', { 'do': 'yarn global add instant-markdown-d' }
   Plug 'reedes/vim-textobj-quote', { 'for': ['vimwiki', 'markdown'] }
@@ -102,6 +102,7 @@ call plug#begin($HOME . '/.config/nvim/plugged')
   Plug 'jvirtanen/vim-octave'
 
   " misc
+  Plug 'arzg/vim-sh'
   Plug 'nathanaelkane/vim-indent-guides'
   Plug 'morhetz/gruvbox'
   " Plug 'altercation/vim-colors-solarized'

@@ -54,7 +54,7 @@ function! MarkdownFoldLevel(lnum)
     " done folding
     return '<1'
   elseif l1 =~ '^#'
-    " fold headers
+    " fold headers (2nd level first)
     return '>' . (matchend(l1, '^#\+') - 1)
   elseif l2 =~ '^#'
     return 's1'

@@ -108,7 +108,7 @@ call SetupCommandAlias('eodsy', 'w !send-summary 1')
 call SetupCommandAlias('setx', '!chmod u+x %')
 call SetupCommandAlias('script', 'w\|set ft=sh\|!chmod u+x %')
 call SetupCommandAlias('re!', 'Redir !')
-call SetupCommandAlias('RE!!', 'Redir !%')
+call SetupCommandAlias('R!', 'Redir !%')
 call SetupCommandAlias('qf', 'QFilter')
 call SetupCommandAlias('qf!', 'QFilter!')
 call SetupCommandAlias('qft', 'QFilterText')
@@ -247,6 +247,7 @@ map \\ <Plug>MostRecentBuffer
 map gvf :vs<cr>gf
 map gx :!open <cfile>
 nmap <leader>a/ 16a/<esc><cr>k==
+nmap m\ :Redir !%<cr>
 vmap <leader>C "+y
 vmap <leader>V "+p
 vmap <leader>aa "ky<sid>SearchFromRegisterK()

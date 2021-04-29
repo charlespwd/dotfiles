@@ -263,7 +263,7 @@ function! Redir(cmd)
       execute win . 'windo close'
     endif
   endfor
-  let cmd = substitute(a:cmd, '%', expand('%'), '')
+  let cmd = substitute(a:cmd, '%', expand('%:p'), '')
   if a:cmd =~ '^!'
     execute "let output = system('" . substitute(cmd, '^!', '', '') . "')"
   else
