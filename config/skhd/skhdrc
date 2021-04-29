@@ -81,7 +81,7 @@
    "alfred"
 ]
 
-# restart skhd and yabai
+# restart / reload skhd and yabai
 alt + shift - r : skhd -r
 ctrl + alt + shift - r : launchctl kickstart -k "gui/${UID}/homebrew.mxcl.yabai"
 
@@ -216,7 +216,7 @@ alt - f : yabai -m window --toggle float; yabai -m window --grid 5:4:1:1:2:3
 ctrl + alt + cmd - space : yabai -m config layout bsp
 
 # notifications
-alt - p : /Users/charles/bin/notificationctl dismiss
+alt - p : open /Users/charles/bin/notification-close.app
 
 # alt - ;
 alt - 0x29 : /Users/charles/bin/notificationctl accept
