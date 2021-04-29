@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+
+usage() {
+  cat <<- EOD
+
+  Usage: $(basename $0) [serviceId] [containerId]
+
+  This logs you into the shell of the app.
+
+EOD
+}
+
+is_in_session() {
+  [[ -n $TMUX ]] && [[ $(tmux display-message -p '#S') = "$session" ]];
+  return
+}
+
+# OPTSTRING is string with list of expected arguments,
+#
+# h    - check for option -h without parameters; gives error on unsupported options;
+# h:   - check for option -h with parameter; gives errors on unsupported options;
+# abc  - check for options -a, -b, -c; gives errors on unsupported options;
+# :abc - check for options -a, -b, -c; silences errors on unsupported options;
+#
+# OPTARG - is set to current argument value,
+#
+# OPTERR - indicates if Bash should display error messages.
+tmux=""
+while getopts "ht" option; do
+  case $option in
+    h)
+      usage
+      exit 0
+      ;;
+    t)
+      tmux="-t tmux a"
+      ;;
+  esac
+done
+shift $(($OPTIND - 1))
+
+serviceId="${1:-"$(spin list -o json | jq -r '.[0].PrimaryService')"}"
+containerId="${2:-"$(spin list -o json | jq -r '.[0].Name')"}"
+
+is_in_session && tmux rename-window "spin#$serviceId"
+ssh "$serviceId.$containerId.$SPIN_USERNAME.us.spin.dev" $tmux

@@ -1,0 +1,62 @@
+#!/usr/bin/env bash
+
+dev="/opt/dev/bin/dev"
+export PATH="/usr/local/bin:/bin:/usr/sbin:/sbin:/usr/bin"
+
+usage() {
+  cat <<- EOD
+
+  Usage: $(basename $0)
+
+  This script outputs a list of urls for spin servers.
+
+EOD
+}
+
+if [[ $# -lt 0 ]]; then
+  usage
+  exit 1
+fi
+
+# some parallelism
+mkfifo /tmp/alfred-pipe
+
+# spin list -o json \
+#   | jq '
+#     .[]
+#     | .Name as $container
+#     | .Services[]
+#     |
+#       {
+#         "valid": true,
+#         "uid": .FQDN,
+#         "title": .Name,
+#         "subtitle": .FQDN,
+#         "arg": ("https://" + .FQDN),
+#         "autocomplete": (.Name + " " + $container)
+#       }
+#   ' >> /tmp/alfred-pipe &
+
+$dev sv status \
+  | grep shopify \
+  | cut -d '/' -f2 \
+  | cut -d ' ' -f1 \
+  | xargs -n 1 -I {} yq '{ "name": "{}", "open": .open }' "$HOME/src/github.com/Shopify/{}/dev.yml" \
+  | jq '
+    .name as $service
+    | .open
+    | to_entries
+    | .[]
+    | {
+      "valid": true,
+      "uid": .value,
+      "title": ($service + " " + .key),
+      "subtitle": .value,
+      "arg": .value,
+      "autocomplete": ($service + " " + .key)
+    }
+  ' >> /tmp/alfred-pipe &
+
+jq -s '{ "items": . }' < /tmp/alfred-pipe
+
+rm /tmp/alfred-pipe
