@@ -5,7 +5,7 @@ set -ou pipefail
 source "$HOME/.zshenv"
 source "$HOME/.envrc"
 export LPASS_LOG_LEVEL=8
-export FORMAT='{
+format='{
   "valid": true,
   "uid": "%an-%au",
   "title": "%an - %au",
@@ -31,7 +31,7 @@ please_login() {
 }
 
 json_body() {
-  body="$(lpass ls --format "$(echo "$FORMAT" | jq -c .)" \
+  body="$(lpass ls --format "$(echo "$format" | jq -c .)" \
     | paste -sd ',' - || please_login)"
 
   echo '{ "items": ['
