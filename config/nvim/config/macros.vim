@@ -120,6 +120,9 @@ map <leader>2i :let @a=system('imgur', expand('<cfile>'))<cr>^C![alt](<c-r>a<bs>
 " to mp4 gfycat image link
 map <leader>2m :let @p=system('to-mp4-play-button-url ' . expand('<cfile>'))<cr>^C<c-r>p<esc>
 
+" <c-space> manual complete
+inoremap <expr> <c-space> deoplete#manual_complete('ale')
+
 " MACROS
 " nmap <leader>== 70i=<esc>o<esc>
 " tmap <Esc> <C-\><C-n>

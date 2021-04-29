@@ -177,19 +177,14 @@ let g:tmuxline_preset = {
 
 " deoplete config
 let g:deoplete#enable_at_startup = 1
-" let g:deoplete#file#enable_buffer_path = 1
-" call deoplete#custom#set('_', 'min_pattern_length', 1)
-" call deoplete#custom#set('file', 'min_pattern_length', 0)
-" let g:deoplete#auto_complete_delay = 150
-
-if exists("*deoplete#custom#source")
-  call deoplete#custom#source('dictionary', 'matchers', ['matcher_head'])
-  " If dictionary is already sorted, no need to sort it again.
-  call deoplete#custom#source('dictionary', 'sorters', [])
-  " Do not complete too short words
-  call deoplete#custom#source('dictionary', 'min_pattern_length', 2)
-  call deoplete#custom#source('ale', 'rank', 999)
-endif
+call deoplete#custom#source('dictionary', 'matchers', ['matcher_head'])
+" If dictionary is already sorted, no need to sort it again.
+call deoplete#custom#source('dictionary', 'sorters', [])
+" Do not complete too short words
+call deoplete#custom#source('dictionary', 'min_pattern_length', 2)
+call deoplete#custom#option('ignore_sources', {'_': ['around', 'buffer']})
+call deoplete#custom#source('ale', 'rank', 9999)
+call deoplete#custom#source('ale', 'min_pattern_length', 0)
 
 " dispatch.vim options
 let g:dispatch_no_tmux_make = 1
@@ -208,10 +203,39 @@ let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 let g:UltiSnipsSnippetsDir="~/.config/nvim/my-snippets"
 let g:UltiSnipsSnippetDirectories=["UltiSnips", "my-snippets"]
 
-" Linting
-" ale
-" let g:ale_javascript_eslint_executable = 'eslint_d'
-" let g:ale_javascript_eslint_use_global = 1
+" w0rp/ale
+function! SqlFormatter(buffer) abort
+    let l:executable = 'sql-formatter'
+    return {
+    \   'command': ale#Escape(l:executable)
+    \}
+endfunction
+
+function! ThemeCheckGetProjectRoot(buffer) abort
+  let l:project_root = ale#path#FindNearestFile(a:buffer, '.theme-check.yml')
+  return !empty(l:project_root) ? fnamemodify(l:project_root, ':h') : ''
+endfunction
+
+call ale#linter#Define('liquid', {
+\   'name': 'liquid-server',
+\   'lsp': 'stdio',
+\   'executable': $HOME . '/bin/theme-check-language-server',
+\   'project_root': function('ThemeCheckGetProjectRoot'),
+\   'command': '%e',
+\})
+
+let g:ale_completion_delay = 50
+let g:ale_fixers = {}
+let g:ale_fixers.html = ['prettier']
+let g:ale_fixers.javascript = ['prettier']
+let g:ale_fixers.r = ['styler']
+let g:ale_fixers.ruby = ['rubocop', 'sorbet']
+let g:ale_fixers.scss = ['prettier']
+let g:ale_fixers.sh = ['shfmt']
+let g:ale_fixers.sql = ['SqlFormatter']
+let g:ale_fixers.typescript = ['prettier']
+let g:ale_hover_cursor = 0
+let g:ale_hover_to_preview = 1
 let g:ale_javascript_eslint_suppress_missing_config = 1
 let g:ale_lint_on_enter = 0
 let g:ale_lint_on_insert_leave = 0
@@ -223,40 +247,9 @@ let g:ale_linters.liquid = ['liquid-server']
 let g:ale_linters.ruby = ['rubocop', 'sorbet']
 let g:ale_linters.scss = ['stylelint']
 let g:ale_linters.typescript = ['eslint', 'tsserver', 'tslint']
-let g:ale_fixers = {}
-let g:ale_fixers.html = ['prettier']
-let g:ale_fixers.javascript = ['prettier']
-let g:ale_fixers.r = ['styler']
-let g:ale_fixers.ruby = ['rubocop', 'sorbet']
-let g:ale_fixers.scss = ['prettier']
-let g:ale_fixers.sh = ['shfmt']
-let g:ale_fixers.typescript = ['prettier']
-
-function! SqlFormatter(buffer) abort
-    let l:executable = 'sql-formatter'
-    return {
-    \   'command': ale#Escape(l:executable)
-    \}
-endfunction
-
-let g:ale_fixers.sql = ['SqlFormatter']
 let g:ale_set_quickfix = 0
 let g:ale_sign_error = '✗'
 let g:ale_sign_warning = '⚠'
-let g:ale_hover_to_preview = 1
-
-function! ThemeCheckGetProjectRoot(buffer) abort
-  let l:project_root = ale#path#FindNearestFile(a:buffer, '.theme-check.yml')
-  return !empty(l:project_root) ? fnamemodify(l:project_root, ':h') : ''
-endfunction
-
-call ale#linter#Define('liquid', {
-\   'name': 'liquid-server',
-\   'lsp': 'stdio',
-\   'executable': system('which theme-check-language-server | tr -d "\n" '),
-\   'project_root': function('ThemeCheckGetProjectRoot'),
-\   'command': '%e',
-\})
 
 " NERDTree config
 let NERDTreeIgnore = ['\.pyc$', 'lib/', 'node_modules/', 'influx-data']
