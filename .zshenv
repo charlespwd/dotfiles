@@ -1,5 +1,5 @@
 # Load secret environment variables
-[[ -f "$HOME/dotfiles/env" ]] && source "$HOME/dotfiles/env";
+[[ -f "$HOME/dotfiles/env" ]] && source "$HOME/dotfiles/env"
 [[ -f "$HOME/.envrc" ]] && source "$HOME/.envrc"
 
 export OS="$(uname -s)"
@@ -35,15 +35,24 @@ export ACCOUNTING="$HOME/tmp/accounting"
 export GEM_HOME=$HOME/.gems
 
 # go-jira
-if [ -d $HOME/.jira.d ]; then
+if [[ -d $HOME/.jira.d ]]; then
   export JIRA=$HOME/.jira.d
 fi
 
 # go path
 export GOPATH="$HOME/go"
 
-function _path_append  { [[ -e "$1" ]] || [[ "$2" = '-f' ]] && export PATH="$PATH:$1" }
-function _path_prepend { [[ -e "$1" ]] || [[ "$2" = '-f' ]] && export PATH="$1:$PATH" }
+_path_append() {
+  if [[ -e "$1" ]] || [[ "$2" = '-f' ]]; then
+    export PATH="$PATH:$1"
+  fi
+}
+
+_path_prepend() {
+  if [[ -e "$1" ]] || [[ "$2" = '-f' ]]; then
+    export PATH="$1:$PATH"
+  fi
+}
 
 # base path
 if [[ "$OS" = "Darwin" ]]; then
@@ -57,17 +66,17 @@ fi
 # mac stuff
 if [[ "$OS" = "Darwin" ]]; then
   # Do weird nix shit to the $PATH
-  [ -f /opt/dev/dev.sh ] && source /opt/dev/dev.sh
-  if [ -e $HOME/.nix-profile/etc/profile.d/nix.sh ]; then . $HOME/.nix-profile/etc/profile.d/nix.sh; fi
+  [[ -f "/opt/dev/dev.sh" ]] && source /opt/dev/dev.sh
+  if [[ -e "$HOME/.nix-profile/etc/profile.d/nix.sh" ]]; then . $HOME/.nix-profile/etc/profile.d/nix.sh; fi
 
   # Prefer GNU commands to BSD
-  export PATH="/usr/local/opt/coreutils/libexec/gnubin:${PATH}"
+  export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
 
   # Prefer brew python to system python
   export PATH="$(brew --prefix)/opt/python/libexec/bin:$PATH"
 
   # Add GNU man pages
-  export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:${MANPATH}"
+  export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
 fi
 
 # prefer $HOME/bin
@@ -99,4 +108,6 @@ _path_append "$HOME/.local/bin"
 _path_append "$GOPATH/bin"
 
 # Source aliases
-source "$DOT/.zsh_custom/aliases.zsh"
+if [[ "$(basename "$SHELL")" = "zsh" ]]; then
+  source "$DOT/.zsh_custom/aliases.zsh"
+fi
