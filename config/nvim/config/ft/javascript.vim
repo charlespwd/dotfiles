@@ -60,14 +60,6 @@ function! SetJavascriptOptions()
   map <buffer> <leader>req cwconst<esc>wWcw=<esc>f'irequire(<esc>lxf;i)<esc>
   map <buffer> <leader>I :call ShoeboxImportUnderCursor()<cr>
   map <buffer> <leader>mv :MoveFileAndRename <c-r>=expand('%')<cr>
-
-  " ALE lsp
-  map <buffer> K <plug>(ale_hover)
-  map <buffer> <c-]> <plug>(ale_go_to_definition)
-  map <buffer> <c-}> <plug>(ale_go_to_definition_in_vsplit)
-  map <buffer> <c-t> <plug>(ale_go_to_type_definition)
-
-  imap <c-x><c-o> <Plug>(ale_complete)
 endfunction
 
 " Set js options for all js files

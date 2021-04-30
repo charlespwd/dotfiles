@@ -97,3 +97,15 @@ augroup quickfix
   autocmd BufReadPost quickfix highlight clear Folded
   autocmd BufReadPost quickfix highlight Folded ctermfg=Green cterm=bold
 augroup END
+
+function! AleLSPBindings()
+  " ALE lsp
+  map <buffer> K <plug>(ale_hover)
+  map <buffer> <c-]> <plug>(ale_go_to_definition)
+  map <buffer> <c-}> <plug>(ale_go_to_definition_in_vsplit)
+  map <buffer> <c-t> <plug>(ale_go_to_type_definition)
+
+  imap <c-x><c-o> <Plug>(ale_complete)
+endfunction
+
+autocmd FileType javascript,ruby,typescript call AleLSPBindings()
