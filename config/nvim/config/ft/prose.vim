@@ -15,7 +15,7 @@ function! SetProseOptions()
   let b:surround_{char2nr('k')} = "[\r]()"
   let b:surround_{char2nr('~')} = "```\n\r\n```"
   let b:surround_{char2nr('B')} = "**\r**"
-  call deoplete#custom#buffer_option('auto_complete', v:false)
+  " call deoplete#custom#buffer_option('auto_complete', v:false)
 
   setlocal foldmethod=expr
   setlocal foldexpr=MarkdownFoldLevel(v:lnum)
