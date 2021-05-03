@@ -144,3 +144,4 @@ config/shadowenv/
 config/gh/hosts.yml
 config/gh/state.yml
 config/shopify
+config/coc
