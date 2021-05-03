@@ -23,13 +23,15 @@ call plug#begin($HOME . '/.config/nvim/plugged')
   "" Autocomplete engine
   if !has('gui_running')
     if has('nvim') && !exists('g:started_by_firenvim')
-      Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-      Plug 'deoplete-plugins/deoplete-dictionary'
+      " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+      " Plug 'deoplete-plugins/deoplete-dictionary'
+
+      Plug 'neoclide/coc.nvim', {'branch': 'release'}
     endif
   endif
 
   " Autocomplete helper (use tab instead of <c-n> and <c-p>)
-  Plug 'ervandew/supertab'
+  " Plug 'ervandew/supertab'
 
   " Writing
   Plug 'plasticboy/vim-markdown', { 'for': ['markdown, vimwiki'] }
@@ -69,7 +71,7 @@ call plug#begin($HOME . '/.config/nvim/plugged')
   Plug 'mxw/vim-jsx'
 
   " typescript syntax
-  Plug 'leafgarland/typescript-vim', { 'for': ['typescript'] }
+  Plug 'leafgarland/typescript-vim'
 
   " ruby
   " Plug 'tpope/vim-rails', { 'for': ['ruby'] }

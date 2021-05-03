@@ -16,7 +16,7 @@ let g:angular_skip_alternate_mappings = 1
 " let g:neomake_javascript_enabled_makers = ['eslint_d']
 
 function! SetTypescriptOptions()
-  set ft=typescript
+  " set ft=typescript
   call SetJavascriptOptions()
   let b:ale_lint_on_enter = 1
   let b:ale_lint_on_save = 1
@@ -66,10 +66,11 @@ endfunction
 " autocmd BufReadPre,FileReadPre *.es6,*.jsx set filetype=javascript
 augroup jslike
   autocmd!
-  autocmd BufReadPre,FileReadPre *.tsx set filetype=typescript
+  autocmd BufReadPre,FileReadPre *.tsx set filetype=typescript.jsx
   autocmd BufReadPre,FileReadPre,BufEnter *.js.liquid set filetype=javascript.jsx.liquid
   autocmd Filetype javascript call SetJavascriptOptions()
-  autocmd Filetype typescript,typescriptreact call SetTypescriptOptions()
+  autocmd Filetype typescript,typescriptreact,typescript.jsx call SetTypescriptOptions()
+  autocmd Filetype typescriptreact set filetype=typescript.jsx
   autocmd FileType javascript setlocal formatprg=prettier\ --parser\ babel
 
   " run lint on save

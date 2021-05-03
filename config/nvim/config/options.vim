@@ -80,6 +80,13 @@ set formatoptions+=l " make sure lines don't get wrapped if they are already lon
 set noshowmode " hide the --insert-- message in menu bar
 set shell=/bin/bash
 
+" (CoC) Don't pass messages to |ins-completion-menu|.
+set shortmess+=c
+
+" Always show the signcolumn, otherwise it would shift the text each time
+" diagnostics appear/become resolved.
+set signcolumn=yes
+
 " Persistent undo tree (even after you trash the buffer)
 " You can also setup a cron job that deletes files unused for 90 days
 " like this
@@ -176,15 +183,15 @@ let g:tmuxline_preset = {
     \'options' : {'status-justify' : 'left'}}
 
 " deoplete config
-let g:deoplete#enable_at_startup = 1
-call deoplete#custom#source('dictionary', 'matchers', ['matcher_head'])
-" If dictionary is already sorted, no need to sort it again.
-call deoplete#custom#source('dictionary', 'sorters', [])
-" Do not complete too short words
-call deoplete#custom#source('dictionary', 'min_pattern_length', 2)
-call deoplete#custom#option('ignore_sources', {'_': ['around', 'buffer']})
-call deoplete#custom#source('ale', 'rank', 9999)
-call deoplete#custom#source('ale', 'min_pattern_length', 0)
+let g:deoplete#enable_at_startup = 0
+" call deoplete#custom#source('dictionary', 'matchers', ['matcher_head'])
+" " If dictionary is already sorted, no need to sort it again.
+" call deoplete#custom#source('dictionary', 'sorters', [])
+" " Do not complete too short words
+" call deoplete#custom#source('dictionary', 'min_pattern_length', 2)
+" call deoplete#custom#option('ignore_sources', {'_': ['around', 'buffer']})
+" call deoplete#custom#source('ale', 'rank', 9999)
+" call deoplete#custom#source('ale', 'min_pattern_length', 0)
 
 " dispatch.vim options
 let g:dispatch_no_tmux_make = 1
