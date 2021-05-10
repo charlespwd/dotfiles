@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+selection="$(
+  tmux list-windows -a -F "#{session_name}:#{window_name}" 2>/dev/null \
+    | nl -w1 -s'|' \
+    | fzf-tmux -u 20% -- --layout=reverse --info=hidden \
+    | cut -d '|' -f2
+)"
+target="$(
+  tmux list-windows -a -F '#{session_name}:#{window_name}|#{session_id}:#{window_id}' \
+    | grep "$selection" \
+    | head -n 1 \
+    | cut -d '|' -f2
+)"
+session="$(echo $target | cut -d ':' -f1)"
+window="$(echo $target | cut -d ':' -f2)"
+
+tmux switch -t "$session"
+tmux select-window -t "$window"
