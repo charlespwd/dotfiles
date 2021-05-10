@@ -219,7 +219,7 @@ ctrl + alt + cmd - space : yabai -m config layout bsp
 alt - p : open /Users/charles/bin/notification-close.app
 
 # alt - ;
-alt - 0x29 : /Users/charles/bin/notificationctl accept
+alt - 0x29 : open /Users/charles/bin/notification-accept.app
 
 # float next window to be tiled
 # shift + alt - t : chunkc set window_float_next 1
