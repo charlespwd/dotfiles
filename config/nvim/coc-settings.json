@@ -4,5 +4,12 @@
   "tsserver.enableJavascript": true,
   "tsserver.log": "verbose",
   "tsserver.trace.server": "verbose",
-  "tsserver.implicitProjectConfig.checkJs": true
+  "tsserver.implicitProjectConfig.checkJs": true,
+  "languageserver": {
+    "graphql": {
+      "command": "graphql-lsp",
+      "args": ["server", "-m", "stream"],
+      "filetypes": ["typescript", "typescriptreact", "graphql"]
+    }
+  }
 }
