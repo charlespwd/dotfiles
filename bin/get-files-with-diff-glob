@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+echo -n '{'
+scripts/get-files-with-diff \
+  | paste -sd ',' - \
+  | tr -d '\n'
+echo -n '}'

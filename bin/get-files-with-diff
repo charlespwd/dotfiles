@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+
+set -eou pipefail
+
+usage() {
+  cat <<- EOD
+
+  This script returns a list of files that you modified on your branch since you forked the main branch.
+
+  USAGE:
+
+    $(basename $0) [basebranch]
+
+  ARGUMENTS:
+
+    basebranch: (Optional, default=master) the branch to diff with
+
+EOD
+}
+
+case ${1:-""} in
+  -h|--help)
+    usage
+    exit 0
+esac
+
+currbranch="$(git rev-parse --abbrev-ref HEAD)"
+basebranch="${1:-master}"
+mergebase="$(git merge-base $basebranch $currbranch)"
+
+git diff --name-only --diff-filter=ACMR $mergebase \
+  | egrep '(scss|js|ts|tsx|graphql)$'
