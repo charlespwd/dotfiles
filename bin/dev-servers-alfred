@@ -21,21 +21,21 @@ fi
 # some parallelism
 mkfifo /tmp/alfred-pipe
 
-# spin list -o json \
-#   | jq '
-#     .[]
-#     | .Name as $container
-#     | .Services[]
-#     |
-#       {
-#         "valid": true,
-#         "uid": .FQDN,
-#         "title": .Name,
-#         "subtitle": .FQDN,
-#         "arg": ("https://" + .FQDN),
-#         "autocomplete": (.Name + " " + $container)
-#       }
-#   ' >> /tmp/alfred-pipe &
+spin list -o json \
+  | jq '
+    .[]
+    | .Name as $container
+    | .Services[]
+    |
+      {
+        "valid": true,
+        "uid": .FQDN,
+        "title": .Name,
+        "subtitle": .FQDN,
+        "arg": ("https://" + .FQDN),
+        "autocomplete": (.Name + " " + $container)
+      }
+  ' >> /tmp/alfred-pipe &
 
 $dev sv status \
   | grep shopify \

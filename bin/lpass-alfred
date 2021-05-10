@@ -2,7 +2,7 @@
 
 set -ou pipefail
 
-source "$HOME/.zshenv"
+export PATH="/usr/local/bin:/bin:/usr/sbin:/sbin:/usr/bin"
 source "$HOME/.envrc"
 export LPASS_LOG_LEVEL=8
 format='{
