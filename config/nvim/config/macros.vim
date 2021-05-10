@@ -17,8 +17,8 @@ imap <F6> <ESC>:setlocal spell! spelllang=fr<cr>
 " can't be bothered to understand <c-c>, replace with esc
 imap <c-c> <esc>
 map <c-c> <esc>
-map [g :Gstatus<cr>
-map ]g :Gstatus<cr>q
+map [g :Git<cr>gg<c-n>
+map ]g :Git<cr>q
 map [0 :GundoShow<cr>
 map ]0 :GundoHide<cr>
 map [h :highlight ExtraWhitespace ctermbg=darkred guibg=#382424<cr>
@@ -190,7 +190,7 @@ map <leader>ggt :GitGutterToggle<cr>
 map <leader>glg :Git lg -20<cr>
 map <leader>gp :let @a=fugitive#head()<cr>:Git push origin <c-r>a
 map <leader>gri :Git rebase -i<space>
-map <leader>gs :Gstatus<cr>gg<c-n>
+map <leader>gs :Git<cr>gg<c-n>
 map <leader>gsta :Git stash
 map <leader>gstp :Git stash pop
 map <leader>gwip :Git commit -a -m 'Wip'<cr>
