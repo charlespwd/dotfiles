@@ -399,6 +399,9 @@ if exists('g:started_by_firenvim')
         \    'codepen\.io': {
         \      'takeover': 'never',
         \    },
+        \    'messenger\.com': {
+        \      'takeover': 'never',
+        \    },
         \  },
         \}
   au BufEnter github.com_*.txt set filetype=markdown
