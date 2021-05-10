@@ -65,6 +65,7 @@ call plug#begin($HOME . '/.config/nvim/plugged')
   Plug 'charlespwd/vim-node'
   Plug 'heavenshell/vim-jsdoc', { 'for': ['javascript', 'typescript'] }
   Plug 'mogelbrod/vim-jsonpath', { 'for': ['json'] }
+  Plug 'jparise/vim-graphql', { 'for': ['graphql'] }
 
   " Javascript syntax
   Plug 'pangloss/vim-javascript'
@@ -76,7 +77,7 @@ call plug#begin($HOME . '/.config/nvim/plugged')
   " ruby
   " Plug 'tpope/vim-rails', { 'for': ['ruby'] }
   Plug 'vim-ruby/vim-ruby', { 'for': ['ruby'] }
-  Plug 'tpope/vim-endwise', { 'for': ['ruby'] }
+  Plug 'Shopify/vim-sorbet'
   Plug 'nelstrom/vim-textobj-rubyblock', { 'for': ['ruby'] }
   Plug 'pechorin/any-jump.vim'
 
@@ -104,7 +105,9 @@ call plug#begin($HOME . '/.config/nvim/plugged')
   Plug 'jvirtanen/vim-octave'
 
   " misc
+  Plug 'vim-scripts/applescript.vim'
   Plug 'arzg/vim-sh'
+  Plug 'tpope/vim-endwise'
   Plug 'nathanaelkane/vim-indent-guides'
   Plug 'morhetz/gruvbox'
   " Plug 'altercation/vim-colors-solarized'
