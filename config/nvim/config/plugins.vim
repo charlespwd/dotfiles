@@ -26,7 +26,7 @@ call plug#begin($HOME . '/.config/nvim/plugged')
       " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
       " Plug 'deoplete-plugins/deoplete-dictionary'
 
-      Plug 'neoclide/coc.nvim', {'branch': 'release'}
+      Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': $HOME . '/.config/nvim/coc-postinstall'}
     endif
   endif
 
@@ -127,7 +127,7 @@ call plug#begin($HOME . '/.config/nvim/plugged')
   Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
 
   " python
-  Plug 'ambv/black', { 'for': ['python'] }
+  " Plug 'ambv/black', { 'for': ['python'] }
 
   " R
   Plug 'jalvesaq/Nvim-R', { 'for': ['r'] }

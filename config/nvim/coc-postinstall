@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+# Install graphql language server
+yarn global add graphql-language-service-cli
