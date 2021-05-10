@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+set -eou pipefail
+
+usage() {
+  cat <<- EOD
+
+  Usage: $(basename $0) [branch]
+
+  This script does something...
+
+EOD
+}
+
+if [[ $# -lt 0 ]]; then
+  usage
+  exit 1
+fi
+
+basebranch="${1:-"origin/master"}"
+currbranch=`git rev-parse --abbrev-ref HEAD`
+"$BIN/fetchupstream"
+git checkout "$currbranch"
+git rebase -i "$basebranch"
