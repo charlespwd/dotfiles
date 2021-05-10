@@ -4,6 +4,21 @@ has_branch() {
   git branch | grep -q $1
 }
 
+run() {
+  echo "$@" 1>&2
+  "$@"
+}
+
+get_branch() {
+  if has_branch "develop"; then
+    echo -n "develop"
+  elif has_branch "main"; then
+    echo -n "main"
+  else
+    echo -n "master"
+  fi
+}
+
 if [[ $1 != '-n' ]] && [[ $1 != '' ]]; then
   echo "Usage: fetchupstream [-n]"
   exit 1
@@ -18,18 +33,14 @@ fi
 
 upstream=$(git remote | grep upstream | head -n 1)
 remote="${upstream:-origin}"
-branch="$(
-has_branch "develop" && echo "develop" \
-  || has_branch "main" && echo "main" \
-  || echo "master"
-)"
+branch="$(get_branch)"
 
 set -e
 
-git checkout $branch
-git fetch $remote
-git fetch --tags $remote
-git reset --hard $remote/$branch
+run git checkout "$branch"
+run git fetch "$remote" || true
+run git reset --hard "$remote/$branch"
+run git fetch --tags "$remote"
 if [[ $remote != 'origin' ]]; then
-  git push -f origin $branch
+  run git push -f origin $branch
 fi;
