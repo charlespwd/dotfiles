@@ -46,18 +46,18 @@ function play {
   if [[ $os = 'linux' ]]; then
     dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Play &
     disown
-  else
+  # else
     # if should_play; then
     #   spotify_playpause
     # fi
-    blueutil --power 1
-    echo blueutil --power 1: status $? >> /tmp/sleepwatcher.log
-    echo wake + bt on >> /tmp/sleepwatcher.log
-    sleep 2
-    # try to reconnect to headphones
-    if ! is_headphone_connected; then
-      connect_headphones
-    fi
+    # blueutil --power 1
+    # echo blueutil --power 1: status $? >> /tmp/sleepwatcher.log
+    # echo wake + bt on >> /tmp/sleepwatcher.log
+    # sleep 2
+    # # try to reconnect to headphones
+    # if ! is_headphone_connected; then
+    #   connect_headphones
+    # fi
   fi
 }
 
@@ -69,10 +69,10 @@ function pause {
     if should_pause; then
       spotify_playpause
     fi
-    # turn off bluetooth
-    blueutil --power 0 2>&1 >> /tmp/sleepwatcher.log
-    echo blueutil --power 0: status $? >> /tmp/sleepwatcher.log
-    echo sleep + bt off >> /tmp/sleepwatcher.log
+    # # turn off bluetooth
+    # blueutil --power 0 2>&1 >> /tmp/sleepwatcher.log
+    # echo blueutil --power 0: status $? >> /tmp/sleepwatcher.log
+    # echo sleep + bt off >> /tmp/sleepwatcher.log
   fi
 }
 
