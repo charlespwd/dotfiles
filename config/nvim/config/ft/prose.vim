@@ -28,14 +28,17 @@ function! SetProseOptions()
     " deal with it
   endtry
 
-  vmap <leader>K "ic[<c-r>i](<c-r>i)
-  vmap <leader>T "ic([#<c-r>i](https://github.com/shopify/theme-check/issues/<c-r>i))
-  nmap <leader>T "iciw([#<c-r>i](https://github.com/shopify/theme-check/issues/<c-r>i))
+  vmap <buffer> <leader>K "ic[<c-r>i](<c-r>i)
+  vmap <buffer> <leader>T "ic([#<c-r>i](https://github.com/shopify/theme-check/issues/<c-r>i))
+  nmap <buffer> <leader>T "iciw([#<c-r>i](https://github.com/shopify/theme-check/issues/<c-r>i))
   setlocal spell spelllang=en_us
   call textobj#quote#init()
 
-  map <silent> <leader>"c <Plug>ReplaceWithCurly
-  map <silent> <leader>"s <Plug>ReplaceWithStraight
+  map <buffer><silent> <leader>"c <Plug>ReplaceWithCurly
+  map <buffer><silent> <leader>"s <Plug>ReplaceWithStraight
+  map <buffer><silent> <leader>"s <Plug>ReplaceWithStraight
+  map <buffer><silent> <leader>toc :read !cat '%' <bar> $BIN/gh-md-toc -<cr>
+  vmap <buffer><silent> <leader>toc :!cat '%' <bar> $BIN/gh-md-toc -<cr>
 endfunction
 
 function! MarkdownFoldLevel(lnum)
