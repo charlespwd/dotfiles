@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+usage() {
+  cat <<- EOD
+
+  Usage: $(basename $0)
+
+  Fixes annoying macOS bug where sound crashes and stops working.
+
+EOD
+}
+
+if [[ $# -gt 0 ]]; then
+  usage
+  exit 1
+fi
+
+sudo killall coreaudiod
