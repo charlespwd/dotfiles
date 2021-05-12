@@ -190,8 +190,9 @@ alt - return : yabai -m window --toggle zoom-fullscreen
 # toggle window native fullscreen
 shift + alt - return : yabai -m window --toggle native-fullscreen
 
-# toggle window parent zoom
-alt - d : yabai -m window --toggle zoom-parent
+# focus other display
+cmd + ctrl - 1 : yabai -m display --focus 1
+cmd + ctrl - 2 : yabai -m display --focus 2
 
 # toggle window split type
 alt - e : yabai -m window --toggle split
