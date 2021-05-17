@@ -43,13 +43,13 @@ fi
 export GOPATH="$HOME/go"
 
 _path_append() {
-  if [[ -e "$1" ]] || [[ "$2" = '-f' ]]; then
+  if ! [[ $PATH == *"$1"* ]] && [[ -e "$1" || "$2" = '-f' ]]; then
     export PATH="$PATH:$1"
   fi
 }
 
 _path_prepend() {
-  if [[ -e "$1" ]] || [[ "$2" = '-f' ]]; then
+  if ! [[ $PATH == *"$1"* ]] && [[ -e "$1" || "$2" = '-f' ]]; then
     export PATH="$1:$PATH"
   fi
 }
