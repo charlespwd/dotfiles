@@ -142,8 +142,8 @@ main () {
 
   if [[ $SPIN ]]; then
     step "spin git config"
-    git config global user.email "cp.clermont@shopify.com"
-    git config global user.name "CP Clermont"
+    git config --global user.email "cp.clermont@shopify.com"
+    git config --global user.name "CP Clermont"
   fi
 
   install_nvim_dependencies
