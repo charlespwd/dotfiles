@@ -5,6 +5,11 @@
   "tsserver.log": "verbose",
   "tsserver.trace.server": "verbose",
   "tsserver.implicitProjectConfig.checkJs": true,
+  "snippets": {
+    "extends": {
+      "typescriptreact": ["typescript"]
+    }
+  },
   "languageserver": {
     "graphql": {
       "command": "graphql-lsp",

@@ -375,3 +375,4 @@ function! s:MoveFileAndRename(toabs)
 endfunction
 
 command! -nargs=1 -complete=file MoveFileAndRename :call s:MoveFileAndRename(<f-args>)
+command! FollowSymLink execute "file " . resolve(expand("%")) | edit

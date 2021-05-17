@@ -116,12 +116,15 @@ endfunction
 function! CoCLSPBindings()
 
   " <c-space> manual complete
-  inoremap <silent><expr> <c-space> coc#refresh()
+  inoremap <silent><expr> <c-space> pumvisible()
+        \? coc#_select_confirm()
+        \: coc#refresh()
 
   " (CoC) Make <CR> auto-select the first completion item and notify coc.nvim to
   " format on enter, <cr> could be remapped by other vim plugin
-  inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
-                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+  inoremap <silent><expr> <cr> pumvisible()
+        \? coc#_select_confirm()
+        \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
   " (CoC) GoTo code navigation.
   nmap <buffer> <c-]> <plug>(coc-definition)

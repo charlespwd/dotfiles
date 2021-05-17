@@ -206,9 +206,9 @@ let g:SuperTabDefaultCompletionType = '<c-n>'
 let g:SuperTabContextDefaultCompletionType = '<c-n>'
 
 " Ultisnips
-let g:UltiSnipsExpandTrigger="<c-space>"
-let g:UltiSnipsJumpForwardTrigger="<c-b>"
-let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+let g:coc_snippet_next="<c-b>"
+let g:coc_snippet_prev="<c-z>"
+imap <C-b> <Plug>(coc-snippets-expand-jump)
 let g:UltiSnipsSnippetsDir="~/.config/nvim/my-snippets"
 let g:UltiSnipsSnippetDirectories=["UltiSnips", "my-snippets"]
 
@@ -401,7 +401,7 @@ if exists('g:started_by_firenvim')
         \    'codepen\.io': {
         \      'takeover': 'never',
         \    },
-        \    'messenger\.com': {
+        \    '(messenger|excalidraw)\.com': {
         \      'takeover': 'never',
         \    },
         \  },
