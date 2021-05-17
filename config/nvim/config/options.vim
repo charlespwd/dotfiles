@@ -18,6 +18,7 @@ endtry
 " OS specific configurations
 if g:os == "Darwin"
   let g:EditorConfig_exec_path = '/usr/local/bin/editorconfig'
+  let g:EditorConfig_core_mode = 'external_command'
   " let g:python_host_prog = '/usr/bin/python2'
   let g:python3_host_prog = '/usr/local/bin/python3'
   let g:netrw_browsex_viewer = '/usr/bin/open'
@@ -34,6 +35,7 @@ if g:os == "Darwin"
 elseif g:os == "Linux"
   " let g:EditorConfig_exec_path = '/usr/bin/editorconfig'
   let g:EditorConfig_exec_path = '~/.local/bin/editorconfig'
+  let g:EditorConfig_core_mode = 'external_command'
   let g:python_host_prog = '/usr/bin/python2'
   let g:python3_host_prog = '/usr/bin/python3'
 
@@ -276,8 +278,8 @@ let g:surround_{char2nr('P')} = "{\n\t\r\n}"
 let g:surround_{char2nr('S')} = "[\n\t\r\n]"
 
 " editorconfig
-let g:EditorConfig_core_mode = 'vim_core'
 let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'term://.*']
+let g:EditorConfig_verbose = 1
 
 " vim-jsx
 let g:jsx_ext_required = 0
