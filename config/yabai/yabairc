@@ -36,6 +36,7 @@ yabai -m rule --add app="Omnifocus" manage=off
 yabai -m rule --add app="Omnifocus 2" manage=off
 yabai -m rule --add app="AppBundle" manage=off
 yabai -m rule --add app="Civ" manage=off
+yabai -m rule --add app="OBS" manage=off
 yabai -m rule --add app="Civilization" manage=off
 yabai -m rule --add app="^Alfred Preferences$" manage=off grid=5:4:1:1:2:3
 yabai -m rule --add app="^Civ6" manage=off

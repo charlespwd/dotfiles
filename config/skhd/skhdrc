@@ -222,6 +222,9 @@ alt - p : open /Users/charles/bin/notification-close.app
 # alt - ;
 alt - 0x29 : open /Users/charles/bin/notification-accept.app
 
+# alt - / : start/stop obs virtual camera
+alt - 0x21 : open /Users/charles/bin/toggle-virtual-cam.app
+
 # float next window to be tiled
 # shift + alt - t : chunkc set window_float_next 1
 
