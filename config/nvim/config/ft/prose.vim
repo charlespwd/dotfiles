@@ -39,6 +39,13 @@ function! SetProseOptions()
   map <buffer><silent> <leader>"s <Plug>ReplaceWithStraight
   map <buffer><silent> <leader>toc :read !cat '%' <bar> $BIN/gh-md-toc -<cr>
   vmap <buffer><silent> <leader>toc :!cat '%' <bar> $BIN/gh-md-toc -<cr>
+
+  map <buffer> <leader>1 I#<space>
+  map <buffer> <leader>2 I##<space>
+  map <buffer> <leader>3 I###<space>
+  map <buffer> <leader>4 I####<space>
+  map <buffer> <leader>5 I#####<space>
+  map <buffer> <leader>6 I######<space>
 endfunction
 
 function! MarkdownFoldLevel(lnum)
