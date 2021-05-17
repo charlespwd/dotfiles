@@ -2,3 +2,4 @@
 
 # Install graphql language server
 yarn global add graphql-language-service-cli
+yarn global add graphql
