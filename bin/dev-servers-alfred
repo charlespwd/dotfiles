@@ -21,7 +21,21 @@ fi
 # some parallelism
 mkfifo /tmp/alfred-pipe
 
-spin list -o json \
+servers=/tmp/servers.json
+spin list -o json > $servers
+
+services=$(
+  cat $servers \
+    | jq '
+      .[]
+      | .Name as $container
+      | .Services[]
+      | .Name
+    ' \
+    | sort -u
+)
+
+cat $servers \
   | jq '
     .[]
     | .Name as $container
