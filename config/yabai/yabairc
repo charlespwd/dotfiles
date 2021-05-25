@@ -11,6 +11,13 @@ yabai -m config left_padding   80
 yabai -m config right_padding  80
 yabai -m config window_gap     20
 
+# No padding on iPad
+yabai -m config --space 11 top_padding    0
+yabai -m config --space 11 bottom_padding 0
+yabai -m config --space 11 left_padding   0
+yabai -m config --space 11 right_padding  0
+yabai -m config --space 11 window_gap     0
+
 # No borders
 # yabai -m config top_padding    0
 # yabai -m config bottom_padding 0
@@ -44,3 +51,4 @@ yabai -m rule --add app="^Monosnap$" manage=off
 yabai -m rule --add app="^Steam" manage=off
 yabai -m rule --add app="^System Preferences$" manage=off
 yabai -m rule --add app="^steam" manage=off
+
