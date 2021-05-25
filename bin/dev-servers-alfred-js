@@ -1,0 +1,59 @@
+#!/usr/local/bin/node
+
+const promisify = require('util').promisify;
+const exec = promisify(require('child_process').exec);
+
+const cache = new Map();
+
+async function getServiceUrls(service, container) {
+  const { stdout } = await exec(
+    `/usr/local/bin/yq .open ${process.env.HOME}/src/github.com/Shopify/${service.Name}/dev.yml`,
+  );
+  const urls = JSON.parse(stdout);
+  return Object.entries(urls)
+    .map(([key, url]) => [key, url.replace(/myshopify.io/, service.FQDN)])
+    .map(([key, url]) => ({
+      valid: true,
+      uid: url,
+      title: key + ' ' + service.Name + ' ' + container.Name,
+      subtitle: url,
+      arg: url,
+      autocomplete: key + ' ' + service.Name + ' ' + container.Name,
+    }));
+}
+
+async function getSpinUrls() {
+  const { stdout } = await exec('/usr/local/bin/spin list -o json');
+  const output = JSON.parse(stdout);
+  const promises = output.flatMap(container =>
+    Object.values(container.Services).map(service => getServiceUrls(service, container)),
+  );
+  return Promise.all(promises).then(values => values.flatMap(x => x));
+}
+
+async function getDevUrls() {
+  return [];
+}
+
+async function run() {
+  const [spinUrls, devUrls] = await Promise.all([getSpinUrls(), getDevUrls()]);
+
+  console.log(
+    JSON.stringify({
+      items: [...spinUrls, ...devUrls],
+    }),
+  );
+}
+
+async function main() {
+  let statusCode = 0;
+  try {
+    await run();
+  } catch (e) {
+    console.log(e);
+    statusCode = 1;
+  }
+  process.exit(statusCode);
+}
+
+main();
