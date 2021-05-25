@@ -77,6 +77,11 @@ start_server() {
   fi
 }
 
+start_spin() {
+  name="start/spin/$1"
+  create_and_start "$name" "$BIN/spinssh -t $1"
+}
+
 start_simplified() {
   root="$HOME/ws/simplified/simplified.dev"
   name="start/simplified"
@@ -125,6 +130,9 @@ run() {
       ;;
     server|se*)
       start_server "$@"
+      ;;
+    spin)
+      start_spin "$@"
       ;;
     simplified|si*)
       start_simplified
