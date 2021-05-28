@@ -10,7 +10,9 @@ run() {
 }
 
 get_branch() {
-  if has_branch "develop"; then
+  if [[ -n $1 ]]; then
+    echo -n $1
+  elif has_branch "develop"; then
     echo -n "develop"
   elif has_branch "main"; then
     echo -n "main"
@@ -19,8 +21,8 @@ get_branch() {
   fi
 }
 
-if [[ $1 != '-n' ]] && [[ $1 != '' ]]; then
-  echo "Usage: fetchupstream [-n]"
+if [[ $1 = '-h' ]] || [[ $1 = '--help' ]]; then
+  echo "Usage: fetchupstream [-n] [basebranch]"
   exit 1
 fi
 
@@ -33,14 +35,14 @@ fi
 
 upstream=$(git remote | grep upstream | head -n 1)
 remote="${upstream:-origin}"
-branch="$(get_branch)"
+branch="$(get_branch $1)"
 
 set -e
 
 run git checkout "$branch"
 run git fetch "$remote" || true
 run git reset --hard "$remote/$branch"
-run git fetch --tags "$remote"
+run git fetch --tags "$remote" || true
 if [[ $remote != 'origin' ]]; then
   run git push -f origin $branch
 fi;
