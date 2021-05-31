@@ -26,6 +26,7 @@ call plug#begin($HOME . '/.config/nvim/plugged')
       " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
       " Plug 'deoplete-plugins/deoplete-dictionary'
 
+      " $HOME/.config/nvim/coc-postinstall
       Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': $HOME . '/.config/nvim/coc-postinstall'}
     endif
   endif

@@ -43,4 +43,7 @@ serviceId="${1:-"$(spin list -o json | jq -r '.[0].PrimaryService')"}"
 containerId="${2:-"$(spin list -o json | jq -r '.[0].Name')"}"
 
 is_in_session && tmux rename-window "spin#$serviceId"
-mosh "$serviceId.$containerId.$SPIN_USERNAME.us.spin.dev" --ssh="ssh -R 2224:localhost:2224 -t" $tmux
+# mosh "$serviceId.$containerId.$SPIN_USERNAME.us.spin.dev" --ssh="ssh -R 2224:localhost:2224 -t" $tmux
+ssh "$serviceId.$containerId.$SPIN_USERNAME.us.spin.dev" \
+  -R 2224:localhost:2224 \
+  $([[ -n $tmux ]] && echo -t $tmux)

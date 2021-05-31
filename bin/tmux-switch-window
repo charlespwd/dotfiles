@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 
 selection="$(
-  tmux list-windows -a -F "#{session_name}:#{window_name}" 2>/dev/null \
-    | nl -w1 -s'|' \
+  tmux list-windows -a -F "#{session_id}.#{window_index}|#{session_name}:#{window_name}" 2>/dev/null \
     | fzf-tmux -u 20% -- --layout=reverse --info=hidden \
     | cut -d '|' -f2
 )"

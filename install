@@ -100,7 +100,7 @@ install_nvim_dependencies() {
   if ! ls -A "$HOME/.config/nvim/plugged" &> /dev/null; then
     step "Installing nvim dependencies"
     echo 'PlugInstall | qa!' | nvim -n -u $HOME/.config/nvim/config/plugins.vim -es
-    nvim -c 'CocInstall -sync coc-json coc-tsserver coc-solargraph coc-snippets | qa!'
+    nvim -c 'CocInstall -sync coc-json coc-tsserver coc-solargraph coc-snippets coc-emoji | qa!'
   fi
 }
 

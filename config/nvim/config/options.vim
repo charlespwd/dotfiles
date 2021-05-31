@@ -404,6 +404,9 @@ if exists('g:started_by_firenvim')
         \    '(messenger|excalidraw)\.com': {
         \      'takeover': 'never',
         \    },
+        \    '\/graphql': {
+        \      'takeover': 'never',
+        \    },
         \  },
         \}
   au BufEnter github.com_*.txt set filetype=markdown
