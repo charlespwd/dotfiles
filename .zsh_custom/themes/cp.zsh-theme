@@ -1,11 +1,17 @@
 # AVIT ZSH Theme
 
-PROMPT='$(_timestamp)$(_current_dir) $(_git_prompt_info)$(_jobscount)\$ '
+PROMPT='$(_fqdn)$(_timestamp)$(_current_dir) $(_git_prompt_info)$(_jobscount)\$ '
 
 PROMPT2='%{$fg[$CARETCOLOR]%}◀%{$reset_color%} '
 
 RPROMPT=''
 # fg_bold='^[[01;36m'
+
+_fqdn() {
+  if [[ -n $SPIN_WORKSPACE ]]; then
+    echo -n "[%{${fg[green]}%}${SPIN_WORKSPACE}%{$reset_color%}]"
+  fi
+}
 
 _jobscount() {
   local stopped=$(jobs -sp | wc -l | xargs)
