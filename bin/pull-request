@@ -69,11 +69,11 @@ if [[ $reply = 'y' ]]; then
   if ! [[ $labels = '' ]]; then
     echo $labels
     echo $basebranch
-    hub pull-request --base="$basebranch" --head="$curuser:$curbranch" --labels="$labels" $draft
+    gh pr create --base="$basebranch" --head="$curuser:$curbranch" --labels="$labels" $draft
   else
     echo $basebranch
-    echo hub pull-request --base="$basebranch" --head="$curuser:$curbranch" $draft
-    hub pull-request --base="$basebranch" --head="$curuser:$curbranch" $draft
+    echo gh pr create --base="$basebranch" --head="$curuser:$curbranch" $draft
+    gh pr create --base="$basebranch" --head="$curuser:$curbranch" $draft
   fi
   exit 0
 fi
