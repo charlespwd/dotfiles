@@ -5,10 +5,8 @@
   "tsserver.log": "verbose",
   "tsserver.trace.server": "verbose",
   "tsserver.implicitProjectConfig.checkJs": true,
-  "snippets": {
-    "extends": {
-      "typescriptreact": ["typescript"]
-    }
+  "snippets.extends": {
+    "typescriptreact": ["typescript"]
   },
   "languageserver": {
     "graphql": {
@@ -16,5 +14,9 @@
       "args": ["server", "-m", "stream"],
       "filetypes": ["graphql"]
     }
-  }
+  },
+  "coc.source.emoji.filetypes": [
+    "markdown",
+    "vimwiki"
+  ]
 }
