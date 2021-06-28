@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+
+usage() {
+cat <<-EOD
+
+  Usage: $0 <mp4> [fps] [width]
+
+  Converts a mp4 to gif with given FPS and width
+EOD
+}
+
+if [[ $1 = '-h' ]] || [[ $# -lt 1 ]]; then
+  usage
+  exit 1
+fi
+
+input="$(basename "$1" .mp4 )"
+framerate="${2:-12}"
+delay="$(node -e "console.log(Math.round(100 / $framerate))")"
+width="${3:-512}"
+
+echo $framerate $delay
+
+# ffmpeg \
+#   -i "$input.mp4" \
+#   -r $framerate \
+#   -vf "scale=$width:-1" \
+#   -f image2pipe \
+#   -vcodec ppm \
+#   - | convert -delay $delay -loop 0 - "$input.gif"
+# ffmpeg \
+#   -i "$input.mp4" \
+#   -r $framerate \
+#   -vf "scale=$width:-1" \
+#   "$input-direct.gif"
+
+## gifski
+ffmpeg -i $input.mp4 -vf "fps=$framerate" frame%04d.png
+# gifski --width $width -o $input.gif --fps="$framerate" frame*.png --repeat 0
+
+gifsicle \
+  --output $input-$framerate-$width.gif \
+  --loopcount 0 \
+  --optimize \
+  --resize-width $width \
+  --delay $delay \
+  frame*.png
+
+rm frame*.png
