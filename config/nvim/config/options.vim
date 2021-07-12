@@ -407,6 +407,9 @@ if exists('g:started_by_firenvim')
         \    '\/graphql': {
         \      'takeover': 'never',
         \    },
+        \    'github\.com.*settings/secrets': {
+        \      'takeover': 'never',
+        \    },
         \  },
         \}
   au BufEnter github.com_*.txt set filetype=markdown

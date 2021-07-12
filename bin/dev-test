@@ -1,3 +1,5 @@
 #!/bin/bash
 
-bundle exec rake tests:in_memory
+set -eou pipefail
+
+bundle exec rake tests:in_memory | unhilite

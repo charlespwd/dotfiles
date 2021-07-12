@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+cur="$(pwd)"
+dev="/opt/dev/bin/dev"
+cd "$($dev project-path theme-check)"
+"$dev" check "$cur" "$@"

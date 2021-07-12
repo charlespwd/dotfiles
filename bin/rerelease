@@ -1,0 +1,4 @@
+#!/bin/bash
+
+$BIN/git-delete-tag $1
+$BIN/release $1
