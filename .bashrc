@@ -19,3 +19,5 @@ source "$HOME/.bash_profile";
 
 ### aliases
 source "$HOME/.zsh_custom/aliases.zsh";
+
+[[ -f /opt/dev/sh/chruby/chruby.sh ]] && type chruby >/dev/null 2>&1 || chruby () { source /opt/dev/sh/chruby/chruby.sh; chruby "$@"; }

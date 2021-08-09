@@ -219,3 +219,5 @@ compdef _complete_start_all start-all
 if command -v gh &>/dev/null; then
   eval $(gh completion --shell $(basename $SHELL))
 fi
+
+[[ -f /opt/dev/sh/chruby/chruby.sh ]] && type chruby >/dev/null 2>&1 || chruby () { source /opt/dev/sh/chruby/chruby.sh; chruby "$@"; }
