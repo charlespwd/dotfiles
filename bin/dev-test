@@ -1,5 +1,17 @@
 #!/bin/bash
 
-set -eou pipefail
+# set -eou pipefail
 
-bundle exec rake tests:in_memory | unhilite
+_dev_test() {
+  out="/tmp/dev-test-fifo-out"
+  err="/tmp/dev-test-fifo-err"
+  bundle exec rake tests:in_memory \
+    1> "$out" \
+    2> "$err"
+  exit_code="$?"
+  cat "$out" | unhilite
+  cat "$err" | unhilite
+  return $exit_code
+}
+
+_dev_test
