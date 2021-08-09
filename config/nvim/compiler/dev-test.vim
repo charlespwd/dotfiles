@@ -13,6 +13,8 @@ CompilerSet errorformat+=%-G\  " remove lines with space
 CompilerSet errorformat+=%-W%.%#run\ options%.%#
 " # Running:
 CompilerSet errorformat+=%-W#\ Running:
+" warning: setting Encoding.default_external
+CompilerSet errorformat+=%-G%.%#warning:\ setting\ Encoding%.%#
 
 " Running via Spring preloader in process 76016
 " running spring after_fork
