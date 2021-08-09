@@ -9,6 +9,11 @@
     "typescriptreact": ["typescript"]
   },
   "languageserver": {
+    "theme-check": {
+      "command": "shopify",
+      "args": ["theme", "language-server"],
+      "filetypes": ["liquid", "json", "liquid.html"]
+    },
     "graphql": {
       "command": "graphql-lsp",
       "args": ["server", "-m", "stream"],
