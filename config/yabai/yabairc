@@ -5,11 +5,11 @@ sudo yabai --load-sa
 yabai -m config layout bsp
 
 # Set all padding and gaps to 20pt (default: 0)
-yabai -m config top_padding    15
-yabai -m config bottom_padding 15
-yabai -m config left_padding   30
-yabai -m config right_padding  30
-yabai -m config window_gap     15
+yabai -m config top_padding    20
+yabai -m config bottom_padding 40
+yabai -m config left_padding   40
+yabai -m config right_padding  40
+yabai -m config window_gap     20
 
 # No padding on iPad
 yabai -m config --space 11 top_padding    0
