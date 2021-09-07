@@ -36,14 +36,14 @@ echo $framerate $delay
 
 ## gifski
 ffmpeg -i $input.mp4 -vf "fps=$framerate" frame%04d.png
-# gifski --width $width -o $input.gif --fps="$framerate" frame*.png --repeat 0
+gifski --width $width -o $input.gif --fps="$framerate" frame*.png --repeat 0
 
-gifsicle \
-  --output $input-$framerate-$width.gif \
-  --loopcount 0 \
-  --optimize \
-  --resize-width $width \
-  --delay $delay \
-  frame*.png
+# gifsicle \
+#   --output $input-$framerate-$width.gif \
+#   --loopcount 0 \
+#   --optimize \
+#   --resize-width $width \
+#   --delay $delay \
+#   frame*.png
 
 rm frame*.png

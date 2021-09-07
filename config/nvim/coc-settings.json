@@ -5,13 +5,13 @@
   "tsserver.log": "verbose",
   "tsserver.trace.server": "verbose",
   "tsserver.implicitProjectConfig.checkJs": true,
+  "solargraph.bundlerPath": "/opt/rubies/2.6.6/bin/bundle",
   "snippets.extends": {
     "typescriptreact": ["typescript"]
   },
   "languageserver": {
     "theme-check": {
-      "command": "shopify",
-      "args": ["theme", "language-server"],
+      "command": "/Users/charles/bin/theme-check-language-server",
       "filetypes": ["liquid", "json", "liquid.html"]
     },
     "graphql": {
