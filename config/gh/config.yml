@@ -10,4 +10,5 @@ pager:
 aliases:
     co: pr checkout
     issues: '!gh issue list | gsed -e ''s/\s\{2,\}+\|\t\+/#/g'' | cut -d''#'' -f1,3 | column -t -s ''#'''
+    bugs: '!gh issue list -l bug | gsed -e ''s/\s\{2,\}+\|\t\+/#/g'' | cut -d''#'' -f1,3 | column -t -s ''#'''
     grab: issue edit --add-assignee @me

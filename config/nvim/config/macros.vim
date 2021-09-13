@@ -102,7 +102,7 @@ call SetupCommandAlias('NSH', 'NeomakeSh')
 call SetupCommandAlias('R!', 'Redir !%')
 call SetupCommandAlias('T', 'Tabularize')
 call SetupCommandAlias('ZOFF', 'Goyo!')
-call SetupCommandAlias('ZON', 'Goyo 70x100%')
+call SetupCommandAlias('ZON', 'Goyo 85x100%')
 call SetupCommandAlias('at', 'AirlineTheme')
 call SetupCommandAlias('eods', 'w !send-summary')
 call SetupCommandAlias('eodsy', 'w !send-summary 1')
@@ -173,7 +173,7 @@ map <leader>b :Buffers<cr>
 map <leader>c :Commands<cr>
 map <leader>dd !!today<cr>I#<space><esc>o
 map <leader>extract ?function<cr>vf{%"fdiplaceholder<esc><cr><cr>"fpf(i<space>placeholder<esc>*
-map <leader>f :Files<cr>
+map <leader>f :Files .<cr>
 map <leader>g<space> :Git<space>
 map <leader>ga <c-l>:Gwrite<cr>
 map <leader>gawip :Git commit --amend -a --reuse-message=HEAD<cr>

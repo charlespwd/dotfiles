@@ -5,7 +5,7 @@ autocmd FileType vimwiki call SetVimwikiOptions()
 autocmd BufReadPost,FileReadPost *.wiki call SetProseOptions()
 
 function! SetVimwikiOptions()
-  nmap <buffer> <leader>f :Files ~/Documents/wiki<cr>
+  nmap <buffer> <leader>F :Files ~/Documents/wiki<cr>
   nmap <buffer> <leader>s :VWS<space>
 endfunction
 

@@ -56,7 +56,7 @@ _path_prepend() {
 
 # base path
 if [[ "$OS" = "Darwin" ]]; then
-  export PATH="/opt/local/bin:/opt/local/sbin:$HOME/bin:$HOME/npm/bin:/usr/local/bin:/bin:/usr/sbin:/sbin:/usr/bin:/usr/texbin"
+  export PATH="/opt/local/bin:/opt/local/sbin:$HOME/npm/bin:/usr/local/bin:/bin:/usr/sbin:/sbin:/usr/bin:/usr/texbin"
 elif [[ "$SPIN" ]]; then
   export PATH="$PATH"
 elif [[ "$OS" = "Linux" ]]; then
