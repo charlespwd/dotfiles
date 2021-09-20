@@ -31,6 +31,7 @@ function! SetProseOptions()
   vmap <buffer> <leader>K "ic[<c-r>i](<c-r>i)
   vmap <buffer> <leader>T "ic([#<c-r>i](https://github.com/shopify/theme-check/issues/<c-r>i))
   nmap <buffer> <leader>T "iciw([#<c-r>i](https://github.com/shopify/theme-check/issues/<c-r>i))
+  nmap <buffer> <leader>I "iciw[#<c-r>i](https://github.com/shopify/theme-check/issues/<c-r>i)
   setlocal spell spelllang=en_us
   call textobj#quote#init()
 

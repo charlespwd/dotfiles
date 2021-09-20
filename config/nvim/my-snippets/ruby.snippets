@@ -85,3 +85,20 @@ module ThemeCheck
 	end
 end
 endsnippet
+
+snippet benchmark
+n = 10000
+Benchmark.bm do |benchmark|
+	benchmark.report("TEST1") do
+		n.times do
+			# TODO
+		end
+	end
+
+	benchmark.report("TEST2") do
+		n.times do
+			# TODO
+		end
+	end
+end
+endsnippet

@@ -1,4 +1,5 @@
 {
+  "diagnostic.displayByAle": true,
   "javascript.preferences.importModuleSpecifier": "non-relative",
   "javascript.validate.enable": false,
   "tsserver.enableJavascript": true,
@@ -18,6 +19,11 @@
       "command": "graphql-lsp",
       "args": ["server", "-m", "stream"],
       "filetypes": ["graphql"]
+    },
+    "sorbet": {
+      "command": "bundle",
+      "args": ["exec", "srb", "tc", "--lsp"],
+      "filetypes": ["ruby"]
     }
   },
   "coc.source.emoji.filetypes": [

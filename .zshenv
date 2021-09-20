@@ -99,7 +99,7 @@ _path_append "$HOME/.yarn/bin"
 _path_append "$HOME/.gem/ruby/2.5.7/bin"
 
 # ruby gems GEM_HOME
-_path_append "$HOME/gems/bin"
+_path_append "$GEM_HOME/bin"
 
 # python user bin
 _path_append "$HOME/.local/bin"
