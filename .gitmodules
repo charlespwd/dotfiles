@@ -1,0 +1,3 @@
+[submodule "config/obsidian/obsidian-vimrc-support"]
+	path = config/obsidian/obsidian-vimrc-support
+	url = https://github.com/esm7/obsidian-vimrc-support.git
