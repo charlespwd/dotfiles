@@ -6,7 +6,8 @@
   "tsserver.log": "verbose",
   "tsserver.trace.server": "verbose",
   "tsserver.implicitProjectConfig.checkJs": true,
-  "solargraph.bundlerPath": "/opt/rubies/2.6.6/bin/bundle",
+  "solargraph.transport": "external",
+  "solargraph.checkGemVersion": false,
   "snippets.extends": {
     "typescriptreact": ["typescript"]
   },

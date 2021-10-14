@@ -124,6 +124,10 @@ map <leader>2m :let @p=system('to-mp4-play-button-url ' . expand('<cfile>'))<cr>
 " MACROS
 " nmap <leader>== 70i=<esc>o<esc>
 " tmap <Esc> <C-\><C-n>
+map <leader>wf :e $HOME/Documents/wiki/fleeting/
+map <leader>wl :e $HOME/Documents/wiki/literature/
+map <leader>wp :e $HOME/Documents/wiki/permanent/
+map <leader>td :let @e=system('date +%Y-%m-%d')<cr>:e $HOME/Documents/wiki/fleeting/daily-note-<c-r>e.md<cr>
 map <leader>"" <Plug>ToggleTextObjQuotes
 map <leader># :let @+=join([expand('%'), line('.')], ':')<CR>
 map <leader>% :let @+=expand('%')<CR>
@@ -144,6 +148,7 @@ map <leader>.i :e ~/.config/i3/config<cr>
 map <leader>.j :e ~/thoughts/thoughts.md<cr>G
 map <leader>.l :e ~/.lein/profiles.clj<cr>
 map <leader>.m :e ~/dotfiles/.config/nvim/config/macros.vim<cr>/" MACROS<cr>:nohl<cr>
+map <leader>.O :e $HOME/Documents/wiki/.obsidian.vimrc<cr>
 map <leader>.o :e ~/dotfiles/.config/nvim/config/options.vim<cr>
 map <leader>.p :e ~/dotfiles/.config/nvim/config/plugins.vim<cr>
 map <leader>.s :e ~/.config/skhd/skhdrc<cr>

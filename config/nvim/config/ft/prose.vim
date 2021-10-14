@@ -12,7 +12,8 @@ endfunction
 function! SetProseOptions()
   let b:AutoPairsMapSpace = 0
   let b:delimitMate_expand_space = 0
-  let b:surround_{char2nr('k')} = "[\r]()"
+  let b:surround_{char2nr('K')} = "[\r]()"
+  let b:surround_{char2nr('k')} = "[[\r]]"
   let b:surround_{char2nr('~')} = "```\n\r\n```"
   let b:surround_{char2nr('B')} = "**\r**"
   " call deoplete#custom#buffer_option('auto_complete', v:false)

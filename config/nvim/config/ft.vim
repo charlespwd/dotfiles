@@ -168,7 +168,7 @@ function! s:show_documentation()
   endif
 endfunction
 
-autocmd FileType javascript,ruby,typescript,typescript.jsx call CoCLSPBindings()
+autocmd FileType javascript,ruby,typescript,typescript.jsx,vimwiki call CoCLSPBindings()
 autocmd CursorHold javascript,ruby,typescript,typescript.jsx silent call CocActionAsync('highlight')
 augroup CoCStuff
   autocmd!
