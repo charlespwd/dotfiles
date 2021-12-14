@@ -231,17 +231,6 @@ call s:OpenJsxStr('<SeatPickerPopover viewId={this.viewId} addToCart={this.addTo
 call s:OpenJsxStr('<SeatPickerPopover style={{ backgroundColor: 1 }} addToCart={this.addToCart} closePopover={this.onClosePopover}>')
 call s:OpenJsxStr('<iframe attr="some-key" />')
 
-function! Eod()
-  let monthregex='(January|February|March|April|May|June|July|August|September|October|November|December)'
-  let dayregex='\d{1,2}'
-  let yearregex='\d{4}'
-  let dateregex='\v' . monthregex . ' ' . dayregex . ', ' . yearregex
-  let today=system("/usr/bin/env node -e 'process.stdout.setEncoding(`utf8`);process.stdout.write(new Intl.DateTimeFormat(`en-CA`, { year: `numeric`, month: `long`, day: `numeric`, timezone: `America/New_York` }).format(new Date()))'")
-  edit ~/summary.md
-  execute '3s#'.dateregex.'#'.today.'#ge'
-endfunction
-command! -nargs=0 -complete=command Eod silent call Eod(<f-args>)
-
 function! s:FilterQuickfixList(bang, pattern)
   let cmp = a:bang ? '!~#' : '=~#'
   call setqflist(filter(getqflist(), "bufname(v:val['bufnr']) " . cmp . " a:pattern"))
@@ -278,26 +267,6 @@ function! Redir(cmd)
 endfunction
 
 command! -nargs=1 -complete=command Redir silent call Redir(<f-args>)
-
-function! Cycle()
-  let filename = expand('%')
-  let alternate = filename
-  if filename =~ 'aldoshoes'
-    let alternate = substitute(filename, 'aldoshoes', 'callitspring', '')
-    execute "edit ".alternate
-  elseif filename =~ 'callitspring'
-    let alternate = substitute(filename, 'callitspring', 'globoshoes', '')
-    execute "edit ".alternate
-  elseif filename =~ 'globoshoes'
-    let alternate = substitute(filename, 'globoshoes', 'common-mocha-configs', '')
-    execute "edit ".alternate
-  elseif filename =~ 'common-mocha-configs'
-    let alternate = substitute(filename, 'common-mocha-configs', 'aldoshoes', '')
-    execute "edit ".alternate
-  endif
-endfunction
-
-command! -nargs=0 -complete=command Cycle call Cycle(<f-args>)
 
 function! Mv(new_name)
   let filename = expand('%')

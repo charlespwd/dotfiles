@@ -151,6 +151,16 @@ function! CoCLSPBindings()
   " Formatting selected code.
   " xmap <leader>f  <Plug>(coc-format-selected)
   " nmap <leader>f  <Plug>(coc-format-selected)
+
+  " Applying codeAction to the selected region.
+  " Example: `<leader>aap` for current paragraph
+  xmap <leader>ca  <Plug>(coc-codeaction-selected)
+  nmap <leader>ca  <Plug>(coc-codeaction-selected)
+
+  " Remap keys for applying codeAction to the current buffer.
+  nmap <leader>caF  <Plug>(coc-codeaction)
+  " Apply AutoFix to problem on the current line.
+  nmap <leader>qf  <Plug>(coc-fix-current)
 endfunction
 
 function! s:check_back_space() abort
@@ -168,8 +178,8 @@ function! s:show_documentation()
   endif
 endfunction
 
-autocmd FileType javascript,ruby,typescript,typescript.jsx,vimwiki call CoCLSPBindings()
-autocmd CursorHold javascript,ruby,typescript,typescript.jsx silent call CocActionAsync('highlight')
+autocmd FileType javascript,ruby,typescript,typescript.jsx,vimwiki,liquid call CoCLSPBindings()
+autocmd CursorHold javascript,ruby,typescript,typescript.jsx,liquid silent call CocActionAsync('highlight')
 augroup CoCStuff
   autocmd!
   " Setup formatexpr specified filetype(s).

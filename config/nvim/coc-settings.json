@@ -6,7 +6,7 @@
   "tsserver.log": "verbose",
   "tsserver.trace.server": "verbose",
   "tsserver.implicitProjectConfig.checkJs": true,
-  "solargraph.transport": "external",
+  "solargraph.transport": "stdio",
   "solargraph.checkGemVersion": false,
   "snippets.extends": {
     "typescriptreact": ["typescript"]
@@ -14,17 +14,21 @@
   "languageserver": {
     "theme-check": {
       "command": "/Users/charles/bin/theme-check-language-server",
-      "filetypes": ["liquid", "json", "liquid.html"]
+      "trace.server": "verbose",
+      "filetypes": ["liquid", "liquid.html"],
+      "rootPatterns": [".theme-check.yml", "snippets/*"],
+      "settings": {
+        "themeCheck": {
+          "checkOnSave": true,
+          "checkOnEnter": true,
+          "checkOnChange": false
+        }
+      }
     },
     "graphql": {
       "command": "graphql-lsp",
       "args": ["server", "-m", "stream"],
       "filetypes": ["graphql"]
-    },
-    "sorbet": {
-      "command": "bundle",
-      "args": ["exec", "srb", "tc", "--lsp"],
-      "filetypes": ["ruby"]
     }
   },
   "coc.source.emoji.filetypes": [

@@ -75,7 +75,7 @@ ZSH_CUSTOM=~/.zsh_custom
 if [ "$OS" = "Linux" ]; then
   plugins=(git node vi-mode jump cp)
 elif [ "$OS" = "Darwin" ]; then
-  plugins=(git osx vagrant node npm rbenv rake rails vi-mode jump brew)
+  plugins=(git macos vagrant node npm rbenv rake rails vi-mode jump brew)
 fi
 
 # Load oh-my-zsh

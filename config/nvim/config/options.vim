@@ -352,6 +352,7 @@ let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 
 " split join
 let g:splitjoin_trailing_comma = 1
+let g:splitjoin_ruby_hanging_args = 0
 
 " nvim-r
 let R_assign_map = '<c-->'
@@ -408,6 +409,9 @@ if exists('g:started_by_firenvim')
         \      'takeover': 'never',
         \    },
         \    'github\.com.*settings/secrets': {
+        \      'takeover': 'never',
+        \    },
+        \    'slack\.com': {
         \      'takeover': 'never',
         \    },
         \  },

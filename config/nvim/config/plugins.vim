@@ -71,6 +71,7 @@ call plug#begin($HOME . '/.config/nvim/plugged')
   " Javascript syntax
   Plug 'pangloss/vim-javascript'
   Plug 'mxw/vim-jsx'
+  Plug 'evanleck/vim-svelte', { 'branch': 'main' }
 
   " typescript syntax
   Plug 'leafgarland/typescript-vim'
@@ -106,6 +107,7 @@ call plug#begin($HOME . '/.config/nvim/plugged')
   Plug 'jvirtanen/vim-octave'
 
   " misc
+  Plug 'nfischer/vim-ohm'
   Plug 'vim-scripts/applescript.vim'
   Plug 'arzg/vim-sh'
   Plug 'tpope/vim-endwise'

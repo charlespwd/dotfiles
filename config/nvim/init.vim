@@ -1,3 +1,5 @@
+let $NVIM_COC_LOG_LEVEL='trace'
+
 syntax enable
 filetype plugin indent on
 

@@ -6,7 +6,7 @@ export OS="$(uname -s)"
 
 # default browser
 if [[ "$OS" = "Darwin" ]]; then
-  export BROWSER="/Applications/Firefox.app/Contents/MacOS/firefox"
+  export BROWSER="/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome"
 else
   export BROWSER="chromium"
 fi
@@ -79,15 +79,15 @@ if [[ "$OS" = "Darwin" ]]; then
   export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
 fi
 
+# prefer node_module bin
+_path_prepend "node_modules/.bin" -f
+_path_prepend "../../node_modules/.bin" -f
+
 # prefer $HOME/bin
 _path_prepend "$HOME/bin" -f
 
 # add local bin
 _path_append "bin" -f
-
-# node scripts
-_path_append "node_modules/.bin" -f
-_path_append "../../node_modules/.bin" -f
 
 # global yarn scripts
 _path_append "$HOME/.config/yarn/global/node_modules/.bin"

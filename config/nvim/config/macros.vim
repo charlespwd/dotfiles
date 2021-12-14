@@ -124,10 +124,6 @@ map <leader>2m :let @p=system('to-mp4-play-button-url ' . expand('<cfile>'))<cr>
 " MACROS
 " nmap <leader>== 70i=<esc>o<esc>
 " tmap <Esc> <C-\><C-n>
-map <leader>wf :e $HOME/Documents/wiki/fleeting/
-map <leader>wl :e $HOME/Documents/wiki/literature/
-map <leader>wp :e $HOME/Documents/wiki/permanent/
-map <leader>td :let @e=system('date +%Y-%m-%d')<cr>:e $HOME/Documents/wiki/fleeting/daily-note-<c-r>e.md<cr>
 map <leader>"" <Plug>ToggleTextObjQuotes
 map <leader># :let @+=join([expand('%'), line('.')], ':')<CR>
 map <leader>% :let @+=expand('%')<CR>
@@ -135,6 +131,7 @@ map <leader>'' :vs term://zsh<cr>a
 map <leader>,. :lopen<cr>
 map <leader>,t :if exists('g:do_lint_js') && g:do_lint_js <bar> let g:do_lint_js=0 <bar> else <bar> let g:do_lint_js=1 <bar> endif <bar> echo g:do_lint_js<cr>
 map <leader>.. :Dispatch<cr>
+map <leader>.O :e $HOME/Documents/wiki/.obsidian.vimrc<cr>
 map <leader>.P :e ~/.config/polybar/config<cr>
 map <leader>.a :e ~/dotfiles/.zsh_custom/aliases.zsh<cr>Gzz
 map <leader>.c :e ~/.config/nvim/config/ft/clojure.vim<cr>
@@ -148,7 +145,6 @@ map <leader>.i :e ~/.config/i3/config<cr>
 map <leader>.j :e ~/thoughts/thoughts.md<cr>G
 map <leader>.l :e ~/.lein/profiles.clj<cr>
 map <leader>.m :e ~/dotfiles/.config/nvim/config/macros.vim<cr>/" MACROS<cr>:nohl<cr>
-map <leader>.O :e $HOME/Documents/wiki/.obsidian.vimrc<cr>
 map <leader>.o :e ~/dotfiles/.config/nvim/config/options.vim<cr>
 map <leader>.p :e ~/dotfiles/.config/nvim/config/plugins.vim<cr>
 map <leader>.s :e ~/.config/skhd/skhdrc<cr>
@@ -175,7 +171,6 @@ map <leader>aa :Grepper -tool rg<cr>
 map <leader>am :e ~/.vim/config/macros.vim<cr>gg/" MACROS<cr>zz:nohl<cr>o<esc>^S
 map <leader>aw :Grepper -tool rg -cword -noprompt<cr>
 map <leader>b :Buffers<cr>
-map <leader>c :Commands<cr>
 map <leader>dd !!today<cr>I#<space><esc>o
 map <leader>extract ?function<cr>vf{%"fdiplaceholder<esc><cr><cr>"fpf(i<space>placeholder<esc>*
 map <leader>f :Files .<cr>
@@ -240,11 +235,16 @@ map <leader>sv :source ~/.vimrc<cr>
 map <leader>sw :StripWhitespace<cr>
 map <leader>t- i- [ ]<space>
 map <leader>t/ :Tabularize<space>/
+map <leader>td :let @e=system('date +%Y-%m-%d')<cr>:e $HOME/Documents/wiki/fleeting/daily-note-<c-r>e.md<cr>
 map <leader>te <Plug>EditTmpFile()
 map <leader>tsp <Plug>SplitTmpFile()
 map <leader>tvs <Plug>VSplitEditTmpFile()
 map <leader>vs :vs <c-r>%<c-w><c-w>
 map <leader>wc :!$BIN/wordcount %<cr>
+map <leader>wf :e $HOME/Documents/wiki/fleeting/
+map <leader>wl :e $HOME/Documents/wiki/literature/
+map <leader>wp :e $HOME/Documents/wiki/permanent/
+map <leader>zl <c-w>j<c-w>L
 map <leader>zz z10<cr>
 map <silent> <leader>Q :bn<bar>bd #<cr>
 map <silent> <leader>q :call CloseBuffer()<cr>
