@@ -215,3 +215,6 @@ schemas
 templating
 AST
 reindenting
+TypeScript
+prettier
+e.g.

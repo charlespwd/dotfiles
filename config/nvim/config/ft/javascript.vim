@@ -23,6 +23,7 @@ function! SetTypescriptOptions()
   let b:ale_lint_on_insert_leave = 0
   " set ft=typescript.jsx
   map <buffer> <leader>,, :copen<cr>
+  map <buffer> <leader>,. :lopen<cr>:set wrap<cr>
 endfunction
 
 function! SetJavascriptOptions()
@@ -56,8 +57,10 @@ function! SetJavascriptOptions()
   map <buffer> <leader>:F ^cxewcxe^ea:<esc>f{=a}f{%a,<esc>
   " turn a require statement into an import statement
   map <buffer> <leader>imp cwimport<esc>f=dt(ifrom <esc>f(ds)
+  map <buffer> <leader>2i <leader>imp
   " turn an import statement into a require statement
   map <buffer> <leader>req cwconst<esc>wWcw=<esc>f'irequire(<esc>lxf;i)<esc>
+  map <buffer> <leader>2r <leader>req
   map <buffer> <leader>I :call ShoeboxImportUnderCursor()<cr>
   map <buffer> <leader>mv :MoveFileAndRename <c-r>=expand('%')<cr>
 endfunction

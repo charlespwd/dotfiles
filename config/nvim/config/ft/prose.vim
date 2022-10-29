@@ -1,12 +1,28 @@
 " Prose options
 let g:vim_markdown_new_list_item_indent = 0
 autocmd FileType markdown,tex,vimwiki call SetProseOptions()
-autocmd FileType vimwiki call SetVimwikiOptions()
 autocmd BufReadPost,FileReadPost *.wiki call SetProseOptions()
 
+autocmd BufReadPost g:vimwiki_list[0].path . '*.md' call SetVimwikiOptions()
+
 function! SetVimwikiOptions()
+  let paths = deepcopy(g:vimwiki_list)->map('g:vimwiki_list[v:key].path')
+  let isWiki = paths->filter('match(expand("%"), v:val) != -1 ')
   nmap <buffer> <leader>F :Files ~/Documents/wiki<cr>
+  map <buffer> <leader>f :Files <c-r>=g:vimwiki_list[0].path<cr><cr>
   nmap <buffer> <leader>s :VWS<space>
+  map <buffer> <leader>2g :!gh gist create '%'<cr>
+
+  " <c-space> manual complete
+  inoremap <silent><expr> <c-space> pumvisible()
+        \? coc#_select_confirm()
+        \: coc#refresh()
+
+  " (CoC) Make <CR> auto-select the first completion item and notify coc.nvim to
+  " format on enter, <cr> could be remapped by other vim plugin
+  inoremap <silent><expr> <cr> pumvisible()
+        \? coc#_select_confirm()
+        \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 endfunction
 
 function! SetProseOptions()
@@ -29,10 +45,11 @@ function! SetProseOptions()
     " deal with it
   endtry
 
-  vmap <buffer> <leader>K "ic[<c-r>i](<c-r>i)
-  vmap <buffer> <leader>T "ic([#<c-r>i](https://github.com/shopify/theme-check/issues/<c-r>i))
-  nmap <buffer> <leader>T "iciw([#<c-r>i](https://github.com/shopify/theme-check/issues/<c-r>i))
-  nmap <buffer> <leader>I "iciw[#<c-r>i](https://github.com/shopify/theme-check/issues/<c-r>i)
+  map <Plug>DirName() :let @d = system('echo -n $(basename $(dirname '.expand('%:p').'))')<cr>
+  vmap <buffer> <leader>K <Plug>DirName()"ic[<c-r>i](<c-r>i)
+  vmap <buffer> <leader>T <Plug>DirName()"ic([#<c-r>i](https://github.com/shopify/<c-r>d/issues/<c-r>i))
+  nmap <buffer> <leader>T <Plug>DirName()"iciw([#<c-r>i](https://github.com/shopify/<c-r>d/issues/<c-r>i))
+  nmap <buffer> <leader>I <Plug>DirName()"iciw[#<c-r>i](https://github.com/shopify/<c-r>d/issues/<c-r>i)
   setlocal spell spelllang=en_us
   call textobj#quote#init()
 

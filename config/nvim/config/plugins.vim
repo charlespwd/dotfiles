@@ -1,8 +1,10 @@
 let s:wiki_root = g:os == "Darwin" ? "~/Documents" : "~/documents"
-let g:vimwiki_list = [
- \ {'path': s:wiki_root . '/wiki/', 'ext': '.md', 'syntax': 'markdown'},
- \ {'path': s:wiki_root . '/simplified/', 'ext': '.md', 'syntax': 'markdown'}
- \ ]
+
+let wiki_1 = {'ext': '.md', 'syntax': 'markdown'}
+let wiki_1.path = s:wiki_root . '/shopify/'
+let wiki_1.diary_rel_path = 'notes/'
+
+let g:vimwiki_list = [wiki_1]
 let g:vimwiki_map_prefix = '<Leader>w'
 let g:vimwiki_folding = 'custom'
 let g:vimwiki_ext2syntax = {'.md': 'markdown', '.markdown': 'markdown', '.mdown': 'markdown'}
@@ -69,22 +71,22 @@ call plug#begin($HOME . '/.config/nvim/plugged')
   Plug 'jparise/vim-graphql', { 'for': ['graphql'] }
 
   " Javascript syntax
-  Plug 'pangloss/vim-javascript'
+  " Plug 'pangloss/vim-javascript'
   Plug 'mxw/vim-jsx'
   Plug 'evanleck/vim-svelte', { 'branch': 'main' }
 
   " typescript syntax
-  Plug 'leafgarland/typescript-vim'
+  Plug 'leafgarland/typescript-vim', { 'commit': 'ee61b9600e7aac7a72642caedc5948a5a20d8915' }
 
   " ruby
   " Plug 'tpope/vim-rails', { 'for': ['ruby'] }
   Plug 'vim-ruby/vim-ruby', { 'for': ['ruby'] }
-  Plug 'Shopify/vim-sorbet'
+  " Plug 'Shopify/vim-sorbet'
   Plug 'nelstrom/vim-textobj-rubyblock', { 'for': ['ruby'] }
   Plug 'pechorin/any-jump.vim'
 
   " Clojure
-  " " Plug 'venantius/vim-cljfmt', { 'for': 'clojure' }
+  " Plug 'venantius/vim-cljfmt', { 'for': 'clojure' }
   Plug 'christoph-frick/vim-fireplace', { 'for': 'clojure' }
   Plug 'guns/vim-clojure-highlight', { 'for': 'clojure' }
   Plug 'guns/vim-clojure-static', { 'for': 'clojure' }
@@ -161,6 +163,9 @@ call plug#begin($HOME . '/.config/nvim/plugged')
 
   " linting
   Plug 'w0rp/ale'
+
+  " coverage
+  Plug 'vim-scripts/loremipsum'
 call plug#end()
 
 let g:node#suffixesadd = ['.js', '.json', '.ts']

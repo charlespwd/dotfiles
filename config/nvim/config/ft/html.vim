@@ -10,3 +10,4 @@ function! SetHtmlOptions()
   map <buffer> <leader>B :!b build<cr>
   map <buffer> <leader>UI <Plug>ExpandHTML
 endfunction
+

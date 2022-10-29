@@ -213,52 +213,56 @@ let g:UltiSnipsSnippetsDir="~/.config/nvim/my-snippets"
 let g:UltiSnipsSnippetDirectories=["UltiSnips", "my-snippets"]
 
 " w0rp/ale
-function! SqlFormatter(buffer) abort
-    let l:executable = 'sql-formatter'
-    return {
-    \   'command': ale#Escape(l:executable)
-    \}
-endfunction
+" if exists("ale#linter#Define")
+  function! SqlFormatter(buffer) abort
+      let l:executable = 'sql-formatter'
+      return {
+      \   'command': ale#Escape(l:executable)
+      \}
+  endfunction
 
-function! ThemeCheckGetProjectRoot(buffer) abort
-  let l:project_root = ale#path#FindNearestFile(a:buffer, '.theme-check.yml')
-  return !empty(l:project_root) ? fnamemodify(l:project_root, ':h') : ''
-endfunction
+  function! ThemeCheckGetProjectRoot(buffer) abort
+    let l:project_root = ale#path#FindNearestFile(a:buffer, '.theme-check.yml')
+    return !empty(l:project_root) ? fnamemodify(l:project_root, ':h') : ''
+  endfunction
 
-call ale#linter#Define('liquid', {
-\   'name': 'liquid-server',
-\   'lsp': 'stdio',
-\   'executable': $HOME . '/bin/theme-check-language-server',
-\   'project_root': function('ThemeCheckGetProjectRoot'),
-\   'command': '%e',
-\})
+  call ale#linter#Define('liquid', {
+  \   'name': 'liquid-server',
+  \   'lsp': 'stdio',
+  \   'executable': $HOME . '/bin/theme-check-language-server',
+  \   'project_root': function('ThemeCheckGetProjectRoot'),
+  \   'command': '%e',
+  \})
 
-let g:ale_completion_delay = 50
-let g:ale_fixers = {}
-let g:ale_fixers.html = ['prettier']
-let g:ale_fixers.javascript = ['prettier']
-let g:ale_fixers.r = ['styler']
-let g:ale_fixers.ruby = ['rubocop', 'sorbet']
-let g:ale_fixers.scss = ['prettier']
-let g:ale_fixers.sh = ['shfmt']
-let g:ale_fixers.sql = ['SqlFormatter']
-let g:ale_fixers.typescript = ['prettier']
-let g:ale_hover_cursor = 0
-let g:ale_hover_to_preview = 1
-let g:ale_javascript_eslint_suppress_missing_config = 1
-let g:ale_lint_on_enter = 0
-let g:ale_lint_on_insert_leave = 0
-let g:ale_lint_on_text_changed = 'never'
-let g:ale_linters = {}
-let g:ale_linters.javascript = ['eslint', 'tsserver']
-let g:ale_linters.json = ['jsonlint']
-let g:ale_linters.liquid = ['liquid-server']
-let g:ale_linters.ruby = ['rubocop', 'sorbet']
-let g:ale_linters.scss = ['stylelint']
-let g:ale_linters.typescript = ['eslint', 'tsserver', 'tslint']
-let g:ale_set_quickfix = 0
-let g:ale_sign_error = '✗'
-let g:ale_sign_warning = '⚠'
+  let g:ale_completion_delay = 50
+  let g:ale_fixers = {}
+  let g:ale_fixers.html = ['prettier']
+  let g:ale_fixers.javascript = ['prettier']
+  let g:ale_fixers.json = ['prettier']
+  let g:ale_fixers.liquid = ['prettier']
+  let g:ale_fixers.r = ['styler']
+  let g:ale_fixers.ruby = ['rubocop', 'sorbet']
+  let g:ale_fixers.scss = ['prettier']
+  let g:ale_fixers.sh = ['shfmt']
+  let g:ale_fixers.sql = ['SqlFormatter']
+  let g:ale_fixers.typescript = ['prettier']
+  let g:ale_hover_cursor = 0
+  let g:ale_hover_to_preview = 1
+  let g:ale_javascript_eslint_suppress_missing_config = 1
+  let g:ale_lint_on_enter = 0
+  let g:ale_lint_on_insert_leave = 0
+  let g:ale_lint_on_text_changed = 'never'
+  let g:ale_linters = {}
+  let g:ale_linters.javascript = ['eslint', 'tsserver']
+  let g:ale_linters.json = ['jsonlint']
+  let g:ale_linters.liquid = ['liquid-server']
+  let g:ale_linters.ruby = ['rubocop', 'sorbet']
+  let g:ale_linters.scss = ['stylelint']
+  let g:ale_linters.typescript = ['eslint', 'tsserver', 'tslint']
+  let g:ale_set_quickfix = 0
+  let g:ale_sign_error = '✗'
+  let g:ale_sign_warning = '⚠'
+" end
 
 " NERDTree config
 let NERDTreeIgnore = ['\.pyc$', 'lib/', 'node_modules/', 'influx-data']
@@ -295,7 +299,7 @@ au FileType json noremap <buffer> <silent> <expr> <leader>pp jsonpath#echo()
 au FileType json noremap <buffer> <silent> <expr> <leader>g jsonpath#goto()
 
 " vim-node
-let g:vim_node#node_path = []
+let g:vim_node#node_path = ['src']
 let g:node#suffixesadd = ['.js', '.json', '.ts', '.tsx']
 let g:node_filetypes = ['javascript', 'json', 'jsx', 'typescript', 'tsx']
 
@@ -369,6 +373,25 @@ highlight SpellRare ctermfg=Red
 highlight SpellLocal ctermfg=Red
 highlight Comment cterm=italic
 
+" coc-coverage
+highlight UncoveredLine ctermbg=Red ctermfg=Red
+
+" coverage.vim
+" Specify the path to `coverage.json` file relative to your current working directory.
+let g:coverage_json_report_path = 'coverage/coverage-final.json'
+
+" Define the symbol display for covered lines
+let g:coverage_sign_covered = '⦿'
+
+" Define the interval time of updating the coverage lines
+let g:coverage_interval = 5000
+
+" Do not display signs on covered lines
+let g:coverage_show_covered = 1
+
+" Display signs on uncovered lines
+let g:coverage_show_uncovered = 1
+
 " press f10 to know highligh group under cursor
 map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
 \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
@@ -378,8 +401,42 @@ map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans
 let g:better_whitespace_filetypes_blacklist = ['qf', 'html']
 let g:AutoPairsMapSpace = 0
 
+let g:firenvim_config = {
+      \  'globalSettings': {
+      \    '<C-n>': 'default',
+      \    '<D-v>': 'default',
+      \  },
+      \  'localSettings': {
+      \    'docs\.google\.com': {
+      \      'takeover': 'never',
+      \    },
+      \    '(docs|meet)\.google\.com': {
+      \      'takeover': 'never',
+      \    },
+      \    'codepen\.io': {
+      \      'takeover': 'never',
+      \    },
+      \    '(messenger|excalidraw)\.com': {
+      \      'takeover': 'never',
+      \    },
+      \    '\/graphql': {
+      \      'takeover': 'never',
+      \    },
+      \    'github\.com.*settings/secrets': {
+      \      'takeover': 'never',
+      \    },
+      \    'github\.com.*/projects/.*/views/.*': {
+      \      'takeover': 'never',
+      \    },
+      \    'slack\.com': {
+      \      'takeover': 'never',
+      \    },
+      \  },
+      \}
+au BufEnter github.com_*.txt set filetype=markdown
+
 if exists('g:started_by_firenvim')
-  set guifont=Monaco:h18
+  set guifont=Monaco:h12
   let g:airline_powerline_fonts = 0
   let g:airline_symbols.linenr = 'L'
   let g:airline_symbols.colnr = 'C'
@@ -389,34 +446,6 @@ if exists('g:started_by_firenvim')
   set tw=1000
   set nonu
   set rnu
-
-  let g:firenvim_config = {
-        \  'globalSettings': {
-        \    '<C-n>': 'default',
-        \    '<D-v>': 'default',
-        \  },
-        \  'localSettings': {
-        \    '(docs|meet)\.google\.com.*': {
-        \      'takeover': 'never',
-        \    },
-        \    'codepen\.io': {
-        \      'takeover': 'never',
-        \    },
-        \    '(messenger|excalidraw)\.com': {
-        \      'takeover': 'never',
-        \    },
-        \    '\/graphql': {
-        \      'takeover': 'never',
-        \    },
-        \    'github\.com.*settings/secrets': {
-        \      'takeover': 'never',
-        \    },
-        \    'slack\.com': {
-        \      'takeover': 'never',
-        \    },
-        \  },
-        \}
-  au BufEnter github.com_*.txt set filetype=markdown
 
   " add text sync
   " let g:dont_write = v:false

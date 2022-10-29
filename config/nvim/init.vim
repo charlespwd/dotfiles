@@ -11,6 +11,10 @@ if !exists("g:os")
   endif
 endif
 
+" allow project specific nvim configs (.exrc)
+" set exrc
+" set secure
+
 source $HOME/.config/nvim/config/plugins.vim
 source $HOME/.config/nvim/config/options.vim
 source $HOME/.config/nvim/config/functions.vim

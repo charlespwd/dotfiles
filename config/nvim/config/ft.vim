@@ -5,6 +5,7 @@ source ~/.vim/config/ft/prose.vim
 source ~/.vim/config/ft/clojure.vim
 source ~/.vim/config/ft/css.vim
 source ~/.vim/config/ft/html.vim
+source ~/.vim/config/ft/liquid.vim
 source ~/.vim/config/ft/javascript.vim
 source ~/.vim/config/ft/python.vim
 " source ~/.vim/config/ft/latex.vim
@@ -37,8 +38,6 @@ augroup runnable
   autocmd BufEnter */shoebox/* :map <silent> <leader>ap :!./scripts/replace-relative-imports %<cr><cr>
 augroup END
 
-autocmd Filetype liquid set filetype=liquid.html
-
 function! MyFoldText()
   let line = getline(v:foldstart)
   let sub = substitute(line, '\v[|].*$', '', 'g')
@@ -66,11 +65,21 @@ function! MyFoldLine(lnum)
   " endif
 endfunction
 
+function! TestsToTheRight()
+  if exists('w:quickfix_title') && (w:quickfix_title !~ 'Dispatch' || w:quickfix_title =~ 'dev-test')
+    return 0
+  endif
+  wincmd L
+endfunction
+
 augroup quickfix
   autocmd!
 
   " nowrap in quickfix
-  autocmd FileType qf setlocal nowrap
+  " autocmd FileType qf setlocal nowrap
+
+  " Tests to the right
+  autocmd FileType qf call TestsToTheRight()
 
   " remap <c-i> to copy the import statement
   autocmd FileType qf nnoremap <buffer> <C-i> /import<cr>y$:let @@ = @@."\n"<cr><c-w><c-k>N
@@ -115,15 +124,16 @@ endfunction
 
 function! CoCLSPBindings()
 
-  " <c-space> manual complete
-  inoremap <silent><expr> <c-space> pumvisible()
-        \? coc#_select_confirm()
-        \: coc#refresh()
+  " Use <c-space> to trigger completion.
+  if has('nvim')
+    inoremap <silent><expr> <c-space> coc#refresh()
+  else
+    inoremap <silent><expr> <c-@> coc#refresh()
+  endif
 
-  " (CoC) Make <CR> auto-select the first completion item and notify coc.nvim to
-  " format on enter, <cr> could be remapped by other vim plugin
-  inoremap <silent><expr> <cr> pumvisible()
-        \? coc#_select_confirm()
+  " Make <CR> to accept selected completion item or notify coc.nvim to format
+  " <C-g>u breaks current undo, please make your own choice.
+  inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
         \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
   " (CoC) GoTo code navigation.
@@ -140,10 +150,15 @@ function! CoCLSPBindings()
   " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
   " other plugin before putting this into your config.
   inoremap <silent><expr> <TAB>
-    \ pumvisible() ? "\<C-n>" :
-    \ <SID>check_back_space() ? "\<TAB>" :
-    \ coc#refresh()
-  inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+        \ coc#pum#visible() ? coc#pum#next(1):
+        \ CheckBackspace() ? "\<Tab>" :
+        \ coc#refresh()
+  inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+
+  function! CheckBackspace() abort
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~# '\s'
+  endfunction
 
   " Symbol renaming.
   nmap <leader>rn <Plug>(coc-rename)
@@ -160,12 +175,7 @@ function! CoCLSPBindings()
   " Remap keys for applying codeAction to the current buffer.
   nmap <leader>caF  <Plug>(coc-codeaction)
   " Apply AutoFix to problem on the current line.
-  nmap <leader>qf  <Plug>(coc-fix-current)
-endfunction
-
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
+  nmap <leader>==  <Plug>(coc-fix-current)
 endfunction
 
 function! s:show_documentation()

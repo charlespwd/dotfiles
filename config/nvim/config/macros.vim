@@ -96,6 +96,7 @@ vnoremap <silent> # :<C-U>
 
 " ABBREVS
 " call SetupCommandAlias('eod', eodcmd)
+call SetupCommandAlias('Gblame', 'Git blame')
 call SetupCommandAlias('NM', 'NeomakeSh')
 call SetupCommandAlias('NMS', 'NeomakeSh')
 call SetupCommandAlias('NSH', 'NeomakeSh')
@@ -103,6 +104,7 @@ call SetupCommandAlias('R!', 'Redir !%')
 call SetupCommandAlias('T', 'Tabularize')
 call SetupCommandAlias('ZOFF', 'Goyo!')
 call SetupCommandAlias('ZON', 'Goyo 85x100%')
+call SetupCommandAlias('Render', 'Redir !'.$HOME.'/bin/liquid-render %')
 call SetupCommandAlias('at', 'AirlineTheme')
 call SetupCommandAlias('eods', 'w !send-summary')
 call SetupCommandAlias('eodsy', 'w !send-summary 1')
@@ -124,6 +126,7 @@ map <leader>2m :let @p=system('to-mp4-play-button-url ' . expand('<cfile>'))<cr>
 " MACROS
 " nmap <leader>== 70i=<esc>o<esc>
 " tmap <Esc> <C-\><C-n>
+map <leader>sl :CocCommand workspace.showOutput<cr>
 map <leader>"" <Plug>ToggleTextObjQuotes
 map <leader># :let @+=join([expand('%'), line('.')], ':')<CR>
 map <leader>% :let @+=expand('%')<CR>
@@ -214,6 +217,7 @@ map <leader>pp "+p
 map <leader>pu :PlugUpdate<cr>
 map <leader>py :ALEFix<cr>
 map <leader>ra :RangerAppend<cr>
+map <leader>rd :Render<space><cr>
 map <leader>rf :%s/\v(<<c-r><c-w>>)/
 map <leader>ritual <Plug>Ritual
 map <leader>rm :call delete(expand('%')) <bar> bdelete!
@@ -232,7 +236,7 @@ map <leader>sr :let @k=expand('<cword>')<cr><leader>aw<Plug>QfreplaceFromRegiste
 map <leader>ss :let @k=Input("Search: ")<cr><sid>SearchFromRegisterK()<Plug>QfreplaceFromRegisterK
 map <leader>st 0v}b$:sort<cr>
 map <leader>sv :source ~/.vimrc<cr>
-map <leader>sw :StripWhitespace<cr>
+map <leader>sw :set wrap<cr>
 map <leader>t- i- [ ]<space>
 map <leader>t/ :Tabularize<space>/
 map <leader>td :let @e=system('date +%Y-%m-%d')<cr>:e $HOME/Documents/wiki/fleeting/daily-note-<c-r>e.md<cr>
@@ -308,7 +312,7 @@ nnoremap è :Help<cr>
 " remap alt-l to nohl (osx)
 nnoremap <silent> ¬ :nohl<cr>:normal! <c-l><cr>
 
-map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
+map <F3> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
 \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
 \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
 
