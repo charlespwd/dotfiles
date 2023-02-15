@@ -283,7 +283,7 @@ let g:surround_{char2nr('S')} = "[\n\t\r\n]"
 
 " editorconfig
 let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'term://.*']
-let g:EditorConfig_verbose = 1
+let g:EditorConfig_verbose = 0
 
 " vim-jsx
 let g:jsx_ext_required = 0

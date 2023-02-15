@@ -6,5 +6,5 @@ function! SetLiquidOptions()
   inoremap <buffer> <C-\> </<C-X><C-O>
   let g:surround_{char2nr('8')}="{% block \r %}\n{% endblock %}"
   let b:AutoPairs={'(':')', '[':']', '{':'}', '"':'"', '%':'%', '<':'>'}
-  map <buffer> <leader>py :%!prettier --parser=liquid-html --print-width 120<cr>
+  map <buffer> <leader>py :%!prettier --parser=liquid-html --print-width 120 --single-quote false<cr>
 endfunction

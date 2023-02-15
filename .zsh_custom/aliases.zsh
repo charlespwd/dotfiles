@@ -140,12 +140,14 @@ alias be="bundle exec"
 alias ber="bundle exec rake"
 alias bert="bundle exec rake test"
 alias berti="bundle exec rake tests:in_memory"
+alias bi="bundle install"
 alias c="cd"
 alias cb="current_branch"
 alias chmine="sudo chown -R charles ."
 alias gai="git add --intent-to-add"
 alias gap="git add --patch"
 alias gbd="git branch -D"
+alias gbf="git branch | fzf"
 alias gbdf='git branch -D $(git branch | fzf -m)'
 alias gbdm='git checkout $(main-branch) && git branch --merged | egrep -v "^(\*|master|main|dev)" | xargs -n 1 git branch -d'
 alias gbuild="git add dist && git commit -m [Build]"
@@ -159,8 +161,7 @@ alias gcob='git checkout $(git branch | fzf)'
 alias gcot='git checkout $(git tag | sort -V | tac | fzf)'
 alias gdc="git diff --cached"
 alias gdcs="git diff --compact-summary"
-alias gfp='git push -f origin $(current_branch)'
-alias ggfpush='git push -f origin $(current_branch)'
+alias ggfpush='git push --force-with-lease origin $(current_branch)'
 alias gi="github-issue"
 alias git="hub"
 alias gl="git pull --rebase"
@@ -221,6 +222,8 @@ alias bsr="brew services restart"
 alias bss="brew services start"
 alias bsS="brew services stop"
 alias jjoin="tr '\\n' ',' | sed 's/,$/\\n/'"
+alias tc="theme-check"
+alias yt="yarn test"
 
 if [[ -n $TMUX ]]; then
   # Prevent weird VI bugs when using ssh

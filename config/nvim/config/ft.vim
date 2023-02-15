@@ -20,13 +20,17 @@ augroup misc
   autocmd FileType ruby,tex,clojure,md,html,javascript,css,scss,vim,unix,typescript autocmd BufWritePre <buffer> StripWhitespace
   autocmd BufReadPre,FileReadPre help set relativenumber
   autocmd FileType json let b:ale_lint_on_enter = 1
+  autocmd BufEnter tsconfig.*.json,tsconfig.json set ft=jsonc
   autocmd FileType gitcommit,pullrequest if expand('%:t') == 'PULLREQ_EDITMSG' | set filetype=vimwiki | endif
   autocmd FileType gitcommit,pullrequest set bufhidden=delete
   autocmd FileType sql setlocal formatprg=sqlfmt\ -u
   autocmd TermOpen * set bufhidden=hide
   autocmd BufEnter *.png,*.jpg,*.gif,*.tif exec "! /usr/bin/xdg-open ".expand("%") | :bw
+  autocmd BufEnter *.YAML-tmLanguage set ft=yaml
+  autocmd BufEnter *.shop set ft=shop
   autocmd BufWritePre *.py execute ':Black'
   autocmd BufEnter */config/jira/templates/* set ft=gotexttmpl
+  autocmd BufEnter */test/*.liquid set tw=80
   autocmd FileType yaml setlocal complete+=k
   autocmd FileType yaml setlocal dictionary+=$JIRA/contacts.txt
 augroup END

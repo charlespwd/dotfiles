@@ -71,8 +71,9 @@ call plug#begin($HOME . '/.config/nvim/plugged')
   Plug 'jparise/vim-graphql', { 'for': ['graphql'] }
 
   " Javascript syntax
-  " Plug 'pangloss/vim-javascript'
-  Plug 'mxw/vim-jsx'
+  Plug 'pangloss/vim-javascript'
+  Plug 'peitalin/vim-jsx-typescript'
+  " Plug 'mxw/vim-jsx'
   Plug 'evanleck/vim-svelte', { 'branch': 'main' }
 
   " typescript syntax
@@ -109,6 +110,10 @@ call plug#begin($HOME . '/.config/nvim/plugged')
   Plug 'jvirtanen/vim-octave'
 
   " misc
+  " Plug 'chazmcgarvey/vim-mermaid'
+  Plug 'jalvesaq/Nvim-R'
+  Plug 'neoclide/jsonc.vim'
+  Plug 'mracos/mermaid.vim'
   Plug 'nfischer/vim-ohm'
   Plug 'vim-scripts/applescript.vim'
   Plug 'arzg/vim-sh'

@@ -6,16 +6,19 @@
   "tsserver.log": "verbose",
   "tsserver.trace.server": "verbose",
   "tsserver.implicitProjectConfig.checkJs": true,
-  "solargraph.transport": "stdio",
-  "solargraph.checkGemVersion": false,
   "snippets.extends": {
     "typescriptreact": ["typescript"]
   },
+  "coverage.enabled": true,
+  "coverage.uncoveredSign.text": "⦿",
+  "coverage.uncoveredSign.hlGroup": "UncoveredLine",
+  "coverage.jsonReportPath": "coverage/coverage-final.json",
   "languageserver": {
     "theme-check": {
       "command": "/Users/charles/bin/theme-check-language-server",
       "trace.server": "verbose",
       "filetypes": ["liquid", "liquid.html"],
+      "filetypes": [],
       "rootPatterns": [".theme-check.yml", "snippets/*"],
       "settings": {
         "themeCheck": {

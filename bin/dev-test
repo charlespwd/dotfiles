@@ -2,9 +2,15 @@
 
 # set -eou pipefail
 
+chruby () {
+  source '/opt/dev/sh/chruby/chruby.sh'
+  chruby "$@"
+}
+
 _dev_test() {
   out="/tmp/dev-test-fifo-out"
   err="/tmp/dev-test-fifo-err"
+  chruby 2.7 &> /dev/null
   bundle exec rake tests:in_memory \
     1> "$out" \
     2> "$err"
