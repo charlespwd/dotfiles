@@ -17,10 +17,11 @@ endtry
 
 " OS specific configurations
 if g:os == "Darwin"
-  let g:EditorConfig_exec_path = '/usr/local/bin/editorconfig'
+  let brewbin='/opt/homebrew/bin'
+  let g:EditorConfig_exec_path = brewbin . '/editorconfig'
   let g:EditorConfig_core_mode = 'external_command'
   " let g:python_host_prog = '/usr/bin/python2'
-  let g:python3_host_prog = '/usr/local/bin/python3'
+  let g:python3_host_prog = brewbin . '/python3'
   let g:netrw_browsex_viewer = '/usr/bin/open'
 
   " osx keymaps
@@ -262,6 +263,7 @@ let g:UltiSnipsSnippetDirectories=["UltiSnips", "my-snippets"]
   let g:ale_set_quickfix = 0
   let g:ale_sign_error = '✗'
   let g:ale_sign_warning = '⚠'
+  let g:ale_virtualtext_cursor = 0
 " end
 
 " NERDTree config
