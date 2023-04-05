@@ -73,10 +73,17 @@ if [[ "$OS" = "Darwin" ]]; then
   export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
 
   # Prefer brew python to system python
-  export PATH="$(brew --prefix)/opt/python/libexec/bin:$PATH"
+  export PATH="/opt/homebrew/opt/python/libexec/bin:$PATH"
+
+  # Add brew bin
+  local brewprefix=/opt/homebrew
+  _path_append "$brewprefix/bin"
 
   # Add GNU man pages
   export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
+
+  # add vscode code
+  export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
 fi
 
 # prefer node_module bin
@@ -85,6 +92,7 @@ _path_prepend "../../node_modules/.bin" -f
 
 # prefer $HOME/bin
 _path_prepend "$HOME/bin" -f
+[[ $SPIN ]] && _path_preprend "$HOME/binbin" -f
 
 # add local bin
 _path_append "bin" -f

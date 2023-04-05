@@ -100,7 +100,8 @@ install_nvim_dependencies() {
   if ! ls -A "$HOME/.config/nvim/plugged" &> /dev/null; then
     step "Installing nvim dependencies"
     echo 'PlugInstall | qa!' | nvim -n -u $HOME/.config/nvim/config/plugins.vim -es
-    nvim -c 'CocInstall -sync coc-json coc-tsserver coc-solargraph coc-snippets coc-emoji | qa!'
+    (cd $HOME/.config/nvim/plugged/coc.nvim && yarn)
+    echo 'CocInstall -sync coc-json coc-tsserver coc-snippets coc-emoji | qa!' | nvim -n -es
   fi
 }
 
@@ -140,6 +141,13 @@ main () {
     install_file "$dot_file" "$current_dir"
     cd "$current_dir"
   done
+
+  if [[ $SPIN ]]; then
+    ln -s bin binbin
+    cd "$HOME"
+    install_file binbin "$current_dir"
+    cd "$current_dir"
+  fi
 
   if [[ $SPIN ]]; then
     step "spin git config"

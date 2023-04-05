@@ -608,15 +608,25 @@ const ${1:module} = require('${2:$1}')$3;
 endsnippet
 
 snippet test
-import { expect } from 'chai'
-import sinon from 'sinon'
+import { expect } from 'chai';
 import ${1:Module} from './${2:$1}'
 
 describe('Module: $2', () => {
 	it('should exist', () => {
-		expect($1).to.exist
-	})
-})
+		expect($1).to.exist;
+	});
+});
+endsnippet
+
+snippet vtest
+import { expect, describe, it } from 'vitest';
+import ${1:Module} from './${2:$1}';
+
+describe('Module: $2', () => {
+	it('should exist', () => {
+		expect($1).to.exist;
+	});
+});
 endsnippet
 
 snippet test;
