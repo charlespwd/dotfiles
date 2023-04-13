@@ -101,7 +101,7 @@ install_nvim_dependencies() {
     step "Installing nvim dependencies"
     echo 'PlugInstall | qa!' | nvim -n -u $HOME/.config/nvim/config/plugins.vim -es
     (cd $HOME/.config/nvim/plugged/coc.nvim && yarn)
-    echo 'CocInstall -sync coc-json coc-tsserver coc-snippets coc-emoji | qa!' | nvim -n -es
+    echo 'CocInstall -sync coc-json coc-tsserver coc-snippets | qa!' | nvim -n -es
   fi
 }
 
@@ -154,6 +154,10 @@ main () {
     git config --global user.email "cp.clermont@shopify.com"
     git config --global user.name "CP Clermont"
     git config --global --unset-all credential.helper
+  fi
+
+  if [[ "$SPIN" = 1 ]] && [[ -f ~/.data/cartridges/default/setup.sh ]]; then
+    . ~/.data/cartridges/default/setup.sh
   fi
 
   install_nvim_dependencies
