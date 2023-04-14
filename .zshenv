@@ -27,6 +27,8 @@ export DOWNLOADS="$HOME/downloads"
 export POLYBAR="$CONFIG/polybar"
 export NVIM="$CONFIG/nvim"
 export ACCOUNTING="$HOME/tmp/accounting"
+export PRIVATE_VAULT="$HOME/Documents/shopify"
+export PUBLIC_VAULT="$HOME/Documents/public"
 
 # completions path
 # ! [ -z "${fpath+x}" ] && export fpath=($BIN/completions $fpath)
@@ -92,7 +94,7 @@ _path_prepend "../../node_modules/.bin" -f
 
 # prefer $HOME/bin
 _path_prepend "$HOME/bin" -f
-[[ $SPIN ]] && _path_preprend "$HOME/binbin" -f
+[[ $SPIN ]] && _path_prepend "$HOME/binbin" -f
 
 # add local bin
 _path_append "bin" -f
