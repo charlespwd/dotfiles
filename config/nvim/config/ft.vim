@@ -92,7 +92,7 @@ augroup quickfix
   autocmd FileType qf nnoremap <buffer> <C-v> <C-w><cr><C-w>L
 
   " quick filter
-  autocmd FileType qf nnoremap <buffer> <leader>nt :QFilter! test<cr>:QFilter! spec<cr>:QFilter! json<cr>:QFilter! scss<cr>:QFilter! yml<cr>:QFilter! erb<cr>:set nowrap<cr>
+  autocmd FileType qf nnoremap <buffer> <leader>nt :QFilter! test<cr>:QFilter! spec<cr>:QFilter! json<cr>:QFilter! scss<cr>:QFilter! yml<cr>:QFilter! erb<cr>:QFilter! lock<cr>:set nowrap<cr>
   autocmd FileType qf nnoremap <buffer> <leader>fa :QFilter! callitspring<cr>:QFilter! globoshoes<cr>:QFilter! composer<cr>
   autocmd FileType qf nnoremap <buffer> <leader>fc :QFilter! aldoshoes<cr>:QFilter! globoshoes<cr>:QFilter! composer<cr>
   autocmd FileType qf nnoremap <buffer> <leader>fC :QFilter composer<cr>

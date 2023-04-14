@@ -35,8 +35,10 @@ if g:os == "Darwin"
   " Linux
 elseif g:os == "Linux"
   " let g:EditorConfig_exec_path = '/usr/bin/editorconfig'
-  let g:EditorConfig_exec_path = '~/.local/bin/editorconfig'
-  let g:EditorConfig_core_mode = 'external_command'
+  if !$SPIN
+    let g:EditorConfig_exec_path = '~/.local/bin/editorconfig'
+    let g:EditorConfig_core_mode = 'external_command'
+  endif
   let g:python_host_prog = '/usr/bin/python2'
   let g:python3_host_prog = '/usr/bin/python3'
 
