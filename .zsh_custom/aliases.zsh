@@ -162,7 +162,6 @@ alias gdc="git diff --cached"
 alias gdcs="git diff --compact-summary"
 alias ggfpush='git push --force-with-lease origin $(current_branch)'
 alias gi="github-issue"
-alias git="hub"
 alias gl="git pull --rebase"
 alias glg="git lg"
 alias glgt="git log --tags --simplify-by-decoration --pretty='format:%ai %d'"

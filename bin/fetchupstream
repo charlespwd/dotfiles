@@ -40,7 +40,7 @@ branch="$(get_branch $1)"
 set -e
 
 run git checkout "$branch"
-run git fetch "$remote" || true
+run git fetch "$remote" "$branch" || true
 run git reset --hard "$remote/$branch"
 run git fetch --tags "$remote" || true
 if [[ $remote != 'origin' ]]; then
