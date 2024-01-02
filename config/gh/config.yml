@@ -12,3 +12,4 @@ aliases:
     issues: '!gh issue list | gsed -e ''s/\s\{2,\}+\|\t\+/#/g'' | cut -d''#'' -f1,3 | column -t -s ''#'' | tac'
     bugs: '!gh issue list -l bug | gsed -e ''s/\s\{2,\}+\|\t\+/#/g'' | cut -d''#'' -f1,3 | column -t -s ''#'' | tac'
     grab: issue edit --add-assignee @me
+version: "1"

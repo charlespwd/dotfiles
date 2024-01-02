@@ -18,7 +18,7 @@ call plug#begin($HOME . '/.config/nvim/plugged')
   " Plug 'mattn/emmet-vim'
   Plug 'othree/html5.vim', { 'for': 'html' }
 
-  " Plug 'tpope/vim-liquid'
+  Plug 'tpope/vim-liquid'
   Plug 'AndrewRadev/splitjoin.vim'
   " Plug 'othree/xml.vim'
 
@@ -113,7 +113,7 @@ call plug#begin($HOME . '/.config/nvim/plugged')
   " Plug 'chazmcgarvey/vim-mermaid'
   Plug 'jalvesaq/Nvim-R'
   Plug 'neoclide/jsonc.vim'
-  Plug 'mracos/mermaid.vim'
+  " Plug 'mracos/mermaid.vim'
   Plug 'nfischer/vim-ohm'
   Plug 'vim-scripts/applescript.vim'
   Plug 'arzg/vim-sh'
@@ -163,7 +163,7 @@ call plug#begin($HOME . '/.config/nvim/plugged')
   " Style
   Plug 'vim-airline/vim-airline', { 'tag': 'v0.10' }
   Plug 'vim-airline/vim-airline-themes'
-  Plug 'edkolev/tmuxline.vim'
+  " Plug 'edkolev/tmuxline.vim'
   Plug 'ntpeters/vim-better-whitespace'
 
   " linting

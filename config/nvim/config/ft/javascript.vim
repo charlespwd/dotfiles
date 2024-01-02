@@ -31,7 +31,7 @@ function! SetJavascriptOptions()
   let b:surround_{char2nr('c')} = "console.log(\r)"
   let b:surround_{char2nr('e')} = "expect(\r)"
   let b:surround_{char2nr('a')} = "const PLACEHOLDER = () => {\n\r\n};"
-  let b:surround_{char2nr('F')} = "(function() {\n\r\n})();"
+  let b:surround_{char2nr('F')} = "for (const el of col) {\n\r\n}"
   let b:surround_{char2nr('f')} = "function PLACEHOLDER() {\n\r\n}"
   let b:surround_{char2nr('i')} = "it('', () => {\n\r\n});"
   let b:surround_{char2nr('I')} = "if (true) {\n\r\n}"

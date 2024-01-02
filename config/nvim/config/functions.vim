@@ -345,3 +345,10 @@ endfunction
 
 command! -nargs=1 -complete=file MoveFileAndRename :call s:MoveFileAndRename(<f-args>)
 command! FollowSymLink execute "file " . resolve(expand("%")) | edit
+
+function! CopyPathAndContentToClipboard()
+  let l:file_path = "```\n// " . expand('%') . "\n\n"
+  let l:file_content = join(getline(1, '$'), "\n")
+  let l:clipboard_content = l:file_path . l:file_content . "\n```"
+  call system('pbcopy', l:clipboard_content)
+endfunction

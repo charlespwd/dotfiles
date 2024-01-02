@@ -3,6 +3,8 @@
   "javascript.preferences.importModuleSpecifier": "non-relative",
   "javascript.validate.enable": false,
   "tsserver.enableJavascript": true,
+  "tsserver.enable": true,
+  "tsserver.autoLoadConfigPaths": ["tsconfig.json"],
   "tsserver.log": "verbose",
   "tsserver.trace.server": "verbose",
   "tsserver.implicitProjectConfig.checkJs": true,

@@ -173,8 +173,11 @@ let g:airline_symbols = {
       \  'whitespace': '✹'
       \}
 
+let g:fugitive_legacy_commands = 1
+
+let g:airline#extensions#keymap#enabled = 0
 let g:airline_section_y = ''
-let g:airline_section_z = '%{g:airline_symbols.linenr}%4l/%L %{g:airline_symbols.colnr}%4v'
+" let g:airline_section_z = '%{g:airline_symbols.linenr}%4l/%L %{g:airline_symbols.colnr}%4v'
 " let g:airline_section_z = '%#__accent_bold#%{g:airline_symbols.linenr}%4l%#__restore__#%#__accent_bold#/%L#__restore__# :%3v'
 let g:tmuxline_powerline_separators = 0
 let g:airline#extensions#tmuxline#enabled = 0
@@ -267,6 +270,17 @@ let g:UltiSnipsSnippetDirectories=["UltiSnips", "my-snippets"]
   let g:ale_sign_warning = '⚠'
   let g:ale_virtualtext_cursor = 0
 " end
+
+" Get the current directory
+let current_dir = expand('%:p:h')
+
+" Check if the current directory is 'prettier-plugin-liquid'
+if current_dir =~ 'prettier-plugin-liquid'
+    let g:ale_typescript_prettier_executable = '/opt/homebrew/bin/prettier'
+    let g:ale_typescript_prettier_use_global = 1
+    let g:ale_typescript_prettier_executable = '/opt/homebrew/bin/prettier'
+    let g:ale_javascript_prettier_use_global = 1
+endif
 
 " NERDTree config
 let NERDTreeIgnore = ['\.pyc$', 'lib/', 'node_modules/', 'influx-data']
@@ -420,10 +434,16 @@ let g:firenvim_config = {
       \    'codepen\.io': {
       \      'takeover': 'never',
       \    },
+      \    'figma\.com': {
+      \      'takeover': 'never',
+      \    },
       \    '(messenger|excalidraw)\.com': {
       \      'takeover': 'never',
       \    },
       \    '\/graphql': {
+      \      'takeover': 'never',
+      \    },
+      \    'github\.com.*/blob/.*\..*': {
       \      'takeover': 'never',
       \    },
       \    'github\.com.*settings/secrets': {

@@ -498,13 +498,19 @@ describe('${1}', () => {
 endsnippet
 
 snippet it
-it('should ${1:do something}', () => {
+it('${1:does something}', () => {
+	${2}
+});
+endsnippet
+
+snippet ita
+it('${1:does something}', async () => {
 	${2}
 });
 endsnippet
 
 snippet itt
-it('should ${1:do something}', () => {
+it('${1:does something}', () => {
 	${2}
 })
 endsnippet
@@ -609,9 +615,9 @@ endsnippet
 
 snippet test
 import { expect } from 'chai';
-import ${1:Module} from './${2:$1}'
+import { ${1:Module} } from './${2:$1}';
 
-describe('Module: $2', () => {
+describe('Module: $1', () => {
 	it('should exist', () => {
 		expect($1).to.exist;
 	});
@@ -620,21 +626,9 @@ endsnippet
 
 snippet vtest
 import { expect, describe, it } from 'vitest';
-import ${1:Module} from './${2:$1}';
+import { ${1:Module} } from './${2:$1}';
 
-describe('Module: $2', () => {
-	it('should exist', () => {
-		expect($1).to.exist;
-	});
-});
-endsnippet
-
-snippet test;
-import { expect } from 'chai';
-import sinon from 'sinon';
-import ${1:Module} from '../${2:$1}';
-
-describe('Module: $2', () => {
+describe('Module: $1', () => {
 	it('should exist', () => {
 		expect($1).to.exist;
 	});

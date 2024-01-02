@@ -126,6 +126,7 @@ map <leader>2m :let @p=system('to-mp4-play-button-url ' . expand('<cfile>'))<cr>
 " MACROS
 " nmap <leader>== 70i=<esc>o<esc>
 " tmap <Esc> <C-\><C-n>
+map <leader>2c :call CopyPathAndContentToClipboard()<CR>
 map <leader>sl :CocCommand workspace.showOutput<cr>
 map <leader>"" <Plug>ToggleTextObjQuotes
 map <leader># :let @+=join([expand('%'), line('.')], ':')<CR>
@@ -146,6 +147,7 @@ map <leader>.fn :e ~/dotfiles/.config/nvim/config/functions.vim<cr>
 map <leader>.ft :let @k=&ft<cr>:e ~/.config/nvim/config/ft/<c-r>k.vim<cr>
 map <leader>.i :e ~/.config/i3/config<cr>
 map <leader>.j :e ~/thoughts/thoughts.md<cr>G
+map <leader>.k :e ~/.config/kitty/kitty.conf<cr>
 map <leader>.l :e ~/.lein/profiles.clj<cr>
 map <leader>.m :e ~/dotfiles/.config/nvim/config/macros.vim<cr>/" MACROS<cr>:nohl<cr>
 map <leader>.o :e ~/dotfiles/.config/nvim/config/options.vim<cr>
