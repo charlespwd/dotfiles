@@ -10,6 +10,7 @@
 GLOBIGNORE='.:..:.DS_Store:.git:.gitignore'
 homebrew_packages="$(cat packages_brew.csv | xargs)"
 apt_packages="$(cat packages_apt.csv | xargs)"
+spin_packages="$(cat packages_spin.csv | xargs)"
 os="$(uname -s | tr -d '\n')"
 
 is_installed () {
@@ -54,6 +55,17 @@ install_apt_packages () {
     fi
   done
 }
+
+install_spin_packages () {
+  step "Installing missing packages: $spin_packages"
+  for package in $spin_packages; do
+    if ! is_apt_installed $package; then
+      echo "Installing $package"
+      sudo apt-get install -y $package
+    fi
+  done
+}
+
 
 install_oh_my_zsh () {
   if ! [[ -d ~/.oh-my-zsh ]] ; then
@@ -127,7 +139,7 @@ main () {
     fi
 
     if [[ $SPIN ]]; then
-      install_apt_packages
+      install_spin_packages
       rsync -av "$HOME/.config/" "$current_dir/config/"
       rm -rf $HOME/.config
       rm $HOME/.zshrc

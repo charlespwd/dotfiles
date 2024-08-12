@@ -56,6 +56,7 @@ echo "baseuser" $baseuser
 echo "basebranch" $basebranch
 
 curbranch=`git rev-parse --abbrev-ref HEAD`
+curbranch="${curbranch#heads/}"
 cururl=$(git remote get-url origin)
 curuser=$(remote_to_user $cururl || echo 'charlespwd') # charlespwd
 
