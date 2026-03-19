@@ -21,6 +21,7 @@ export XDG_CONFIG_HOME="$HOME/dotfiles/config"
 
 # Shortcuts
 export BIN=$HOME/bin
+export PROMPTS=$HOME/Documents/prompts
 export CONFIG="$XDG_CONFIG_HOME"
 export DOT="$HOME/dotfiles"
 export DOWNLOADS="$HOME/downloads"
@@ -34,7 +35,7 @@ export PUBLIC_VAULT="$HOME/Documents/public"
 # ! [ -z "${fpath+x}" ] && export fpath=($BIN/completions $fpath)
 
 # ruby
-export GEM_HOME=$HOME/.gems
+# export GEM_HOME=$HOME/.gems
 
 # go-jira
 if [[ -d $HOME/.jira.d ]]; then
@@ -69,7 +70,6 @@ fi
 if [[ "$OS" = "Darwin" ]]; then
   # Do weird nix shit to the $PATH
   [[ -f "/opt/dev/dev.sh" ]] && source /opt/dev/dev.sh
-  if [[ -e "$HOME/.nix-profile/etc/profile.d/nix.sh" ]]; then . $HOME/.nix-profile/etc/profile.d/nix.sh; fi
 
   # Prefer GNU commands to BSD
   export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
@@ -80,6 +80,9 @@ if [[ "$OS" = "Darwin" ]]; then
   # Add brew bin
   local brewprefix=/opt/homebrew
   _path_append "$brewprefix/bin"
+
+  # Do weird nix shit to the $PATH
+  [[ -f "/opt/dev/dev.sh" ]] && source /opt/dev/dev.sh
 
   # Add GNU man pages
   export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
@@ -105,17 +108,17 @@ _path_append "$HOME/.config/yarn/global/node_modules/.bin"
 # yarn / nvm
 _path_append "$HOME/.yarn/bin"
 
-# ruby gems
-_path_append "$HOME/.gem/ruby/2.5.7/bin"
-
-# ruby gems GEM_HOME
-_path_append "$GEM_HOME/bin"
-
-# python user bin
+# uv
 _path_append "$HOME/.local/bin"
 
-# go stuff
-_path_append "$GOPATH/bin"
+# ruby gems
+# _path_append "$HOME/.gem/ruby/2.5.7/bin"
+
+# ruby gems GEM_HOME
+# _path_append "$GEM_HOME/bin"
+
+# python user bin
+#_path_append "$HOME/.local/bin"
 
 # Source aliases
 if [[ "$(basename "$SHELL")" = "zsh" ]]; then
