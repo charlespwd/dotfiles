@@ -21,7 +21,7 @@ if g:os == "Darwin"
   let g:EditorConfig_exec_path = brewbin . '/editorconfig'
   let g:EditorConfig_core_mode = 'external_command'
   " let g:python_host_prog = '/usr/bin/python2'
-  let g:python3_host_prog = brewbin . '/python3'
+  " let g:python3_host_prog = brewbin . '/python3'
   let g:netrw_browsex_viewer = '/usr/bin/open'
 
   " osx keymaps
@@ -232,20 +232,20 @@ let g:UltiSnipsSnippetDirectories=["UltiSnips", "my-snippets"]
     return !empty(l:project_root) ? fnamemodify(l:project_root, ':h') : ''
   endfunction
 
-  call ale#linter#Define('liquid', {
-  \   'name': 'liquid-server',
-  \   'lsp': 'stdio',
-  \   'executable': $HOME . '/bin/theme-check-language-server',
-  \   'project_root': function('ThemeCheckGetProjectRoot'),
-  \   'command': '%e',
-  \})
+" call ale#linter#Define('liquid', {
+"   \   'name': 'liquid-server',
+"   \   'lsp': 'stdio',
+"   \   'executable': $BIN . '/liquid-language-server',
+"   \   'project_root': function('ThemeCheckGetProjectRoot'),
+"   \   'command': '%e',
+"   \})
 
   let g:ale_completion_delay = 50
   let g:ale_fixers = {}
   let g:ale_fixers.html = ['prettier']
   let g:ale_fixers.javascript = ['prettier']
   let g:ale_fixers.json = ['prettier']
-  let g:ale_fixers.liquid = ['prettier']
+  " let g:ale_fixers.liquid = ['prettier']
   let g:ale_fixers.r = ['styler']
   let g:ale_fixers.ruby = ['rubocop', 'sorbet']
   let g:ale_fixers.scss = ['prettier']
@@ -261,7 +261,7 @@ let g:UltiSnipsSnippetDirectories=["UltiSnips", "my-snippets"]
   let g:ale_linters = {}
   let g:ale_linters.javascript = ['eslint', 'tsserver']
   let g:ale_linters.json = ['jsonlint']
-  let g:ale_linters.liquid = ['liquid-server']
+  " let g:ale_linters.liquid = ['liquid-server']
   let g:ale_linters.ruby = ['rubocop', 'sorbet']
   let g:ale_linters.scss = ['stylelint']
   let g:ale_linters.typescript = ['eslint', 'tsserver', 'tslint']

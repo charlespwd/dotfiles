@@ -15,7 +15,11 @@ endif
 " set exrc
 " set secure
 
-source $HOME/.config/nvim/config/plugins.vim
+if exists('g:vscode')
+  source $HOME/.config/nvim/config/plugins_vscode.vim
+else
+  source $HOME/.config/nvim/config/plugins.vim
+endif
 source $HOME/.config/nvim/config/options.vim
 source $HOME/.config/nvim/config/functions.vim
 source $HOME/.config/nvim/config/macros.vim

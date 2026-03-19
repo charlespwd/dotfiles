@@ -56,13 +56,7 @@ call plug#begin($HOME . '/.config/nvim/plugged')
   Plug 'tpope/vim-eunuch'
   Plug 'sjl/gundo.vim'
 
-  "" Ranger
-  Plug 'rafaqz/ranger.vim'
   Plug 'rbgrouleff/bclose.vim'
-
-  " golang
-  " Plug 'nsf/gocode', { 'rtp': 'nvim', 'do': '~/.config/nvim/plugged/gocode/nvim/symlink.sh' }
-  " Plug 'fatih/vim-go'
 
   " Javascript & typescript
   Plug 'charlespwd/vim-node'
@@ -82,6 +76,7 @@ call plug#begin($HOME . '/.config/nvim/plugged')
   " ruby
   " Plug 'tpope/vim-rails', { 'for': ['ruby'] }
   Plug 'vim-ruby/vim-ruby', { 'for': ['ruby'] }
+
   " Plug 'Shopify/vim-sorbet'
   Plug 'nelstrom/vim-textobj-rubyblock', { 'for': ['ruby'] }
   Plug 'pechorin/any-jump.vim'
@@ -160,9 +155,9 @@ call plug#begin($HOME . '/.config/nvim/plugged')
   Plug 'tpope/vim-rhubarb'
   Plug 'AndrewRadev/linediff.vim'
 
-  " Style
   Plug 'vim-airline/vim-airline', { 'tag': 'v0.10' }
   Plug 'vim-airline/vim-airline-themes'
+
   " Plug 'edkolev/tmuxline.vim'
   Plug 'ntpeters/vim-better-whitespace'
 

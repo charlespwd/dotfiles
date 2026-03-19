@@ -24,6 +24,9 @@ function! SetTypescriptOptions()
   " set ft=typescript.jsx
   map <buffer> <leader>,, :copen<cr>
   map <buffer> <leader>,. :lopen<cr>:set wrap<cr>
+  " highligh link Keyword GruvboxAqua
+  " highligh link typeScriptBraces NONE
+  " highligh link typeScriptGlobalObjects NONE
 endfunction
 
 function! SetJavascriptOptions()

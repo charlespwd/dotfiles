@@ -2,9 +2,8 @@
   "diagnostic.displayByAle": true,
   "javascript.preferences.importModuleSpecifier": "non-relative",
   "javascript.validate.enable": false,
-  "tsserver.enableJavascript": true,
+  "coc.preferences.formatOnType": true,
   "tsserver.enable": true,
-  "tsserver.autoLoadConfigPaths": ["tsconfig.json"],
   "tsserver.log": "verbose",
   "tsserver.trace.server": "verbose",
   "tsserver.implicitProjectConfig.checkJs": true,
@@ -16,28 +15,23 @@
   "coverage.uncoveredSign.hlGroup": "UncoveredLine",
   "coverage.jsonReportPath": "coverage/coverage-final.json",
   "languageserver": {
-    "theme-check": {
-      "command": "/Users/charles/bin/theme-check-language-server",
+    // "liquid-dev": {
+    //   "command": "liquid-language-server",
+    //   "trace.server": "verbose",
+    //   "filetypes": ["liquid", "liquid"],
+    //   "rootPatterns": [".theme-check.yml", "snippets/*"]
+    // },
+    "liquid": {
+      "command": "shopify",
+      "args": ["theme", "language-server"],
       "trace.server": "verbose",
-      "filetypes": ["liquid", "liquid.html"],
-      "filetypes": [],
-      "rootPatterns": [".theme-check.yml", "snippets/*"],
-      "settings": {
-        "themeCheck": {
-          "checkOnSave": true,
-          "checkOnEnter": true,
-          "checkOnChange": false
-        }
-      }
+      "filetypes": ["liquid", "liquid"],
+      "rootPatterns": [".theme-check.yml", "snippets/*"]
     },
-    "graphql": {
-      "command": "graphql-lsp",
-      "args": ["server", "-m", "stream"],
-      "filetypes": ["graphql"]
-    }
   },
   "coc.source.emoji.filetypes": [
     "markdown",
     "vimwiki"
-  ]
+  ],
+  "snippets.ultisnips.pythonPrompt": false
 }

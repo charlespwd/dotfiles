@@ -192,12 +192,15 @@ function! s:show_documentation()
   endif
 endfunction
 
-autocmd FileType javascript,ruby,typescript,typescript.jsx,vimwiki,liquid call CoCLSPBindings()
-autocmd CursorHold javascript,ruby,typescript,typescript.jsx,liquid silent call CocActionAsync('highlight')
-augroup CoCStuff
-  autocmd!
-  " Setup formatexpr specified filetype(s).
-  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
-  " Update signature help on jump placeholder.
-  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
-augroup END
+if !exists('g:vscode')
+  autocmd FileType clojure,css,html,python,ruby,r,json,javascript call AleLSPBindings()
+  autocmd FileType javascript,ruby,typescript,typescript.jsx,vimwiki,liquid call CoCLSPBindings()
+  autocmd CursorHold javascript,ruby,typescript,typescript.jsx,liquid silent call CocActionAsync('highlight')
+  augroup CoCStuff
+    autocmd!
+    " Setup formatexpr specified filetype(s).
+    autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+    " Update signature help on jump placeholder.
+    autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+  augroup END
+endif
