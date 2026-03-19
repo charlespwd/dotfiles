@@ -9,6 +9,8 @@
 [core]
 	editor = nvim
 	excludesfile = /home/charles/.gitignore
+	fsmonitor = true
+	untrackedCache = true
 	# pager = diff-so-fancy | less --tabs=4 -RFX
 [diff]
   tool = nvim
