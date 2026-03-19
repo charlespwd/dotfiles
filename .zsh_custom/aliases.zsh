@@ -110,6 +110,8 @@ elif [ "$OS" = "Darwin" ]; then
   alias ".s"="nvim $CONFIG/skhd/skhdrc"
   alias ".y"="nvim $CONFIG/yabai/yabairc"
   alias openports="_openports"
+  alias killport="_killport"
+  alias whereis="_loc"
 
   function _openports {
     if [[ $# -lt 1 ]]; then
@@ -117,6 +119,18 @@ elif [ "$OS" = "Darwin" ]; then
     else
       lsof -nP -iTCP:$1
     fi
+  }
+
+  function _killport {
+    if [[ $# -lt 1 ]]; then
+      echo "nothing to do"
+    else
+      openports $1 | grep $1 | grep -v killport | sed -e 's/  */ /g' | cut -d' ' -f2 | xargs -n 1 kill -9
+    fi
+  }
+
+  function _loc {
+    ls "$(which "$@")"
   }
 fi
 
@@ -140,17 +154,18 @@ alias ber="bundle exec rake"
 alias bert="bundle exec rake test"
 alias berti="bundle exec rake tests:in_memory"
 alias bi="bundle install"
-alias gdate="date -u +%Y-%m-%d"
 alias c="cd"
-alias cb="current_branch"
+alias cb="git_current_branch"
 alias ch="git rev-parse HEAD"
 alias chmine="sudo chown -R charles ."
+alias claudexp="claude --dangerously-skip-permissions"
+alias claudexr="claude --dangerously-skip-permissions --resume "
 alias gai="git add --intent-to-add"
 alias gap="git add --patch"
 alias gbd="git branch -D"
-alias gbf="git branch | fzf"
 alias gbdf='git branch -D $(git branch | fzf -m)'
 alias gbdm='git checkout $(main-branch) && git branch --merged | egrep -v "^(\*|master|main|dev)" | xargs -n 1 git branch -d'
+alias gbf="git branch | fzf"
 alias gbuild="git add dist && git commit -m [Build]"
 alias gcb="git checkout -b"
 alias gch="git rev-parse HEAD"
@@ -160,14 +175,16 @@ alias gcl="git clone"
 alias gcmsg="echo 'Please use gc instead. Be a man and write a proper commit message.'"
 alias gcob='git checkout $(git branch | fzf)'
 alias gcot='git checkout $(git tag | sort -V | tac | fzf)'
+alias gdate="date -u +%Y-%m-%d"
 alias gdc="git diff --cached"
 alias gdcs="git diff --compact-summary"
-alias ggfpush='git push --force-with-lease origin $(current_branch)'
+alias gdetach="git checkout HEAD~0"
+alias ggfpush='git push --force-with-lease origin $(git_current_branch)'
 alias gi="github-issue"
 alias gl="git pull --rebase"
 alias glg="git lg"
-alias glgt="git log --tags --simplify-by-decoration --pretty='format:%ai %d'"
-alias glog="git lg"
+alias glgt="git log --tags --simplify-by-decoration --pretty='format:%ai %d' -n 20"
+alias glog="git lg -n 20"
 alias glp="git lg -p"
 alias gmt="git mergetool"
 alias gnext="gco master && gl && gbdm"
@@ -176,19 +193,28 @@ alias gpra="pull-request -l 'Aldo code review'"
 alias gprco="git pr checkout"
 alias gprm="git merge --no-commit master"
 alias gpv="gh pr view --web"
+alias gr="git reset"
+alias grh="git reset --hard"
 alias grhom="git reset --hard origin/master"
-alias grs="git reset"
-alias grs="git restore --staged"
-alias grsh="git reset --hard"
-alias grt="git restore"
+alias grs="git restore"
+alias grss="git restore --staged"
+alias gswm="git-sync-with-main"
+alias gtco="gt checkout"
+alias gtss="gt submit -s"
 alias gtypist="gtypist -w -b -t"
 alias gundo='git checkout $(git reflog | sed 1d | head -n 1 | cut -d" " -f1)'
+alias gwtc='git mwt create'
+alias gwtd='git mwt list | fzf --multi | xargs -n 1 git mwt delete'
+alias gwtl='git mwt list'
+alias gwts='cd $(git mwt list | fzf)'
 alias ideas="v ~/thoughts/ideas.md"
 alias issues="gh issue list"
 alias issuesm="issues -a @me | cat"
 alias j="jump"
 alias jcb="gcb"
 alias loc="find . -type f -exec cat {} + | wc -l"
+alias ovc="open-in-vscode"
+alias prel="pbpaste | sed -E 's#areas/(apps|core)/[^/]+/##' | pbcopy; pbpaste"
 alias reload-aliases="source $HOME/.zsh_custom/aliases.zsh"
 alias reload=". ~/.zshrc && echo 'ZSH config reloaded from ~/.zshrc'"
 alias selenium="java -jar /usr/share/selenium-server/selenium-server-standalone.jar"
