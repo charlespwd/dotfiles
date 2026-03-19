@@ -1,0 +1,311 @@
+#!/usr/bin/env zsh
+
+set -euo pipefail
+
+_get_current_state() {
+  local dirty=0
+  local graphite_branch
+  local worktree_attached_to_graphite_branch
+
+  # iterate over all branched tracked by Graphite
+  gt log short --classic | sed -e "s/^ *↱ $ //" -e "s/ (needs restack)$//" | while read -r graphite_branch; do
+    # Check if the graphite branch is checkout out on any worktree
+    if git worktree list --porcelain |
+      grep "^branch refs/heads/$graphite_branch$" -B 2 |
+      grep ^worktree |
+      awk '{print $2}' |
+      read -r worktree_attached_to_graphite_branch; then
+
+      # Check whether the worktree is dirty
+      pushd "$worktree_attached_to_graphite_branch" >/dev/null
+      [ "$(git status --porcelain | wc -l)" -ne 0 ] && dirty=1 || dirty=0
+      popd >/dev/null
+
+      echo "$dirty\0$graphite_branch\0$worktree_attached_to_graphite_branch"
+    fi
+  done
+}
+
+_restore_stash() {
+  local stash_ref="$1"
+  local stash_index="$2"
+  local worktree_name="$3"
+
+  if [ "$stash_ref" != "_" ]; then
+    echo "Restoring stashed changes on $worktree_name from $stash_ref"
+    set +e
+    git stash pop --index "$stash_index" >/dev/null 2>&1
+    if [ "$?" -ne 0 ]; then
+      echo "*** Unable to restore from stash on $worktree_name at _branch_ ***"
+      exit_code=1
+    fi
+    set -e
+  fi
+}
+
+get_worktree_name_for_dir() {
+  local dir="$1"
+  local world_pattern
+  local repo_root
+  local worktree_entry
+
+  world_pattern="$(echo "^worktree $HOME/world/trees/.*/src\$" | sed 's/\//\//g')"
+
+  [ -d "$dir" ] || ( echo "$dir is not a directory" && exit 1)
+  pushd "$dir"
+  git rev-parse --show-toplevel | read -r repo_root
+  git worktree list --porcelain | grep worktree | grep "${repo_root}" | read -r worktree_entry
+  if echo "$worktree_entry" | grep -q "$world_pattern"; then
+    # directory before trailing src/ is the name
+    echo "$worktree_entry" | awk -F/ '{f = NF-1; print $f}'
+  elif echo "$worktree_entry" | grep -q "^..*__..*$"; then
+    # trailing directory includes a double underscore; value after the double underscore is the name
+    echo "$worktree_entry" | awk -F/ '{print $NF}' | awk -F'__' '{print $NF}' | read -r worktree_name
+    if [ "$worktree_name" = "root" ]; then
+      echo "Error: worktree named by __ pattern cannot be 'root'" >&2
+      exit 1
+    fi
+    echo "$worktree_name"
+  else
+    # trailing directory does not include a double underscore; name is 'root'
+    echo "root"
+  fi
+  popd
+}
+
+get_worktree_dir_for_name() {
+  local name="${1:-}"
+  local name_pattern
+  local world_pattern
+  local repo_root
+
+  world_pattern="$(echo "^$HOME/world/trees/.*/src\$" | sed 's/\//\//g')"
+
+  git rev-parse --show-toplevel | read -r repo_root
+  if echo "$repo_root" | grep -q "$world_pattern"; then
+    # current repo is shop/world
+    if [ -z "$name" ]; then
+      echo "$HOME/world/trees/root/src"
+    else
+      name_pattern="$(echo "^worktree $HOME/world/trees/$name/src\$" | sed 's/\//\//g')"
+      git worktree list --porcelain | grep "^HEAD " -B 1 | grep "$name_pattern" | awk '{print $2}'
+    fi
+  else
+    # current repo is not shop/world
+    if [ -z "$name" ]; then
+      # No name given; report the current worktree dir
+      git worktree list --porcelain | grep "^HEAD " -B 1 | head -n1 | awk '{print $2}'
+    elif [ "$name" = "root" ]; then
+      # Name is root; report the worktree dir that does not have a '__' pattern
+      git worktree list --porcelain | grep "^HEAD " -B 1 | grep "^worktree" | grep -v "^..*__..*$" | awk '{print $2}'
+    else
+      name_pattern="$(echo "^worktree /.*/..*__$name\$" | sed 's/\//\//g')"
+      git worktree list --porcelain | grep "^HEAD " -B 1 | grep "$name_pattern" | awk '{print $2}'
+    fi
+  fi
+}
+
+get_current_state() {
+  local graphite_branch
+  local worktree_attached_to_graphite_branch
+  local worktree_name_attached_to_graphite_branch
+  local dirty
+
+  _get_current_state | while read -r line; do
+    echo "$line" | awk -F '\0' '{print $1}' | read -r dirty
+    echo "$line" | awk -F '\0' '{print $2}' | read -r graphite_branch
+    echo "$line" | awk -F '\0' '{print $3}' | read -r worktree_attached_to_graphite_branch
+
+    get_worktree_name_for_dir "$worktree_attached_to_graphite_branch" | read -r worktree_name_attached_to_graphite_branch
+    echo "Worktree $worktree_name_attached_to_graphite_branch is attached to graphite branch $graphite_branch"
+    [ "$dirty" -ne "0" ] && echo "\tWorktree $worktree_name_attached_to_graphite_branch is dirty" || true
+  done
+}
+
+get_saved_state() {
+  local first=0
+  local worktree_name
+  local stash_entry
+  local stashed_from_branch
+
+  # Read the names of worktrees that have been tagged by `before-sync`
+  git tag | grep "^wt/" | awk -F/ '{print $2}' | sort | uniq | while read -r worktree_name; do
+    # Get the latest tag for this worktree
+    git tag | grep "^wt/$worktree_name" | sort -r | head -n1 | while read -r tag; do
+      [ "$first" -eq 0 ] && first=1 || echo ""
+      echo "$tag" | tr / ' ' | read -r _ _ _ stash_ref branch
+      echo "$branch" | tr ' ' / | read -r branch
+
+      # Read stash information corresponding to this tag
+      git stash list |
+      awk -F'[: ]' '{print $1 " " $5}' |
+      while read -r stash_entry stashed_from_branch _; do
+        ref="$(git rev-parse "$stash_entry")"
+        if [ "$ref" = "$stash_ref" ]; then
+          echo "$stash_entry" | awk -F'[{}]' '{print $2}' | read -r stash_index
+          break
+        fi
+      done
+
+      # Print information about the worktree, stash state, and original branch
+      echo "Worktree: $worktree_name\t$(get_worktree_dir_for_name $worktree_name)"
+      if [ "$stash_ref" != "_" ]; then
+        echo "Stash: $stash_entry $stash_ref $stashed_from_branch"
+      fi
+      echo "Branch: $branch"
+    done
+  done || true
+}
+
+before_sync() {
+  local stash_option="$1"
+  local first=0
+  local graphite_branch
+  local current_worktree_dir
+  local current_worktree_name
+  local worktree_attached_to_graphite_branch
+  local worktree_name_attached_to_graphite_branch
+
+  git rev-parse --show-toplevel | read -r current_worktree_dir
+  get_worktree_dir_for_name | read -r current_worktree_name
+
+  _get_current_state | while read -r line; do
+    [ "$first" -eq 0 ] && first=1 || echo ""
+
+    echo "$line" | awk -F '\0' '{print $2}' | read -r graphite_branch
+    echo "$line" | awk -F '\0' '{print $3}' | read -r worktree_attached_to_graphite_branch
+    get_worktree_name_for_dir "$worktree_attached_to_graphite_branch" | read -r worktree_name_attached_to_graphite_branch
+    echo "Graphite branch $graphite_branch is checked out on worktree $worktree_name_attached_to_graphite_branch"
+
+    # switch to the worktree that has this graphite branch checked out
+    pushd "$worktree_attached_to_graphite_branch" >/dev/null
+
+    # Stash the working state on the worktree if tree is dirty (including untracked files)
+    if [ "$stash_option" = "--stash" ] && [ "$(git status --porcelain | wc -l)" -ne 0 ]; then
+      git stash push -u >/dev/null
+      local stash_ref="$(git rev-parse stash@{0})"
+      echo "Stashed working state of worktree $worktree_name_attached_to_graphite_branch at $stash_ref"
+    else
+      stash_ref="_"
+    fi
+
+    # Save the worktree's current HEAD ref and detach the worktree from the graphite branch,
+    # unless it is the current worktree
+    # Note: graphite commands like `gt sync` cannot be run in a worktree with a detached head
+    if [ "$worktree_attached_to_graphite_branch" != "$current_worktree_dir" ]; then
+      # Tag the current HEAD of the worktree
+      local timestamp="$(date +%s)"
+      local tag="wt/$worktree_name_attached_to_graphite_branch/$timestamp/$stash_ref/$graphite_branch"
+      git tag -a "$tag" -m "$tag" -f HEAD
+      echo "Tagged current head of $worktree_name_attached_to_graphite_branch at $tag"
+      echo "Detaching head of worktree $worktree_name_attached_to_graphite_branch from $graphite_branch"
+      git checkout HEAD~0
+    else
+      echo "$worktree_name_attached_to_graphite_branch is the current worktree"
+    fi
+    popd >/dev/null
+  done
+}
+
+after_sync() {
+  local first=0
+  local exit_code=0
+  local current_worktree_dir
+  local current_worktree_name
+  local stash_entry
+  local stash_ref
+  local stash_branch
+  local stash_index
+
+  git rev-parse --show-toplevel | read -r current_worktree_dir
+  get_worktree_name_for_dir "$current_worktree_dir" | read -r current_worktree_name
+
+  local saved_state="$(get_saved_state)"
+
+  echo "$saved_state" | grep "^Worktree:" | while read -r _f worktree_name _x; do
+    [ "$first" -eq 0 ] && first=1 || echo ""
+    worktree_dir="$(get_worktree_dir_for_name "$worktree_name")"
+    pushd "$worktree_dir" >/dev/null
+
+    # Read branch from saved state
+    echo "$saved_state" | grep "^Worktree: $worktree_name" -A2 | grep "^Branch:" | read -r _ branch
+
+    # Read stash info from saved state
+    ( echo "$saved_state" | grep "^Worktree: $worktree_name" -A2 | grep "^Stash:" || echo "Stash: _ _ _") |
+    read -r _ stash_entry stash_ref stash_branch
+    echo "$stash_entry" | tr '{}' ' ' | read -r _ stash_index _
+
+    # Restore original state on this worktree
+    if git worktree list --porcelain | grep "^worktree $worktree_dir" -A2 | grep "^detached$" >/dev/null; then
+      if git show-ref "refs/heads/$branch" >/dev/null 2>&1; then
+        echo "Re-attaching head of $worktree_name to branch $branch"
+        git checkout "$branch"
+      else
+        # Branch no longer exists (deleted since the state was saved)
+        echo "Not re-attaching worktree $worktree_name because its prior branch $branch no longer exists"
+      fi
+    else
+      # Do not attempt to re-attach a branch to this worktree if the worktree is currently attached to a branch
+      # If a worktree is currently attached, it was probably re-attached by a prior invocation of this command
+      # Or it is the current worktree and was intentionally never detached
+      echo "Not re-attaching worktree $worktree_name because it is already attached to a branch"
+    fi
+
+    # Restore stashed state if present
+    _restore_stash "$stash_ref" "$stash_index" "$worktree_name"
+
+    popd >/dev/null
+  done
+
+  # Remove saved-state tags for this worktree
+  git tag | grep "^wt/$worktree_name" | xargs git tag -d >/dev/null
+  return $exit_code
+}
+
+error_run_sync_restack_on_main() {
+  echo "ERROR: it is strongly advised to run 'gt sync' and 'gt restack' on the 'main' branch"
+  exit 1
+}
+
+case "${1:-}" in
+  dir)
+    get_worktree_dir_for_name "${2:-}"
+    ;;
+  name)
+    get_worktree_name_for_dir "${2:-$(pwd)}"
+    ;;
+  save)
+    [ "$(git branch --show-current)" = "main" ] || error_run_sync_restack_on_main
+    arg="${2:---no-stash}"
+    # Validate the optional argument
+    if [ "$arg" != "--stash" ] && [ "$arg" != "--no-stash" ]; then
+      echo "ERROR: Invalid option '${arg}' for save command."
+      exit 1
+    fi
+    before_sync "$arg"
+    ;;
+  restore)
+    [ "$(git branch --show-current)" = "main" ] || error_run_sync_restack_on_main
+    after_sync
+    ;;
+  show-saved)
+    get_saved_state
+    ;;
+  show)
+    get_current_state
+    ;;
+  *)
+    echo "Usage: git worktree-utils command [args]"
+    echo ""
+    echo "   Available commands:"
+    echo "      dir [name]\tGet the root directory of a git worktree by name (or the current worktree if omitted)"
+    echo "      name [dir]\tGet the name of the git worktree in the given directory (or the current worktree if omitted)"
+    echo "      save [options]\tSave the current state of worktrees using Graphite branches and detach them"
+    echo "      \t\t\t\t--stash: Stash changed and untracked files on each worktree using Graphite branches (default)"
+    echo "      \t\t\t\t--no-stash: Skip stashing changed and untracked files"
+    echo "      restore\t\tReattach worktrees to Graphite branches and restore their state"
+    echo "      show-saved\tShow the contents of the saved worktree state"
+    echo "      show\t\tShow the current state of worktrees vis-a-vis Graphite branches"
+    exit 1
+    ;;
+esac

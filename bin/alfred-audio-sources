@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+export PATH="/usr/local/bin:/bin:/usr/sbin:/sbin:/usr/bin:/opt/homebrew/bin"
+source_cmd="/opt/homebrew/bin/SwitchAudioSource"
+
+audio_type="${1:-output}"
+
+format='{
+  "valid": true,
+  "uid": .,
+  "title": .,
+  "arg": .,
+  "autocomplete": .,
+  "icon": {
+    "path": "./icon.png"
+  }
+}'
+
+audio_sources() {
+  $source_cmd -a -t $audio_type \
+    | jq --raw-input --slurp 'split("\n")' \
+    | jq 'map(select(. != ""))' \
+    | jq 'map(select(. != "BoomAudio"))' \
+    | jq "map($format)" \
+    | jq '{ "items": . }'
+}
+
+audio_sources

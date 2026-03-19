@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+set -eou pipefail
+
+which git
+which gt
+
+$BIN/git-detach-all
+
+cd $HOME/world/trees/root/src
+
+# git fetch --prune
+
+gt sync

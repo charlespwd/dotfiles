@@ -1,0 +1,41 @@
+#!/usr/bin/env node
+
+const fs = require('fs/promises');
+const xml2js = require('xml2js');
+const parser = new xml2js.Parser();
+
+const fileName = process.argv[2];
+
+async function run() {
+  const xml = await fs.readFile(fileName, 'utf8');
+  const parsed = await parser.parseStringPromise(xml);
+  const testsuites = parsed.testsuites;
+  for (const testsuite of testsuites.testsuite) {
+    if (Number(testsuite['$'].failures) === 0) {
+      continue
+    }
+    for (const testcase of asArray(testsuite.testcase)) {
+      if (!testcase.failure) {
+        continue
+      }
+      console.log(testsuite.$, testcase.$, testcase.failure);
+    }
+  }
+}
+
+async function main() {
+  let statusCode = 0;
+  try {
+    await run();
+  } catch (e) {
+    console.log(e);
+    statusCode = 1;
+  }
+  process.exit(statusCode);
+}
+
+function asArray(x) {
+  return Array.isArray(x) ? x : [x];
+}
+
+main();

@@ -1,0 +1,49 @@
+#!/usr/bin/env node
+
+const promisify = require('util').promisify;
+const child_process = require('child_process');
+const exec = promisify(child_process.exec);
+const moment = require('moment');
+
+async function run() {
+  const { stdout } = await exec(
+    'icalBuddy -eep attendees,notes,location -ec "Online Store Travelage, Canadian Holidays, Holidays in Canada" -nc eventsToday',
+  );
+  const events = stdout
+    .split('• ')
+    .filter(Boolean)
+    .map(event => event.trim())
+    .filter(
+      event =>
+        !/OOO|Deep work|Workout|WebPerfWG|Out of office/g.test(event),
+    )
+    .map(event => {
+      const [title, time] = event.split('\n');
+      return {
+        title:
+          moment().format('YYYY-MM-DD') +
+          ' ' +
+          title.replace(/\//g, '-'),
+        time: time && time.trim(),
+      };
+    })
+    .map(({ title, time }) => `- \`${time}\` [[${title}]]`)
+    .join('\n');
+
+  const pbcopy = child_process.spawn('pbcopy');
+  console.log(events);
+  return new Promise(resolve => pbcopy.stdin.write(events, resolve));
+}
+
+async function main() {
+  let statusCode = 0;
+  try {
+    await run();
+  } catch (e) {
+    console.log(e);
+    statusCode = 1;
+  }
+  process.exit(statusCode);
+}
+
+main();

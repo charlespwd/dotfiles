@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+set -eou pipefail
+$BIN/yarn-linked | xargs yarn unlink
+yarn install --force

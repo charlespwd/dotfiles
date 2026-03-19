@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+set -e
+main="$($BIN/main-branch)"
+git checkout -q $main
+set +e
+
+git for-each-ref refs/heads/ "--format=%(refname:short)" \
+  | while read branch; do
+    mergeBase=$(git merge-base $main $branch) \
+      && [[ $(git cherry $main $(git commit-tree $(git rev-parse "$branch^{tree}") -p $mergeBase -m _)) == "-"* ]] \
+      && git branch -D $branch
+  done
+
+# echo "$branch is merged into $main and can be deleted"

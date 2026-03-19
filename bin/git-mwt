@@ -1,0 +1,73 @@
+#!/usr/bin/env bash
+
+function current_repo() {
+  if pwd | grep -q "/@trees/"; then
+    # In a worktree - extract repo name from path
+    echo $(pwd | sed -E 's#.*/@trees/([^/]+)/[^/]+#\1#')
+    return
+  fi
+  basename $(pwd)
+}
+
+function branch() {
+  if [ $# -lt 1 ] || [ -z "$1" ]; then
+    echo $(git branch | fzf --prompt="Select a branch: ")
+    return
+  fi
+  echo "$1"
+}
+
+function git_mwt_dest() {
+  if pwd | grep -q "/@trees/"; then
+    # In a worktree - just return current path
+    echo "$(dirname $(pwd))/$(branch $1)"
+    return
+  fi
+  echo "../@trees/$(current_repo)/$(branch $1)"
+}
+
+function git_mwt_create() {
+  local branch="$(branch "$1")"
+  local dest="$(git_mwt_dest $branch)"
+  if git branch | grep -q "^\s*$branch$"; then
+    echo "Branch $branch already exists."
+    git worktree add $dest $branch
+  else
+    local base="${2:-main}"
+    git worktree add -b $branch $dest $base
+  fi
+}
+
+function git_mwt_delete() {
+  echo git worktree remove "$1"
+  git worktree remove "$1"
+}
+
+function git_mwt_list() {
+  git worktree list | cut -d ' ' -f1
+}
+
+command=${1:-}
+# unshift
+shift || true
+case "$command" in
+  create)
+    git_mwt_create "$@"
+    ;;
+  delete)
+    git_mwt_delete "$@"
+    ;;
+  list)
+    git_mwt_list
+    ;;
+  *)
+    echo "Usage: git mwt command [args]"
+    echo ""
+    echo "   Manages git worktrees in ../@trees/<repo>/<branch>"
+    echo "   Available commands:"
+    echo "      create [branch] [base]"
+    echo "      delete [branch]"
+    echo "      list"
+    exit 1
+    ;;
+esac

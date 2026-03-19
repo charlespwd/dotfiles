@@ -1,0 +1,19 @@
+#!/bin/bash
+orig="$1"
+path="${1/#\~/$HOME}"
+shift
+
+# Resolve relative paths against the active tmux pane's CWD
+if [[ "$path" != /* ]]; then
+  sock=$(find /private/tmp/tmux-$(id -u)/ -type s 2>/dev/null | head -1)
+  cwd=""
+  if [[ -n "$sock" ]]; then
+    cwd=$(/opt/homebrew/bin/tmux -S "$sock" display-message -p '#{pane_current_path}' 2>&1)
+  fi
+  if [[ -n "$cwd" && "$cwd" == /* ]]; then
+    path="$cwd/$path"
+  fi
+fi
+
+echo "$(date): orig=$orig path=$path sock=$sock cwd=$cwd" >> /tmp/open-in-vscode.log
+/Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code "$path" "$@"

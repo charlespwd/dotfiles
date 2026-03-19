@@ -1,0 +1,8 @@
+#!/bin/bash
+# Resolve a relative path to an absolute path (resolving symlinks)
+if [ $# -eq 0 ]; then
+  echo "usage: resolve <path>" >&2
+  exit 1
+fi
+
+realpath "$1" | tee >(pbcopy)

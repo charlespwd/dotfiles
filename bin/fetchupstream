@@ -42,7 +42,7 @@ set -e
 run git checkout "$branch"
 run git fetch "$remote" "$branch" || true
 run git reset --hard "$remote/$branch"
-run git fetch --tags "$remote" || true
+# run git fetch --tags "$remote" || true
 if [[ $remote != 'origin' ]]; then
   run git push -f origin $branch
 fi;

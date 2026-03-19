@@ -1,0 +1,40 @@
+#!/usr/bin/env zsh
+
+RED="\e[31m"
+GREEN="\e[32m"
+ENDCOLOR="\e[0m"
+
+git_current_branch () {
+  local ref
+  ref=$(git symbolic-ref --quiet HEAD 2> /dev/null)
+  local ret=$?
+  if [[ $ret != 0 ]]
+  then
+          [[ $ret == 128 ]] && return
+          ref=$(git rev-parse --short HEAD 2> /dev/null)  || return
+  fi
+  echo ${ref#refs/heads/}
+}
+
+is_dirty() {
+  local STATUS
+  STATUS=$(git status --porcelain)
+  if [[ -n $STATUS ]]; then
+    echo "${RED}✗ dirty${ENDCOLOR}"
+  else
+    echo "${GREEN}✔ clean${ENDCOLOR}"
+  fi
+}
+
+trees="$(find ~/world/trees -mindepth 1 -maxdepth 1 -type d)"
+output=$(mktemp)
+
+for directory in $(echo $trees); do
+  cd "$directory/src"
+  cb="$(git_current_branch)"
+  echo "$directory	$(is_dirty)	$(git_current_branch)" >> $output
+done
+
+cat $output | column -s '	' -tx -c 3
+
+rm $output

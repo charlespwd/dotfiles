@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+dest="$1"
+shift 1
+rsync -av \
+  --exclude '*node_modules/**' \
+  --filter 'dir-merge,- .gitignore' \
+  "$@" \
+  "$HOME/$dest"
